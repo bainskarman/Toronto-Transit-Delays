@@ -1,0 +1,13 @@
+Incident,Count,Avg_Delay_Min,Max_Delay_Min,Unique_Routes,Percentage
+Mechanical,19883,13.6,147,220,33.34
+Operations - Operator,10186,14.7,480,215,17.08
+Security,4937,11.76,382,215,8.28
+Diversion,4478,118.7,975,203,7.51
+Collision - TTC,4341,12.13,658,203,7.28
+General Delay,4112,11.0,950,182,6.89
+Emergency Services,3347,11.52,113,203,5.61
+Utilized Off Route,2705,13.3,222,157,4.54
+Cleaning - Unsanitary,2359,14.72,79,181,3.96
+Vision,1935,14.08,60,171,3.24
+Investigation,1175,12.78,90,168,1.97
+Road Blocked - NON-TTC Collision,185,34.41,857,98,0.31

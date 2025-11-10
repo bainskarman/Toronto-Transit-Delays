@@ -1,0 +1,8 @@
+{
+    "total_delays": 59643,
+    "unique_routes": 265,
+    "date_range_start": "2024-01-01 00:00:00",
+    "date_range_end": "2024-12-31 00:00:00",
+    "avg_delay_minutes": 21.218433009741293,
+    "total_delay_minutes": "1265531"
+}

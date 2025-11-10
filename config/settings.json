@@ -1,0 +1,166 @@
+{
+  "app": {
+    "name": "TTC Delay Visualization",
+    "version": "1.0.0",
+    "description": "Interactive visualization of Toronto Transit Commission delay data",
+    "author": "TTC Data Analytics Team",
+    "lastUpdated": "2024-01-15"
+  },
+  "map": {
+    "defaultCenter": [43.6532, -79.3832],
+    "defaultZoom": 11,
+    "minZoom": 10,
+    "maxZoom": 18,
+    "tileLayers": {
+      "dark": {
+        "url": "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+        "attribution": "&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors &copy; <a href=\"https://carto.com/attributions\">CARTO</a>",
+        "subdomains": "abcd"
+      },
+      "light": {
+        "url": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        "attribution": "&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
+        "subdomains": "abc"
+      },
+      "satellite": {
+        "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        "attribution": "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
+      }
+    }
+  },
+  "data": {
+    "sources": {
+      "routePerformance": "assets/data/route_performance.csv",
+      "routeGeometries": "assets/data/route_geometries.json",
+      "locationAnalysis": "assets/data/location_analysis.csv",
+      "summaryStatistics": "assets/data/summary_statistics.json"
+    },
+    "updateInterval": 300000,
+    "cacheTimeout": 300000,
+    "fallbackToSampleData": true
+  },
+  "visualization": {
+    "defaultType": "delay",
+    "types": {
+      "delay": {
+        "name": "Route Delays",
+        "description": "Color-coded routes by average delay time",
+        "colors": ["#10b981", "#f59e0b", "#ef4444", "#7c3aed"],
+        "weight": 4,
+        "opacity": 0.7
+      },
+      "heatmap": {
+        "name": "Delay Hotspots",
+        "description": "Heatmap showing concentration of delays",
+        "radius": 15,
+        "blur": 10,
+        "maxZoom": 17,
+        "gradient": {
+          "0.4": "#10b981",
+          "0.6": "#f59e0b",
+          "0.8": "#ef4444",
+          "1.0": "#7c3aed"
+        }
+      },
+      "comparison": {
+        "name": "Route Comparison",
+        "description": "Compare most delayed vs least delayed routes",
+        "highDelay": {
+          "color": "#ef4444",
+          "weight": 6,
+          "opacity": 0.8
+        },
+        "lowDelay": {
+          "color": "#10b981",
+          "weight": 4,
+          "opacity": 0.8
+        }
+      },
+      "frequency": {
+        "name": "Delay Frequency",
+        "description": "Routes colored and weighted by number of delays",
+        "colors": ["#93c5fd", "#3b82f6", "#1d4ed8", "#7e22ce"],
+        "minWeight": 3,
+        "maxWeight": 8
+      }
+    }
+  },
+  "ui": {
+    "theme": {
+      "default": "dark",
+      "persist": true
+    },
+    "sidebar": {
+      "left": {
+        "width": 320,
+        "collapsible": true,
+        "defaultOpen": true
+      },
+      "right": {
+        "width": 320,
+        "collapsible": true,
+        "defaultOpen": true
+      }
+    },
+    "metrics": {
+      "refreshInterval": 30000,
+      "animationDuration": 1000
+    },
+    "notifications": {
+      "timeout": 5000,
+      "maxVisible": 3
+    }
+  },
+  "filters": {
+    "delayThreshold": {
+      "min": 0,
+      "max": 60,
+      "default": 10,
+      "step": 1
+    },
+    "routeTypes": [
+      {
+        "value": "all",
+        "label": "All Routes",
+        "description": "Include all route types"
+      },
+      {
+        "value": "bus",
+        "label": "Bus Only",
+        "description": "Filter to bus routes only"
+      },
+      {
+        "value": "streetcar",
+        "label": "Streetcar Only",
+        "description": "Filter to streetcar routes only"
+      },
+      {
+        "value": "subway",
+        "label": "Subway Only",
+        "description": "Filter to subway routes only"
+      }
+    ]
+  },
+  "analytics": {
+    "enabled": false,
+    "trackingId": null,
+    "events": {
+      "visualizationChange": true,
+      "routeSelection": true,
+      "searchUsage": true,
+      "filterApplication": true
+    }
+  },
+  "performance": {
+    "maxRoutesWithoutClustering": 50,
+    "clusteringEnabled": true,
+    "clusteringRadius": 50,
+    "lazyLoading": true,
+    "debounceSearch": 300
+  },
+  "export": {
+    "formats": ["png", "json", "csv"],
+    "maxDataPoints": 10000,
+    "includeMetadata": true
+  }
+}

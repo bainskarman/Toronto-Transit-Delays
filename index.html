@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TTC Delay Visualization | Toronto Transit Analysis</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <h1 class="app-title">
+                        <span class="title-icon">🚍</span>
+                        TTC Delay Visualization
+                    </h1>
+                    <p class="app-subtitle">Real-time Toronto Transit Commission delay analytics</p>
+                </div>
+                <div class="header-controls">
+                    <div class="theme-toggle">
+                        <button id="themeToggle" class="theme-btn" aria-label="Toggle theme">
+                            <span class="theme-icon">🌙</span>
+                        </button>
+                    </div>
+                    <div class="last-updated">
+                        <span class="update-label">Last updated:</span>
+                        <span id="lastUpdated" class="update-time">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Left Sidebar -->
+            <aside class="sidebar left-sidebar">
+                <div class="sidebar-section">
+                    <h2 class="section-title">Key Metrics</h2>
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-icon">⏱️</div>
+                            <div class="metric-content">
+                                <span class="metric-value" id="totalDelays">--</span>
+                                <span class="metric-label">Total Delays</span>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon">📊</div>
+                            <div class="metric-content">
+                                <span class="metric-value" id="avgDelay">-- min</span>
+                                <span class="metric-label">Average Delay</span>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon">🛣️</div>
+                            <div class="metric-content">
+                                <span class="metric-value" id="routesTracked">--</span>
+                                <span class="metric-label">Routes Tracked</span>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon">📈</div>
+                            <div class="metric-content">
+                                <span class="metric-value" id="coverage">--%</span>
+                                <span class="metric-label">City Coverage</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h2 class="section-title">Visualization Controls</h2>
+                    <div class="control-group">
+                        <div class="toggle-group" role="tablist" aria-label="Visualization type">
+                            <button class="toggle-btn active" data-visual="delay" role="tab" aria-selected="true">
+                                <span class="toggle-icon">🗺️</span>
+                                Route Delays
+                            </button>
+                            <button class="toggle-btn" data-visual="heatmap" role="tab" aria-selected="false">
+                                <span class="toggle-icon">🔥</span>
+                                Heatmap
+                            </button>
+                            <button class="toggle-btn" data-visual="comparison" role="tab" aria-selected="false">
+                                <span class="toggle-icon">📊</span>
+                                Comparison
+                            </button>
+                            <button class="toggle-btn" data-visual="frequency" role="tab" aria-selected="false">
+                                <span class="toggle-icon">📈</span>
+                                Frequency
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h2 class="section-title">Route Search</h2>
+                    <div class="search-container">
+                        <div class="search-input-group">
+                            <input type="text" 
+                                   id="routeSearch" 
+                                   class="search-input" 
+                                   placeholder="Search routes or streets..."
+                                   aria-label="Search routes or streets">
+                            <button class="search-btn" aria-label="Search">
+                                <span class="search-icon">🔍</span>
+                            </button>
+                        </div>
+                        <div id="searchResults" class="search-results" aria-live="polite"></div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h2 class="section-title">Filter Options</h2>
+                    <div class="filter-group">
+                        <div class="filter-item">
+                            <label for="delayRange" class="filter-label">Delay Threshold</label>
+                            <input type="range" id="delayRange" class="filter-slider" min="0" max="60" value="10">
+                            <span class="filter-value" id="delayValue">10+ min</span>
+                        </div>
+                        <div class="filter-item">
+                            <label for="routeType" class="filter-label">Route Type</label>
+                            <select id="routeType" class="filter-select">
+                                <option value="all">All Routes</option>
+                                <option value="bus">Bus Only</option>
+                                <option value="streetcar">Streetcar Only</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Map Container -->
+            <section class="map-container">
+                <div id="map" class="map"></div>
+                <div class="map-controls">
+                    <button id="fullscreenBtn" class="map-control-btn" aria-label="Toggle fullscreen">
+                        <span class="control-icon">⛶</span>
+                    </button>
+                    <button id="locateBtn" class="map-control-btn" aria-label="Locate me">
+                        <span class="control-icon">📍</span>
+                    </button>
+                    <button id="resetViewBtn" class="map-control-btn" aria-label="Reset view">
+                        <span class="control-icon">🔄</span>
+                    </button>
+                </div>
+                <div class="map-legend" id="mapLegend"></div>
+            </section>
+
+            <!-- Right Sidebar -->
+            <aside class="sidebar right-sidebar">
+                <div class="sidebar-section">
+                    <h2 class="section-title">Top Delayed Routes</h2>
+                    <div id="topRoutesList" class="routes-list">
+                        <div class="loading-state">
+                            <div class="loading-spinner"></div>
+                            <span>Loading route data...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h2 class="section-title">Viewport Insights</h2>
+                    <div class="viewport-info">
+                        <p class="hint-text" id="viewportHint">Zoom in to see street-level insights</p>
+                        <div id="viewportRoutes" class="viewport-routes">
+                            <!-- Dynamic content will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h2 class="section-title">Delay Analytics</h2>
+                    <div class="analytics-chart">
+                        <canvas id="delayChart" width="300" height="200"></canvas>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h2 class="section-title">Data Summary</h2>
+                    <div class="data-summary">
+                        <div class="summary-item">
+                            <span class="summary-label">Time Period:</span>
+                            <span class="summary-value" id="timePeriod">--</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Data Points:</span>
+                            <span class="summary-value" id="dataPoints">--</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Last Update:</span>
+                            <span class="summary-value" id="dataUpdate">--</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <span class="footer-text">TTC Delay Visualization Platform</span>
+                    <span class="footer-separator">•</span>
+                    <span class="footer-text">Not affiliated with TTC or City of Toronto</span>
+                </div>
+                <div class="footer-links">
+                    <button class="footer-link" id="aboutBtn">About</button>
+                    <span class="footer-separator">•</span>
+                    <button class="footer-link" id="dataSourceBtn">Data Sources</button>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/dataLoader.js"></script>
+    <script src="js/mapVisualizer.js"></script>
+    <script src="js/uiController.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
