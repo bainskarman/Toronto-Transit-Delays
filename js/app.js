@@ -203,48 +203,49 @@ class TTCVisualizationApp {
     }
 
     async switchVisualization(visualType) {
-        console.log(`🔄 Switching to ${visualType} visualization...`);
-        
-        try {
-            // Update UI state
-            this.currentVisualization = visualType;
-            this.uiController.updateVisualizationToggles(visualType);
+    console.log(`🔄 Switching to ${visualType} visualization...`);
+    
+    try {
+        // Update UI state
+        this.currentVisualization = visualType;
+        this.uiController.updateVisualizationToggles(visualType);
 
-            // Clear existing visualization
-            this.mapVisualizer.clearVisualization();
+        // Clear existing visualization
+        this.mapVisualizer.clearVisualization();
 
-            // Show loading state
-            this.uiController.showLoadingState();
+        // Show loading state
+        this.uiController.showLoadingState();
 
-            // Apply new visualization
-            switch (visualType) {
-                case 'delay':
-                    await this.mapVisualizer.showRouteDelays(this.state.filteredRoutes);
-                    break;
-                case 'heatmap':
-                    await this.mapVisualizer.showDelayHeatmap(this.state.filteredRoutes);
-                    break;
-                case 'comparison':
-                    await this.mapVisualizer.showRouteComparison(this.state.filteredRoutes);
-                    break;
-                case 'frequency':
-                    await this.mapVisualizer.showDelayFrequency(this.state.filteredRoutes);
-                    break;
-                default:
-                    console.warn(`Unknown visualization type: ${visualType}`);
-                    return;
-            }
-
-            // Update legend
-            this.updateMapLegend();
-
-            console.log(`✅ Switched to ${visualType} visualization`);
-
-        } catch (error) {
-            console.error(`❌ Error switching to ${visualType} visualization:`, error);
-            this.showError(`Failed to load ${visualType} visualization`);
+        // Apply new visualization
+        let success = false;
+        switch (visualType) {
+            case 'delay':
+                success = await this.mapVisualizer.showRouteDelays(this.state.filteredRoutes);
+                break;
+            case 'comparison':
+                success = await this.mapVisualizer.showRouteComparison(this.state.filteredRoutes);
+                break;
+            case 'frequency':
+                success = await this.mapVisualizer.showDelayFrequency(this.state.filteredRoutes);
+                break;
+            default:
+                console.warn(`Unknown visualization type: ${visualType}`);
+                success = await this.mapVisualizer.showRouteDelays(this.state.filteredRoutes);
         }
+
+        // Update legend
+        this.updateMapLegend();
+
+        console.log(`✅ Switched to ${visualType} visualization - Success: ${success}`);
+
+    } catch (error) {
+        console.error(`❌ Error switching to ${visualType} visualization:`, error);
+        this.showError(`Failed to load ${visualType} visualization`);
+    } finally {
+        // ALWAYS hide loading state, even if there's an error
+        this.uiController.hideLoadingState();
     }
+}
 
     filterRoutes() {
         let filtered = [...this.state.routes];

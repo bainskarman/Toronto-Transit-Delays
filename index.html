@@ -14,28 +14,48 @@
 <body>
     <div class="app-container">
         <!-- Header -->
-        <header class="app-header">
-            <div class="header-content">
-                <div class="logo-section">
-                    <h1 class="app-title">
-                        <span class="title-icon">🚍</span>
-                        TTC Delay Visualization
-                    </h1>
-                    <p class="app-subtitle">Real-time Toronto Transit Commission delay analytics</p>
-                </div>
-                <div class="header-controls">
-                    <div class="theme-toggle">
-                        <button id="themeToggle" class="theme-btn" aria-label="Toggle theme">
-                            <span class="theme-icon">🌙</span>
-                        </button>
-                    </div>
-                    <div class="last-updated">
-                        <span class="update-label">Last updated:</span>
-                        <span id="lastUpdated" class="update-time">Loading...</span>
-                    </div>
-                </div>
+        <!-- In the header section, replace the current header-content -->
+<header class="app-header">
+    <div class="header-content">
+        <div class="logo-section">
+            <h1 class="app-title">
+                <span class="title-icon">🚍</span>
+                TTC Delay Visualization
+            </h1>
+            <p class="app-subtitle">Real-time Toronto Transit Commission delay analytics</p>
+        </div>
+        
+        <!-- MOVED TOGGLE BUTTONS HERE -->
+        <div class="header-toggles">
+            <div class="toggle-group" role="tablist" aria-label="Visualization type">
+                <button class="toggle-btn active" data-visual="delay" role="tab" aria-selected="true">
+                    <span class="toggle-icon"></span>
+                    Route Delays
+                </button>
+                <button class="toggle-btn" data-visual="comparison" role="tab" aria-selected="false">
+                    <span class="toggle-icon"></span>
+                    Comparison
+                </button>
+                <button class="toggle-btn" data-visual="frequency" role="tab" aria-selected="false">
+                    <span class="toggle-icon"></span>
+                    Frequency
+                </button>
             </div>
-        </header>
+        </div>
+
+        <div class="header-controls">
+            <div class="theme-toggle">
+                <button id="themeToggle" class="theme-btn" aria-label="Toggle theme">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+            <div class="last-updated">
+                <span class="update-label">Last updated:</span>
+                <span id="lastUpdated" class="update-time">Loading...</span>
+            </div>
+        </div>
+    </div>
+</header>
 
         <!-- Main Content -->
         <main class="main-content">
@@ -48,7 +68,7 @@
                             <div class="metric-icon">⏱️</div>
                             <div class="metric-content">
                                 <span class="metric-value" id="totalDelays">--</span>
-                                <span class="metric-label">Total Delays</span>
+                                <span class="metric-label">Total Incidents</span>
                             </div>
                         </div>
                         <div class="metric-card">
@@ -71,30 +91,6 @@
                                 <span class="metric-value" id="coverage">--%</span>
                                 <span class="metric-label">City Coverage</span>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="sidebar-section">
-                    <h2 class="section-title">Visualization Controls</h2>
-                    <div class="control-group">
-                        <div class="toggle-group" role="tablist" aria-label="Visualization type">
-                            <button class="toggle-btn active" data-visual="delay" role="tab" aria-selected="true">
-                                <span class="toggle-icon">🗺️</span>
-                                Route Delays
-                            </button>
-                            <button class="toggle-btn" data-visual="heatmap" role="tab" aria-selected="false">
-                                <span class="toggle-icon">🔥</span>
-                                Heatmap
-                            </button>
-                            <button class="toggle-btn" data-visual="comparison" role="tab" aria-selected="false">
-                                <span class="toggle-icon">📊</span>
-                                Comparison
-                            </button>
-                            <button class="toggle-btn" data-visual="frequency" role="tab" aria-selected="false">
-                                <span class="toggle-icon">📈</span>
-                                Frequency
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -129,7 +125,7 @@
                             <select id="routeType" class="filter-select">
                                 <option value="all">All Routes</option>
                                 <option value="bus">Bus Only</option>
-                                <option value="streetcar">Streetcar Only</option>
+                                <option value="streetcar">Subway Only</option>
                             </select>
                         </div>
                     </div>

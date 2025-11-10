@@ -112,21 +112,40 @@ class MapVisualizer {
     }
 
     async showRouteDelays(filteredRoutes) {
-        console.log('🔄 Showing route delays visualization...');
-        
-        this.clearVisualization();
-        this.currentVisualization = 'delay';
-        
-        const colorScale = this.colorScales.get('delay');
-        const routesToShow = filteredRoutes || this.routes;
-        
-        let routesAdded = 0;
-        
+    console.log('🔄 Showing route delays visualization...');
+    
+    this.clearVisualization();
+    this.currentVisualization = 'delay';
+    
+    // Ensure we have data to show
+    const routesToShow = filteredRoutes && filteredRoutes.length > 0 ? filteredRoutes : this.routes;
+    
+    if (!routesToShow || routesToShow.length === 0) {
+        console.error('❌ No routes data available for visualization');
+        this.showError('No route data available. Please check data files.');
+        return 0;
+    }
+
+    if (Object.keys(this.routeGeometries).length === 0) {
+        console.error('❌ No route geometries available');
+        this.showError('No route geometry data available.');
+        return 0;
+    }
+
+    console.log(`🗺️ Rendering ${routesToShow.length} routes with ${Object.keys(this.routeGeometries).length} geometries`);
+    
+    const colorScale = this.colorScales.get('delay');
+    let routesAdded = 0;
+    
+    try {
         routesToShow.forEach(route => {
             const routeId = route.Route.toString();
             const geometry = this.routeGeometries[routeId];
             
-            if (!geometry || geometry.length === 0) return;
+            if (!geometry || geometry.length === 0) {
+                console.warn(`⚠️ No geometry for route ${routeId}`);
+                return;
+            }
             
             const avgDelay = route.Avg_Delay_Min;
             const delayCount = route.Delay_Count;
@@ -134,7 +153,6 @@ class MapVisualizer {
             
             const color = colorScale(avgDelay);
             
-            // Create popup content
             const popupContent = this.createRoutePopup(route, routeName, avgDelay, delayCount);
             
             try {
@@ -145,11 +163,6 @@ class MapVisualizer {
                     className: 'route-line'
                 })
                 .bindPopup(popupContent)
-                .bindTooltip(`Route ${routeId}: ${avgDelay.toFixed(1)} min avg delay`, {
-                    permanent: false,
-                    direction: 'auto'
-                })
-                .on('click', (e) => this.onRouteClick(routeId, e))
                 .addTo(this.map);
                 
                 this.activeLayers.set(routeId, polyline);
@@ -159,64 +172,20 @@ class MapVisualizer {
                 console.warn(`⚠️ Error adding route ${routeId} to map:`, error);
             }
         });
-        
+
         // Create legend
         this.createDelayLegend(colorScale);
         
         console.log(`✅ Route delays visualization: ${routesAdded} routes displayed`);
-        return routesAdded;
+        
+    } catch (error) {
+        console.error('❌ Error in route delays visualization:', error);
+        this.showError('Failed to render route visualization.');
     }
-
-    async showDelayHeatmap(filteredRoutes) {
-        console.log('🔥 Showing delay heatmap visualization...');
-        
-        this.clearVisualization();
-        this.currentVisualization = 'heatmap';
-        
-        const routesToShow = filteredRoutes || this.routes;
-        const heatData = [];
-        
-        routesToShow.forEach(route => {
-            const routeId = route.Route.toString();
-            const geometry = this.routeGeometries[routeId];
-            
-            if (!geometry || geometry.length === 0) return;
-            
-            const delayCount = route.Delay_Count;
-            const maxDelayCount = Math.max(...routesToShow.map(r => r.Delay_Count));
-            
-            // Add points along the route with intensity based on delay count
-            geometry.forEach((coord, index) => {
-                // Use every 3rd point to reduce density
-                if (index % 3 === 0 && coord && coord.length === 2) {
-                    const weight = Math.min(delayCount / maxDelayCount, 1.0);
-                    heatData.push([coord[0], coord[1], weight]);
-                }
-            });
-        });
-        
-        if (heatData.length > 0) {
-            // Create heatmap layer
-            const heatLayer = L.heatLayer(heatData, {
-                radius: this.config.heatmap.radius,
-                blur: this.config.heatmap.blur,
-                gradient: this.config.heatmap.gradient,
-                maxZoom: 17
-            }).addTo(this.map);
-            
-            this.activeLayers.set('heatmap', heatLayer);
-            
-            // Create heatmap legend
-            this.createHeatmapLegend();
-            
-            console.log(`✅ Heatmap visualization: ${heatData.length} data points`);
-        } else {
-            console.warn('⚠️ No heatmap data available');
-        }
-        
-        return heatData.length;
-    }
-
+    
+    return routesAdded;
+}
+    
     async showRouteComparison(filteredRoutes) {
         console.log('📊 Showing route comparison visualization...');
         

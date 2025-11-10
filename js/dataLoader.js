@@ -6,38 +6,58 @@ class DataLoader {
         this.cacheTimeout = 5 * 60 * 1000; // 5 minutes cache
     }
 
-    async loadRoutePerformance() {
-        console.log('📈 Loading route performance data...');
+   async loadRoutePerformance() {
+    console.log('📈 Loading route performance data...');
+    
+    try {
+        const data = await this.fetchCSV('route_performance.csv');
+        console.log('✅ Raw CSV data loaded:', data.length, 'rows');
         
-        try {
-            const data = await this.fetchCSV('route_performance.csv');
+        if (!data || data.length === 0) {
+            console.warn('⚠️ CSV data is empty, using sample data');
+            return this.getSampleRoutePerformance();
+        }
+
+        const processedData = data.map(row => {
+            // Debug each row
+            const avgDelay = this.parseNumber(row.Avg_Delay_Min);
+            if (avgDelay === null || avgDelay === 0) {
+                console.warn('⚠️ Invalid delay value in row:', row);
+            }
             
-            // Process and clean the data
-            const processedData = data.map(row => ({
+            return {
                 Route: this.cleanRouteId(row.Route),
                 route_long_name: row.route_long_name || `Route ${row.Route}`,
-                Avg_Delay_Min: this.parseNumber(row.Avg_Delay_Min),
+                Avg_Delay_Min: avgDelay,
                 Delay_Count: this.parseNumber(row.Delay_Count),
                 Total_Delay_Min: this.parseNumber(row.Total_Delay_Min),
                 On_Time_Percentage: this.parseNumber(row.On_Time_Percentage),
                 Delay_Frequency: this.parseNumber(row.Delay_Frequency)
-            })).filter(route => 
-                route.Avg_Delay_Min !== null && 
-                route.Delay_Count !== null &&
-                route.Route
-            );
+            };
+        }).filter(route => {
+            const isValid = route.Avg_Delay_Min !== null && 
+                           route.Delay_Count !== null &&
+                           route.Route;
+            if (!isValid) {
+                console.warn('❌ Filtered out invalid route:', route);
+            }
+            return isValid;
+        });
 
-            console.log(`✅ Loaded ${processedData.length} route performance records`);
-            return processedData;
-
-        } catch (error) {
-            console.error('❌ Error loading route performance data:', error);
-            
-            // Return sample data for demonstration if real data fails
-            console.warn('⚠️ Using sample data for demonstration');
+        console.log(`✅ Processed ${processedData.length} valid route records`);
+        
+        if (processedData.length === 0) {
+            console.warn('⚠️ No valid routes after processing, using sample data');
             return this.getSampleRoutePerformance();
         }
+
+        return processedData;
+
+    } catch (error) {
+        console.error('❌ Error loading route performance data:', error);
+        return this.getSampleRoutePerformance();
     }
+}
 
     async loadRouteGeometries() {
         console.log('🗺️ Loading route geometries...');
@@ -125,8 +145,8 @@ class DataLoader {
             // Ensure all required fields with fallbacks
             const stats = {
                 total_delays: data.total_delays || 0,
-                avg_delay_min: data.avg_delay_min || 0,
-                total_routes: data.total_routes || 0,
+                avg_delay_min: data.avg_delay_minutes || 0,
+                total_routes: data.unique_routes || 0,
                 coverage_percentage: data.coverage_percentage || 0,
                 data_points: data.data_points || 0,
                 time_period: data.time_period || 'Last 30 days',
