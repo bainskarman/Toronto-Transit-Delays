@@ -1,9 +1,19 @@
 {
-    "total_delays": 59643,
-    "unique_routes": 265,
-    "date_range_start": "2024-01-01 00:00:00",
-    "date_range_end": "2024-12-31 00:00:00",
-    "avg_delay_minutes": 21.218433009741293,
-    "total_delay_minutes": "1265531"
-    "coverage_percentage": 58
+  "total_delays": 32000,
+  "valid_delays": 27867,
+  "avg_delay_minutes": 23.69,
+  "unique_routes": 269,
+  "unique_vehicles": 2242,
+  "unique_locations": 7501,
+  "coverage_percentage": 87,
+  "data_points": 32000,
+  "time_period": "2025 Data",
+  "updated_at": "2025-11-13T03:37:26.579690",
+  "peak_delay_hour": "15:00",
+  "most_delayed_route": "28 - Route 28",
+  "data_quality": {
+    "valid_delay_percentage": 87.08,
+    "route_coverage": 269,
+    "location_coverage": 7501
+  }
 }
