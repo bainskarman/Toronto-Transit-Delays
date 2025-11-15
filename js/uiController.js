@@ -22,14 +22,17 @@ class UIController {
 
     // Metrics and Data Display
     updateMetrics(summaryStats) {
-        console.log('📊 SummaryStats received:', summaryStats);
+        console.log('📊 SummaryStats received for metrics:', summaryStats);
         
+        // Handle cases where data might be missing or undefined
         const metrics = {
-            totalDelays: summaryStats.total_delays?.toLocaleString() || '--',
-            avgDelay: (summaryStats.avg_delay_minutes || summaryStats.avg_delay_min)?.toFixed(1) + ' min' || '-- min',
-            routesTracked: (summaryStats.unique_routes || summaryStats.routes_tracked)?.toLocaleString() || '--',
-            coverage: summaryStats.coverage_percentage?.toFixed(1) + '%' || '--%'
+            totalDelays: summaryStats?.total_delays?.toLocaleString() || '0',
+            avgDelay: (summaryStats?.avg_delay_minutes || summaryStats?.avg_delay_min)?.toFixed(1) + ' min' || '0 min',
+            routesTracked: this.getRoutesTracked(summaryStats),
+            coverage: summaryStats?.coverage_percentage?.toFixed(1) + '%' || '0%'
         };
+
+        console.log('📊 Calculated metrics:', metrics);
 
         // Update metric cards
         document.getElementById('totalDelays').textContent = metrics.totalDelays;
@@ -39,6 +42,28 @@ class UIController {
 
         // Update last refreshed date
         this.updateLastRefreshedDate(summaryStats);
+    }
+
+    // NEW: Helper method to get routes tracked with fallbacks
+    getRoutesTracked(summaryStats) {
+        if (!summaryStats) return '--';
+        
+        // Try multiple possible field names
+        const routesCount = 
+            summaryStats.displayed_routes_count ||
+            summaryStats.unique_routes || 
+            summaryStats.routes_tracked ||
+            summaryStats.total_routes;
+        
+        console.log('🔍 Routes tracked calculation:', {
+            displayed_routes_count: summaryStats.displayed_routes_count,
+            unique_routes: summaryStats.unique_routes,
+            routes_tracked: summaryStats.routes_tracked,
+            total_routes: summaryStats.total_routes,
+            final: routesCount
+        });
+        
+        return routesCount ? routesCount.toLocaleString() : '--';
     }
 
     updateTopRoutes(routes) {

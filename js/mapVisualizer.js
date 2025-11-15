@@ -194,26 +194,33 @@ class MapVisualizer {
         
         const routesToShow = filteredRoutes || this.routes;
         
+        console.log(`🔍 Total routes available for comparison: ${routesToShow.length}`);
+        
         // Get top 10 most delayed routes
         const topDelayed = [...routesToShow]
             .sort((a, b) => b.Avg_Delay_Min - a.Avg_Delay_Min)
             .slice(0, 10);
         
-        // Get top 10 least delayed routes (with reasonable delay count)
+        // FIXED: Get top 10 least delayed routes with less restrictive filtering
         const leastDelayed = [...routesToShow]
-            .filter(route => route.Delay_Count > 10)
-            .sort((a, b) => a.Avg_Delay_Min - b.Avg_Delay_Min)
+            .filter(route => route.Delay_Count >= 1)  // Changed from >10 to >=1
+            .sort((a, b) => a.Avg_Delay_Min - b.Avg_Delay_Min)  // Fixed typo: was a.Avg_Delay_Min - a.Avg_Delay_Min
             .slice(0, 10);
+        
+        console.log('🚨 Most Delayed Routes:', topDelayed.map(r => `${r.Route}: ${r.Avg_Delay_Min}min`));
+        console.log('✅ Least Delayed Routes:', leastDelayed.map(r => `${r.Route}: ${r.Avg_Delay_Min}min`));
         
         let routesAdded = 0;
         
         // Add most delayed routes (red)
+        console.log('🔴 Adding most delayed routes...');
         topDelayed.forEach(route => {
             this.addComparisonRoute(route, 'highDelay');
             routesAdded++;
         });
         
         // Add least delayed routes (green)
+        console.log('🟢 Adding least delayed routes...');
         leastDelayed.forEach(route => {
             this.addComparisonRoute(route, 'lowDelay');
             routesAdded++;
@@ -222,18 +229,25 @@ class MapVisualizer {
         // Create comparison legend
         this.createComparisonLegend();
         
-        console.log(`✅ Route comparison visualization: ${routesAdded} routes displayed`);
+        console.log(`✅ Route comparison visualization: ${routesAdded} routes displayed (${topDelayed.length} most delayed + ${leastDelayed.length} least delayed)`);
         return routesAdded;
     }
+
+    
 
     addComparisonRoute(route, type) {
         const routeId = route.Route.toString();
         const geometry = this.routeGeometries[routeId];
         
-        if (!geometry || geometry.length === 0) return;
-        
+        if (!geometry || geometry.length === 0) {
+            console.warn(`⚠️ No geometry for ${type} route ${routeId}: ${route.route_long_name}`);
+            return;
+        }
+
         const config = this.config.comparison[type];
         const routeName = route.route_long_name || `Route ${routeId}`;
+        
+        console.log(`📍 Adding ${type} route: ${routeId} - ${routeName} (${route.Avg_Delay_Min}min avg)`);
         
         const popupContent = this.createComparisonPopup(route, routeName, type);
         

@@ -56,7 +56,7 @@ class TTCVisualizationApp {
     }
 
     async loadData() {
-        console.log('📊 Loading application data...');
+        console.log('📊 Loading ALL historical data (2014-2025)...');
         
         try {
             const [routes, geometries, locationAnalysis, summaryStats] = await Promise.all([
@@ -66,18 +66,20 @@ class TTCVisualizationApp {
                 this.dataLoader.loadSummaryStatistics()
             ]);
 
-            // DEBUG: Check what we actually received
-            console.log('🔍 SUMMARY STATS RECEIVED:', summaryStats);
-            console.log('🔍 Routes count:', routes?.length);
-            console.log('🔍 Route performance sample:', routes?.slice(0, 2));
+            // DEBUG: Check what we're getting
+            console.log('🔍 DEBUG - Routes data:', routes);
+            console.log('🔍 DEBUG - Summary stats:', summaryStats);
+            console.log('🔍 DEBUG - Routes count:', routes?.length);
+            console.log('🔍 DEBUG - Unique routes in summary:', summaryStats.unique_routes);
+            console.log('🔍 DEBUG - Displayed routes:', summaryStats.displayed_routes_count);
 
             this.state.routes = routes;
             this.state.routeGeometries = geometries;
             this.state.locationAnalysis = locationAnalysis;
             this.state.summaryStats = summaryStats;
-            this.state.filteredRoutes = this.filterRoutes();
+            this.state.filteredRoutes = routes;
 
-            console.log(`✅ Loaded ${routes.length} routes, ${Object.keys(geometries).length} geometries`);
+            console.log(`✅ Loaded ALL ${routes.length} routes from 2014-2025`);
             
         } catch (error) {
             console.error('❌ Error loading data:', error);
