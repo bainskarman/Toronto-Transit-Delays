@@ -17,11 +17,7 @@ class TTCVisualizationApp {
             filteredRoutes: [],
             currentViewport: null,
             selectedRoute: null,
-            searchQuery: '',
-            filters: {
-                delayThreshold: 10,
-                routeType: 'all'
-            }
+            searchQuery: ''
         };
 
         this.init();
@@ -63,13 +59,17 @@ class TTCVisualizationApp {
         console.log('📊 Loading application data...');
         
         try {
-            // Load all data in parallel
             const [routes, geometries, locationAnalysis, summaryStats] = await Promise.all([
                 this.dataLoader.loadRoutePerformance(),
                 this.dataLoader.loadRouteGeometries(),
                 this.dataLoader.loadLocationAnalysis(),
                 this.dataLoader.loadSummaryStatistics()
             ]);
+
+            // DEBUG: Check what we actually received
+            console.log('🔍 SUMMARY STATS RECEIVED:', summaryStats);
+            console.log('🔍 Routes count:', routes?.length);
+            console.log('🔍 Route performance sample:', routes?.slice(0, 2));
 
             this.state.routes = routes;
             this.state.routeGeometries = geometries;
@@ -152,15 +152,6 @@ class TTCVisualizationApp {
             }
         });
 
-        // Filter controls
-        document.getElementById('delayRange').addEventListener('input', (e) => {
-            this.updateDelayFilter(parseInt(e.target.value));
-        });
-
-        document.getElementById('routeType').addEventListener('change', (e) => {
-            this.updateRouteTypeFilter(e.target.value);
-        });
-
         // Map controls
         document.getElementById('fullscreenBtn').addEventListener('click', () => {
             this.toggleFullscreen();
@@ -203,64 +194,54 @@ class TTCVisualizationApp {
     }
 
     async switchVisualization(visualType) {
-    console.log(`🔄 Switching to ${visualType} visualization...`);
-    
-    try {
-        // Update UI state
-        this.currentVisualization = visualType;
-        this.uiController.updateVisualizationToggles(visualType);
+        console.log(`🔄 Switching to ${visualType} visualization...`);
+        
+        try {
+            // Update UI state
+            this.currentVisualization = visualType;
+            this.uiController.updateVisualizationToggles(visualType);
 
-        // Clear existing visualization
-        this.mapVisualizer.clearVisualization();
+            // Clear existing visualization
+            this.mapVisualizer.clearVisualization();
 
-        // Show loading state
-        this.uiController.showLoadingState();
+            // Show loading state
+            this.uiController.showLoadingState();
 
-        // Apply new visualization
-        let success = false;
-        switch (visualType) {
-            case 'delay':
-                success = await this.mapVisualizer.showRouteDelays(this.state.filteredRoutes);
-                break;
-            case 'comparison':
-                success = await this.mapVisualizer.showRouteComparison(this.state.filteredRoutes);
-                break;
-            case 'frequency':
-                success = await this.mapVisualizer.showDelayFrequency(this.state.filteredRoutes);
-                break;
-            default:
-                console.warn(`Unknown visualization type: ${visualType}`);
-                success = await this.mapVisualizer.showRouteDelays(this.state.filteredRoutes);
+            // Apply new visualization
+            let success = false;
+            switch (visualType) {
+                case 'delay':
+                    success = await this.mapVisualizer.showRouteDelays(this.state.filteredRoutes);
+                    break;
+                case 'comparison':
+                    success = await this.mapVisualizer.showRouteComparison(this.state.filteredRoutes);
+                    break;
+                case 'frequency':
+                    success = await this.mapVisualizer.showDelayFrequency(this.state.filteredRoutes);
+                    break;
+                default:
+                    console.warn(`Unknown visualization type: ${visualType}`);
+                    success = await this.mapVisualizer.showRouteDelays(this.state.filteredRoutes);
+            }
+
+            // Update legend
+            this.updateMapLegend();
+
+            console.log(`✅ Switched to ${visualType} visualization - Success: ${success}`);
+
+        } catch (error) {
+            console.error(`❌ Error switching to ${visualType} visualization:`, error);
+            this.showError(`Failed to load ${visualType} visualization`);
+        } finally {
+            // ALWAYS hide loading state, even if there's an error
+            this.uiController.hideLoadingState();
         }
-
-        // Update legend
-        this.updateMapLegend();
-
-        console.log(`✅ Switched to ${visualType} visualization - Success: ${success}`);
-
-    } catch (error) {
-        console.error(`❌ Error switching to ${visualType} visualization:`, error);
-        this.showError(`Failed to load ${visualType} visualization`);
-    } finally {
-        // ALWAYS hide loading state, even if there's an error
-        this.uiController.hideLoadingState();
     }
-}
 
     filterRoutes() {
         let filtered = [...this.state.routes];
 
-        // Apply delay threshold filter
-        filtered = filtered.filter(route => 
-            route.Avg_Delay_Min >= this.state.filters.delayThreshold
-        );
-
-        // Apply route type filter (if we had that data)
-        if (this.state.filters.routeType !== 'all') {
-            // This would need route type data to be implemented
-        }
-
-        // Apply search filter
+        // Apply search filter only
         if (this.state.searchQuery) {
             const query = this.state.searchQuery.toLowerCase();
             filtered = filtered.filter(route => 
@@ -295,23 +276,6 @@ class TTCVisualizationApp {
             // Clear search results
             this.uiController.clearSearchResults();
         }
-    }
-
-    updateDelayFilter(value) {
-        this.state.filters.delayThreshold = value;
-        document.getElementById('delayValue').textContent = `${value}+ min`;
-        
-        // Reapply filters
-        this.state.filteredRoutes = this.filterRoutes();
-        this.switchVisualization(this.currentVisualization);
-    }
-
-    updateRouteTypeFilter(value) {
-        this.state.filters.routeType = value;
-        
-        // Reapply filters
-        this.state.filteredRoutes = this.filterRoutes();
-        this.switchVisualization(this.currentVisualization);
     }
 
     handleViewportChange() {
@@ -379,10 +343,19 @@ class TTCVisualizationApp {
         // Store preference
         localStorage.setItem('theme', this.currentTheme);
         
-        // Notify map visualizer about theme change
-        if (this.mapVisualizer) {
-            this.mapVisualizer.onThemeChange(this.currentTheme);
-        }
+        // Force map refresh with timeout to ensure DOM is updated
+        setTimeout(() => {
+            if (this.map) {
+                this.map.invalidateSize({ animate: false });
+            }
+            
+            // Notify map visualizer about theme change
+            if (this.mapVisualizer) {
+                this.mapVisualizer.onThemeChange(this.currentTheme);
+            }
+        }, 150);
+        
+        console.log(`🎨 Theme switched to ${this.currentTheme}`);
     }
 
     toggleFullscreen() {
@@ -464,7 +437,7 @@ class TTCVisualizationApp {
                 <li>Geospatial analysis for route mapping</li>
                 <li>Real-time data updates (when available)</li>
             </ul>
-            <p><strong>Last Data Update:</strong> ${this.state.summaryStats.updatedAt || 'N/A'}</p>
+            <p><strong>Last Data Update:</strong> ${this.state.summaryStats.updated_at || 'N/A'}</p>
         `;
         
         this.showModal('Data Sources', dataContent);

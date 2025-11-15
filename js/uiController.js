@@ -22,10 +22,12 @@ class UIController {
 
     // Metrics and Data Display
     updateMetrics(summaryStats) {
+        console.log('📊 SummaryStats received:', summaryStats);
+        
         const metrics = {
             totalDelays: summaryStats.total_delays?.toLocaleString() || '--',
-            avgDelay: summaryStats.avg_delay_min?.toFixed(1) + ' min' || '-- min',
-            routesTracked: summaryStats.total_routes?.toLocaleString() || '--',
+            avgDelay: (summaryStats.avg_delay_minutes || summaryStats.avg_delay_min)?.toFixed(1) + ' min' || '-- min',
+            routesTracked: (summaryStats.unique_routes || summaryStats.routes_tracked)?.toLocaleString() || '--',
             coverage: summaryStats.coverage_percentage?.toFixed(1) + '%' || '--%'
         };
 
@@ -35,12 +37,8 @@ class UIController {
         document.getElementById('routesTracked').textContent = metrics.routesTracked;
         document.getElementById('coverage').textContent = metrics.coverage;
 
-        // Update last updated time
-        const lastUpdated = document.getElementById('lastUpdated');
-        if (summaryStats.updated_at) {
-            const date = new Date(summaryStats.updated_at);
-            lastUpdated.textContent = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
-        }
+        // Update last refreshed date
+        this.updateLastRefreshedDate(summaryStats);
     }
 
     updateTopRoutes(routes) {
@@ -150,13 +148,35 @@ class UIController {
         });
     }
 
+    updateLastRefreshedDate(summaryStats) {
+        const lastUpdatedElement = document.getElementById('lastUpdated');
+        if (lastUpdatedElement && summaryStats) {
+            // Use data_refresh_date for the header (when data was last refreshed)
+            const refreshDate = summaryStats.data_refresh_date || summaryStats.updated_at;
+            if (refreshDate) {
+                const date = new Date(refreshDate);
+                lastUpdatedElement.textContent = date.toLocaleDateString();
+            } else {
+                lastUpdatedElement.textContent = '--';
+            }
+        }
+    }
+
     updateDataSummary(summaryStats) {
+        // Show data period (e.g., "2014-2025")
         document.getElementById('timePeriod').textContent = summaryStats.time_period || '--';
-        document.getElementById('dataPoints').textContent = summaryStats.data_points?.toLocaleString() || '--';
         
-        if (summaryStats.updated_at) {
-            const date = new Date(summaryStats.updated_at);
-            document.getElementById('dataUpdate').textContent = date.toLocaleDateString();
+        // Show total delay incidents
+        document.getElementById('dataPoints').textContent = summaryStats.total_delays?.toLocaleString() || '--';
+        
+        // Show most recent data date
+        if (summaryStats.data_most_recent_date) {
+            try {
+                const recentDate = new Date(summaryStats.data_most_recent_date);
+                document.getElementById('dataUpdate').textContent = recentDate.toLocaleDateString();
+            } catch (e) {
+                document.getElementById('dataUpdate').textContent = '--';
+            }
         } else {
             document.getElementById('dataUpdate').textContent = '--';
         }

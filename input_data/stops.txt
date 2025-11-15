@@ -56,7 +56,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 66,6092,"Sheppard Ave West at Yatescastle Dr","",43.740433,-79.506722,,,,,,1
 68,4174,"King St West at Jameson Ave","",43.637264,-79.435842,,,,,,2
 69,326,"Bayview Ave at Wilket Rd","",43.74599,-79.383662,,,,,,1
-70,7142,"Sheppard Ave East at Allanford Rd West Side","",43.782148,-79.293818,,,,,,1
 71,3134,"Trethewey Dr at Brookhaven Dr","",43.696992,-79.493473,,,,,,1
 72,3738,"Hullmar Dr at Hisey Cres (South) North Side","",43.770083,-79.529961,,,,,,1
 73,1873,"Davisville Ave at Forman Ave","",43.701547,-79.380739,,,,,,2
@@ -276,7 +275,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 316,11078,"Carrier Dr at Dansk Crt South Side","",43.743515,-79.61471,,,,,,2
 317,3623,"Finch Ave West at Wilmington Ave","",43.770363,-79.46065,,,,,,1
 318,4073,"Kennedy Rd at Brigstock Rd","",43.761387,-79.279261,,,,,,1
-319,4947,"Danforth Rd at Hart Ave","",43.718747,-79.258628,,,,,,1
 320,2948,"Morningside Ave at Morningview Trail","",43.813343,-79.206063,,,,,,1
 321,4726,"123 Wynford Dr","",43.726923,-79.329142,,,,,,1
 322,2633,"Opposite 1685 Finch Ave West - St Wilfreds School","",43.760411,-79.503238,,,,,,1
@@ -332,7 +330,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 378,2903,"McNicoll Ave at Placer Crt","",43.803283,-79.342119,,,,,,1
 379,13943,"125 The Queensway","",43.630685,-79.482249,,,,,,1
 380,3094,"Rexleigh Dr at St Clair Ave East","",43.706475,-79.30699,,,,,,1
-381,151,"Bathurst St at Heathdale Rd","",43.688838,-79.420513,,,,,,1
 382,5005,"Dixon Rd at Wincott Dr","",43.695627,-79.552328,,,,,,1
 383,632,"Brimley Rd at Gully Dr South Side","",43.743455,-79.251289,,,,,,1
 384,1763,"Broadview Ave at Jack Layton Way","",43.666481,-79.353132,,,,,,2
@@ -416,7 +413,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 473,1593,"Steeles Ave West at Murray Ross Pkwy","",43.776613,-79.516784,,,,,,1
 474,4824,"Brimley Rd at Heather Rd South Side","",43.790306,-79.269974,,,,,,1
 475,14254,"Finch Ave West at Humber College Blvd East Side","",43.733914,-79.609339,,,,,,1
-476,7141,"Sheppard Ave East at Allanford Rd East Side","",43.782105,-79.292879,,,,,,1
 477,755,"Carlton St at Ontario St","",43.663621,-79.37064,,,,,,2
 478,5714,"Midland Ave at Lockie Ave North Side","",43.78933,-79.280053,,,,,,1
 480,3519,"Dundas St West at Royalavon Cres","",43.645406,-79.531899,,,,,,1
@@ -449,7 +445,7 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 510,7138,"Sheppard Ave East at Walkway to Howell Sq","",43.797075,-79.22322,,,,,,1
 511,4573,"RONCESVALLES AVE AT GALLEY AVE","",43.642982,-79.447845,,,,,,2
 512,3061,"Queen St East at Ontario St","",43.655161,-79.366816,,,,,,1
-513,7135,"Sheppard Ave East at Walkway to Hutcherson Sq","",43.797687,-79.220076,,,,,,2
+513,7135,"Sheppard Ave East at Walkway to Hutcherson Sq","",43.797653,-79.220285,,,,,,2
 514,5349,"Lawrence Ave West at Brucewood Cres","",43.71859,-79.432803,,,,,,1
 515,7221,"Sheppard Ave East at Murison Blvd East Side","",43.799156,-79.212357,,,,,,1
 516,10632,"North Queen St at The Queensway","",43.614581,-79.5565,,,,,,1
@@ -626,7 +622,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 718,3828,"Islington Ave at Rathburn Rd South Side","",43.662127,-79.531147,,,,,,1
 719,5194,"Lake Shore Blvd West at Norris Cres","",43.610699,-79.489978,,,,,,1
 720,7962,"McRae Dr at Rumsey Rd","",43.707391,-79.367245,,,,,,1
-721,4636,"St Regis Cres North at Bakersfield St","",43.75704,-79.481072,,,,,,2
 722,8793,"Willowdale Ave at Byng Ave","",43.778044,-79.405499,,,,,,1
 723,6488,"Kingston Rd at Lawrence Ave East","",43.767363,-79.189589,,,,,,1
 724,315,"Bayview Ave at Ruddington Dr","",43.787893,-79.392586,,,,,,1
@@ -752,7 +747,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 864,6050,"Shaw St at Adelaide St West","",43.642626,-79.415367,,,,,,1
 865,5635,"Martin Grove Rd at Rampart Rd","",43.733945,-79.590127,,,,,,1
 866,4062,"Kennedy Rd at Antrim Cres South Side","",43.771331,-79.283286,,,,,,1
-867,4100,"Kennedy Rd at Marilyn Ave North Side","",43.787485,-79.290016,,,,,,1
 868,6718,"Pharmacy Ave at Janet Blvd","",43.74203,-79.304235,,,,,,1
 869,7073,"Runnymede Rd at Webb Ave","",43.658554,-79.479255,,,,,,2
 870,11985,"Spadina Ave at Richmond St West","",43.6476,-79.395827,,,,,,1
@@ -780,13 +774,11 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 893,4386,"Kipling Ave at Westhumber Blvd","",43.72821,-79.574872,,,,,,1
 894,2877,"McNicoll Ave at Bedle Ave","",43.799485,-79.35716,,,,,,1
 895,6007,"Progress Ave at Roadway to Centennial College","",43.783526,-79.231618,,,,,,1
-897,1570,"St Clair Ave East at Midland Ave","",43.71894,-79.251064,,,,,,2
 898,14264,"150 Staines Rd West Side","",43.822964,-79.219024,,,,,,1
 899,2902,"McNicoll Ave at Picola Crt","",43.801676,-79.348388,,,,,,1
 900,20,"Annette St at Aziel St","",43.663483,-79.466899,,,,,,1
 901,3846,"Islington Ave at Summitcrest Dr","",43.683282,-79.540697,,,,,,1
 902,3655,"Glencairn Ave at Ennerdale St","",43.706808,-79.455427,,,,,,2
-903,2613,"Finch Ave West at Kendleton Dr","",43.73862,-79.589772,,,,,,1
 904,11451,"Ancaster Rd at Powell Rd South Side","",43.73656,-79.467968,,,,,,2
 905,5457,"Leslie St at Marowyne Dr","",43.774721,-79.364412,,,,,,1
 906,2476,"Ferris Rd at Dawes Rd West Side","",43.706312,-79.296023,,,,,,2
@@ -977,7 +969,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 1118,9994,"McCowan Rd at Denison St","",43.841354,-79.277741,,,,,,1
 1119,7069,"Runnymede Rd at St Clair Ave West South Side","",43.668539,-79.483462,,,,,,1
 1120,920,"Danforth Ave at Coxwell Ave","",43.683471,-79.323473,,,,,,1
-1121,4675,"Toryork Dr at Weston Rd West Side","",43.75345,-79.543364,,,,,,1
 1122,13625,"Strachan Ave at Canniff St","",43.641543,-79.411854,,,,,,1
 1123,302,"Bayview Ave at Hillcrest Ave","",43.77233,-79.389207,,,,,,1
 1124,5718,"Midland Ave at Lord Roberts Dr (South) South Side","",43.735772,-79.258784,,,,,,1
@@ -1025,7 +1016,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 1176,11926,"Erindale Ave at Broadview Ave East Side","",43.67738,-79.358218,,,,,,1
 1177,2567,"Finch Ave East at Walkway East of Birchmount Rd","",43.799572,-79.303073,,,,,,2
 1178,9323,"Ray Ave at Bartonville Ave East","",43.689654,-79.493461,,,,,,1
-1179,936,"Davenport Rd at Oakwood Ave","",43.67431,-79.433896,,,,,,2
 1180,1229,"Lawrence Ave East at Wanless Cres (East) West Side","",43.727816,-79.389722,,,,,,1
 1181,5030,"Dundas St West at Willard Ave East Side","",43.66554,-79.488063,,,,,,1
 1183,4934,"Culford Rd at Valencia Cres","",43.708164,-79.488549,,,,,,1
@@ -1041,7 +1031,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 1194,1988,"The Donway West at Duncairn Rd North Side","",43.739947,-79.346237,,,,,,1
 1196,8945,"Yonge Blvd at Harley Ave","",43.738241,-79.41204,,,,,,1
 1197,5453,"Leslie St at Lawrence Ave East North Side","",43.735046,-79.355901,,,,,,1
-1198,5310,"Lawrence Ave East at Port Union Rd","",43.779434,-79.136915,,,,,,1
 1199,13345,"4242 Dundas St West - Kingsway Mills Plaza","",43.659653,-79.513305,,,,,,1
 1200,8929,"Woodbine Ave at Plains Rd","",43.698422,-79.318408,,,,,,1
 1201,12004,"Hilda Ave at Steeles Ave West","",43.795595,-79.429004,,,,,,1
@@ -1281,7 +1270,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 1469,6874,"The Queensway at Brawley Ave","",43.622221,-79.521619,,,,,,1
 1471,11295,"Humberwood Blvd at Kingsplate Cres","",43.723814,-79.616068,,,,,,1
 1472,9599,"Nugget Ave at Transfer Pl","",43.798094,-79.244177,,,,,,1
-1473,7010,"Royal York Rd at Melrose St South Side","",43.61992,-79.50002,,,,,,1
 1474,5916,"Oakwood Ave at St Clair Ave West","",43.679864,-79.435844,,,,,,1
 1475,6778,"Prince Edward Dr South at Glenroy Ave","",43.643687,-79.503444,,,,,,1
 1477,1683,"Albion Rd at Kipling Ave","",43.739768,-79.580072,,,,,,1
@@ -1439,7 +1427,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 1650,2518,"Finch Ave East at Leslie St East Side","",43.789921,-79.367098,,,,,,1
 1651,4901,"Coxwell Ave at Cosburn Ave","",43.69424,-79.328168,,,,,,1
 1652,5153,"Lake Shore Blvd West at Thirteenth St","",43.599444,-79.511706,,,,,,1
-1653,4670,"166 Toryork Dr","",43.759064,-79.556268,,,,,,1
 1654,4900,"Coxwell Ave at Barker Ave North Side","",43.692127,-79.327069,,,,,,1
 1655,7237,"Sheppard Ave East at Rouge River Dr","",43.804795,-79.186784,,,,,,1
 1656,10935,"Union Station Streetcar Platform","",43.645641,-79.379223,,,,,,1
@@ -1632,7 +1619,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 1876,8099,"Signet Dr at Garyray Dr","",43.768228,-79.542067,,,,,,1
 1877,1297,"McCowan Rd at Horfield Ave","",43.728368,-79.233673,,,,,,2
 1878,594,"Bloor St West at Tremont Rd East Side","",43.637886,-79.55211,,,,,,1
-1879,3359,"Brimley Rd at Barkdene Hills","",43.71542,-79.239285,,,,,,1
 1880,6277,"Cactus Ave at Connaught Ave","",43.786247,-79.432353,,,,,,1
 1881,8711,"Weston Rd at Coulter Ave North Side","",43.704727,-79.528464,,,,,,1
 1883,3408,"Chaplin Cres at Duncannon Dr East Side","",43.700106,-79.410209,,,,,,1
@@ -1719,7 +1705,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 1974,11567,"Thistle Down Blvd at Barkwin Dr East Side","",43.737229,-79.55876,,,,,,1
 1976,13869,"Yonge St at North York Blvd","",43.766911,-79.412451,,,,,,1
 1979,11365,"Corporate Dr at Progress Ave North Side","",43.780553,-79.243864,,,,,,1
-1980,2111,"255 Duncan Mill Rd","",43.761597,-79.351627,,,,,,1
 1981,19,"Anglesey Blvd at Wimbleton Rd","",43.66478,-79.528983,,,,,,1
 1982,7244,"Sheppard Ave East at Settlers Rd","",43.774535,-79.326911,,,,,,1
 1983,5021,"Dundas St West at Old Oak Dr East Side","",43.657008,-79.519699,,,,,,2
@@ -1754,7 +1739,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 2016,8330,"Sutherland Dr at Hanna Rd","",43.701662,-79.36558,,,,,,1
 2017,4701,"Washburn Way at Griffen Dr","",43.798171,-79.22806,,,,,,2
 2018,6239,"Ameer Ave at Sultana Ave","",43.726863,-79.440154,,,,,,2
-2019,4119,"Kennedy Rd at Reidmount Ave North Side","",43.788865,-79.290614,,,,,,1
 2020,1601,"Steeles Ave West at Northwest Gate East Side","",43.777721,-79.510466,,,,,,1
 2023,8792,"Willowdale Ave at Bishop Ave","",43.783495,-79.408038,,,,,,1
 2024,2626,"Finch Ave West at Romfield Lane","",43.762721,-79.493585,,,,,,1
@@ -1827,7 +1811,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 2099,93,"Bathurst St at Barton Ave","",43.668194,-79.412507,,,,,,1
 2100,5931,"O'Connor Dr at Hutton Ave","",43.698063,-79.327554,,,,,,1
 2101,7596,"Carrier Dr at Humber College Blvd East Side","",43.738081,-79.609365,,,,,,1
-2102,2876,"McNicoll Ave at Bedle Ave West Side","",43.799662,-79.356975,,,,,,1
 2105,8818,"Willowdale Ave at Parkview Ave South Side","",43.772926,-79.403558,,,,,,2
 2106,13668,"Markham Rd at Steeles Ave East South Side","",43.836078,-79.251323,,,,,,1
 2107,8521,"Victoria Park Ave at Van Horne Ave","",43.789331,-79.329793,,,,,,1
@@ -1968,7 +1951,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 2268,5899,"Oakwood Ave at Earlsdale Ave","",43.685432,-79.437922,,,,,,1
 2269,8878,"Opposite 1700 Wilson Ave - Sheridan Mall","",43.720358,-79.510855,,,,,,1
 2270,1940,"Don Mills Rd at Graydon Hall Dr","",43.761635,-79.346994,,,,,,1
-2271,7930,"Lawson Rd at Irvine Rd East Side","",43.786494,-79.154905,,,,,,1
 2272,700,"180 Caledonia Rd","",43.680034,-79.456794,,,,,,1
 2274,7815,"Harbord St at Ossington Ave East Side","",43.658579,-79.4238,,,,,,1
 2276,6897,"The Queensway at Kipling Ave","",43.621127,-79.526518,,,,,,1
@@ -2098,7 +2080,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 2428,2462,"Faywood Blvd at Ansford Ave","",43.735935,-79.446771,,,,,,1
 2429,6822,"Queen St East at Wineva Ave","",43.671104,-79.295327,,,,,,1
 2430,11159,"Commander Blvd at McCowan Rd","",43.79597,-79.262012,,,,,,1
-2431,1748,"The Bridle Path at Park Lane Cir","",43.730999,-79.361609,,,,,,2
 2432,6733,"Pharmacy Ave at Opposite Walkway to Ecclesfield Dr","",43.808885,-79.333027,,,,,,1
 2433,6256,"Berry Rd at Bell Manor Dr","",43.637227,-79.488768,,,,,,1
 2434,8471,"Victoria Park Ave at Ivordale Cres (North)","",43.755572,-79.314331,,,,,,1
@@ -2125,7 +2106,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 2458,13663,"Markham Rd at 14Th Ave","",43.856238,-79.255878,,,,,,1
 2459,3314,"Beechgrove Dr at Bethley Dr South Side","",43.768431,-79.15907,,,,,,2
 2460,8848,"Wilson Ave at Dubray Ave","",43.728042,-79.477861,,,,,,1
-2461,9887,"Port Union Rd at Ravine Park Cres North Side","",43.788351,-79.140204,,,,,,1
 2462,5600,"Martin Grove Rd at Bethridge Rd","",43.70765,-79.578409,,,,,,1
 2463,8287,"Steeles Ave East at Jewell St","",43.799973,-79.41168,,,,,,1
 2465,5225,"Lansdowne Ave at Whytock Ave","",43.653612,-79.440973,,,,,,1
@@ -2159,11 +2139,9 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 2498,11055,"Varsity Rd at Bralorne Cres","",43.661247,-79.498199,,,,,,1
 2499,9890,"Lawson Rd at Brumwell St","",43.788306,-79.147326,,,,,,1
 2501,2252,"Eglinton Ave East at Brentcliffe Rd","",43.714457,-79.359905,,,,,,1
-2502,6958,"Rockcliffe Blvd at Corbett Ave","",43.671799,-79.487262,,,,,,1
 2505,14082,"Nightstar Rd at Cranberry Dr","",43.825574,-79.224469,,,,,,1
 2506,6734,"Pharmacy Ave at Pachino Blvd South Side","",43.762974,-79.311959,,,,,,1
 2507,6540,"Marlee Ave at Elway Crt","",43.712336,-79.445054,,,,,,1
-2508,2619,"Finch Ave West at Milady Rd","",43.747462,-79.564253,,,,,,1
 2510,8218,"Steeles Ave East at Esna Park Dr","",43.817107,-79.336038,,,,,,1
 2511,8912,"Woodbine Ave at Corley Ave","",43.676368,-79.30881,,,,,,1
 2512,320,"3377 Bayview Ave","",43.797005,-79.394524,,,,,,1
@@ -2212,7 +2190,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 2560,8279,"Steeles Ave West at Hilda Ave","",43.795863,-79.4294,,,,,,1
 2561,1139,"Greenwin Village Rd at Regatta Cres","",43.791195,-79.442929,,,,,,1
 2562,349,"Bellamy Rd North at Cedar Brae Blvd","",43.751811,-79.233421,,,,,,2
-2563,9891,"Port Union Rd at Lawrence Ave East","",43.780253,-79.137057,,,,,,1
 2564,9465,"Cosburn Ave at Roosevelt Rd West Side","",43.693426,-79.331599,,,,,,1
 2565,8113,"Sloane Ave at Wigmore Dr","",43.73229,-79.310221,,,,,,1
 2566,12144,"Portland St at Wesley St West Side","",43.619736,-79.496882,,,,,,1
@@ -2343,7 +2320,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 2708,10946,"Queens Quay/Ferry Docks Station","",43.641422,-79.377093,,,,,,1
 2709,7588,"14 Carluke Cres","",43.760454,-79.391653,,,,,,1
 2710,8797,"Willowdale Ave at Church Ave North Side","",43.77604,-79.404622,,,,,,1
-2711,13933,"Cherry St at Polson St","",43.642779,-79.350245,,,,,,1
 2712,5865,"40 Norfinch Dr","",43.757065,-79.526962,,,,,,1
 2714,3141,"Trethewey Dr at Todd Baylis Blvd South Side","",43.694956,-79.487304,,,,,,1
 2715,1063,"Manitoba Dr at Strachan Ave West Side","",43.6363,-79.410411,,,,,,1
@@ -2615,7 +2591,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 3909,14834,"William R Allen Rd at Rimrock Rd","",43.757572,-79.464756,,,,,,1
 3910,14835,"William R Allen Rd at Rimrock Rd","",43.757985,-79.465168,,,,,,1
 3911,14836,"Dufferin St at Finch Ave West North Side","",43.769623,-79.466863,,,,,,1
-3914,14839,"ALNESS ST AT MARTIN ROSS AVE","",43.774118,-79.473211,,,,,,2
 3915,14840,"Martin Ross Ave at Alness St West Side","",43.774145,-79.474176,,,,,,2
 3918,14843,"Wilmington Ave at Cedar Springs Grove (South)","",43.767684,-79.459572,,,,,,1
 3920,14845,"Murray Ross Pkwy at Sentinel Rd East Side","",43.764927,-79.500283,,,,,,1
@@ -2852,7 +2827,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 4203,15421,"St Clair Ave West at Jane St East Side","",43.667174,-79.491124,,,,,,2
 4204,15424,"Brimley Rd at Eglinton Ave East","",43.735946,-79.247582,,,,,,2
 4206,15386,"Sheppard Ave West at Abraham Welsh Rd East Side","",43.7347,-79.533297,,,,,,1
-4207,15404,"Humber College Bus Terminal","",43.728797,-79.605346,,,,,,1
 4208,15406,"Humber College Bus Terminal","",43.728595,-79.6048,,,,,,1
 4209,15405,"Humber College Bus Terminal","",43.728683,-79.605058,,,,,,1
 4210,15403,"Humber College Bus Terminal","",43.728964,-79.604532,,,,,,1
@@ -2882,7 +2856,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 4264,15502,"Fleet St at Fort York Blvd","",43.636282,-79.407391,,,,,,2
 4265,15503,"Fort York Blvd at Bastion St East Side","",43.63749,-79.403513,,,,,,1
 4273,15510,"Front St East at Cherry St","",43.652436,-79.358636,,,,,,1
-4274,15511,"CHERRY ST AT MILL ST SOUTH SIDE","",43.650752,-79.357206,,,,,,1
 4275,15512,"Parliament St at Lake Shore Blvd East South Side","",43.647168,-79.361601,,,,,,1
 4276,15513,"Parliament St at Lake Shore Blvd East","",43.647384,-79.361231,,,,,,1
 4277,15514,"Queens Quay East at Dockside Dr","",43.644968,-79.365675,,,,,,1
@@ -2938,7 +2911,7 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 4397,5071,"Eglinton Ave East at Laird Dr","",43.713445,-79.364976,,,,,,1
 4398,1036,"Eglinton Ave East at Midland Ave West Side","",43.734493,-79.258911,,,,,,1
 4404,11488,"Eglinton Ave West at Avenue Rd East Side","",43.70464,-79.407957,,,,,,1
-4406,9896,"EGLINTON AVE WEST AT EVERDEN RD (EGLINTON WEST STA","",43.698757,-79.435651,,,,,,1
+4406,9896,"EGLINTON AVE WEST AT EVERDEN RD (EGLINTON WEST STA","",43.698565,-79.436704,,,,,,1
 4407,9895,"EGLINTON AVE WEST AT EVERDEN RD (EGLINTON WEST STA","",43.698853,-79.435954,,,,,,1
 4408,2354,"Eglinton Ave West at Glenarden Rd","",43.699564,-79.432546,,,,,,1
 4409,2366,"Eglinton Ave West at Jane St East Side","",43.68452,-79.498076,,,,,,1
@@ -2992,7 +2965,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 4463,9952,"Bloor St West at Jane St","",43.649118,-79.484624,,,,,,1
 4466,11925,"Broadview Ave at Erindale Ave","",43.677373,-79.358606,,,,,,1
 4468,4886,"Church St at Uphill Ave","",43.708692,-79.508365,,,,,,1
-4469,9534,"Cordova Ave at Dundas St West","",43.648718,-79.528413,,,,,,2
 4471,4908,"Coxwell Ave at Mortimer Ave - Michael Garron Hospital","",43.690745,-79.326731,,,,,,1
 4472,4911,"Coxwell Ave at Plains Rd","",43.696055,-79.328913,,,,,,1
 4473,1842,"3450 Danforth Ave","",43.694178,-79.275031,,,,,,1
@@ -3026,7 +2998,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 4503,12584,"Exhibition Loop","",43.636331,-79.415373,,,,,,1
 4504,6528,"Toronto Zoo","",43.819735,-79.179955,,,,,,1
 4505,6527,"Toronto Zoo","",43.819606,-79.17988,,,,,,1
-4506,6526,"Toronto Zoo","",43.819273,-79.179669,,,,,,1
 4507,5519,"ROUGE HILL GO STATION LOOP AT LAWRENCE AVE EAST","",43.780719,-79.130474,,,,,,1
 4509,6530,"Rouge Hill GO Station Loop at Lawrence Ave East","",43.780678,-79.130154,,,,,,1
 4510,7948,"Earlscourt Loop at St Clair Ave West","",43.675983,-79.451027,,,,,,2
@@ -3052,8 +3023,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 4545,10870,"Sewells Rd at Brenyon Way East Side","",43.807953,-79.215028,,,,,,1
 4546,10873,"Sewells Rd at Brenyon Way","",43.80792,-79.215527,,,,,,1
 4547,10871,"Sewells Rd at McLevin Ave","",43.810308,-79.213775,,,,,,2
-4548,7172,"Sheppard Ave East at Commons Dr","",43.775706,-79.320546,,,,,,1
-4549,11025,"Sheppard Ave East at Commons Dr","",43.775605,-79.320939,,,,,,1
 4550,11669,"Sheppard Ave East at Meadowvale Rd","",43.80818,-79.171104,,,,,,2
 4551,13918,"Sheppard Ave East at Victoria Park Ave East Side","",43.775286,-79.322236,,,,,,1
 4552,6069,"Sheppard Ave West at Jane St East Side","",43.739369,-79.512583,,,,,,2
@@ -3073,7 +3042,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 4568,5620,"Martin Grove Rd at John Garland Blvd","",43.731919,-79.589166,,,,,,1
 4569,5627,"Martin Grove Rd at Mercury Rd","",43.726119,-79.586874,,,,,,1
 4570,7957,"Westhumber Blvd at Martin Grove Rd North Side","",43.726355,-79.586705,,,,,,2
-4571,1286,"2061 McCowan Rd","",43.795441,-79.261074,,,,,,1
 4573,9807,"McCowan Rd at Steeles Ave East North Side","",43.83177,-79.2752,,,,,,1
 4574,10577,"McCowan Rd at Steeles Ave East South Side","",43.830294,-79.275161,,,,,,1
 4576,2874,"1020 McNicoll Ave","",43.804303,-79.335709,,,,,,1
@@ -3130,7 +3098,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 4639,11560,"Highland Creek Overpass at Kingston Rd","",43.784282,-79.168278,,,,,,1
 4640,11504,"Highway 27 at Queen's Plate Dr - Woodbine Centre","",43.722448,-79.597785,,,,,,1
 4642,12196,"Humber College Blvd at Humberline Dr South Side","",43.731793,-79.608899,,,,,,1
-4643,7861,"Humber College Blvd at Humberline Dr","",43.73228,-79.609412,,,,,,1
 4644,12064,"Humberline Dr at Humber College Blvd West Side","",43.731956,-79.609688,,,,,,1
 4645,11049,"Humberline Dr at Humber College Blvd","",43.731861,-79.609562,,,,,,1
 4646,9901,"Islington Ave at Bloor St West North Side","",43.64541,-79.523592,,,,,,1
@@ -3163,7 +3130,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 4689,10237,"Maybrook Dr at Newmill Gate","",43.825459,-79.261236,,,,,,1
 4690,3087,"Queen St West at Soho St","",43.649465,-79.393288,,,,,,1
 4691,8215,"Steeles Ave East at Don Mills Rd","",43.811361,-79.360551,,,,,,1
-4693,1745,"The Bridle Path at Lawrence Ave East South Side","",43.733072,-79.364553,,,,,,2
 4695,11251,"Midland Ave at Steeles Ave East South Side","",43.825426,-79.297157,,,,,,1
 4696,4241,"Kingston Rd at McNab Blvd East Side","",43.728894,-79.227864,,,,,,1
 4697,4353,"Kipling Ave at Jutland Rd","",43.627059,-79.529271,,,,,,2
@@ -3252,7 +3218,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 4801,9344,"Steeles Ave East at Warden Ave","",43.819426,-79.324739,,,,,,1
 4802,8257,"1750 Steeles Ave West","",43.785538,-79.478067,,,,,,1
 4803,1585,"Steeles Ave West at Bathurst St East Side","",43.792559,-79.444561,,,,,,1
-4805,11522,"Steeles Ave West at Highway 27 East Side","",43.755518,-79.61325,,,,,,1
 4806,8285,"Steeles Ave West at Islington Ave Loop","",43.764147,-79.576339,,,,,,1
 4807,12088,"Steeles Ave West at Jane St","",43.775231,-79.52209,,,,,,1
 4808,1590,"Steeles Ave West at Keele St East Side","",43.781584,-79.493751,,,,,,1
@@ -3317,7 +3282,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 4877,8256,"Steeles Ave East at Opposite Walkway to Whitman St","",43.80052,-79.409206,,,,,,1
 4878,8091,"Sentinel Rd at Murray Ross Pkwy South Side","",43.764335,-79.501308,,,,,,1
 4879,11164,"Berkeley St at Front St East South Side","",43.650874,-79.36392,,,,,,1
-4880,13706,"Vanderhoof Ave at Thomas Elgie Dr","",43.713375,-79.356289,,,,,,2
 4881,2913,"Midland Ave at Danforth Rd","",43.724981,-79.254164,,,,,,1
 4882,2407,"Eglinton Ave West at Scarlett Rd","",43.6841,-79.511249,,,,,,1
 4883,867,"Crow Trail at Baldoon Rd","",43.813546,-79.231021,,,,,,1
@@ -3347,14 +3311,12 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 4909,1115,"Gerrard St East  at Bowmore Rd","",43.677928,-79.315075,,,,,,2
 4911,5771,"Mortimer Ave at Coxwell Ave - Michael Garron Hospital","",43.690455,-79.326727,,,,,,1
 4912,1412,"O'Connor Dr at Don Mills Rd West Side","",43.695546,-79.340081,,,,,,1
-4913,2113,"Duncan Mill Rd at Valleybrook Dr","",43.761944,-79.353465,,,,,,1
 4914,2815,"Lawrence Ave East at Leslie St West Side","",43.734608,-79.356821,,,,,,1
 4916,8892,"Wilson Ave at Yonge St","",43.743804,-79.407263,,,,,,1
 4917,1099,"Gerrard St East at Marjory Ave","",43.668855,-79.337448,,,,,,2
 4918,2469,"Faywood Blvd at Goodwill Ave","",43.736941,-79.446836,,,,,,1
 4921,12135,"Eglinton Ave West at Royal York Rd East Side","",43.682279,-79.526015,,,,,,1
 4922,15,"Anglesey Blvd at Pinehurst Cres North Side","",43.663562,-79.524999,,,,,,1
-4923,4738,"York Gate Blvd at Jane St","",43.761781,-79.519077,,,,,,1
 4924,1001,"Dupont St at Christie St","",43.671704,-79.421375,,,,,,1
 4926,6064,"Sheppard Ave West at Northwood Park","",43.742758,-79.496344,,,,,,2
 4927,7818,"Harbord St at Spadina Ave","",43.663187,-79.401875,,,,,,1
@@ -3368,12 +3330,10 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 4937,5675,"McCowan Rd at Meldazy Dr (North)","",43.763591,-79.248343,,,,,,1
 4938,14246,"Warden Ave at Cachet Pkwy (South)","",43.888425,-79.342218,,,,,,2
 4939,7735,"Elmhurst Dr at Muncey Ave","",43.724516,-79.553251,,,,,,1
-4940,6693,"Pharmacy Ave at Dolphin Dr North Side","",43.700332,-79.286721,,,,,,1
 4941,4266,"Kingston Rd at Victoria Park Ave","",43.6809,-79.283931,,,,,,1
 4942,9992,"361 The West Mall","",43.640811,-79.565235,,,,,,1
 4943,6976,"Royal York Rd at Bloor St West","",43.647184,-79.511128,,,,,,1
 4944,7198,"Sheppard Ave East at Kingston Rd North Side","",43.799459,-79.146775,,,,,,1
-4945,7011,"Royal York Rd at Melrose St","",43.6198,-79.499771,,,,,,1
 4946,1367,"125 Milner Ave","",43.785255,-79.246078,,,,,,1
 4947,6541,"Marlee Ave at Glencairn Ave","",43.708894,-79.443657,,,,,,1
 4948,10013,"McCowan Rd at Denison St","",43.84163,-79.278119,,,,,,1
@@ -3484,7 +3444,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 5062,6063,"Sheppard Ave West at Buckland Rd","",43.741221,-79.50321,,,,,,1
 5063,9215,"Arleta Ave at Grandravine Dr","",43.747969,-79.507845,,,,,,1
 5064,5142,"Laird Dr at Kenrae Rd","",43.704608,-79.361289,,,,,,1
-5065,4667,"98 Toryork Dr","",43.755799,-79.549298,,,,,,2
 5066,3911,"Jane St at Milo Park Gate","",43.765957,-79.519824,,,,,,1
 5067,7349,"Spadina Ave at Dundas St West North Side","",43.653388,-79.398172,,,,,,1
 5068,8727,"Weston Rd at Gaydon Ave","",43.720275,-79.537346,,,,,,1
@@ -3592,7 +3551,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 5186,11494,"Yonge St at Elmwood Ave","",43.766466,-79.412017,,,,,,1
 5187,6134,"St Clair Ave East at Maybourne Ave","",43.709324,-79.29384,,,,,,1
 5188,1123,"Gerrard St East  at Kingsmount Park Rd","",43.67986,-79.312662,,,,,,2
-5189,2615,"Finch Ave West at Kiskadee Dr","",43.735161,-79.598247,,,,,,1
 5190,174,"Bathurst St at Mcallister Rd North Side","",43.753514,-79.437841,,,,,,1
 5191,12926,"700 Arrow Rd","",43.745728,-79.529601,,,,,,1
 5192,7326,"Sherbourne St at Maple Ave","",43.674816,-79.377618,,,,,,2
@@ -3644,8 +3602,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 5242,7752,"Opposite 15 Fenmar Dr","",43.759283,-79.535507,,,,,,2
 5243,6588,"Middlefield Rd at McNicoll Ave","",43.820307,-79.262228,,,,,,1
 5244,5276,"Lawrence Ave East at Howden Rd","",43.746988,-79.287822,,,,,,1
-5246,1939,"Don Mills Rd at Goodview Rd","",43.783994,-79.35303,,,,,,1
-5247,3362,"Brimley Rd South at Kingston Rd South Side","",43.717705,-79.240255,,,,,,1
 5248,6433,"Huntingwood Dr at Brimley Rd","",43.798545,-79.273112,,,,,,1
 5250,11096,"Scarborough Golf Club Rd at Brimorton Dr","",43.769696,-79.218495,,,,,,1
 5251,5710,"Midland Ave at Kilcullen Castle Gate South Side","",43.80947,-79.290016,,,,,,1
@@ -3750,7 +3706,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 5362,6692,"Pharmacy Ave at Dewey Dr","",43.755116,-79.309498,,,,,,1
 5363,4885,"Church St at Uphill Ave","",43.708489,-79.508686,,,,,,1
 5364,6081,"Sheppard Ave West at Magellan Dr","",43.73954,-79.509788,,,,,,1
-5366,8917,"Woodbine Ave at Eastwood Rd","",43.676586,-79.309074,,,,,,1
 5367,2313,"Eglinton Ave East at Sutherland Dr","",43.713201,-79.36698,,,,,,1
 5368,9679,"Brimley Rd at Steeles Ave East North Side","",43.82885,-79.287081,,,,,,1
 5370,4095,"Kennedy Rd at Lawrence Ave East","",43.749286,-79.274696,,,,,,1
@@ -3901,10 +3856,8 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 5533,7115,"Senlac Rd at Ellerslie Ave","",43.768497,-79.426524,,,,,,2
 5534,3088,"Queen St West at Spadina Ave","",43.648886,-79.396062,,,,,,1
 5535,10543,"Warden Ave at Highway 7","",43.855541,-79.33364,,,,,,1
-5537,150,"Bathurst St at Heathdale Rd South Side","",43.688764,-79.420688,,,,,,2
 5538,5589,"Martin Grove Rd at Albion Rd","",43.742431,-79.594611,,,,,,2
 5539,8139,"St Clair Ave East at Denvale Rd","",43.704379,-79.318373,,,,,,1
-5540,7810,"Harbord St at Grace St","",43.659844,-79.417575,,,,,,1
 5542,273,"Bayview Ave at Garnier Park","",43.801054,-79.395495,,,,,,1
 5543,5677,"McCowan Rd at St Andrews Rd","",43.760033,-79.246725,,,,,,1
 5544,5942,"O'Connor Dr at Woodbine Ave","",43.699935,-79.31912,,,,,,1
@@ -3983,7 +3936,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 5627,7335,"South Dr at Glen Rd","",43.677655,-79.374974,,,,,,2
 5628,7208,"Sheppard Ave East at Massie St West Side","",43.792506,-79.245714,,,,,,1
 5629,1989,"The Donway West at Lawrence Ave East North Side","",43.737449,-79.34679,,,,,,1
-5630,934,"Davenport Rd at Christie St West Side","",43.67551,-79.423564,,,,,,1
 5631,1196,"Jones Ave at Shudell Ave","",43.675267,-79.33828,,,,,,2
 5632,3260,"York Mills Rd at Hedgewood Rd East Side","",43.744875,-79.398732,,,,,,1
 5634,1888,"Dawes Rd at Dentonia Park Ave","",43.691876,-79.296963,,,,,,1
@@ -4106,7 +4058,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 5772,1460,"Queen's Park Cres East at College St North Side","",43.661006,-79.390108,,,,,,1
 5774,6305,"Coe Hill Dr at Windermere Ave South Side","",43.641321,-79.474063,,,,,,1
 5775,9392,"Brimley Rd at Opposite Walkway to Audrelane Crt","",43.822934,-79.284963,,,,,,1
-5776,7931,"Lawson Rd at Irvine Rd","",43.786638,-79.154968,,,,,,1
 5777,360,"Bellamy Rd North at Jarwick Dr","",43.766248,-79.23877,,,,,,1
 5778,5155,"Lake Shore Blvd West at Fifteenth St","",43.598973,-79.513857,,,,,,1
 5779,646,"Brimley Rd at Strode Dr","",43.739443,-79.249414,,,,,,1
@@ -4242,7 +4193,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 5939,3015,"Park Lane Cir at Lawrence Ave East","",43.732022,-79.372322,,,,,,1
 5940,4988,"Dixon Rd at Islington Ave","",43.697362,-79.54593,,,,,,1
 5941,6676,"Pharmacy Ave at Chester Le Blvd (South)","",43.796481,-79.327366,,,,,,1
-5942,13937,"Cherry Beach Loop at Clarke Beach","",43.636968,-79.344351,,,,,,2
 5943,3502,"Dundas St West at Indian Grove","",43.665429,-79.462163,,,,,,1
 5944,3754,"Islington Ave at Albion Rd","",43.736655,-79.56489,,,,,,1
 5947,13642,"Main St Markham North at Robinson St","",43.877739,-79.260689,,,,,,2
@@ -4343,7 +4293,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 6053,3705,"Horner Ave at Thirtieth St","",43.604156,-79.533871,,,,,,1
 6054,3188,"Wilmington Ave at Sheppard Ave West North Side","",43.753273,-79.452521,,,,,,1
 6056,7683,"Ellesmere Rd at Borough Approach East","",43.771125,-79.255707,,,,,,1
-6057,7928,"Lawson Rd at Clyde Rd","",43.785603,-79.159012,,,,,,1
 6058,987,"Dundas St West at Sorauren Ave","",43.651247,-79.445756,,,,,,2
 6059,7120,"Senlac Rd at Finch Ave West","",43.775862,-79.429872,,,,,,1
 6060,1836,"Danforth Ave at Pharmacy Ave","",43.692436,-79.283201,,,,,,1
@@ -4367,7 +4316,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 6079,9696,"Gerrard St East at Rathmore Ave West Side","",43.688004,-79.281828,,,,,,1
 6080,280,"Bayview Ave at Burleigh Heights Dr North Side","",43.77972,-79.390855,,,,,,1
 6082,7886,"Keele St at Dundas St West","",43.665275,-79.464376,,,,,,1
-6083,1850,"300 Danforth Rd","",43.701506,-79.271864,,,,,,1
 6084,6742,"Pharmacy Ave at Rosita Cres North Side","",43.712137,-79.291805,,,,,,1
 6085,7553,"Birchmount Rd at Kingston Rd","",43.693136,-79.26245,,,,,,1
 6086,5444,"Leslie St at Francine Dr South Side","",43.804428,-79.371619,,,,,,1
@@ -4389,7 +4337,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 6103,6091,"Sheppard Ave West at Weston Rd","",43.733919,-79.537904,,,,,,1
 6104,5843,"Mt Pleasant Rd at Soudan Ave","",43.706182,-79.389421,,,,,,1
 6105,5445,"Leslie St at Francine Dr","",43.804785,-79.371406,,,,,,1
-6106,2618,"Finch Ave West at Milady Rd","",43.747162,-79.564529,,,,,,1
 6107,9829,"Steeles Ave East at Strawberry Hills Dr","",43.829662,-79.280495,,,,,,1
 6108,6194,"The Westway at Kipling Ave East Side","",43.68565,-79.554169,,,,,,1
 6109,9051,"Yonge St at Sherwood Ave","",43.713409,-79.39965,,,,,,1
@@ -4415,13 +4362,11 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 6133,311,"Bayview Ave at Post Rd North Side","",43.736777,-79.381847,,,,,,1
 6134,6255,"Berry Rd at Ballacaine Dr","",43.635805,-79.495229,,,,,,1
 6135,3035,"Queen St East at Carlaw Ave","",43.660953,-79.340208,,,,,,1
-6136,4945,"Danforth Rd at Glenshephard Dr East West Side","",43.731729,-79.250118,,,,,,1
 6137,11773,"Parkside Dr at The Queensway North Side","",43.639879,-79.45406,,,,,,1
 6138,163,"Bathurst St at Laurelcrest Ave","",43.74451,-79.435903,,,,,,1
 6139,2165,"Dundas St West at Gladstone Ave","",43.649633,-79.429626,,,,,,2
 6140,3438,"Cliff St at Cordella Ave","",43.679451,-79.484146,,,,,,1
 6141,14107,"Staines Rd at Warbler Cir","",43.82671,-79.221682,,,,,,1
-6142,6695,"Pharmacy Ave at Donside Dr North Side","",43.70172,-79.287305,,,,,,1
 6143,3808,"Islington Ave at The Kingsway North Side","",43.668756,-79.533874,,,,,,1
 6145,328,"Bayview Ave at York Mills Rd","",43.747851,-79.383934,,,,,,1
 6146,757,"Carlton St at Parliament St","",43.664144,-79.36819,,,,,,2
@@ -4454,7 +4399,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 6179,9659,"Graydon Hall Dr at Don Mills Rd","",43.761915,-79.346799,,,,,,1
 6180,4646,"Symington Ave at Antler St","",43.663834,-79.450371,,,,,,2
 6181,4286,"Kipling Ave at Belfield Rd - Etobicoke North GO Station","",43.705019,-79.563774,,,,,,1
-6182,82,"Bathurst St at Ardmore Rd South Side","",43.693576,-79.422648,,,,,,1
 6183,8626,"Wellesley St East at Church St","",43.66561,-79.381083,,,,,,1
 6185,9550,"715 Milner Ave","",43.796774,-79.206658,,,,,,1
 6186,8383,"Underhill Dr at Doonaree Dr South Side","",43.745369,-79.32597,,,,,,1
@@ -4697,7 +4641,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 6465,7631,"Curity Ave at Cranfield Rd South Side","",43.709067,-79.313987,,,,,,1
 6467,7924,"Lawson Rd at Cedarview Dr East Side","",43.786882,-79.153183,,,,,,1
 6468,539,"Bloor St West at Manning Ave","",43.66416,-79.415911,,,,,,1
-6469,7811,"Harbord St at Grace St","",43.660015,-79.417409,,,,,,1
 6470,3747,"Humber Blvd at Cliff St","",43.678455,-79.483624,,,,,,1
 6471,11232,"Northover St at Slater Crt","",43.740104,-79.500961,,,,,,2
 6472,9462,"Cosburn Ave at Woodbine Ave","",43.696509,-79.317285,,,,,,1
@@ -4877,7 +4820,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 6673,683,"Burnhamthorpe Rd at Mulgrove Dr","",43.64406,-79.568974,,,,,,1
 6674,4920,"Craigton Dr at Victoria Park Ave East Side","",43.726926,-79.302403,,,,,,1
 6675,3160,"Warden Ave at Firvalley Crt","",43.703737,-79.277715,,,,,,1
-6678,13934,"Cherry St at Polson St South Side","",43.642679,-79.350425,,,,,,1
 6679,4617,"Spadina Rd at Strathearn Blvd","",43.690876,-79.413518,,,,,,1
 6680,3681,"Greenwood Ave at Kerr Rd","",43.666185,-79.325941,,,,,,2
 6681,6993,"Royal York Rd at Eglinton Ave West","",43.682095,-79.526306,,,,,,1
@@ -4893,7 +4835,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 6692,6605,"Morningside Ave at Lavinia Ave East Side","",43.645239,-79.476587,,,,,,2
 6693,1892,"Dawes Rd at Ferris Rd South Side","",43.705884,-79.295669,,,,,,1
 6694,6599,"Middlefield Rd at Opposite Walkway to Bushcroft Grove","",43.799133,-79.260164,,,,,,1
-6695,121,"Bathurst St at Dewbourne Ave","",43.699054,-79.424867,,,,,,1
 6696,1682,"Albion Rd at Kipling Ave","",43.739548,-79.580563,,,,,,1
 6697,5835,"Mt Pleasant Rd at Moore Ave","",43.693467,-79.384469,,,,,,1
 6698,6894,"The Queensway at Islington Ave","",43.623384,-79.515045,,,,,,1
@@ -5084,11 +5025,9 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 6905,3486,"Dundas St West at Annette St","",43.664503,-79.459097,,,,,,1
 6906,5461,"Leslie St at Nymark Ave","",43.778209,-79.365155,,,,,,1
 6907,8025,"Parkwoods Village Dr at Brookbanks Dr","",43.76093,-79.323736,,,,,,1
-6908,2638,"Finch Ave West at Topcliff Ave","",43.758788,-79.509716,,,,,,1
 6909,2609,"Finch Ave West at Jayzel Dr","",43.750455,-79.549378,,,,,,1
 6910,4410,"Lansdowne Ave at Wallace Ave","",43.662225,-79.444175,,,,,,2
 6911,8721,"Weston Rd at Fenmar Dr South Side","",43.756921,-79.543747,,,,,,1
-6912,6696,"Pharmacy Ave at Donside Dr","",43.701545,-79.287448,,,,,,1
 6913,2118,"Dundas St East at Jarvis St","",43.656947,-79.374706,,,,,,2
 6914,6199,"The Westway at Sandwell Dr","",43.683967,-79.564694,,,,,,1
 6915,6045,"Scarlett Rd at Lockheed Blvd","",43.699844,-79.525329,,,,,,2
@@ -5167,7 +5106,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 6994,4909,"Coxwell Ave at O'Connor Dr South Side","",43.697287,-79.329479,,,,,,2
 6995,4724,"Wynford Dr at Garamond Crt","",43.725059,-79.333722,,,,,,1
 6996,3841,"Islington Ave at St Georges Blvd","",43.703263,-79.54944,,,,,,1
-6997,1607,"Supertest Rd at Alness St","",43.776637,-79.474853,,,,,,1
 6998,3919,"Jane St at Rita Dr North Side","",43.743418,-79.51405,,,,,,1
 6999,616,"Brimley Rd at Applefield Dr (South)","",43.762263,-79.258528,,,,,,2
 7000,8744,"Weston Rd at Dora Spencer Rd","",43.692229,-79.503319,,,,,,1
@@ -5281,7 +5219,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 7125,281,"Bayview Ave at Burleigh Heights Dr South Side","",43.779345,-79.390994,,,,,,1
 7126,5119,"High Park Ave at Dundas St West South Side","",43.66514,-79.470272,,,,,,1
 7127,1019,"Dupont St at Osler St","",43.664644,-79.456422,,,,,,1
-7128,1600,"1900 Steeles Ave West","",43.784383,-79.482922,,,,,,1
 7129,7543,"50 Beth Nealson Dr","",43.711282,-79.345763,,,,,,2
 7130,591,"Bloor St West at Sterling Rd","",43.65713,-79.448096,,,,,,1
 7131,6026,"Rogers Rd at Glenholme Ave","",43.686648,-79.441172,,,,,,1
@@ -5337,7 +5274,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 7193,6407,"Grantbrook St at Blake Ave","",43.779827,-79.432701,,,,,,1
 7194,5712,"Midland Ave at Lawrence Ave East","",43.751281,-79.264867,,,,,,1
 7195,7824,"Hollinger Rd at Bermondsey Rd West Side","",43.714805,-79.312835,,,,,,1
-7196,4101,"Kennedy Rd at Marilyn Ave South Side","",43.78696,-79.290122,,,,,,1
 7197,7995,"Norelco Dr at Fenmar Dr","",43.760173,-79.532773,,,,,,1
 7198,2696,"Highview Ave at Kennedy Rd West Side","",43.702459,-79.256133,,,,,,1
 7200,9212,"Arleta Ave at John Lindsay Crt","",43.745646,-79.501779,,,,,,2
@@ -5431,14 +5367,12 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 7302,10954,"Old Finch Ave at Bingley Rd","",43.821709,-79.203782,,,,,,1
 7303,3080,"Queen St West at Augusta Ave","",43.648153,-79.399534,,,,,,1
 7304,610,"240 Bridgeland Ave","",43.724511,-79.46828,,,,,,1
-7305,7145,"Sheppard Ave East at Amethyst Rd","",43.780679,-79.30024,,,,,,1
 7306,4951,"Danforth Rd at Wolfe Ave","",43.727577,-79.25269,,,,,,1
 7307,6397,"Foxwell St at Scarlett Rd East Side","",43.669451,-79.501108,,,,,,2
 7308,3395,"Calvington Dr at Forthbridge Cres","",43.728042,-79.503711,,,,,,1
 7309,1560,"St Clair Ave East at Fermoy Rd","",43.721461,-79.239054,,,,,,1
 7310,4276,"Kipling Ave at Albion Rd","",43.739168,-79.579932,,,,,,1
 7311,4349,"Kipling Ave at Nugent Rd","",43.690331,-79.556664,,,,,,1
-7312,7144,"Sheppard Ave East at Amethyst Rd","",43.780363,-79.300493,,,,,,1
 7313,6682,"Pharmacy Ave at Conroy Ave","",43.702832,-79.287997,,,,,,1
 7314,2636,"Finch Ave West at Tobermory Dr","",43.759158,-79.507973,,,,,,1
 7315,506,"Bloor St West at Dundas St West","",43.656202,-79.452611,,,,,,1
@@ -5562,7 +5496,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 7450,9831,"Steeles Ave East at Opposite Walkway to Enchanted Hills Cres","",43.830596,-79.277601,,,,,,1
 7452,9664,"100 Lesmill Rd","",43.758894,-79.357208,,,,,,2
 7453,6749,"Pharmacy Ave at Singleton Rd","",43.731392,-79.299708,,,,,,1
-7454,2592,"Finch Ave West at Damascus Dr","",43.735423,-79.597859,,,,,,1
 7455,8392,"Upper Canada Dr at Fairmeadow Ave","",43.757865,-79.399397,,,,,,1
 7456,4403,"Lansdowne Ave at Glencairn Ave South Side","",43.705206,-79.460763,,,,,,1
 7457,1085,"Gerrard St East at Coxwell Ave","",43.672746,-79.319561,,,,,,2
@@ -5632,7 +5565,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 7532,3714,"Horner Ave at Delta St East Side","",43.603745,-79.53581,,,,,,1
 7533,9317,"Broadview Ave at Mountstephen St","",43.663942,-79.35187,,,,,,2
 7534,4418,"Lawrence Ave East at Homestead Rd","",43.769641,-79.180335,,,,,,1
-7535,9886,"Port Union Rd at Winter Gardens Trail","",43.785227,-79.13891,,,,,,1
 7536,1960,"Don Mills Rd at Pebble Byway","",43.802517,-79.353511,,,,,,1
 7538,7035,"Royal York Rd at Van Dusen Blvd North Side","",43.644415,-79.510058,,,,,,1
 7539,10522,"Ellesmere Rd at Muirbank Blvd","",43.793969,-79.157635,,,,,,1
@@ -5690,7 +5622,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 7599,751,"Carlton St at Church St","",43.661721,-79.379621,,,,,,1
 7600,8368,"Toba Dr at Fifeshire Rd","",43.756228,-79.390007,,,,,,1
 7601,9533,"25 Mabelle Ave","",43.645939,-79.526888,,,,,,1
-7602,1846,"Danforth Rd at Cotton Ave East Side","",43.712503,-79.262091,,,,,,2
 7604,7329,"Sherbourne St at Richmond St East South Side","",43.652663,-79.368912,,,,,,1
 7605,2900,"McNicoll Ave at Pharmacy Ave","",43.80393,-79.331097,,,,,,1
 7607,8441,"Victoria Park Ave at Jonesville Cres South Side","",43.726169,-79.303436,,,,,,1
@@ -5781,7 +5712,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 7704,4955,"Danforth Rd at Magnolia Ave","",43.722467,-79.255705,,,,,,1
 7705,2083,"Dufferin St at Rogers Rd","",43.685673,-79.446257,,,,,,1
 7706,6289,"Carlaw Ave at Gerrard St East","",43.667707,-79.342879,,,,,,1
-7708,7929,"Lawson Rd at Clyde Rd","",43.785835,-79.158599,,,,,,2
 7709,13630,"Markham Rd at Turbina Ave","",43.827124,-79.249027,,,,,,1
 7710,5921,"O'Connor Dr at Binswood Ave East Side","",43.698573,-79.325163,,,,,,1
 7712,11156,"135 Commander Blvd","",43.794732,-79.268697,,,,,,1
@@ -5808,7 +5738,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 7735,3296,"452 Attwell Dr","",43.704144,-79.609535,,,,,,1
 7736,42,"Annette St at Willard Ave","",43.658765,-79.485561,,,,,,1
 7737,7472,"York Mills Rd at Sandfield Rd","",43.750392,-79.375099,,,,,,1
-7738,2614,"Finch Ave West at Kendleton Dr","",43.738939,-79.589949,,,,,,1
 7739,1894,"Dawes Rd at Goodwood Park Crt","",43.694804,-79.297225,,,,,,1
 7740,941,"Davenport Rd at Greenlaw Ave","",43.672151,-79.445094,,,,,,1
 7741,2783,"Kingston Rd at Lee Ave","",43.678324,-79.300903,,,,,,2
@@ -5822,7 +5751,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 7750,8782,"Wicksteed Ave at Beth Nealson Dr","",43.713212,-79.34702,,,,,,1
 7751,6044,"Scarlett Rd at Lockheed Blvd North Side","",43.699987,-79.52517,,,,,,2
 7752,5634,"Martin Grove Rd at Racine Rd","",43.716804,-79.582574,,,,,,1
-7753,4669,"130 Toryork Dr","",43.757509,-79.553392,,,,,,1
 7754,7228,"Sheppard Ave East at Pharmacy Ave","",43.776351,-79.31788,,,,,,1
 7755,2624,"Finch Ave West at Pearldale Ave","",43.747924,-79.562184,,,,,,1
 7757,9860,"Culford Rd at Woolton Cres (South)","",43.700005,-79.484592,,,,,,1
@@ -5850,7 +5778,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 7784,5604,"1120 Martin Grove Rd @ Highway 409","",43.700291,-79.575023,,,,,,2
 7786,2426,"120 Emmett Ave at Roadway to West Park Healthcare Centre","",43.686434,-79.508669,,,,,,1
 7787,9063,"Yonge St at Woodlawn Ave West","",43.684014,-79.392504,,,,,,1
-7788,4433,"25 Le Page Crt","",43.758592,-79.486794,,,,,,2
 7790,350,"Bellamy Rd North at Eastpark Blvd South Side","",43.755404,-79.234925,,,,,,2
 7791,6939,"Opposite 225 Rexdale Blvd","",43.712498,-79.574726,,,,,,1
 7792,8362,"56 Thorncliffe Park Dr","",43.704541,-79.341784,,,,,,1
@@ -5911,11 +5838,9 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 7853,8614,"Warden Ave at Upton Rd","",43.718451,-79.283907,,,,,,2
 7854,5432,"Leslie St at Coldwater Rd","",43.754732,-79.360222,,,,,,1
 7855,2653,"Glenorchy Rd at Suncrest Dr North Side","",43.725801,-79.363868,,,,,,1
-7857,13708,"Vanderhoof Ave at Thomas Elgie Dr","",43.713566,-79.355979,,,,,,1
 7858,4344,"Kipling Ave at Norseman St","",43.631617,-79.531213,,,,,,1
 7859,8655,"Westhumber Blvd at Ixworth Rd","",43.727191,-79.577426,,,,,,1
 7860,5825,"Mt Pleasant Rd at Lawrence Ave East","",43.725787,-79.396998,,,,,,2
-7862,11523,"Royalcrest Rd at Highway 27 East Side","",43.749901,-79.60932,,,,,,1
 7863,6875,"The Queensway at Burma Dr","",43.628106,-79.495054,,,,,,1
 7864,12164,"Lake Shore Blvd West at Colborne Lodge Dr West Side","",43.637953,-79.459484,,,,,,1
 7865,12049,"McNicoll Ave at Shady Hollow Dr","",43.81937,-79.264798,,,,,,2
@@ -6018,6 +5943,7 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 7976,4725,"Wynford Dr at Gervais Dr","",43.723387,-79.336594,,,,,,1
 7977,8904,"Wilson Heights Blvd at Sheppard Ave West","",43.751869,-79.45709,,,,,,1
 7978,966,"Donlands Ave at Mortimer Ave","",43.687704,-79.340387,,,,,,1
+7979,12795,"Spadina Rd at Eglinton Ave West","",43.702252,-79.418832,,,,,,1
 7980,4011,"Keele St at Maple Leaf Dr","",43.714888,-79.479565,,,,,,1
 7981,2092,"Dufferin St at Springhurst Ave","",43.635014,-79.425934,,,,,,1
 7983,9202,"Heathrow Dr at Datchet Rd","",43.725878,-79.508076,,,,,,2
@@ -6100,7 +6026,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 8075,8101,"Signet Dr at Ormont Dr","",43.765443,-79.540895,,,,,,1
 8076,5937,"O'Connor Dr at Sunrise Ave","",43.719092,-79.304597,,,,,,1
 8077,7935,"Lawson Rd at Wichey Rd","",43.788892,-79.14401,,,,,,1
-8078,4944,"Danforth Rd at Glenshephard Dr East East Side","",43.731817,-79.249776,,,,,,1
 8079,8549,"Warden Ave at Clonmore Dr","",43.692991,-79.273191,,,,,,1
 8080,4010,"Keele St at Maple Leaf Dr","",43.714682,-79.479246,,,,,,1
 8082,4875,"Church St at George St","",43.704209,-79.523249,,,,,,2
@@ -6169,7 +6094,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 8154,11928,"Promenade Bus Terminal at Promenade Cir (Mall North Entrance","",43.809255,-79.454201,,,,,,1
 8156,11786,"Parkside Dr at The Queensway","",43.639998,-79.4543,,,,,,1
 8158,13907,"Oasis Blvd at Seasons Dr","",43.829031,-79.233701,,,,,,1
-8159,8037,"Port Union Rd at Ravine Park Cres South Side","",43.787808,-79.140236,,,,,,1
 8160,1970,"Don Mills Rd at Sheppard Ave East","",43.77549,-79.347401,,,,,,1
 8161,8821,"Willowdale Ave at Revcoe Dr","",43.78565,-79.408924,,,,,,1
 8162,10158,"Queen St East at Silver Birch Ave","",43.673035,-79.285343,,,,,,1
@@ -6253,7 +6177,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 8250,9739,"Dufferin St at Melbourne Ave","",43.640185,-79.427735,,,,,,1
 8251,7190,"2025 Sheppard Ave East","",43.77545,-79.335424,,,,,,1
 8252,176,"Bathurst St at Milner Gate","",43.799658,-79.447631,,,,,,1
-8253,4668,"114 Toryork Dr","",43.756718,-79.551449,,,,,,1
 8254,852,"Cosburn Ave at Coxwell Ave West Side","",43.694085,-79.328558,,,,,,1
 8255,9531,"Mabelle Ave at Dundas St West South Side","",43.646369,-79.530116,,,,,,1
 8256,1122,"Gerrard St East  at Kingsmount Park Rd","",43.679449,-79.312986,,,,,,2
@@ -6286,7 +6209,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 8288,7902,"Keele St at West Toronto St","",43.670163,-79.466669,,,,,,1
 8289,13661,"Markham Rd at Highway 7","",43.874233,-79.260028,,,,,,1
 8290,3871,"Jane St at Chalkfarm Dr (South) South Side","",43.72463,-79.509687,,,,,,1
-8292,11026,"Sheppard Ave East at Chichester Pl","",43.776093,-79.320113,,,,,,1
 8293,1394,"Neilson Rd at Purpledusk Trail South Side","",43.785235,-79.20626,,,,,,1
 8294,678,"Burnhamthorpe Rd at Kipling Ave West Side","",43.651053,-79.539705,,,,,,1
 8296,2908,"McNicoll Ave at Walkway to Hawkshead Cres","",43.808082,-79.313863,,,,,,1
@@ -6307,7 +6229,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 8313,8423,"Vaughan Rd at Winona Dr West Side","",43.690283,-79.43633,,,,,,1
 8314,3730,"Hullmar Dr at Bamford Cres","",43.768561,-79.529198,,,,,,1
 8315,1448,"Park St at Claremore Ave","",43.710071,-79.256611,,,,,,1
-8316,9660,"240 Duncan Mill Rd","",43.76158,-79.350758,,,,,,1
 8317,1934,"Don Mills Rd at Gateway Blvd (North)","",43.7142,-79.336076,,,,,,1
 8319,5157,"Lake Shore Blvd West at Twenty Second St","",43.597116,-79.521413,,,,,,1
 8320,6030,"Rogers Rd at Keele St","",43.682039,-79.471705,,,,,,1
@@ -6354,7 +6275,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 8370,11785,"Parkside Dr at Garden Ave","",43.641051,-79.454762,,,,,,1
 8371,5734,"Midland Ave at Progress Ave","",43.773157,-79.273219,,,,,,1
 8372,2091,"Dufferin St at Orfus Rd","",43.720389,-79.455958,,,,,,1
-8373,1862,"Opposite 347 Danforth Rd","",43.703484,-79.270414,,,,,,1
 8374,9095,"Whitehorse Rd at Rimrock Rd","",43.756138,-79.471076,,,,,,1
 8376,6557,"Marlee Ave at Whitmore Ave","",43.699828,-79.440014,,,,,,1
 8378,8210,"Steeles Ave East at Bayview Ave West Side","",43.803048,-79.397598,,,,,,1
@@ -6444,7 +6364,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 8472,5574,"Markham Rd at Nugget Ave","",43.79875,-79.241345,,,,,,1
 8473,1226,"Lawrence Ave East at Mt Pleasant Rd","",43.726457,-79.39616,,,,,,2
 8474,1961,"Don Mills Rd at Clock Tower Rd","",43.73428,-79.342483,,,,,,1
-8475,3945,"Jane St at York Gate Blvd","",43.762004,-79.518942,,,,,,1
 8476,14081,"Mantis Rd at Poppy Pl (North)","",43.82401,-79.222705,,,,,,1
 8477,5271,"Lawrence Ave East at Greenbrae Circt","",43.758343,-79.23285,,,,,,1
 8479,7321,"Sherbourne St at Isabella St","",43.669792,-79.3759,,,,,,1
@@ -6507,7 +6426,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 8544,5329,"Lawrence Ave East at Warden Ave","",43.745551,-79.294565,,,,,,1
 8545,507,"Bloor St West at Dundas St West","",43.656441,-79.452231,,,,,,1
 8546,11269,"Arcot Blvd at Albion Rd East Side","",43.726979,-79.551326,,,,,,1
-8548,120,"Bathurst St at Dewbourne Ave","",43.698884,-79.424601,,,,,,2
 8549,4486,"180 Milvan Dr","",43.758449,-79.565625,,,,,,1
 8550,10875,"Tapscott Rd at Blackwell Ave West Side","",43.805477,-79.221424,,,,,,1
 8551,8861,"Wilson Ave at Jane St","",43.720752,-79.508813,,,,,,1
@@ -6652,7 +6570,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 8703,2543,"Finch Ave East at Ravel Rd East Side","",43.790302,-79.365145,,,,,,2
 8704,7160,"Sheppard Ave East at Brenyon Way West Side","",43.800473,-79.207625,,,,,,1
 8705,1956,"Don Mills Rd at Mogul Dr","",43.802406,-79.353199,,,,,,1
-8706,2639,"Finch Ave West at Topcliff Ave","",43.759008,-79.50946,,,,,,1
 8707,5661,"McCowan Rd at Benleigh Dr","",43.758218,-79.245956,,,,,,1
 8709,4954,"Danforth Rd at Linden Ave","",43.721087,-79.257054,,,,,,1
 8710,7955,"Lord Seaton Rd at Upper Canada Dr","",43.753327,-79.404577,,,,,,1
@@ -6942,6 +6859,7 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 9047,8288,"Steeles Ave West at Klondike Dr","",43.76923,-79.552088,,,,,,1
 9048,586,"Bloor St West at Spadina Rd","",43.666758,-79.403654,,,,,,1
 9049,4718,"100 Wynford Dr (Bell Canada)","",43.726559,-79.33177,,,,,,1
+9050,3065,"Queen St East at Parliament St","",43.655688,-79.364283,,,,,,1
 9051,3706,"Horner Ave at Thirtieth St","",43.604404,-79.533571,,,,,,2
 9052,13457,"1111 Arrow Rd","",43.751265,-79.534408,,,,,,1
 9053,7979,"Millwood Rd at McRae Dr","",43.704797,-79.367852,,,,,,1
@@ -6970,7 +6888,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 9081,2018,"Dufferin St at Auburn Ave","",43.675421,-79.441934,,,,,,1
 9082,10866,"Steeles Ave West at Markbrook Lane","",43.759939,-79.586358,,,,,,1
 9083,6638,"Parliament St at Howard St South Side","",43.671114,-79.37085,,,,,,1
-9084,83,"Bathurst St at Ardmore Rd","",43.693588,-79.422448,,,,,,1
 9085,9618,"Midland Ave at Midland Station","",43.770503,-79.271864,,,,,,1
 9086,5660,"McCowan Rd at Bellechasse St North Side","",43.761348,-79.247246,,,,,,1
 9087,9965,"Sheppard Ave East at Gateforth Dr","",43.79572,-79.230168,,,,,,1
@@ -6983,7 +6900,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 9094,1,"Alness St at Dolomite Dr","",43.77939,-79.475411,,,,,,1
 9096,8348,"12 Thorncliffe Park Dr","",43.704579,-79.348905,,,,,,2
 9097,11804,"McCowan Rd at Devonshire Ave","",43.838597,-79.277317,,,,,,1
-9098,4673,"50 Toryork Dr","",43.754615,-79.546478,,,,,,1
 9099,8089,"Sentinel Rd at Lamberton Blvd","",43.753941,-79.499671,,,,,,1
 9100,651,"Broadview Ave at Chester Hill Rd","",43.681397,-79.357724,,,,,,1
 9101,9165,"1165 Leslie St","",43.727576,-79.351398,,,,,,2
@@ -7031,7 +6947,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 9149,2535,"Finch Ave East at Midland Ave","",43.803931,-79.286077,,,,,,1
 9151,9070,"York Mills Rd at Don Mills Rd","",43.755569,-79.347425,,,,,,1
 9152,10914,"Kingston Rd at Choiceland Blvd","",43.787226,-79.164653,,,,,,1
-9153,4429,"22 Le Page Crt","",43.758608,-79.48726,,,,,,1
 9154,7661,"Dufferin St at Supertest Rd","",43.778085,-79.46926,,,,,,1
 9155,6601,"Middlefield Rd at Opposite Walkway to Buckhurst Cres","",43.805305,-79.254551,,,,,,1
 9156,10559,"Warden Ave at Alden Rd South Side","",43.837188,-79.329261,,,,,,1
@@ -7047,7 +6962,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 9166,11342,"4400 Dufferin St","",43.765559,-79.46634,,,,,,1
 9169,6611,"150 Neptune Dr","",43.729713,-79.441202,,,,,,1
 9170,8659,"211 The West Mall","",43.630067,-79.559337,,,,,,1
-9171,9819,"McCowan Rd at Walkway to Enchanted Hills Cres","",43.828786,-79.275376,,,,,,1
 9172,5361,"Lawrence Ave West at Dufferin St","",43.714223,-79.454377,,,,,,1
 9173,4632,"St Clair Ave West at Tweedsmuir Ave West Side","",43.684089,-79.41371,,,,,,1
 9174,1558,"St Clair Ave East at Danforth Rd","",43.717085,-79.259368,,,,,,1
@@ -7163,7 +7077,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 9304,3121,"St Clair Ave East at Squires Ave","",43.707958,-79.300873,,,,,,1
 9305,5639,"Martin Grove Rd at Rexdale Blvd","",43.713597,-79.580768,,,,,,1
 9306,8104,"Sloane Ave at Eglinton Ave East North Side","",43.726471,-79.313187,,,,,,1
-9307,7009,"Royal York Rd at Evans Ave North Side","",43.621502,-79.500447,,,,,,1
 9308,6759,"Pharmacy Ave at Surrey Ave","",43.737505,-79.302417,,,,,,1
 9309,13890,"King St West at Spencer Ave","",43.63831,-79.430761,,,,,,2
 9310,23,"Annette St at Dundas St West","",43.664325,-79.458835,,,,,,1
@@ -7208,7 +7121,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 9352,1657,"Wilson Ave at Dufferin St","",43.731854,-79.459521,,,,,,1
 9353,8064,"Rangoon Rd at Hagersville Crt","",43.663964,-79.577647,,,,,,1
 9354,5238,"Lawrence Ave East at Brimley Rd West Side","",43.753545,-79.255814,,,,,,1
-9355,13936,"Cherry St at Unwin Ave","",43.639101,-79.346823,,,,,,1
 9356,3800,"Islington Ave at Great Oak Dr","",43.660902,-79.530629,,,,,,1
 9358,7323,"Sherbourne St at King St East","",43.651428,-79.368398,,,,,,1
 9359,243,"Bay St at Dundas St West","",43.65552,-79.383541,,,,,,1
@@ -7415,7 +7327,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 9593,11056,"Van Stassen Blvd at Skylark Rd","",43.66195,-79.496244,,,,,,2
 9594,13894,"Opposite 1000 New Westminster Dr","",43.816059,-79.455099,,,,,,2
 9595,5039,"East Ave at Kirkdene Dr","",43.79529,-79.137805,,,,,,1
-9596,5848,"Mt Pleasant Rd at Wanless Ave","",43.727719,-79.397392,,,,,,1
 9597,1757,"Broadview Ave at Gerrard St East","",43.665274,-79.352444,,,,,,2
 9598,9050,"Yonge St at Sheppard Ave West - Sheppard Station","",43.761686,-79.411123,,,,,,1
 9599,13872,"Dynamic Dr at Passmore Ave","",43.829769,-79.253294,,,,,,1
@@ -7543,7 +7454,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 9749,6284,"250 Carlaw Ave","",43.662884,-79.340914,,,,,,1
 9750,1384,"Neilson Rd at Livonia Pl","",43.78543,-79.206107,,,,,,1
 9751,3801,"Islington Ave at Hilldowntree Rd","",43.659199,-79.529675,,,,,,1
-9752,405,"Birchmount Rd at Ellendale Dr","",43.758141,-79.289345,,,,,,2
 9753,6271,"Brown's Line at Rimilton Ave","",43.603759,-79.545963,,,,,,1
 9754,13953,"Underpass Gate at Roywood Dr","",43.762471,-79.3356,,,,,,1
 9756,5302,"Lawrence Ave East at Overture Rd","",43.765307,-79.199552,,,,,,1
@@ -7555,7 +7465,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 9762,4933,"Culford Rd at Valencia Cres","",43.708185,-79.488379,,,,,,1
 9764,7189,"Sheppard Ave East at Hawksbury Dr","",43.767965,-79.383021,,,,,,1
 9765,4377,"Kipling Ave at Stevenson Rd","",43.744609,-79.582868,,,,,,1
-9766,4120,"Kennedy Rd at Reidmount Ave South Side","",43.788431,-79.290744,,,,,,1
 9767,2098,"Dufferin St at Sylvan Ave North Side","",43.655107,-79.433431,,,,,,1
 9769,4315,"Kipling Ave at Goswell Rd","",43.649147,-79.538702,,,,,,2
 9770,6794,"Prince Edward Dr South at Sunnylea Ave West","",43.641652,-79.502575,,,,,,2
@@ -7763,7 +7672,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 10003,1116,"Gerrard St East  at Bowmore Rd","",43.67819,-79.314912,,,,,,2
 10005,3946,"Jane St at Yorkwoods Gate","",43.750665,-79.515863,,,,,,1
 10007,5365,"Lawrence Ave West at Duplex Ave","",43.724245,-79.405751,,,,,,2
-10008,4112,"Kennedy Rd at Bonis Ave South Side","",43.785211,-79.289393,,,,,,1
 10010,7723,"Elmhurst Dr at Albion Rd West Side","",43.725017,-79.551193,,,,,,1
 10011,2304,"Eglinton Ave East at Redpath Ave","",43.707755,-79.392936,,,,,,1
 10012,13686,"251 Consumers Rd","",43.77037,-79.330219,,,,,,1
@@ -7857,7 +7765,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 10111,12202,"Lawrence West Station","",43.716048,-79.444092,,,,,,2
 10112,1327,"Midland Ave at Lorraine Ave","",43.730662,-79.256386,,,,,,1
 10113,9356,"Steeles Ave East at Mountcastle Gate","",43.82074,-79.320341,,,,,,1
-10114,10922,"Steeles Ave East at McCowan Rd","",43.831245,-79.274918,,,,,,1
 10115,809,"College St at Augusta Ave","",43.65724,-79.403252,,,,,,2
 10116,6243,"Bannatyne Dr at Davean Dr","",43.760329,-79.368381,,,,,,1
 10118,11559,"6655 Airport Rd","",43.696429,-79.632365,,,,,,2
@@ -7903,7 +7810,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 10165,8513,"Victoria Park Ave at Sweeney Dr South Side","",43.736564,-79.307686,,,,,,1
 10166,5196,"Lake Shore Blvd West at Park Lawn Rd West Side","",43.622602,-79.481558,,,,,,1
 10167,5250,"Lawrence Ave East at Bridgeport Dr","",43.778477,-79.140996,,,,,,1
-10168,408,"Birchmount Rd at Exford Dr North Side","",43.754918,-79.287706,,,,,,1
 10170,8334,"Sutherland Dr at Rolph Rd","",43.700469,-79.367108,,,,,,1
 10171,993,"1234 Dupont St","",43.668239,-79.44172,,,,,,1
 10172,5930,"O'Connor Dr at Glenwood Cres","",43.702345,-79.315985,,,,,,1
@@ -7913,12 +7819,10 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 10177,1494,"Mill Rd at Rathburn Rd Loop","",43.645355,-79.590085,,,,,,1
 10178,7893,"Keele St at Junction Rd","",43.667688,-79.465429,,,,,,1
 10179,1030,"Dupont St at Symington Ave","",43.665812,-79.45108,,,,,,1
-10180,13945,"Cherry St at Unwin Ave North Side","",43.639388,-79.346843,,,,,,1
 10181,1625,"Warden Ave at Mack Ave North Side","",43.700133,-79.275932,,,,,,1
 10182,7583,"Carlingview Dr at Meteor Dr South Side","",43.680524,-79.592833,,,,,,1
 10183,3084,"Queen St West at John St","",43.649947,-79.390954,,,,,,1
 10184,10271,"Linkwood Lane at Opposite 5 Shady Golfway","",43.717633,-79.326338,,,,,,1
-10185,1840,"400 Danforth Rd (Birchmount Garage)","",43.705338,-79.269294,,,,,,2
 10186,3409,"Chaplin Cres at Duncannon Dr","",43.700339,-79.410496,,,,,,2
 10188,13443,"Lambton Ave at Weston Rd West Side","",43.68406,-79.484884,,,,,,1
 10189,11338,"195-205-215 Wynford Dr","",43.723798,-79.324911,,,,,,1
@@ -7949,7 +7853,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 10219,3718,"Opposite 215 Horner Ave","",43.607917,-79.517485,,,,,,1
 10220,9558,"Milner Ave at Burrows Hall Blvd","",43.794918,-79.219399,,,,,,1
 10221,1521,"Royal York Rd at Usher Ave","",43.655551,-79.514837,,,,,,1
-10222,1599,"2501 Steeles Ave West","",43.784126,-79.48278,,,,,,1
 10224,7582,"Carlingview Dr at Renforth Dr","",43.677397,-79.591443,,,,,,1
 10225,1978,"Don Mills Rd at Wynford Dr","",43.723169,-79.339832,,,,,,1
 10226,1671,"YONGE ST AT FRONT ST WEST","",43.646785,-79.377161,,,,,,1
@@ -8172,7 +8075,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 10478,5969,"Ossington Ave at Hallam St","",43.667784,-79.427976,,,,,,1
 10479,8693,"Weston Rd at Aura Lea Blvd","",43.723246,-79.536833,,,,,,1
 10480,2239,"Eglinton Ave East at Bayview Ave","",43.711241,-79.376821,,,,,,1
-10482,6783,"Prince Edward Dr South at Kingslea Gardens","",43.640679,-79.501964,,,,,,1
 10483,11914,"Front St East at Parliament St","",43.651418,-79.362968,,,,,,1
 10484,8246,"Steeles Ave East at Willowdale Ave","",43.79913,-79.414582,,,,,,1
 10485,11106,"Three Valleys Dr at Groveland Cres","",43.751639,-79.335076,,,,,,1
@@ -8334,7 +8236,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 11012,927,"Bedford Rd at Davenport Rd","",43.67413,-79.399631,,,,,,1
 11013,2937,"Morningside Ave at Coronation Dr North Side","",43.762152,-79.183604,,,,,,1
 11014,2952,"Morningside Ave at Lawrence Ave East South Side","",43.768225,-79.186029,,,,,,1
-11015,2950,"Morningside Ave at Kingston Rd","",43.770429,-79.186653,,,,,,1
 11016,2954,"Morningside Ave at Ling Rd","",43.766498,-79.185497,,,,,,1
 11017,2967,"Morningside Ave at Sheppard Ave East","",43.802147,-79.200072,,,,,,1
 11018,2931,"Opposite 1315 Morningside Ave","",43.805736,-79.201285,,,,,,1
@@ -8376,7 +8277,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 11069,2689,"Guildwood Pkwy at Scarcliff Gardens","",43.751101,-79.183093,,,,,,2
 11070,9501,"Morningside Ave at Halfway Ave","",43.81788,-79.213959,,,,,,1
 11071,2769,"Kingston Rd at Brinloor Blvd","",43.74133,-79.214529,,,,,,1
-11072,2686,"Guildwood Pkwy at Prince Philip Blvd","",43.746245,-79.202992,,,,,,1
 11073,2960,"Morningside Ave at Milner Ave","",43.800408,-79.199317,,,,,,1
 11074,2929,"Opposite 1275 Morningside Ave","",43.803405,-79.200274,,,,,,1
 11075,2944,"Morningside Ave at Fordover Dr","",43.75464,-79.180325,,,,,,1
@@ -8396,12 +8296,9 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 11091,2787,"Kingston Rd at Muir Dr West Side","",43.743244,-79.212491,,,,,,1
 11092,2369,"Eglinton Ave West at Keele St/Trethewey Dr","",43.689983,-79.475291,,,,,,1
 11093,2687,"Guildwood Pkwy at Rowatson Rd East Side","",43.747041,-79.200909,,,,,,1
-11094,2688,"Guildwood Pkwy at Rowatson Rd","",43.747222,-79.201165,,,,,,1
 11095,11383,"Morrish Rd at Grantown Ave","",43.792886,-79.174542,,,,,,1
 11096,2966,"Morningside Ave at Sheppard Ave East","",43.801848,-79.199507,,,,,,1
-11097,11379,"Canmore Blvd at Conlins Rd East Side","",43.793077,-79.184515,,,,,,1
 11098,2964,"Morningside Ave at Pixley Cres","",43.760016,-79.182665,,,,,,1
-11099,10905,"Conlins Rd at Challenger Crt","",43.791661,-79.184608,,,,,,1
 11100,2675,"Guildwood Pkwy at Chancery Lane","",43.748356,-79.195698,,,,,,1
 11101,2940,"Morningside Ave at Danzig St","",43.764773,-79.184746,,,,,,1
 11102,2953,"Morningside Ave at Lawrence Ave East","",43.768582,-79.186385,,,,,,1
@@ -8418,7 +8315,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 11113,2678,"Guildwood Pkwy at Guild Inn East Side","",43.748725,-79.193456,,,,,,1
 11114,2677,"Guildwood Pkwy at Forsythia Dr","",43.750205,-79.187147,,,,,,1
 11115,333,"Bedford Rd at Bernard Ave South Side","",43.673121,-79.399388,,,,,,1
-11116,6607,"Morningside Ave at Lawrence Ave East North Side","",43.769376,-79.186259,,,,,,1
 11117,2938,"Morningside Ave at Coronation Dr","",43.76203,-79.183779,,,,,,1
 11118,2930,"1315 Morningside Ave","",43.805598,-79.20091,,,,,,1
 11119,2945,"Morningside Ave at Gardentree St South Side","",43.759612,-79.182708,,,,,,1
@@ -8431,6 +8327,7 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 11127,2197,"Dundas St West at Yonge St - Dundas Station","",43.65619,-79.38119,,,,,,2
 11128,2136,"Dundas St East at Yonge St - Dundas Station","",43.656426,-79.380755,,,,,,2
 11154,15594,"Renforth Station","",43.66359,-79.590572,,,,,,1
+11155,15595,"UNIVERSITY AVE AT DUNDAS ST WEST SOUTH (ST PATRICK","",43.654527,-79.388289,,,,,,1
 11158,15596,"Major Mackenzie Dr East at McCowan Rd West Side","",43.903427,-79.294134,,,,,,1
 11159,15597,"McCowan Rd at Walkway To Snowden Cir - Centennial GO Station","",43.875011,-79.286562,,,,,,1
 11161,15599,"Renforth Station","",43.663613,-79.590482,,,,,,1
@@ -8438,7 +8335,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 11163,9993,"McCowan Rd at Elson St","",43.834965,-79.27602,,,,,,1
 11164,11871,"Arrow Division Transportation Office","",43.745186,-79.53261,,,,,,2
 11165,13627,"The Bridle Walk at Drawbridge Dr","",43.897354,-79.308696,,,,,,1
-11172,10221,"Harbord St at Manning Ave","",43.660607,-79.414566,,,,,,2
 11173,15633,"Queen St West at Abell St","",43.643197,-79.424093,,,,,,2
 11174,15635,"King St West at Jarvis St West Side","",43.650391,-79.372454,,,,,,2
 11175,15636,"King St West at Jarvis St East Side","",43.650541,-79.371287,,,,,,2
@@ -8461,11 +8357,11 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 11193,11248,"Raab Blvd at Hospital Rd West Side (K & L Wings)","",43.72264,-79.375956,,,,,,1
 11194,1729,"Hospital Rd at Wellness Way East Side - Sunnybrook Main Entr","",43.72178,-79.376853,,,,,,1
 11195,9394,"Hospital Rd at Wellness Way East Side - Sunnybrook Main Entr","",43.72182,-79.376728,,,,,,1
-11196,10220,"Harbord St at Manning Ave","",43.660422,-79.41477,,,,,,1
 11204,7548,"Birchmount Rd at Danforth Rd","",43.707213,-79.26833,,,,,,1
 11205,15565,"Finch West Station Bus Bay 2","",43.765364,-79.490954,,,,,,1
 11206,15566,"Finch West Station Bus Bay 3","",43.765126,-79.490896,,,,,,1
 11207,15567,"Finch West Station Bus Bay 4","",43.764919,-79.490859,,,,,,1
+11208,15568,"Finch West Station Bus Bay 5","",43.764723,-79.49081,,,,,,1
 11209,15653,"Keele St at Four Winds Dr - Finch West Station","",43.765411,-79.491477,,,,,,1
 11210,15631,"Sheppard Ave West at Vitti St - Downsview Park Station","",43.754173,-79.480489,,,,,,1
 11211,15632,"FINCH AVE WEST AT TANGIERS RD EAST SIDE","",43.764122,-79.487775,,,,,,1
@@ -8511,6 +8407,7 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 11265,15578,"Pioneer Village Station Bus Bay 9","",43.776996,-79.509404,,,,,,1
 11266,15579,"Pioneer Village Station Bus Bay 10","",43.776902,-79.509087,,,,,,1
 11267,15580,"Pioneer Village Station Bus Bay 11","",43.776839,-79.508835,,,,,,1
+11268,15581,"Pioneer Village Station Bus Bay 12","",43.776783,-79.50861,,,,,,1
 11269,15619,"Ian MacDonald Blvd at Shoreham Dr South Side","",43.772143,-79.511401,,,,,,2
 11272,12327,"Clayson Rd at Bartor Rd (South)","",43.721056,-79.524609,,,,,,1
 11273,15400,"Clayson Rd at Huxley Rd","",43.723726,-79.525589,,,,,,1
@@ -8518,9 +8415,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 11285,6908,"The Queensway at Parkside Dr","",43.639665,-79.453923,,,,,,2
 11336,14786,"VICTORIA PARK STATION AT BUS BAY 2","",43.693413,-79.288103,,,,,,1
 11337,15357,"Gerrard St East at Woodfield Rd","",43.671946,-79.323676,,,,,,2
-11338,15693,"Bluffers Park Rd at Brimley Rd East Side","",43.708398,-79.234589,,,,,,1
-11339,15694,"Bluffers Park Rd at Brimley Rd","",43.708394,-79.234803,,,,,,2
-11340,15695,"Scarborough Bluffs Beach Loop at Bluffers Park","",43.712799,-79.22858,,,,,,2
 17650,15336,"Queen St East at Woodfield Rd","",43.665141,-79.32153,,,,,,2
 17651,15337,"Queen St East at Woodfield Rd","",43.665353,-79.321174,,,,,,2
 17652,15338,"Queen St East at Bellefair Ave","",43.669987,-79.299922,,,,,,2
@@ -8549,7 +8443,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 18254,15722,"LAKE SHORE BLVD WEST AT ROYAL YORK RD","",43.603544,-79.493189,,,,,,2
 18255,15721,"LAKE SHORE BLVD WEST AT MILES RD","",43.608194,-79.490239,,,,,,2
 18256,15720,"LAKE SHORE BLVD WEST AT NORRIS CRES","",43.610819,-79.489952,,,,,,2
-18260,99964,"Test Stop 4","",43.735328,-79.453644,,,,,,0
 18279,12880,"The West Mall at Paxman Rd South Side","",43.623919,-79.559741,,,,,,1
 18280,12881,"The West Mall at Paxman Rd","",43.623927,-79.559414,,,,,,1
 18281,15728,"135 The West Mall","",43.620127,-79.561551,,,,,,1
@@ -8627,6 +8520,7 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 18654,15818,"1965 Brimley Rd","",43.785142,-79.26694,,,,,,1
 18655,15819,"1994 Brimley Rd","",43.785662,-79.267363,,,,,,1
 18656,15821,"Humber College Blvd at Westmore Dr - Etobicoke General Hospi","",43.730755,-79.599631,,,,,,1
+18660,15824,"York St at King St West North Side","",43.648286,-79.383684,,,,,,2
 18724,15820,"St Clair Ave East at Warden Ave","",43.711871,-79.281313,,,,,,1
 18725,15822,"Bermondsey Rd at Northline Rd","",43.715287,-79.312522,,,,,,1
 18727,15825,"West Toronto St at Keele St","",43.66986,-79.467001,,,,,,1
@@ -8634,6 +8528,7 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 18729,15827,"Dundas St West at Runnymede Rd","",43.665512,-79.481639,,,,,,1
 18731,13702,"Dundas St West at Dundas West Outer Platform","",43.656768,-79.453253,,,,,,2
 18740,11780,"Keele St at Bloor St West - Keele Station","",43.654873,-79.460164,,,,,,1
+18751,15838,"University Ave at Adelaide St West","",43.648956,-79.385771,,,,,,1
 18752,15839,"BERKELEY ST AT KING ST EAST","",43.652039,-79.364296,,,,,,1
 18759,15844,"Caledonia Rd at Lawrence Ave West North Side","",43.711795,-79.466533,,,,,,1
 18778,9048,"Yonge St at Sheppard Ave East North Side - Sheppard Station","",43.762183,-79.410937,,,,,,1
@@ -8649,7 +8544,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 18798,6539,"MARLEE AVE AT EGLINTON AVE WEST","",43.698429,-79.439457,,,,,,1
 18801,15870,"Laird Dr at Commercial Rd South Side","",43.708293,-79.362815,,,,,,1
 18812,15849,"Humber College Blvd at Finch Ave W","",43.733516,-79.610123,,,,,,1
-18816,15873,"- Dundas St E at Regent Park Blvd WB","",43.660471,-79.361655,,,,,,0
 18817,15872,"Dundas St East at Regent Park Blvd","",43.660247,-79.361966,,,,,,2
 18818,15873,"Dundas St East at Regent Park Blvd","",43.66045,-79.361739,,,,,,2
 18821,15878,"Turtle Island Rd at Lawrence Heights Way","",43.722071,-79.441647,,,,,,1
@@ -8768,7 +8662,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 28641,16127,"Durnford Rd at Durness Ave","",43.800394,-79.150948,,,,,,2
 28642,16128,"Durnford Rd at Tallpines Park South Side","",43.798663,-79.150156,,,,,,2
 28643,16190,"Islington Ave at Dundas St West South Side","",43.650745,-79.526258,,,,,,1
-28645,16193,"Mill St at Parliament St","",43.65038,-79.361807,,,,,,1
 28646,16194,"Opposite 3574 Eglinton Ave West","",43.686262,-79.492179,,,,,,1
 28647,16195,"3574 Eglinton Ave West","",43.68642,-79.49232,,,,,,1
 30146,16233,"Sheppard Ave West at Quilter Rd","",43.759994,-79.418241,,,,,,1
@@ -8826,7 +8719,7 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 36128,2414,"Eglinton Ave West at Trethewey Dr/Keele St","",43.690375,-79.474368,,,,,,1
 36777,16333,"Scarborough Centre Station at Bus Bay 6","",43.774771,-79.256867,,,,,,1
 36778,16334,"Scarborough Centre Station at Bus Bay 7","",43.774789,-79.256643,,,,,,1
-36780,16347,"Milner Ave at Markham Rd East Side","",43.789622,-79.236396,,,,,,1
+36780,16347,"Milner Ave at Markham Rd East Side","",43.789729,-79.235872,,,,,,1
 36783,16350,"Castle Frank Station at Bus Bay 1","",43.673323,-79.369448,,,,,,1
 36785,803,"Church St at Richmond St East","",43.652637,-79.375624,,,,,,2
 37368,14764,"Scarborough Centre Station at Bus Bay 5","",43.774583,-79.257626,,,,,,1
@@ -8855,6 +8748,7 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 39376,16369,"Finch Ave East at Tapscott Rd East Side","",43.814291,-79.236357,,,,,,1
 39377,16368,"Finch Ave East at Tapscott Rd West Side","",43.81414,-79.23788,,,,,,1
 39379,16372,"St.Clair West Station","",43.683866,-79.415157,,,,,,1
+39380,16371,"St.Clair West Station","",43.683705,-79.415107,,,,,,1
 39381,3413,"Chaplin Cres at Eglinton Ave West North Side","",43.703026,-79.417896,,,,,,2
 39382,8420,"Vaughan Rd at St Clair Ave West","",43.682997,-79.420583,,,,,,2
 40023,15283,"Coxwell Station at Bus Bay 3","",43.684049,-79.323051,,,,,,1
@@ -8912,7 +8806,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 42362,14635,"Broadview Station at Bus Bay 2","",43.677011,-79.358044,,,,,,1
 42363,9951,"Bathurst Street at St Clair Avenue West","",43.682754,-79.41807,,,,,,2
 42364,15887,"Centennial College Bus Terminal","",43.785912,-79.229343,,,,,,1
-42365,16435,"Cherry St at Commissioners St","",43.645092,-79.354028,,,,,,1
 42366,16463,"Victoria Park Ave at Conroy Ave","",43.701697,-79.293013,,,,,,1
 42367,16487,"Ossington Ave at Salvador Allende Ct","",43.672291,-79.430031,,,,,,1
 42368,16488,"Davenport Rd at Bartlett Ave North","",43.673829,-79.438152,,,,,,1
@@ -9037,8 +8930,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 42578,16571,"Finch Ave West at Arrow Rd","",43.753237,-79.535646,,,,,,1
 42579,11918,"Commissioners St at Carlaw Ave","",43.65275,-79.335401,,,,,,1
 42580,16655,"1410 Military Trail","",43.782914,-79.178372,,,,,,1
-42581,16678,"Lake Shore Blvd East at Northern Dancer Blvd","",43.663493,-79.309595,,,,,,1
-42582,16679,"Lake Shore Blvd East at Northern Dancer Blvd","",43.663287,-79.309919,,,,,,1
 42583,11915,"Commissioners St at Carlaw Ave","",43.652463,-79.335737,,,,,,1
 42584,16681,"Pharmacy Ave at Sheppard Ave East","",43.777242,-79.318325,,,,,,1
 42585,16682,"O'Connor Dr at Curity Ave West Side","",43.707641,-79.311296,,,,,,1
@@ -9079,7 +8970,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 42828,16739,"450 Evans Ave","",43.614589,-79.531953,,,,,,1
 42876,2425,"Emmett Ave at Eglinton Ave West North Side","",43.684724,-79.503976,,,,,,1
 42877,16099,"Roselawn Ave at Marlee Ave West Side","",43.702282,-79.441417,,,,,,1
-42878,16101,"Roselawn Ave at Times Rd","",43.701321,-79.445926,,,,,,2
 42879,16102,"Roselawn Ave at Beograd Gardens","",43.701052,-79.446411,,,,,,1
 42880,16104,"Castlefield Ave at Dufferin St","",43.700628,-79.45198,,,,,,1
 42881,16105,"Castlefield Ave at Fairbank Ave","",43.70016,-79.45477,,,,,,1
@@ -9127,6 +9017,88 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 42923,16757,"Eglinton Ave West at Russell Rd","",43.681064,-79.533411,,,,,,1
 42924,11831,"Vaughan Rd at Oakwood Ave","",43.692555,-79.440589,,,,,,1
 42925,11830,"Vaughan Rd at Glenora Ave","",43.691416,-79.438569,,,,,,1
+42956,15888,"University Ave at Richmond St W","",43.650139,-79.386393,,,,,,1
+42957,15935,"University Ave at King St West","",43.647567,-79.384613,,,,,,2
+42958,16065,"Spadina Rd at Spadina Station","",43.667307,-79.40399,,,,,,2
+42959,16412,"2425 Kennedy Rd","",43.788091,-79.290362,,,,,,1
+42960,16414,"Kennedy Rd at Bonis Ave","",43.785876,-79.289679,,,,,,1
+42961,16415,"Lawson Rd at Roydawn Ct","",43.785911,-79.157582,,,,,,1
+42962,16416,"Lawson Rd at Satchell Blvd West Side","",43.786135,-79.157282,,,,,,1
+42963,16418,"Opposite 2423 Kennedy Rd","",43.787714,-79.2904,,,,,,1
+42964,16419,"Steeles Ave West at Alness St West Side","",43.784591,-79.481821,,,,,,1
+42965,16446,"Danforth Rd at Cotton Ave","",43.712375,-79.262198,,,,,,1
+42966,16447,"The Bridle Path at Park Lane Circle","",43.730565,-79.361278,,,,,,1
+42967,16448,"Prince Edward Dr South at Kingslea Gardens","",43.640967,-79.502114,,,,,,1
+42968,16451,"Lawrence Ave East at The Bridle Path","",43.733595,-79.364779,,,,,,1
+42969,16467,"Woodbine Ave at Eastwood Rd South Side","",43.67612,-79.308948,,,,,,1
+42970,16477,"Danforth Rd at Falmouth Ave","",43.730828,-79.250888,,,,,,1
+42971,16492,"Keele St at Denbigh Cres South Side","",43.738078,-79.484953,,,,,,1
+42972,16514,"Downsview Park Blvd at George Butchart Dr","",43.736619,-79.482071,,,,,,1
+42973,16493,"Millwick Dr at Plunkett Rd","",43.760326,-79.570189,,,,,,1
+42974,16495,"Millwick Dr at Milvan Dr","",43.760565,-79.566249,,,,,,1
+42975,16496,"Millwick Dr at Milvan Dr West Side","",43.760753,-79.566262,,,,,,1
+42976,16498,"243 Toryork Dr","",43.762101,-79.563385,,,,,,1
+42977,16501,"157 Toryork Dr","",43.758616,-79.55592,,,,,,1
+42978,16502,"143 Toryork Dr","",43.75765,-79.554271,,,,,,1
+42979,16519,"Conlins Rd at Canmore Blvd","",43.792811,-79.185067,,,,,,1
+42980,16503,"113 Toryork Dr","",43.756462,-79.551388,,,,,,1
+42981,16504,"61 Toryork Dr","",43.755184,-79.54833,,,,,,1
+42982,16505,"Toryork Dr at Weston Rd","",43.753219,-79.543188,,,,,,1
+42983,16506,"97 Milvan Dr","",43.755878,-79.559079,,,,,,1
+42984,16507,"55 Milvan Dr","",43.754206,-79.555796,,,,,,1
+42985,16508,"Milvan Dr at Penn Drive S North Side","",43.751683,-79.552922,,,,,,1
+42986,16509,"135 Milvan Dr","",43.757414,-79.562899,,,,,,1
+42987,16559,"Sheppard Ave West at John Drury Dr","",43.747975,-79.482862,,,,,,1
+42988,16560,"Sheppard Ave West at Chesswood Dr","",43.755609,-79.474732,,,,,,1
+42989,16568,"Vanderhoof Ave at Brian Peck Cres","",43.71375,-79.354727,,,,,,1
+42990,16569,"Vanderhoof Ave at Brian Peck Cres","",43.713947,-79.354254,,,,,,1
+42991,16586,"Mount Dennis Station at Bus Bay 3","",43.688453,-79.487701,,,,,,1
+42992,16588,"Mount Dennis Station at Bus Bay 5","",43.68849,-79.488247,,,,,,1
+42993,16589,"Mount Dennis Station at Bus Bay 6","",43.688581,-79.488453,,,,,,1
+42994,16590,"Mount Dennis Station at Bus Bay 7","",43.688701,-79.488685,,,,,,1
+42995,16591,"Mount Dennis Station at Bus Bay 8","",43.68881,-79.488917,,,,,,1
+42996,16592,"Mount Dennis Station at Bus Bay 9","",43.688881,-79.488681,,,,,,1
+42997,16593,"Mount Dennis Station at Bus Bay 10","",43.688777,-79.488464,,,,,,1
+42998,16596,"Mount Dennis Station at Bus Bay 13","",43.688658,-79.487557,,,,,,1
+42999,16720,"Birchmount Rd at Laura Secord Walk","",43.755758,-79.288096,,,,,,1
+43000,16721,"Birchmount Rd at Burcana Rd South Side","",43.75869,-79.289539,,,,,,1
+43001,16722,"4325 McCowan Rd","",43.82936,-79.275182,,,,,,1
+43002,16738,"Guildwood Pkwy at Rowatson Rd West Side","",43.747076,-79.201689,,,,,,1
+43003,16742,"Castleton Ave at Corbett Ave South Side","",43.671467,-79.487002,,,,,,1
+43004,16743,"Royal York Rd at Algoma St","",43.620671,-79.500148,,,,,,1
+43005,16744,"Dundas St West at Cordova Ave East Side","",43.648986,-79.528408,,,,,,1
+43006,16745,"Pharmacy Ave at Dolphin Dr","",43.699963,-79.286549,,,,,,1
+43007,16751,"Davenport Rd at Christie St","",43.675744,-79.422799,,,,,,1
+43008,16752,"Davenport Rd at Dovercourt Rd","",43.674162,-79.435039,,,,,,1
+43009,16758,"Don Mills Rd at Walkway to O'Shea Crescent","",43.785204,-79.353606,,,,,,1
+43010,16759,"Jane St at York Gate Blvd","",43.761601,-79.518819,,,,,,1
+43011,16765,"Danforth Rd at Hart Ave","",43.718951,-79.258499,,,,,,1
+43012,16766,"255 Morningside Ave","",43.769947,-79.186503,,,,,,1
+43013,16768,"Sheppard Ave East at Allanford Rd","",43.782311,-79.293126,,,,,,1
+43014,16769,"Sheppard Ave East at Allanford Rd","",43.781944,-79.293625,,,,,,1
+43015,16770,"Opposite 3526 Sheppard Ave East","",43.780022,-79.301922,,,,,,1
+43016,16771,"3530 Sheppard Ave East","",43.780407,-79.301372,,,,,,1
+43017,16790,"Harbord St at Clinton St","",43.66018,-79.415965,,,,,,1
+43018,16791,"Harbord St at Palmerston Blvd","",43.660889,-79.412405,,,,,,1
+43019,16793,"Harbord St at Clinton St","",43.660404,-79.415704,,,,,,1
+43020,16792,"Harbord St at Palmerston Blvd","",43.661149,-79.412006,,,,,,1
+43021,16794,"Danforth Rd at Pilkington Dr","",43.704584,-79.269724,,,,,,1
+43022,16795,"Danforth Rd at Seminoff St","",43.702918,-79.270835,,,,,,1
+43023,16796,"Duncan Mill Rd at Valleybrook Dr East Side","",43.761764,-79.352754,,,,,,1
+43024,16797,"St Clair Ave East at Midland Ave West Side","",43.718631,-79.252181,,,,,,1
+43025,16669,"Steeles Ave E at McCowan Rd West Side","",43.830858,-79.27639,,,,,,1
+43026,16804,"Kingston Rd at Port Union Rd","",43.798675,-79.146425,,,,,,1
+43027,16805,"Kingston Rd at Sheppard Ave East West Side","",43.79855,-79.146975,,,,,,1
+43028,16806,"Kingston Rd at Rylander Blvd","",43.797281,-79.148975,,,,,,1
+43029,16807,"Port Union Rd at Tilley Dr","",43.788615,-79.140347,,,,,,1
+43030,16808,"Port Union Rd at Conference Blvd","",43.786023,-79.139246,,,,,,1
+43031,16809,"Lawrence Ave East at Port Union Rd","",43.779626,-79.136112,,,,,,1
+43032,16499,"215 Toryork Dr","",43.760949,-79.560477,,,,,,1
+43033,16500,"Toryork Dr at Ormont Dr","",43.760029,-79.55823,,,,,,1
+43034,16494,"Millwick Dr at Plunkett Rd","",43.760433,-79.570388,,,,,,1
+43035,16810,"McNicoll Ave at Bedle Ave","",43.799717,-79.35672,,,,,,1
+43036,12006,"Hillcrest Gate","",43.674429,-79.416596,,,,,,2
+43037,13518,"Islington Ave at Steeles Ave West","",43.763708,-79.574525,,,,,,1
 11630,11630,"Dufferin Mall","",43.655795,-79.434031,,,,,,1
 11651,11651,"East York Town Centre","",43.705908,-79.347132,,,,,,2
 13478,13478,"3174 Bathurst St","",43.721937,-79.430488,,,,,,1
@@ -9137,15 +9109,15 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 11637,11637,"Lawrence Sq at Northwest Entrance","",43.717187,-79.448281,,,,,,1
 11635,11635,"Toronto Rehab - Bickle Centre at 130 Dunn Ave","",43.635202,-79.432965,,,,,,2
 11631,11631,"55 Rankin Cres","",43.658448,-79.446615,,,,,,2
-11189,11189,"St Dennis Dr at Deauville Lane","",43.718185,-79.331789,,,,,,1
+11132,2686,"Guildwood Pkwy at Prince Philip Blvd","",43.746245,-79.202992,,,,,,1
+11133,11189,"St Dennis Dr at Deauville Lane","",43.718185,-79.331789,,,,,,1
 12174,12174,"La Rose Ave at Scarlett Rd","",43.686547,-79.51461,,,,,,1
-11188,11188,"25 St Dennis Dr","",43.717866,-79.33313,,,,,,1
-11187,11187,"St Dennis Dr at Don Mills Rd East Side","",43.716675,-79.33644,,,,,,1
+11134,11188,"25 St Dennis Dr","",43.717866,-79.33313,,,,,,1
+11135,11187,"St Dennis Dr at Don Mills Rd East Side","",43.716675,-79.33644,,,,,,1
 13477,13477,"Cedarvale Ave at Stan Wadlow Park","",43.698342,-79.31622,,,,,,2
-2029,2029,"Dufferin St at Claver Ave North Side","",43.712672,-79.454298,,,,,,1
-11193,11193,"St Dennis Dr at Don Mills Rd","",43.71677,-79.336676,,,,,,1
+11136,11193,"St Dennis Dr at Don Mills Rd","",43.71677,-79.336676,,,,,,1
 13476,13476,"Cedarvale Ave at Stan Wadlow Park","",43.698314,-79.316375,,,,,,2
-11192,11192,"Opposite 25 St Dennis Dr","",43.717951,-79.33338,,,,,,1
+11137,11192,"Opposite 25 St Dennis Dr","",43.717951,-79.33338,,,,,,1
 14111,14111,"Finch Station - Southbound Platform","",43.780147,-79.415692,,,,,,1
 13789,13789,"North York Centre Station - Southbound Platform","",43.767347,-79.412492,,,,,,1
 13860,13860,"Sheppard-Yonge Station - Southbound Platform","",43.760348,-79.410691,,,,,,1
@@ -9155,7 +9127,7 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 13798,13798,"Davisville Station - Southbound Platform","",43.697048,-79.39689,,,,,,1
 13799,13799,"St Clair Station - Southbound Platform","",43.687449,-79.393089,,,,,,1
 13802,13802,"Summerhill Station - Southbound Platform","",43.682049,-79.390789,,,,,,2
-13803,13803,"Rosedale Station - Southbound Platform","",43.676049,-79.388089,,,,,,2
+13803,13803,"Rosedale Station - Southbound Platform","",43.676049,-79.388089,,,,,,1
 13864,13864,"Bloor Station - Southbound Platform","",43.670049,-79.385389,,,,,,1
 13806,13806,"Wellesley Station - Southbound Platform","",43.664949,-79.383488,,,,,,1
 13807,13807,"College Station - Southbound Platform","",43.660149,-79.382688,,,,,,2
@@ -9199,7 +9171,7 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 13808,13808,"College Station - Northbound Platform","",43.661449,-79.383088,,,,,,2
 13805,13805,"Wellesley Station - Northbound Platform","",43.666149,-79.383788,,,,,,1
 13863,13863,"Bloor Station - Northbound Platform","",43.671044,-79.385918,,,,,,1
-13804,13804,"Rosedale Station - Northbound Platform","",43.677249,-79.388589,,,,,,2
+13804,13804,"Rosedale Station - Northbound Platform","",43.677249,-79.388589,,,,,,1
 13801,13801,"Summerhill Station - Northbound Platform","",43.683349,-79.391189,,,,,,2
 13800,13800,"St Clair Station - Northbound Platform","",43.688649,-79.393489,,,,,,1
 13797,13797,"Davisville Station - Northbound Platform","",43.698248,-79.39729,,,,,,1
@@ -9349,3 +9321,14 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 16713,16713,"123 Guildwood Pkwy - Guildwood Village Shopping Centre","",43.746736,-79.200899,,,,,,1
 16714,16714,"130 Westlake Rd - Guildwood Station","",43.75477,-79.19763,,,,,,1
 16715,16715,"452 Scarborough Golf Club Rd - Masaryktown Homes","",43.755096,-79.214548,,,,,,1
+16165,16165,"Brimorton Dr at Markham Rd","",43.773615,-79.230455,,,,,,1
+16166,16166,"Brimorton Dr at Markham Rd","",43.773329,-79.230905,,,,,,1
+16169,16169,"Brimorton Dr at Bellamy Rd N","",43.767583,-79.238973,,,,,,1
+16170,16170,"Brimorton Dr at Bellamy Rd N","",43.767297,-79.239347,,,,,,1
+16175,16175,"Brimorton Dr at McCowan Rd","",43.765558,-79.248504,,,,,,1
+16798,16798,"Brimorton Dr at Jeffton Cres","",43.770466,-79.220286,,,,,,1
+16799,16799,"Brimorton Dr at Jeffton Cres","",43.770341,-79.219999,,,,,,1
+16800,16800,"Brimorton Dr at Gaitwin Pl","",43.773563,-79.224007,,,,,,1
+16801,16801,"Brimorton Dr at Gaitwin Pl West Side","",43.773715,-79.22382,,,,,,1
+16802,16802,"Brimorton Dr at Amberjack Blvd","",43.770457,-79.235862,,,,,,1
+16803,16803,"Brimorton Dr at Amberjack Blvd","",43.770789,-79.235711,,,,,,1

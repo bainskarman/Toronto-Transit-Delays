@@ -670,27 +670,110 @@ class MapVisualizer {
         return this.legend ? this.legend.getContainer().innerHTML : null;
     }
 
-    onThemeChange(theme) {
-        console.log(`🎨 Updating map for ${theme} theme...`);
+    
+// Replace the entire onThemeChange method with this:
+onThemeChange(theme) {
+    console.log(`🎨 Updating map for ${theme} theme...`);
+    
+    try {
+        // Store current view to restore after tile layer change
+        const currentCenter = this.map.getCenter();
+        const currentZoom = this.map.getZoom();
         
-        // Update tile layer based on theme
+        // Remove ONLY tile layers, preserve other layers (routes, markers, etc.)
         this.map.eachLayer((layer) => {
             if (layer instanceof L.TileLayer) {
-                const newUrl = theme === 'dark' 
-                    ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
-                    : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-                
-                layer.setUrl(newUrl);
+                this.map.removeLayer(layer);
             }
         });
+
+        // Use more reliable tile providers with proper error handling
+        const tileProviders = {
+            dark: [
+                'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+                'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png',
+                'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' // fallback
+            ],
+            light: [
+                'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+                'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png' // fallback
+            ]
+        };
+
+        const primaryUrl = theme === 'dark' ? tileProviders.dark[0] : tileProviders.light[0];
+        const fallbackUrls = theme === 'dark' ? tileProviders.dark.slice(1) : tileProviders.light.slice(1);
+
+        // Create primary tile layer with enhanced configuration
+        const primaryLayer = L.tileLayer(primaryUrl, {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            subdomains: 'abcd',
+            maxZoom: 20,
+            minZoom: 1,
+            noWrap: true,
+            updateWhenIdle: true,
+            reuseTiles: false,
+            crossOrigin: true,
+            detectRetina: true
+        });
+
+        // Add primary layer to map
+        primaryLayer.addTo(this.map);
         
-        // Refresh the current visualization
-        if (this.currentVisualization) {
+        // Set up fallback mechanism
+        let currentFallbackIndex = 0;
+        
+        primaryLayer.on('tileerror', (e) => {
+            console.warn('⚠️ Primary tile failed, trying fallback...');
+            
+            if (currentFallbackIndex < fallbackUrls.length) {
+                // Remove failed layer
+                this.map.removeLayer(primaryLayer);
+                
+                // Add fallback layer
+                const fallbackLayer = L.tileLayer(fallbackUrls[currentFallbackIndex], {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+                    subdomains: 'abcd',
+                    maxZoom: 20,
+                    minZoom: 1,
+                    noWrap: true,
+                    updateWhenIdle: true,
+                    reuseTiles: false,
+                    crossOrigin: true
+                });
+                
+                fallbackLayer.addTo(this.map);
+                currentFallbackIndex++;
+                
+                console.log(`🔄 Switched to fallback tile provider ${currentFallbackIndex}`);
+            }
+        });
+
+        // Force complete map refresh
+        setTimeout(() => {
+            this.map.setView(currentCenter, currentZoom, { animate: false });
+            this.map.invalidateSize({ pan: false });
+            
+            // Double refresh to ensure tiles load
             setTimeout(() => {
-                this.switchVisualization(this.currentVisualization);
+                this.map.invalidateSize({ pan: false });
+                primaryLayer.redraw();
             }, 500);
-        }
+            
+        }, 200);
+
+        console.log(`✅ Map theme updated to ${theme}`);
+
+    } catch (error) {
+        console.error('❌ Error updating map theme:', error);
+        // Emergency fallback to OSM
+        const emergencyLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap',
+            maxZoom: 19
+        }).addTo(this.map);
     }
+}
+
 
     // Public method to get visualization stats
     getVisualizationStats() {

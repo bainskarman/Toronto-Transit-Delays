@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+        /* Fix for map tile loading issues */
+        .leaflet-container {
+            background-color: var(--primary-bg) !important;
+        }
+        
+        /* Ensure map tiles are properly loaded */
+        .leaflet-tile-container {
+            background-color: transparent !important;
+        }
+        
+        /* Fix for white squares during theme transitions */
+        .leaflet-layer {
+            transition: none !important;
+        }
+    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TTC Delay Visualization | Toronto Transit Analysis</title>
@@ -10,6 +26,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Add this to the head section -->
+    
 </head>
 <body>
     <div class="app-container">
@@ -22,22 +40,22 @@
                 <span class="title-icon">🚍</span>
                 TTC Delay Visualization
             </h1>
-            <p class="app-subtitle">Real-time Toronto Transit Commission delay analytics</p>
+            <p class="app-subtitle">Toronto Transit Commission delay analytics</p>
         </div>
         
-        <!-- MOVED TOGGLE BUTTONS HERE -->
+        <!-- ADD THIS SECTION - Visualization Toggles -->
         <div class="header-toggles">
-            <div class="toggle-group" role="tablist" aria-label="Visualization type">
-                <button class="toggle-btn active" data-visual="delay" role="tab" aria-selected="true">
-                    <span class="toggle-icon"></span>
-                    Route Delays
+            <div class="toggle-group">
+                <button class="toggle-btn active" data-visual="delay">
+                    <span class="toggle-icon">⏱️</span>
+                    Delay
                 </button>
-                <button class="toggle-btn" data-visual="comparison" role="tab" aria-selected="false">
-                    <span class="toggle-icon"></span>
+                <button class="toggle-btn" data-visual="comparison">
+                    <span class="toggle-icon">📊</span>
                     Comparison
                 </button>
-                <button class="toggle-btn" data-visual="frequency" role="tab" aria-selected="false">
-                    <span class="toggle-icon"></span>
+                <button class="toggle-btn" data-visual="frequency">
+                    <span class="toggle-icon">📈</span>
                     Frequency
                 </button>
             </div>
@@ -50,7 +68,7 @@
                 </button>
             </div>
             <div class="last-updated">
-                <span class="update-label">Last updated:</span>
+                <span class="update-label">Data Refreshed:</span>
                 <span id="lastUpdated" class="update-time">Loading...</span>
             </div>
         </div>
@@ -111,25 +129,6 @@
                         <div id="searchResults" class="search-results" aria-live="polite"></div>
                     </div>
                 </div>
-
-                <div class="sidebar-section">
-                    <h2 class="section-title">Filter Options</h2>
-                    <div class="filter-group">
-                        <div class="filter-item">
-                            <label for="delayRange" class="filter-label">Delay Threshold</label>
-                            <input type="range" id="delayRange" class="filter-slider" min="0" max="60" value="10">
-                            <span class="filter-value" id="delayValue">10+ min</span>
-                        </div>
-                        <div class="filter-item">
-                            <label for="routeType" class="filter-label">Route Type</label>
-                            <select id="routeType" class="filter-select">
-                                <option value="all">All Routes</option>
-                                <option value="bus">Bus Only</option>
-                                <option value="streetcar">Subway Only</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
             </aside>
 
             <!-- Map Container -->
@@ -182,18 +181,19 @@
                     <h2 class="section-title">Data Summary</h2>
                     <div class="data-summary">
                         <div class="summary-item">
-                            <span class="summary-label">Time Period:</span>
+                            <span class="summary-label">Data Period:</span> <!-- CHANGED: Label -->
                             <span class="summary-value" id="timePeriod">--</span>
                         </div>
                         <div class="summary-item">
-                            <span class="summary-label">Data Points:</span>
+                            <span class="summary-label">Total Delay Incidents:</span> <!-- CHANGED: Label -->
                             <span class="summary-value" id="dataPoints">--</span>
                         </div>
                         <div class="summary-item">
-                            <span class="summary-label">Last Update:</span>
+                            <span class="summary-label">Most Recent Data:</span> <!-- CHANGED: Label -->
                             <span class="summary-value" id="dataUpdate">--</span>
                         </div>
                     </div>
+                </div>
                 </div>
             </aside>
         </main>
