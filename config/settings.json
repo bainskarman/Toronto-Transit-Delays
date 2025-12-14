@@ -162,5 +162,17 @@
     "formats": ["png", "json", "csv"],
     "maxDataPoints": 10000,
     "includeMetadata": true
+  },
+  "liveTracking": {
+    "apiUrl": "https://bustime.ttc.ca/gtfsrt/vehicles",
+    "proxyEndpoint": "/api/live-buses",
+    "refreshInterval": 60000,
+    "maxBusesPerRoute": 20,
+    "colors": {
+      "onTime": "#10b981",
+      "minorDelay": "#f59e0b",
+      "majorDelay": "#ef4444"
+    },
+    "defaultRoute": "16"
   }
 }

@@ -88,6 +88,98 @@ filterDataByDateRange(data, startDate, endDate) {
     
     return filteredData;
 }
+
+// Add this method to DataLoader class
+async fetchLiveBusData(routeId) {
+    console.log(`📡 Fetching live bus data for route ${routeId}...`);
+    
+    try {
+        // In a production environment, you would set up a backend proxy
+        // to avoid CORS issues with the TTC API
+        const proxyUrl = '/api/live-buses'; // Your backend endpoint
+        
+        const response = await fetch(`${proxyUrl}?route=${routeId}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Cache-Control': 'no-cache'
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error(`Failed to fetch live bus data: ${response.statusText}`);
+        }
+        
+        const data = await response.json();
+        console.log(`✅ Received live bus data: ${data.length} buses`);
+        
+        // Process the data into the expected format
+        return data.map(bus => ({
+            vehicle_id: bus.vehicle_id || bus.id,
+            vehicle_label: bus.vehicle_label || `Bus ${bus.vehicle_id || bus.id}`,
+            route_id: bus.route_id || routeId,
+            latitude: parseFloat(bus.latitude),
+            longitude: parseFloat(bus.longitude),
+            speed_mps: bus.speed_mps || bus.speed || 0,
+            bearing: bus.bearing || 0,
+            delay_minutes: bus.delay_minutes || 0,
+            timestamp: bus.timestamp || new Date().toISOString(),
+            occupancy: bus.occupancy || 'UNKNOWN',
+            status: this.getBusStatus(bus.delay_minutes || 0)
+        }));
+        
+    } catch (error) {
+        console.error('❌ Error fetching live bus data:', error);
+        
+        // Fallback to simulated data
+        console.log('⚠️ Using simulated live bus data');
+        return this.getSimulatedLiveBuses(routeId);
+    }
+}
+
+// Helper method for simulated data (for development/testing)
+getSimulatedLiveBuses(routeId) {
+    // Generate 3-8 simulated buses
+    const numBuses = Math.floor(Math.random() * 6) + 3;
+    const buses = [];
+    
+    // Center around Toronto
+    const centerLat = 43.6532;
+    const centerLng = -79.3832;
+    
+    for (let i = 0; i < numBuses; i++) {
+        // Spread buses around the center
+        const lat = centerLat + (Math.random() - 0.5) * 0.05;
+        const lng = centerLng + (Math.random() - 0.5) * 0.05;
+        const speed = Math.random() * 15 + 5; // 5-20 m/s
+        const bearing = Math.random() * 360;
+        const delay = Math.random() * 15; // 0-15 min delay
+        
+        buses.push({
+            vehicle_id: `${routeId}${String(i+1).padStart(3, '0')}`,
+            vehicle_label: `Bus ${routeId}${String(i+1).padStart(3, '0')}`,
+            route_id: routeId,
+            latitude: lat,
+            longitude: lng,
+            speed_mps: speed,
+            bearing: bearing,
+            delay_minutes: delay,
+            timestamp: new Date().toISOString(),
+            occupancy: Math.random() > 0.7 ? 'CROWDED' : 'MANY_SEATS_AVAILABLE',
+            status: this.getBusStatus(delay)
+        });
+    }
+    
+    return buses;
+}
+
+// Helper method to determine bus status
+getBusStatus(delayMinutes) {
+    if (delayMinutes < 2) return 'ON_TIME';
+    if (delayMinutes < 5) return 'MINOR_DELAY';
+    return 'MAJOR_DELAY';
+}
+
 debugDataStructure(data) {
     if (!data || data.length === 0) {
         console.log('❌ No data available for debugging');

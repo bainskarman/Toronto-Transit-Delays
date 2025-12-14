@@ -46,7 +46,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 56,303,"Bayview Ave at Hillcrest Ave","",43.772666,-79.389534,,,,,,1
 57,3174,"Willowridge Rd at Richgrove Dr","",43.675751,-79.568602,,,,,,1
 58,8463,"Victoria Park Ave at Furnival Rd","",43.712557,-79.297658,,,,,,1
-59,484,"BLOOR ST EAST AT SHERBOURNE ST","",43.672207,-79.37707,,,,,,1
 60,5854,"299 Norfinch Dr","",43.768397,-79.531258,,,,,,1
 61,4320,"Kipling Ave at Hayhurst Rd","",43.692199,-79.557813,,,,,,1
 62,7990,"Moore Ave at Orchard Green","",43.696364,-79.374325,,,,,,2
@@ -2488,12 +2487,12 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 3768,14673,"Eglinton Station at Bus Bay 7","",43.705532,-79.399237,,,,,,1
 3769,14674,"Eglinton Station at Bus Bay 8","",43.705572,-79.399461,,,,,,1
 3770,14675,"Eglinton Station at Bus Bay 9","",43.705608,-79.399657,,,,,,1
-3771,14676,"Eglinton West Station at Bus Bay 2","",43.699447,-79.436493,,,,,,1
-3772,14677,"Eglinton West Station at Bus Bay 3","",43.699633,-79.436567,,,,,,1
-3773,14679,"Eglinton West Station at Bus Bay 5","",43.6997,-79.436081,,,,,,1
-3774,14680,"Eglinton West Station at Bus Bay 6","",43.699598,-79.435953,,,,,,1
-3775,14681,"Eglinton West Station at Bus Bay 7","",43.699453,-79.435904,,,,,,1
-3776,14682,"Eglinton West Station at Bus Bay 8","",43.699302,-79.435846,,,,,,1
+3771,14676,"Cedarvale Station at Bus Bay 2","",43.699447,-79.436493,,,,,,1
+3772,14677,"Cedarvale Station at Bus Bay 3","",43.699633,-79.436567,,,,,,1
+3773,14679,"Cedarvale Station at Bus Bay 5","",43.6997,-79.436081,,,,,,1
+3774,14680,"Cedarvale Station at Bus Bay 6","",43.699598,-79.435953,,,,,,1
+3775,14681,"Cedarvale Station at Bus Bay 7","",43.699453,-79.435904,,,,,,1
+3776,14682,"Cedarvale Station at Bus Bay 8","",43.699302,-79.435846,,,,,,1
 3777,14683,"Finch Station at Bus Bay 10","",43.780942,-79.414829,,,,,,1
 3778,14684,"Finch Station at Bus Bay 11","",43.78073,-79.414746,,,,,,1
 3779,14685,"Finch Station at Bus Bay 12","",43.780467,-79.414636,,,,,,1
@@ -2502,7 +2501,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 3783,14689,"Finch Station at Bus Bay 4","",43.780942,-79.414992,,,,,,1
 3784,14690,"Finch Station at Bus Bay 5","",43.781111,-79.415064,,,,,,1
 3786,14692,"Finch Station at Bus Bay 7","",43.78143,-79.415193,,,,,,1
-3787,14694,"GREENWOOD STATION AT BUS BAY 2","",43.682553,-79.330354,,,,,,1
 3788,14695,"High Park Station at Bus Bay 1","",43.65397,-79.466354,,,,,,1
 3789,14696,"High Park Station at Bus Bay 2","",43.654074,-79.465887,,,,,,1
 3793,14700,"Jane Station at Bus Bay 2","",43.649937,-79.484094,,,,,,1
@@ -2542,7 +2540,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 3834,14743,"Ossington Station at Bus Bay 2","",43.662271,-79.426546,,,,,,1
 3835,14744,"Ossington Station at Bus Bay 3","",43.662251,-79.426749,,,,,,1
 3836,14745,"Ossington Station at Bus Bay 4","",43.662338,-79.426607,,,,,,1
-3837,14747,"Pape Station at Bus Bay 2","",43.680042,-79.344585,,,,,,1
 3839,14750,"ROSEDALE STATION AT BUS BAY 2","",43.67684,-79.388875,,,,,,1
 3840,14755,"Runnymede Station at Bus Bay 2","",43.651732,-79.475954,,,,,,1
 3841,14756,"Runnymede Station at Bus Bay 3","",43.651787,-79.475714,,,,,,1
@@ -2620,7 +2617,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 3946,14886,"St Clair Ave West at Dufferin St West Side","",43.677855,-79.443635,,,,,,2
 3947,14888,"St Clair Ave West at Earlscourt Ave","",43.677042,-79.447244,,,,,,2
 3948,570,"Bloor St West at Prince Edward Dr South","",43.648508,-79.505687,,,,,,1
-3949,494,"BLOOR ST WEST AT BAY ST","",43.669846,-79.389335,,,,,,1
 3950,5991,"Pape Ave at Riverdale Ave North Side","",43.671547,-79.341737,,,,,,1
 3951,437,"Birchmount Rd at Modern Rd","",43.744265,-79.283661,,,,,,1
 3952,854,"75 Cosburn Ave","",43.688912,-79.350945,,,,,,1
@@ -2827,6 +2823,7 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 4203,15421,"St Clair Ave West at Jane St East Side","",43.667174,-79.491124,,,,,,2
 4204,15424,"Brimley Rd at Eglinton Ave East","",43.735946,-79.247582,,,,,,2
 4206,15386,"Sheppard Ave West at Abraham Welsh Rd East Side","",43.7347,-79.533297,,,,,,1
+4207,15404,"Humber College Bus Terminal","",43.728797,-79.605346,,,,,,1
 4208,15406,"Humber College Bus Terminal","",43.728595,-79.6048,,,,,,1
 4209,15405,"Humber College Bus Terminal","",43.728683,-79.605058,,,,,,1
 4210,15403,"Humber College Bus Terminal","",43.728964,-79.604532,,,,,,1
@@ -2912,7 +2909,7 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 4398,1036,"Eglinton Ave East at Midland Ave West Side","",43.734493,-79.258911,,,,,,1
 4404,11488,"Eglinton Ave West at Avenue Rd East Side","",43.70464,-79.407957,,,,,,1
 4406,9896,"EGLINTON AVE WEST AT EVERDEN RD (EGLINTON WEST STA","",43.698565,-79.436704,,,,,,1
-4407,9895,"EGLINTON AVE WEST AT EVERDEN RD (EGLINTON WEST STA","",43.698853,-79.435954,,,,,,1
+4407,9895,"EGLINTON AVE WEST AT EVERDEN RD (EGLINTON WEST STA","",43.698853,-79.435955,,,,,,1
 4408,2354,"Eglinton Ave West at Glenarden Rd","",43.699564,-79.432546,,,,,,1
 4409,2366,"Eglinton Ave West at Jane St East Side","",43.68452,-79.498076,,,,,,1
 4410,2380,"Eglinton Ave West at Marlee Ave","",43.698127,-79.439204,,,,,,1
@@ -4588,7 +4585,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 6405,7232,"Sheppard Ave East at Rainbow Ridge Ave","",43.807276,-79.163127,,,,,,1
 6407,3164,"Warden Ave at Cataraqui Cres","",43.70247,-79.277192,,,,,,2
 6408,681,"Burnhamthorpe Rd at Martin Grove Rd West Side","",43.648791,-79.54948,,,,,,2
-6409,493,"BLOOR ST WEST AT BAY ST","",43.669596,-79.389775,,,,,,1
 6410,5701,"Midland Ave at Emmeline Cres South Side","",43.796001,-79.283134,,,,,,1
 6411,10628,"North Queen St at Eastside Dr","",43.619964,-79.552113,,,,,,1
 6412,4983,"Dixon Rd at Havenridge Dr West Side","",43.697927,-79.543338,,,,,,1
@@ -5961,7 +5957,6 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 7996,8812,"Willowdale Ave at Newton Dr","",43.794679,-79.412679,,,,,,1
 7998,1121,"Gerrard St East  at Golfview Ave","",43.682091,-79.308289,,,,,,2
 7999,4511,"Old Weston Rd at Turnberry Ave","",43.678463,-79.464937,,,,,,1
-8000,600,"BLOOR ST WEST AT YONGE ST","",43.670084,-79.386997,,,,,,1
 8001,9460,"Lumsden Ave at Barrington Ave","",43.695338,-79.302815,,,,,,1
 8002,2360,"Eglinton Ave West at Henning Ave","",43.7062,-79.401309,,,,,,1
 8003,7681,"Ellesmere Rd at Birkdale Rd","",43.769104,-79.266396,,,,,,1
@@ -8477,12 +8472,7 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 18367,15749,"Kipling Ave at Henley Cres","",43.730431,-79.57561,,,,,,1
 18373,13818,"ST ANDREW STATION - SOUTHBOUND PLATFORM","",43.647605,-79.385004,,,,,,0
 18375,13845,"BESSARION STATION - EASTBOUND PLATFORM","",43.769201,-79.376311,,,,,,0
-18377,14635,"BROADVIEW STATION AT BUS BAY 2","",43.676869,-79.358324,,,,,,0
 18379,14770,"SHEPPARD-YONGE STATION AT BUS BAY 2","",43.761818,-79.412538,,,,,,0
-18380,14776,"SPADINA STATION AT BUS BAY 2","",43.667466,-79.403611,,,,,,0
-18381,14857,"BATHURST STATION AT BUS BAY 2","",43.666281,-79.411156,,,,,,0
-18382,14859,"COXWELL STATION AT BUS BAY 2","",43.683991,-79.322999,,,,,,0
-18383,14917,"DONLANDS STATION AT BUS BAY 2","",43.680949,-79.337903,,,,,,0
 18384,80000,"HIGHWAY 407 STATION","",43.783227,-79.523404,,,,,,0
 18387,15750,"Weston Rd at St Clair Ave West","",43.672671,-79.467774,,,,,,1
 18388,9991,"Dufferin St at Springhurst Ave","",43.634831,-79.425646,,,,,,1
@@ -8728,7 +8718,7 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 37424,12314,"Church St at Queen St East","",43.653061,-79.375613,,,,,,1
 37426,16355,"Willowdale Ave at Spring Garden Ave","",43.766461,-79.400824,,,,,,1
 37427,16356,"O'Connor Dr at Coxwell Ave","",43.697862,-79.329357,,,,,,1
-38645,14678,"Eglinton West Station at Bus Bay 4","",43.699706,-79.436312,,,,,,1
+38645,14678,"Cedarvale Station at Bus Bay 4","",43.699706,-79.436312,,,,,,1
 38651,15063,"Leslie St at Queen St East","",43.662722,-79.329892,,,,,,2
 38652,15064,"Eastern Ave at Knox Ave","",43.662595,-79.325198,,,,,,2
 38658,15240,"Eastern Ave at Leslie St","",43.661646,-79.329382,,,,,,2
@@ -9099,236 +9089,273 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 43035,16810,"McNicoll Ave at Bedle Ave","",43.799717,-79.35672,,,,,,1
 43036,12006,"Hillcrest Gate","",43.674429,-79.416596,,,,,,2
 43037,13518,"Islington Ave at Steeles Ave West","",43.763708,-79.574525,,,,,,1
-11630,11630,"Dufferin Mall","",43.655795,-79.434031,,,,,,1
-11651,11651,"East York Town Centre","",43.705908,-79.347132,,,,,,2
-13478,13478,"3174 Bathurst St","",43.721937,-79.430488,,,,,,1
-11641,11641,"Baycrest Home For Aged","",43.729774,-79.434176,,,,,,2
-11640,11640,"Wagman Centre","",43.729171,-79.439941,,,,,,2
-11632,11632,"Lansdowne Ave at Dundas St West South Side","",43.649559,-79.439653,,,,,,2
-11638,11638,"Lawrence Plaza at Canada Trust","",43.719613,-79.432586,,,,,,1
-11637,11637,"Lawrence Sq at Northwest Entrance","",43.717187,-79.448281,,,,,,1
-11635,11635,"Toronto Rehab - Bickle Centre at 130 Dunn Ave","",43.635202,-79.432965,,,,,,2
-11631,11631,"55 Rankin Cres","",43.658448,-79.446615,,,,,,2
-11132,2686,"Guildwood Pkwy at Prince Philip Blvd","",43.746245,-79.202992,,,,,,1
-11133,11189,"St Dennis Dr at Deauville Lane","",43.718185,-79.331789,,,,,,1
-12174,12174,"La Rose Ave at Scarlett Rd","",43.686547,-79.51461,,,,,,1
-11134,11188,"25 St Dennis Dr","",43.717866,-79.33313,,,,,,1
-11135,11187,"St Dennis Dr at Don Mills Rd East Side","",43.716675,-79.33644,,,,,,1
-13477,13477,"Cedarvale Ave at Stan Wadlow Park","",43.698342,-79.31622,,,,,,2
-11136,11193,"St Dennis Dr at Don Mills Rd","",43.71677,-79.336676,,,,,,1
-13476,13476,"Cedarvale Ave at Stan Wadlow Park","",43.698314,-79.316375,,,,,,2
-11137,11192,"Opposite 25 St Dennis Dr","",43.717951,-79.33338,,,,,,1
-14111,14111,"Finch Station - Southbound Platform","",43.780147,-79.415692,,,,,,1
-13789,13789,"North York Centre Station - Southbound Platform","",43.767347,-79.412492,,,,,,1
-13860,13860,"Sheppard-Yonge Station - Southbound Platform","",43.760348,-79.410691,,,,,,1
-13792,13792,"York Mills Station - Southbound Platform","",43.743248,-79.405991,,,,,,1
-13793,13793,"Lawrence Station - Southbound Platform","",43.725348,-79.40229,,,,,,2
-13795,13795,"Eglinton Station - Southbound Platform","",43.704648,-79.39889,,,,,,1
-13798,13798,"Davisville Station - Southbound Platform","",43.697048,-79.39689,,,,,,1
-13799,13799,"St Clair Station - Southbound Platform","",43.687449,-79.393089,,,,,,1
-13802,13802,"Summerhill Station - Southbound Platform","",43.682049,-79.390789,,,,,,2
-13803,13803,"Rosedale Station - Southbound Platform","",43.676049,-79.388089,,,,,,1
-13864,13864,"Bloor Station - Southbound Platform","",43.670049,-79.385389,,,,,,1
-13806,13806,"Wellesley Station - Southbound Platform","",43.664949,-79.383488,,,,,,1
-13807,13807,"College Station - Southbound Platform","",43.660149,-79.382688,,,,,,2
-13810,13810,"Dundas Station - Southbound Platform","",43.655949,-79.380788,,,,,,1
-13811,13811,"Queen Station - Southbound Platform","",43.652149,-79.379188,,,,,,1
-13814,13814,"King Station - Southbound Platform","",43.648449,-79.377688,,,,,,2
-13815,13815,"Union Station - Northbound Platform Towards Vaughan Metropolitan Centre","",43.645549,-79.381488,,,,,,1
-13817,13817,"St Andrew Station - Northbound Platform","",43.648249,-79.385088,,,,,,1
-13820,13820,"Osgoode Station - Northbound Platform","",43.651749,-79.386888,,,,,,1
-13821,13821,"St Patrick Station - Northbound Platform","",43.655249,-79.388388,,,,,,1
-13824,13824,"Queen's Park Station - Northbound Platform","",43.660549,-79.390689,,,,,,1
-13825,13825,"Museum Station - Northbound Platform","",43.667249,-79.393389,,,,,,2
-13858,13858,"St George Station - Northbound Platform","",43.668249,-79.399689,,,,,,1
-13853,13853,"Spadina Station - Northbound Platform","",43.670249,-79.405189,,,,,,2
-13828,13828,"Dupont Station - Northbound Platform","",43.674949,-79.40709,,,,,,1
-13829,13829,"St Clair West Station - Northbound Platform","",43.685148,-79.41589,,,,,,1
-13832,13832,"Eglinton West Station - Northbound Platform","",43.700648,-79.436691,,,,,,1
-13833,13833,"Glencairn Station - Northbound Platform","",43.709148,-79.440892,,,,,,1
-13836,13836,"Lawrence West Station - Northbound Platform","",43.715784,-79.444038,,,,,,1
-13837,13837,"Yorkdale Station - Northbound Platform","",43.725248,-79.447692,,,,,,2
-13840,13840,"Wilson Station - Northbound Platform","",43.735048,-79.450192,,,,,,1
-14945,14945,"Sheppard West Station - Northbound Platform","",43.750204,-79.462781,,,,,,1
-14110,14110,"Sheppard West Station - Southbound Platform","",43.749147,-79.461993,,,,,,1
-13839,13839,"Wilson Station - Southbound Platform","",43.733848,-79.449892,,,,,,1
-13838,13838,"Yorkdale Station - Southbound Platform","",43.723948,-79.447292,,,,,,1
-13835,13835,"Lawrence West Station - Southbound Platform","",43.714748,-79.443791,,,,,,1
-13834,13834,"Glencairn Station - Southbound Platform","",43.708048,-79.440191,,,,,,1
-13831,13831,"Eglinton West Station - Southbound Platform","",43.699348,-79.436291,,,,,,1
-13830,13830,"St Clair West Station - Southbound Platform","",43.683948,-79.41539,,,,,,1
-13827,13827,"Dupont Station - Southbound Platform","",43.673749,-79.406689,,,,,,1
-13854,13854,"Spadina Station - Southbound Platform","",43.669049,-79.404789,,,,,,2
-13857,13857,"St George Station - Southbound Platform","",43.668549,-79.397889,,,,,,1
-13826,13826,"Museum Station - Southbound Platform","",43.665949,-79.392989,,,,,,2
-13823,13823,"Queen's Park Station - Southbound Platform","",43.659249,-79.390289,,,,,,1
-13822,13822,"St Patrick Station - Southbound Platform","",43.654049,-79.387988,,,,,,1
-13819,13819,"Osgoode Station - Southbound Platform","",43.650449,-79.386488,,,,,,1
-13816,13816,"Union Station - Northbound Platform Towards Finch","",43.645849,-79.379688,,,,,,1
-13813,13813,"King Station - Northbound Platform","",43.649649,-79.378088,,,,,,2
-13812,13812,"Queen Station - Northbound Platform","",43.653349,-79.379588,,,,,,1
-13809,13809,"Dundas Station - Northbound Platform","",43.657149,-79.381188,,,,,,1
-13808,13808,"College Station - Northbound Platform","",43.661449,-79.383088,,,,,,2
-13805,13805,"Wellesley Station - Northbound Platform","",43.666149,-79.383788,,,,,,1
-13863,13863,"Bloor Station - Northbound Platform","",43.671044,-79.385918,,,,,,1
-13804,13804,"Rosedale Station - Northbound Platform","",43.677249,-79.388589,,,,,,1
-13801,13801,"Summerhill Station - Northbound Platform","",43.683349,-79.391189,,,,,,2
-13800,13800,"St Clair Station - Northbound Platform","",43.688649,-79.393489,,,,,,1
-13797,13797,"Davisville Station - Northbound Platform","",43.698248,-79.39729,,,,,,1
-13796,13796,"Eglinton Station - Northbound Platform","",43.706548,-79.39839,,,,,,1
-13794,13794,"Lawrence Station - Northbound Platform","",43.726548,-79.40249,,,,,,2
-13791,13791,"York Mills Station - Northbound Platform","",43.744448,-79.406191,,,,,,1
-13859,13859,"Sheppard-Yonge Station - Northbound Platform","",43.761648,-79.410891,,,,,,1
-13790,13790,"North York Centre Station - Northbound Platform","",43.768547,-79.412592,,,,,,1
-14944,14944,"Finch Station - Subway Platform","",43.780847,-79.415291,,,,,,1
-13785,13785,"Kipling Station - Eastbound Platform","",43.637648,-79.535694,,,,,,1
-13784,13784,"Islington Station - Eastbound Platform","",43.645548,-79.523293,,,,,,2
-13781,13781,"Royal York Station - Eastbound Platform","",43.648548,-79.508693,,,,,,1
-13780,13780,"Old Mill Station - Eastbound Platform","",43.649448,-79.493392,,,,,,2
-13777,13777,"Jane Station - Eastbound Platform","",43.650149,-79.482892,,,,,,1
-13776,13776,"Runnymede Station - Eastbound Platform","",43.652049,-79.474992,,,,,,2
-13773,13773,"High Park Station - Eastbound Platform","",43.653849,-79.466991,,,,,,1
-13772,13772,"Keele Station - Eastbound Platform","",43.655649,-79.458691,,,,,,1
-13769,13769,"Dundas West Station - Eastbound Platform","",43.657449,-79.451091,,,,,,1
-13768,13768,"Lansdowne Station - Eastbound Platform","",43.659246,-79.442463,,,,,,1
-13765,13765,"Dufferin Station - Eastbound Platform","",43.660849,-79.43389,,,,,,1
-13764,13764,"Ossington Station - Eastbound Platform","",43.662349,-79.42609,,,,,,1
-13761,13761,"Christie Station - Eastbound Platform","",43.664449,-79.41729,,,,,,2
-13760,13760,"Bathurst Station - Eastbound Platform","",43.665949,-79.410589,,,,,,1
-13852,13852,"Spadina Station - Eastbound Platform","",43.667249,-79.403889,,,,,,1
-13856,13856,"St George Station - Eastbound Platform","",43.668549,-79.397989,,,,,,1
-13757,13757,"Bay Station - Eastbound Platform","",43.670149,-79.390089,,,,,,1
-13756,13756,"Yonge Station - Eastbound Platform","",43.670997,-79.385956,,,,,,1
-13753,13753,"Sherbourne Station - Eastbound Platform","",43.672103,-79.376162,,,,,,1
-13752,13752,"Castle Frank Station - Eastbound Platform","",43.674049,-79.368088,,,,,,1
-13749,13749,"Broadview Station - Eastbound Platform","",43.677049,-79.358088,,,,,,1
-13748,13748,"Chester Station - Eastbound Platform","",43.678241,-79.352502,,,,,,1
-13746,13746,"Pape Station - Eastbound Platform","",43.679949,-79.344087,,,,,,1
-13743,13743,"Donlands Station - Eastbound Platform","",43.681149,-79.337487,,,,,,1
-13742,13742,"Greenwood Station - Eastbound Platform","",43.682549,-79.331687,,,,,,2
-13739,13739,"Coxwell Station - Eastbound Platform","",43.684549,-79.321986,,,,,,1
-13738,13738,"Woodbine Station - Eastbound Platform","",43.686649,-79.312286,,,,,,1
-13735,13735,"Main Street Station - Eastbound Platform","",43.689249,-79.300686,,,,,,1
-13734,13734,"Victoria Park Station - Eastbound Platform","",43.695149,-79.287885,,,,,,1
-13732,13732,"Warden Station - Eastbound Platform","",43.712149,-79.278785,,,,,,2
-14947,14947,"Kennedy Station - Subway Platform","",43.732487,-79.263718,,,,,,1
-13865,13865,"Kennedy Station - Westbound Platform","",43.732149,-79.264785,,,,,,1
-13731,13731,"Warden Station - Westbound Platform","",43.710949,-79.279085,,,,,,2
-13733,13733,"Victoria Park Station - Westbound Platform","",43.694649,-79.289485,,,,,,1
-13736,13736,"Main Street Station - Westbound Platform","",43.688949,-79.302386,,,,,,1
-13737,13737,"Woodbine Station - Westbound Platform","",43.686349,-79.313986,,,,,,1
-13740,13740,"Coxwell Station - Westbound Platform","",43.684249,-79.323686,,,,,,1
-13741,13741,"Greenwood Station - Westbound Platform","",43.682849,-79.329987,,,,,,2
-13744,13744,"Donlands Station - Westbound Platform","",43.680949,-79.339187,,,,,,1
-13745,13745,"Pape Station - Westbound Platform","",43.679649,-79.345787,,,,,,1
-13747,13747,"Chester Station - Westbound Platform","",43.678351,-79.352537,,,,,,2
-13750,13750,"Broadview Station - Westbound Platform","",43.676349,-79.359588,,,,,,1
-13751,13751,"Castle Frank Station - Westbound Platform","",43.673549,-79.369788,,,,,,2
-13754,13754,"Sherbourne Station - Westbound Platform","",43.672174,-79.376173,,,,,,1
-13755,13755,"Yonge Station - Westbound Platform","",43.671049,-79.386789,,,,,,1
-13758,13758,"Bay Station - Westbound Platform","",43.669849,-79.391789,,,,,,1
-13855,13855,"St George Station - Westbound Platform","",43.668249,-79.399689,,,,,,1
-13851,13851,"Spadina Station - Westbound Platform","",43.666949,-79.405689,,,,,,1
-13759,13759,"Bathurst Station - Westbound Platform","",43.665649,-79.41229,,,,,,1
-13762,13762,"Christie Station - Westbound Platform","",43.664149,-79.41899,,,,,,2
-13763,13763,"Ossington Station - Westbound Platform","",43.662049,-79.42789,,,,,,1
-13766,13766,"Dufferin Station - Westbound Platform","",43.660549,-79.43569,,,,,,1
-13767,13767,"Lansdowne Station - Westbound Platform","",43.659314,-79.442471,,,,,,1
-13770,13770,"Dundas West Station - Westbound Platform","",43.657149,-79.452791,,,,,,1
-13771,13771,"Keele Station - Westbound Platform","",43.655349,-79.460391,,,,,,1
-13774,13774,"High Park Station - Westbound Platform","",43.653549,-79.468691,,,,,,1
-13775,13775,"Runnymede Station - Westbound Platform","",43.651749,-79.476692,,,,,,2
-13778,13778,"Jane Station - Westbound Platform","",43.649749,-79.484592,,,,,,1
-13779,13779,"Old Mill Station - Westbound Platform","",43.650048,-79.494892,,,,,,2
-13782,13782,"Royal York Station - Westbound Platform","",43.648348,-79.510493,,,,,,1
-13783,13783,"Islington Station - Westbound Platform","",43.645248,-79.524994,,,,,,2
-14948,14948,"Kipling Station - Subway Platform","",43.637392,-79.535892,,,,,,1
-13862,13862,"Sheppard-Yonge Station - Eastbound Platform","",43.761494,-79.410394,,,,,,1
-13844,13844,"Bayview Station - Eastbound Platform","",43.766872,-79.386703,,,,,,1
-13848,13848,"Leslie Station - Eastbound Platform","",43.771348,-79.36499,,,,,,1
-14949,14949,"Don Mills Station - Subway Platform","",43.775547,-79.346584,,,,,,1
-14109,14109,"Don Mills Station - Westbound Platform","",43.775248,-79.346189,,,,,,1
-13847,13847,"Leslie Station - Westbound Platform","",43.771248,-79.36679,,,,,,1
-13846,13846,"Bessarion Station - Westbound Platform","",43.769296,-79.376345,,,,,,1
-13843,13843,"Bayview Station - Westbound Platform","",43.766951,-79.38673,,,,,,1
-13861,13861,"Sheppard-Yonge Station - Subway Platform","",43.761648,-79.410091,,,,,,1
-14507,14507,"270 Wilson Ave - No Frills","",43.737946,-79.433218,,,,,,1
-11723,11723,"West Lodge Ave at May Robinson Apartments","",43.641943,-79.435951,,,,,,2
-13479,13479,"St Joseph'S Health Centre at 30 The Queensway","",43.639439,-79.450798,,,,,,2
+11630,11630,"Dufferin Mall","DUFFERIN MALL & NO FRILLS STORE",43.655795,-79.434031,,,,,,1
+11651,11651,"East York Town Centre","EAST YORK TOWN CTR & SHOPPERS DRUG MART",43.705908,-79.347132,,,,,,2
+13478,13478,"3174 Bathurst St","BATHURST ST & AT 3174",43.721937,-79.430488,,,,,,1
+11641,11641,"Baycrest Home For Aged","BAYCREST AVE & KHEDIVE AVE",43.729774,-79.434176,,,,,,2
+11640,11640,"Wagman Centre","BAYCREST AVE & KHEDIVE AVE",43.729171,-79.439941,,,,,,2
+11632,11632,"Lansdowne Ave at Dundas St West South Side","LANSDOWNE & DUNDAS ST W FARSIDE",43.649559,-79.439653,,,,,,2
+11638,11638,"Lawrence Plaza at Canada Trust","LAWRENCE PLAZA LOOP & LAWRENCE AVE W",43.719613,-79.432586,,,,,,1
+11637,11637,"Lawrence Sq at Northwest Entrance","BLOSSOMFIELD DR & LAWRENCE AVE W",43.717187,-79.448281,,,,,,1
+11635,11635,"Toronto Rehab - Bickle Centre at 130 Dunn Ave","DUNN AVE & BANNOCKBURN AVE",43.635202,-79.432965,,,,,,2
+11631,11631,"55 Rankin Cres","RANKIN & AT 55",43.658448,-79.446615,,,,,,2
+90000,2686,"Guildwood Pkwy at Prince Philip Blvd","GUILDWOOD & PRINCE PHILLIP",43.746245,-79.202992,,,,,,1
+90001,11189,"St Dennis Dr at Deauville Lane","ST DENNIS & DEAUVILLE",43.718185,-79.331789,,,,,,1
+12174,12174,"La Rose Ave at Scarlett Rd","LA ROSE & SCARLETT",43.686547,-79.51461,,,,,,1
+90002,11188,"25 St Dennis Dr","ST DENNIS & AT 25",43.717866,-79.33313,,,,,,1
+90003,11187,"St Dennis Dr at Don Mills Rd East Side","ST DENNIS & DON MILLS FARSIDE",43.716675,-79.33644,,,,,,1
+13477,13477,"Cedarvale Ave at Stan Wadlow Park","CEDARVALE & STAN WADLOW PARK",43.698342,-79.31622,,,,,,2
+90004,11193,"St Dennis Dr at Don Mills Rd","ST DENNIS & DON MILLS",43.71677,-79.336676,,,,,,1
+13476,13476,"Cedarvale Ave at Stan Wadlow Park","CEDARVALE & STAN WADLOW PARK",43.698314,-79.316375,,,,,,2
+90005,11192,"Opposite 25 St Dennis Dr","ST DENNIS & OPP 25",43.717951,-79.33338,,,,,,1
+14111,14111,"Finch Station - Southbound Platform","FINCH & SUBWAY STATION",43.780147,-79.415692,,,,,,1
+13789,13789,"North York Centre Station - Southbound Platform","NORTH YORK CENTRE & SUBWAY STATION",43.767347,-79.412492,,,,,,1
+13860,13860,"Sheppard-Yonge Station - Southbound Platform","SHEPPARD-YONGE & SUBWAY STATION",43.760348,-79.410691,,,,,,1
+13792,13792,"York Mills Station - Southbound  Platform","YORK MILLS & SUBWAY STATION",43.743248,-79.405991,,,,,,1
+13793,13793,"Lawrence Station - Southbound Platform","LAWRENCE & SUBWAY STATION",43.725348,-79.40229,,,,,,2
+13795,13795,"Eglinton Station - Southbound Platform","EGLINTON & SUBWAY STATION",43.704648,-79.39889,,,,,,1
+13798,13798,"Davisville Station - Southbound Platform","DAVISVILLE & SUBWAY STATION",43.697048,-79.39689,,,,,,1
+13799,13799,"St Clair Station - Southbound Platform","ST CLAIR & SUBWAY STATION",43.687449,-79.393089,,,,,,1
+13802,13802,"Summerhill Station - Southbound Platform","SUMMERHILL & SUBWAY STATION",43.682049,-79.390789,,,,,,2
+13803,13803,"Rosedale Station - Southbound Platform","ROSEDALE & SUBWAY STATION",43.676049,-79.388089,,,,,,1
+13864,13864,"Bloor Station - Southbound Platform","BLOOR-YONGE & SUBWAY STATION",43.670049,-79.385389,,,,,,1
+13806,13806,"Wellesley Station - Southbound Platform","WELLESLEY & SUBWAY STATION",43.664949,-79.383488,,,,,,1
+13807,13807,"College Station - Southbound Platform","COLLEGE & SUBWAY STATION",43.660149,-79.382688,,,,,,2
+13810,13810,"TMU Station - Southbound Platform","DUNDAS & SUBWAY STATION",43.655949,-79.380788,,,,,,1
+13811,13811,"Queen Station - Southbound Platform","QUEEN & SUBWAY STATION",43.652149,-79.379188,,,,,,1
+13814,13814,"King Station - Southbound Platform","KING & SUBWAY STATION",43.648449,-79.377688,,,,,,2
+13815,13815,"Union Station - Northbound Platform Towards Downsview","FRONT ST W & UNIVERSITY AVE",43.645549,-79.381488,,,,,,1
+13817,13817,"St Andrew Station - Northbound Platform","ST ANDREW & SUBWAY STATION",43.648249,-79.385088,,,,,,1
+13820,13820,"Osgoode Station - Northbound Platform","OSGOODE & SUBWAY STATION",43.651749,-79.386888,,,,,,1
+13821,13821,"St Patrick Station - Northbound Platform","ST PATRICK & SUBWAY STATION",43.655249,-79.388388,,,,,,1
+13824,13824,"Queen's Park Station - Northbound Platform","QUEEN'S PARK & SUBWAY STATION",43.660549,-79.390689,,,,,,1
+13825,13825,"Museum Station - Northbound Platform","MUSEUM & SUBWAY STATION",43.667249,-79.393389,,,,,,2
+13858,13858,"St George Station - Northbound Platform","ST GEORGE & SUBWAY STATION",43.668249,-79.399689,,,,,,1
+13853,13853,"Spadina Station - Northbound Platform","SPADINA & SUBWAY STATION",43.670249,-79.405189,,,,,,2
+13828,13828,"Dupont Station - Northbound Platform","DUPONT & SUBWAY STATION",43.674949,-79.40709,,,,,,1
+13829,13829,"St Clair West Station - Northbound Platform","ST CLAIR WEST & SUBWAY STATION",43.685148,-79.41589,,,,,,1
+13832,13832,"Cedarvale Station - Northbound Platform","EGLINTON WEST & SUBWAY STATION",43.700648,-79.436691,,,,,,1
+13833,13833,"Glencairn Station - Northbound Platform","GLENCAIRN & SUBWAY STATION",43.709148,-79.440892,,,,,,1
+13836,13836,"Lawrence West Station - Northbound Platform","LAWRENCE WEST & SUBWAY STATION",43.715784,-79.444038,,,,,,1
+13837,13837,"Yorkdale Station - Northbound Platform","YORKDALE & SUBWAY STATION",43.725248,-79.447692,,,,,,2
+13840,13840,"Wilson Station - Northbound Platform","WILSON & SUBWAY STATION",43.735048,-79.450192,,,,,,1
+14945,14945,"Sheppard West Station - Subway Platform","DOWNSVIEW & SUBWAY STATION",43.750204,-79.462781,,,,,,1
+14110,14110,"Sheppard West Station - Southbound Platform","DOWNSVIEW & SUBWAY STATION",43.749147,-79.461993,,,,,,1
+13839,13839,"Wilson Station - Southbound Platform","WILSON & SUBWAY STATION",43.733848,-79.449892,,,,,,1
+13838,13838,"Yorkdale Station - Southbound Platform","YORKDALE & SUBWAY STATION",43.723948,-79.447292,,,,,,1
+13835,13835,"Lawrence West Station - Southbound Platform","LAWRENCE WEST & SUBWAY STATION",43.714748,-79.443791,,,,,,1
+13834,13834,"Glencairn Station - Southbound Platform","GLENCAIRN & SUBWAY STATION",43.708048,-79.440191,,,,,,1
+13831,13831,"Cedarvale Station - Southbound Platform","EGLINTON WEST & SUBWAY STATION",43.699348,-79.436291,,,,,,1
+13830,13830,"St Clair West Station - Southbound Platform","ST CLAIR WEST & SUBWAY STATION",43.683948,-79.41539,,,,,,1
+13827,13827,"Dupont Station - Southbound Platform","DUPONT & SUBWAY STATION",43.673749,-79.406689,,,,,,1
+13854,13854,"Spadina Station - Southbound Platform","SPADINA STATION LOOP",43.669049,-79.404789,,,,,,2
+13857,13857,"St George Station - Southbound Platform","ST GEORGE & SUBWAY STATION",43.668549,-79.397889,,,,,,1
+13826,13826,"Museum Station - Southbound Platform","MUSEUM & SUBWAY STATION",43.665949,-79.392989,,,,,,2
+13823,13823,"Queen's Park Station - Southbound Platform","QUEEN'S PARK & SUBWAY STATION",43.659249,-79.390289,,,,,,1
+13822,13822,"St Patrick Station - Southbound Platform","ST PATRICK & SUBWAY STATION",43.654049,-79.387988,,,,,,1
+13819,13819,"Osgoode Station - Southbound Platform","OSGOODE & SUBWAY STATION",43.650449,-79.386488,,,,,,1
+13816,13816,"Union Station - Northbound Platform Towards Finch","FRONT ST W & UNIVERSITY AVE",43.645849,-79.379688,,,,,,1
+13813,13813,"King Station - Northbound Platform","KING & SUBWAY STATION",43.649649,-79.378088,,,,,,2
+13812,13812,"Queen Station - Northbound Platform","QUEEN & SUBWAY STATION",43.653349,-79.379588,,,,,,1
+13809,13809,"TMU Station - Northbound Platform","DUNDAS & SUBWAY STATION",43.657149,-79.381188,,,,,,1
+13808,13808,"College Station - Northbound Platform","COLLEGE & SUBWAY STATION",43.661449,-79.383088,,,,,,2
+13805,13805,"Wellesley Station - Northbound Platform","WELLESLEY & SUBWAY STATION",43.666149,-79.383788,,,,,,1
+13863,13863,"Bloor Station - Northbound Platform","BLOOR-YONGE & SUBWAY STATION",43.671044,-79.385918,,,,,,1
+13804,13804,"Rosedale Station - Northbound Platform","ROSEDALE & SUBWAY STATION",43.677249,-79.388589,,,,,,1
+13801,13801,"Summerhill Station - Northbound Platform","SUMMERHILL & SUBWAY STATION",43.683349,-79.391189,,,,,,2
+13800,13800,"St Clair Station - Northbound Platform","ST CLAIR & SUBWAY STATION",43.688649,-79.393489,,,,,,1
+13797,13797,"Davisville Station - Northbound Platform","DAVISVILLE & SUBWAY STATION",43.698248,-79.39729,,,,,,1
+13796,13796,"Eglinton Station - Northbound Platform","EGLINTON & SUBWAY STATION",43.706548,-79.39839,,,,,,1
+13794,13794,"Lawrence Station - Northbound Platform","LAWRENCE & SUBWAY STATION",43.726548,-79.40249,,,,,,2
+13791,13791,"York Mills Station - Northbound  Platform","YORK MILLS & SUBWAY STATION",43.744448,-79.406191,,,,,,1
+13859,13859,"Sheppard-Yonge Station - Northbound Platform","SHEPPARD-YONGE & SUBWAY STATION",43.761648,-79.410891,,,,,,1
+13790,13790,"North York Centre Station - Northbound Platform","NORTH YORK CENTRE & SUBWAY STATION",43.768547,-79.412592,,,,,,1
+14944,14944,"Finch Station - Subway Platform","FINCH & SUBWAY STATION",43.780847,-79.415291,,,,,,1
+13785,13785,"Kipling Station - Eastbound Platform","KIPLING & SUBWAY STATION",43.637648,-79.535694,,,,,,1
+13784,13784,"Islington Station - Eastbound Platform","ISLINGTON & SUBWAY STATION",43.645548,-79.523293,,,,,,2
+13781,13781,"Royal York Station - Eastbound Platform","ROYAL YORK & SUBWAY STATION",43.648548,-79.508693,,,,,,1
+13780,13780,"Old Mill Station - Eastbound Platform","OLD MILL & SUBWAY STATION",43.649448,-79.493392,,,,,,2
+13777,13777,"Jane Station - Eastbound Platform","JANE & SUBWAY STATION",43.650149,-79.482892,,,,,,1
+13776,13776,"Runnymede Station - Eastbound Platform","RUNNYMEDE & SUBWAY STATION",43.652049,-79.474992,,,,,,2
+13773,13773,"High Park Station - Eastbound Platform","HIGH PARK & SUBWAY STATION",43.653849,-79.466991,,,,,,1
+13772,13772,"Keele Station - Eastbound Platform","KEELE & SUBWAY STATION",43.655649,-79.458691,,,,,,1
+13769,13769,"Dundas West Station - Eastbound Platform","DUNDAS WEST & SUBWAY STATION",43.657449,-79.451091,,,,,,1
+13768,13768,"Lansdowne Station - Eastbound Platform","LANSDOWNE & SUBWAY STATION",43.659246,-79.442463,,,,,,1
+13765,13765,"Dufferin Station - Eastbound Platform","DUFFERIN & SUBWAY STATION",43.660849,-79.43389,,,,,,1
+13764,13764,"Ossington Station - Eastbound Platform","OSSINGTON & SUBWAY STATION",43.662349,-79.42609,,,,,,1
+13761,13761,"Christie Station - Eastbound Platform","CHRISTIE & SUBWAY STATION",43.664449,-79.41729,,,,,,2
+13760,13760,"Bathurst Station - Eastbound Platform","BATHURST & SUBWAY STATION",43.665949,-79.410589,,,,,,1
+13852,13852,"Spadina Station - Eastbound Platform","SPADINA STATION STREETCAR LOOP",43.667249,-79.403889,,,,,,1
+13856,13856,"St George Station - Eastbound Platform","ST GEORGE & SUBWAY STATION",43.668549,-79.397989,,,,,,1
+13757,13757,"Bay Station - Eastbound Platform","BAY & SUBWAY STATION",43.670149,-79.390089,,,,,,1
+13756,13756,"Yonge Station - Eastbound Platform","BLOOR-YONGE & SUBWAY STATION",43.670997,-79.385956,,,,,,1
+13753,13753,"Sherbourne Station - Eastbound Platform","SHERBOURNE & SUBWAY STATION",43.672103,-79.376162,,,,,,1
+13752,13752,"Castle Frank Station - Eastbound Platform","CASTLE FRANK & SUBWAY STATION",43.674049,-79.368088,,,,,,1
+13749,13749,"Broadview Station - Eastbound Platform","BROADVIEW & SUBWAY STATION",43.677049,-79.358088,,,,,,1
+13748,13748,"Chester Station - Eastbound Platform","CHESTER & SUBWAY STATION",43.678241,-79.352502,,,,,,1
+13746,13746,"Pape Station - Eastbound Platform","PAPE & SUBWAY STATION",43.679949,-79.344087,,,,,,1
+13743,13743,"Donlands Station - Eastbound Platform","DONLANDS & SUBWAY STATION",43.681149,-79.337487,,,,,,1
+13742,13742,"Greenwood Station - Eastbound Platform","GREENWOOD & SUBWAY STATION",43.682549,-79.331687,,,,,,2
+13739,13739,"Coxwell Station - Eastbound Platform","COXWELL & SUBWAY STATION",43.684549,-79.321986,,,,,,1
+13738,13738,"Woodbine Station - Eastbound Platform","WOODBINE & SUBWAY STATION",43.686649,-79.312286,,,,,,1
+13735,13735,"Main St Station - Eastbound Platform","MAIN STREET & SUBWAY STATION",43.689249,-79.300686,,,,,,1
+13734,13734,"Victoria Park Station - Eastbound Platform","VICTORIA PARK & SUBWAY STATION",43.695149,-79.287885,,,,,,1
+13732,13732,"Warden Station - Eastbound Platform","WARDEN & SUBWAY STATION",43.712149,-79.278785,,,,,,2
+14947,14947,"Kennedy Station - Subway Platform","KENNEDY & SUBWAY STATION",43.732487,-79.263718,,,,,,1
+13865,13865,"Kennedy Station - Westbound Platform","KENNEDY & SUBWAY STATION",43.732149,-79.264785,,,,,,1
+13731,13731,"Warden Station - Westbound Platform","WARDEN & SUBWAY STATION",43.710949,-79.279085,,,,,,2
+13733,13733,"Victoria Park Station - Westbound Platform","VICTORIA PARK & SUBWAY STATION",43.694649,-79.289485,,,,,,1
+13736,13736,"Main St Station - Westbound Platform","MAIN STREET & SUBWAY STATION",43.688949,-79.302386,,,,,,1
+13737,13737,"Woodbine Station - Westbound Platform","WOODBINE & SUBWAY STATION",43.686349,-79.313986,,,,,,1
+13740,13740,"Coxwell Station - Westbound Platform","COXWELL & SUBWAY STATION",43.684249,-79.323686,,,,,,1
+13741,13741,"Greenwood Station - Westbound Platform","GREENWOOD & SUBWAY STATION",43.682849,-79.329987,,,,,,2
+13744,13744,"Donlands Station - Westbound Platform","DONLANDS & SUBWAY STATION",43.680949,-79.339187,,,,,,1
+13745,13745,"Pape Station - Westbound Platform","PAPE & SUBWAY STATION",43.679649,-79.345787,,,,,,1
+13747,13747,"Chester Station - Westbound Platform","CHESTER & SUBWAY STATION",43.678351,-79.352537,,,,,,2
+13750,13750,"Broadview Station - Westbound Platform","BROADVIEW & SUBWAY STATION",43.676349,-79.359588,,,,,,1
+13751,13751,"Castle Frank Station - Westbound Platform","CASTLE FRANK & SUBWAY STATION",43.673549,-79.369788,,,,,,2
+13754,13754,"Sherbourne Station - Westbound Platform","SHERBOURNE & SUBWAY STATION",43.672174,-79.376173,,,,,,1
+13755,13755,"Yonge Station - Westbound Platform","YONGE & SUBWAY STATION",43.671049,-79.386789,,,,,,1
+13758,13758,"Bay Station - Westbound Platform","BAY & SUBWAY STATION",43.669849,-79.391789,,,,,,1
+13855,13855,"St George Station - Westbound Platform","ST GEORGE & SUBWAY STATION",43.668249,-79.399689,,,,,,1
+13851,13851,"Spadina Station - Westbound Platform","SPADINA & SUBWAY STATION",43.666949,-79.405689,,,,,,1
+13759,13759,"Bathurst Station - Westbound Platform","BATHURST & SUBWAY STATION",43.665649,-79.41229,,,,,,1
+13762,13762,"Christie Station - Westbound Platform","CHRISTIE & SUBWAY STATION",43.664149,-79.41899,,,,,,2
+13763,13763,"Ossington Station - Westbound Platform","OSSINGTON & SUBWAY STATION",43.662049,-79.42789,,,,,,1
+13766,13766,"Dufferin Station - Westbound Platform","DUFFERIN & SUBWAY STATION",43.660549,-79.43569,,,,,,1
+13767,13767,"Lansdowne Station - Westbound Platform","LANSDOWNE & SUBWAY STATION",43.659314,-79.442471,,,,,,1
+13770,13770,"Dundas West Station - Westbound Platform","DUNDAS WEST & SUBWAY STATION",43.657149,-79.452791,,,,,,1
+13771,13771,"Keele Station - Westbound Platform","KEELE & SUBWAY STATION",43.655349,-79.460391,,,,,,1
+13774,13774,"High Park Station - Westbound Platform","HIGH PARK & SUBWAY STATION",43.653549,-79.468691,,,,,,1
+13775,13775,"Runnymede Station - Westbound Platform","RUNNYMEDE & SUBWAY STATION",43.651749,-79.476692,,,,,,2
+13778,13778,"Jane Station - Westbound Platform","JANE & SUBWAY STATION",43.649749,-79.484592,,,,,,1
+13779,13779,"Old Mill Station - Westbound Platform","OLD MILL & SUBWAY STATION",43.650048,-79.494892,,,,,,2
+13782,13782,"Royal York Station - Westbound Platform","ROYAL YORK & SUBWAY STATION",43.648348,-79.510493,,,,,,1
+13783,13783,"Islington Station - Westbound Platform","ISLINGTON & SUBWAY STATION",43.645248,-79.524994,,,,,,2
+14948,14948,"Kipling Station - Subway Platform","KIPLING & SUBWAY STATION",43.637392,-79.535892,,,,,,1
+13862,13862,"Sheppard-Yonge Station - Eastbound Platform","SHEPPARD-YONGE & SUBWAY STATION",43.761494,-79.410394,,,,,,1
+13844,13844,"Bayview Station - Eastbound Platform","BAYVIEW & SUBWAY STATION",43.766872,-79.386703,,,,,,1
+13848,13848,"Leslie Station - Eastbound Platform","LESLIE & SUBWAY STATION",43.771348,-79.36499,,,,,,1
+14949,14949,"Don Mills Station - Subway Platform","DON MILLS & SUBWAY STATION",43.775547,-79.346584,,,,,,1
+14109,14109,"Don Mills Station - Westbound Platform","DON MILLS & SUBWAY STATION",43.775248,-79.346189,,,,,,1
+13847,13847,"Leslie Station - Westbound Platform","LESLIE & SUBWAY STATION",43.771248,-79.36679,,,,,,1
+13846,13846,"Bessarion Station - Westbound Platform","BESSARION & SUBWAY STATION",43.769296,-79.376345,,,,,,1
+13843,13843,"Bayview Station - Westbound Platform","BAYVIEW & SUBWAY STATION",43.766951,-79.38673,,,,,,1
+13861,13861,"Sheppard-Yonge Station - Subway Platform","SHEPPARD-YONGE & SUBWAY STATION",43.761648,-79.410091,,,,,,1
+14859,14859,"Coxwell Station at Bus Bay 2","COXWELL STATION & BUS BAY 2",43.68397,-79.322979,,,,,,1
+14507,14507,"270 Wilson Ave (No Frills)","WILSON AVE & BATHURST ST",43.737946,-79.433218,,,,,,1
+11723,11723,"West Lodge Ave at May Robinson Apartments","W LODGE AVE & BANNOCKBURN AVE",43.641943,-79.435951,,,,,,2
+13479,13479,"St Joseph's Health Centre at 30 The Queensway","THE QUEENSWAY & BANNOCKBURN AVE",43.639439,-79.450798,,,,,,2
 15657,15657,"Pioneer Village Station - Southbound Platform","",43.77675,-79.509372,,,,,,1
 15656,15656,"Pioneer Village Station - Northbound Platform","",43.776741,-79.509334,,,,,,1
 15666,15666,"York University - Northbound Platform","",43.774097,-79.499888,,,,,,1
 15667,15667,"York University - Southbound Platform","",43.774097,-79.499888,,,,,,1
-15659,15659,"Finch West Station - Northbound Platform","",43.764855,-79.491118,,,,,,1
-15658,15658,"Finch West Station - Southbound Platform","",43.764855,-79.491118,,,,,,1
+15659,15659,"Finch West Station - Northbound Platform","KEELE ST",43.764855,-79.491118,,,,,,1
+15658,15658,"Finch West Station - Southbound Platform","KEELE ST",43.764855,-79.491118,,,,,,1
 15664,15664,"Downsview Park Station - Northbound Platform","",43.753311,-79.478693,,,,,,1
 15665,15665,"Downsview Park Station - Southbound Platform","",43.753311,-79.478693,,,,,,1
 15661,15661,"Highway 407 Station - Northbound Platform","",43.783359,-79.523454,,,,,,1
 15660,15660,"Highway 407 Station - Southbound Platform","",43.783359,-79.523454,,,,,,1
-15662,15662,"Vaughan Metropolitan Centre Station - Subway Platform","",43.794021,-79.527906,,,,,,1
-15663,15663,"Vaughan Metropolitan Centre Station - Southbound Platform","",43.794021,-79.527906,,,,,,1
-15603,15603,"3050 Dufferin St - Caboto Terrace","",43.712958,-79.455245,,,,,,2
-11659,11659,"9 Haldon Ave - East York Acres","",43.698307,-79.311541,,,,,,1
-11660,11660,"200 Dawes Rd - True Davidson Acres","",43.695471,-79.29753,,,,,,1
-14295,14295,"Crescent Town Rd at Victoria Park Ave","",43.696332,-79.290958,,,,,,1
-15547,15547,"Humber River Hospital","",43.723566,-79.488145,,,,,,1
-15589,15589,"Erie St at Rustic Rd","",43.717565,-79.481344,,,,,,1
-15601,15601,"338 Falstaff Ave - Casa Abruzzo","",43.720607,-79.48304,,,,,,1
-15602,15602,"North Park Plaza - Walmart","",43.709155,-79.474315,,,,,,1
-15604,15604,"3010 Dufferin St - Casa Del Zotto","",43.71199,-79.454958,,,,,,1
-15605,15605,"40 Playfair Ave - Villa Colombo","",43.710529,-79.456576,,,,,,2
-15606,15606,"25 Brucewood Cres","",43.719861,-79.433408,,,,,,1
-15607,15607,"Baycrest Hospital","",43.729538,-79.433224,,,,,,2
-11657,11657,"Michael Garron Hospital","",43.689524,-79.326019,,,,,,1
-15608,15608,"10 Gower St - Gower Park Place","",43.702167,-79.297834,,,,,,1
-15585,15585,"1150 Victoria Park Ave - No Frills","",43.708327,-79.295914,,,,,,1
-11662,11662,"3003 Danforth Ave - Shoppers World","",43.689995,-79.288807,,,,,,1
-15609,15609,"2490 Gerrard St East","",43.687873,-79.285345,,,,,,1
-14296,14296,"Crescent Town Rd at Massey Sq East","",43.6963,-79.291553,,,,,,1
-15590,15590,"840 Coxwell Ave - Michael Garron Hospital Medical Centre","",43.689947,-79.326435,,,,,,1
-11653,11653,"Flemingdon Park Shopping Centre","",43.714156,-79.334738,,,,,,2
-15674,15674,"10 Deauville Lane","",43.717409,-79.331117,,,,,,2
-11654,11654,"Opposite 8 Donway Place - Revera Downey Place","",43.735042,-79.340109,,,,,,2
-11656,11656,"1050 Don Mills Rd - Shops On Don Mills","",43.734083,-79.345789,,,,,,2
-11655,11655,"1 Overland Dr - Better Living - Thompson House","",43.732392,-79.347425,,,,,,2
-14433,14433,"The Donway West at Sanderling Pl South Side","",43.734264,-79.348147,,,,,,2
-14302,14302,"1540 Kipling Ave - Richview Residence - Kipling Building","",43.680574,-79.552944,,,,,,1
-14300,14300,"1500 Royal York Rd - Royal York Plaza/Metro","",43.691175,-79.530886,,,,,,1
-14301,14301,"250 Wincott Dr - Richview Square Plaza (Rexall)","",43.679633,-79.546443,,,,,,1
-14304,14304,"201 Lloyd Manor Rd - Lloyd Manor Place/Metro","",43.675029,-79.555993,,,,,,1
-14298,14298,"60 Richview Rd - Ukrainian Canadian Care Centre","",43.684201,-79.519031,,,,,,1
-14307,14307,"1447 Royal York Rd - Humbervale Residence","",43.686434,-79.52746,,,,,,1
-15271,15271,"4005 Eglinton Ave West - Scarlett Heights Residence","",43.682744,-79.520347,,,,,,1
-15272,15272,"20/30 Fontenay Crt","",43.682466,-79.512668,,,,,,1
-15273,15273,"63 Widdicombe Hill Blvd - Huntingwood Place","",43.677731,-79.555206,,,,,,2
-14299,14299,"123 La Rose Ave - St Demetrius Seniors Residence","",43.684992,-79.521984,,,,,,1
-14303,14303,"105 Clement Rd - Richview Residence - Clement Building","",43.680743,-79.553627,,,,,,1
-16005,16005,"5 Replin Rd - Lawrence Heights Community Centre","",43.71767,-79.442814,,,,,,1
-16006,16006,"Bloor St West at Dufferin St West Side","",43.659913,-79.435637,,,,,,1
-16007,16007,"828 Kingston Rd - Glen Stewart Acres","",43.680223,-79.291981,,,,,,1
-16008,16008,"1091 Kingston Rd - Henley Gardens","",43.680638,-79.282913,,,,,,1
-16009,16009,"245 Dixon Rd - No Frills","",43.696268,-79.54462,,,,,,1
-16010,16010,"170 Emmett Ave - West Park Healthcare Centre - Main Entrance","",43.689382,-79.507733,,,,,,1
-16011,16011,"150 Emmett Ave - West Park Long Term Care","",43.689649,-79.509091,,,,,,1
-16370,16370,"120 Dallimore Circle","",43.730245,-79.332425,,,,,,2
-16411,16411,"16 Dallimore Cir","",43.731133,-79.33483,,,,,,1
-15723,15723,"156 Borough Dr - Scarborough Civic Centre and Library","",43.772889,-79.256472,,,,,,1
-16708,16708,"Walmart Scarborough Town Centre","",43.77757,-79.258592,,,,,,1
-16709,16709,"1255 McCowan Rd - Freshco","",43.773847,-79.251303,,,,,,1
-16710,16710,"3750 Lawrence Ave East - Giant Tiger","",43.762542,-79.215121,,,,,,1
+15662,15662,"Vaughan Metropolitan Centre Station - Subway Platform","MILLWAY AVE & NEW PARK PLACE",43.794021,-79.527906,,,,,,1
+15663,15663,"Vaughan Metropolitan Centre Station - Southbound Platform","MILLWAY AVE & NEW PARK PLACE",43.794021,-79.527906,,,,,,1
+15603,15603,"3050 Dufferin St - Caboto Terrace","0 DUFFERIN ST & CORK AVE",43.712958,-79.455245,,,,,,2
+11659,11659,"9 Haldon Ave - East York Acres","HALDON AVE & SAMMON AVE",43.698307,-79.311541,,,,,,1
+11660,11660,"200 Dawes Rd - True Davidson Acres","DAWES RD & VICTORIA PARK AVE",43.695471,-79.29753,,,,,,1
+14295,14295,"Crescent Town Rd at Victoria Park Ave","CRESCENT TOWN RD & VICTORIA PARK AVE",43.696332,-79.290958,,,,,,1
+15547,15547,"Humber River Hospital","SIR WILLIAM HEARST AVE & BROOKDALE AVE",43.723566,-79.488145,,,,,,1
+15589,15589,"Erie St at Rustic Rd","ERIE ST & AMBER CRES",43.717565,-79.481344,,,,,,1
+15601,15601,"338 Falstaff Ave - Casa Abruzzo","FALSTAFF AVE & AMBER CRES",43.720607,-79.48304,,,,,,1
+15602,15602,"North Park Plaza (Walmart)","LAWRENCE AVE W & REDBERRY PKWY",43.709155,-79.474315,,,,,,1
+15604,15604,"3010 Dufferin St - Casa Del Zotto","DUFFERIN ST & PLAYFAIR AVE",43.71199,-79.454958,,,,,,1
+15605,15605,"40 Playfair Ave - Villa Colombo","PLAYFAIR AVE & ENNERDALE ST",43.710529,-79.456576,,,,,,2
+15606,15606,"25 Brucewood Cres","BRUCEWOOD CRES & KIRKLAND BLVD",43.719861,-79.433408,,,,,,1
+15607,15607,"Baycrest Hospital","BAYCREST AVE & BATHURST ST",43.729538,-79.433224,,,,,,2
+11657,11657,"Michael Garron Hospital","COXWELL AVE & MORTIMER AVE",43.689524,-79.326019,,,,,,1
+15608,15608,"10 Gower St - Gower Park Place","GOWER ST",43.702167,-79.297834,,,,,,1
+15585,15585,"1150 Victoria Park Ave (No Frills)","VICTORIA PARK AVE & GLENCREST BLVD",43.708327,-79.295914,,,,,,1
+11662,11662,"3003 Danforth Ave - Shoppers World","DANFORTH AVE & VICTORIA PARK AVE",43.689995,-79.288807,,,,,,1
+15609,15609,"2490 Gerrard St East","GERRARD ST E & VICTORIA PARK AVE",43.687873,-79.285345,,,,,,1
+14296,14296,"Crescent Town Rd at Massey Sq East","CRESCENT TOWN RD & LEE AVE",43.6963,-79.291553,,,,,,1
+15590,15590,"840 Coxwell Ave - Michael Garron Hospital Medical Centre","COXWELL AVE & MORTIMER AVE",43.689947,-79.326435,,,,,,1
+11653,11653,"Flemingdon Park Shopping Centre","GATEWAY BLVD & DON MILLS RD",43.714156,-79.334738,,,,,,2
+15674,15674,"10 Deauville Lane","DEAUVILLE LANE & ST DENNIS DR",43.717409,-79.331117,,,,,,2
+11654,11654,"Opposite 8 Donway Place - Revera Downey Place","DONWAY XWY E",43.735042,-79.340109,,,,,,2
+11656,11656,"1050 Don Mills Rd - Shops On Don Mills","CLOCK TOWER RD & THORNCLIFFE PARK DR",43.734083,-79.345789,,,,,,2
+11655,11655,"1 Overland Dr - Better Living - Thompson House","OVERLAND DR & THORNCLIFFE PARK DR",43.732392,-79.347425,,,,,,2
+14433,14433,"The Donway West at Sanderling Pl South Side","PEVERIL HILL N",43.734264,-79.348147,,,,,,2
+14302,14302,"1540 Kipling Ave - Richview Residence - Kipling Building","KIPLING AVE & HUNTING RIDGE",43.680574,-79.552944,,,,,,1
+14300,14300,"1500 Royal York Rd - Royal York Plaza (Metro)","ROYAL YORK RD & WESTMOUNT PARK RD",43.691175,-79.530886,,,,,,1
+14301,14301,"250 Wincott Dr - Richview Square Plaza (Rexall)","WINCOTT DR & WATERFORD DR",43.679633,-79.546443,,,,,,1
+14304,14304,"201 Lloyd Manor Rd - Lloyd Manor Place (Metro)","LLOYD MANOR RD & WATERFORD DR",43.675029,-79.555993,,,,,,1
+14298,14298,"60 Richview Rd - Ukrainian Canadian Care Centre","EGLINTON AVE W & PLANNING BOUNDARY",43.684201,-79.519031,,,,,,1
+14307,14307,"1447 Royal York Rd - Humbervale Residence","RENAULT CRES & ROYAL YORK RD",43.686434,-79.52746,,,,,,1
+15271,15271,"4005 Eglinton Ave West - Scarlett Heights Residence","EGLINTON AVE WEST TRL & ROYAL YORK RD",43.682744,-79.520347,,,,,,1
+15272,15272,"20/30 Fontenay Crt","LEMONWOOD DR & ROYAL YORK RD",43.682466,-79.512668,,,,,,1
+15273,15273,"63 Widdicombe Hill Blvd - Huntingwood Place","WIDDICOMBE HILL BLVD & DENFIELD ST",43.677731,-79.555206,,,,,,2
+14299,14299,"123 La Rose Ave - St Demetrius Seniors Residence","LA ROSE AVE & GRIGGSDEN AVE",43.684992,-79.521984,,,,,,1
+14303,14303,"105 Clement Rd - Richview Residence - Clement Building","CLEMENT RD & HUNTING RIDGE",43.680743,-79.553627,,,,,,1
+16005,16005,"5 Replin Rd - Lawrence Heights Community Centre","0 REPLIN RD",43.71767,-79.442814,,,,,,1
+16006,16006,"Bloor St West at Dufferin St West Side","0 BLOOR ST W & DUFFERIN ST",43.659913,-79.435637,,,,,,1
+16007,16007,"828 Kingston Rd - Glen Stewart Acres","KINGSTON RD & MALVERN AVE",43.680223,-79.291981,,,,,,1
+16008,16008,"1091 Kingston Rd - Henley Gardens","0 KINGSTON RD & MALVERN AVE",43.680638,-79.282913,,,,,,1
+16009,16009,"245 Dixon Rd (No Frills)","0 DIXON RD & ISLINGTON AVE",43.696268,-79.54462,,,,,,1
+16010,16010,"170 Emmett Ave - West Park Healthcare Centre - Main Entra","0 BUTTONWOOD AVE & PLANNING BOUNDARY",43.689382,-79.507733,,,,,,1
+16011,16011,"150 Emmett Ave - West Park Long Term Care","0 PLANNING BOUNDARY & HUMBER RIVER RECREATIONAL TRL",43.689649,-79.509091,,,,,,1
+16289,16289,"Humber College Station Eastbound Platform","HIGHWAY 27 N & HUMBER COLLEGE BLVD",43.730773,-79.601522,,,,,,1
+16290,16290,"Humber College Station Westbound Platform","HIGHWAY 27 S & HUMBER COLLEGE BLVD",43.730633,-79.60178,,,,,,1
+16291,16291,"Westmore Station Eastbound Platform","FINCH AVE W & WESTMORE DR",43.73468,-79.6005,,,,,,1
+16292,16292,"Westmore Station Westbound Platform","FINCH AVE W & WESTMORE DR",43.734606,-79.601763,,,,,,1
+16293,16293,"Martin Grove Station Eastbound Platform","FINCH AVE W & MARTIN GROVE RD",43.736875,-79.590875,,,,,,1
+16294,16294,"Martin Grove Station Westbound Platform","FINCH AVE W & MARTIN GROVE RD",43.736751,-79.592474,,,,,,1
+16295,16295,"Albion Station Eastbound Platform","FINCH AVE W & ALBION RD",43.741698,-79.588785,,,,,,1
+16296,16296,"Albion Station Westbound Platform","FINCH AVE W & ALBION RD",43.740677,-79.589628,,,,,,1
+16297,16297,"Stevenson Station Eastbound Platform","FINCH AVE W",43.743265,-79.586308,,,,,,1
+16298,16298,"Stevenson Station Westbound Platform","FINCH AVE W",43.743238,-79.587478,,,,,,1
+16299,16299,"Mount Olive Station Eastbound Platform","FINCH AVE W & KIPLING AVE",43.743307,-79.581238,,,,,,1
+16300,16300,"Mount Olive Station Westbound Platform","FINCH AVE W & KIPLING AVE",43.743318,-79.582992,,,,,,1
+16301,16301,"Rowntree Mills Station Eastbound Platform","FINCH AVE W & ISLINGTON AVE",43.74632,-79.568178,,,,,,1
+16302,16302,"Rowntree Mills Station Westbound Platform","FINCH AVE W & ISLINGTON AVE",43.746126,-79.569482,,,,,,1
+16303,16303,"Pearldale Station Eastbound Platform","FINCH AVE W & ARDWICK BLVD",43.747783,-79.561902,,,,,,1
+16304,16304,"Pearldale Station Westbound Platform","FINCH AVE W & PEARLDALE AVE",43.747752,-79.562931,,,,,,1
+16305,16305,"Duncanwoods Station Eastbound Platform","FINCH AVE W & ARDWICK BLVD",43.748834,-79.556992,,,,,,1
+16306,16306,"Duncanwoods Station Westbound Platform","FINCH AVE W & DUNCANWOODS DR",43.748791,-79.558135,,,,,,1
+16307,16307,"Milvan Rumike Station Eastbound Platform","FINCH AVE W & MILVAN DR",43.749971,-79.551735,,,,,,1
+16308,16308,"Milvan Rumike Station Westbound Platform","FINCH AVE W & RUMIKE RD",43.749916,-79.552867,,,,,,1
+16309,16309,"Emery Station Eastbound Platform","FINCH AVE W & WESTON RD",43.752071,-79.541668,,,,,,1
+16310,16310,"Emery Station Westbound Platform","FINCH AVE W & WESTON RD",43.752094,-79.54302,,,,,,1
+16311,16311,"Signet Arrow Station Eastbound Platform","FINCH AVE W & ARROW RD",43.753315,-79.535596,,,,,,1
+16312,16312,"Signet Arrow Station Westbound Platform","FINCH AVE W & SIGNET DR",43.753322,-79.536872,,,,,,1
+16313,16313,"Norfinch Oakdale Station Eastbound Platform","FINCH AVE W & NORFINCH DR",43.75591,-79.523883,,,,,,1
+16314,16314,"Norfinch Oakdale Station Westbound Platform","FINCH AVE W & OAKDALE RD",43.755943,-79.524859,,,,,,1
+16315,16315,"Jane and Finch Station Eastbound Platform","FINCH AVE W & JANE ST",43.757225,-79.51703,,,,,,1
+16316,16316,"Jane and Finch Station Westbound Platform","FINCH AVE W & JANE ST",43.757349,-79.518317,,,,,,1
+16317,16317,"Driftwood Station Eastbound Platform","FINCH AVE W & DRIFTWOOD AVE",43.758077,-79.512802,,,,,,1
+16318,16318,"Driftwood Station Westbound Platform","FINCH AVE W & DRIFTWOOD AVE",43.758054,-79.514004,,,,,,1
+16319,16319,"Tobermory Station Eastbound Platform","FINCH AVE W & TOBERMORY DR",43.759245,-79.507535,,,,,,1
+16320,16320,"Tobermory Station Westbound Platform","FINCH AVE W & TOBERMORY DR",43.7593,-79.508259,,,,,,1
+16321,16321,"Sentinel Station Eastbound Platform","FINCH AVE W & SENTINEL RD",43.761062,-79.499397,,,,,,1
+16322,16322,"Sentinel Station Westbound Platform","FINCH AVE W & SENTINEL RD",43.760942,-79.500738,,,,,,1
+16323,16323,"Finch West Station Eastbound Platform","FINCH AVE W & KEELE ST",43.76377,-79.490704,,,,,,1
+16324,16324,"Finch West Station Westbound Platform","FINCH AVE W & KEELE ST",43.763623,-79.490607,,,,,,1
+16370,16370,"120 Dallimore Circle","0 DALLIMORE CRCL",43.730245,-79.332425,,,,,,2
+16411,16411,"16 Dallimore Cir","0 DALLIMORE CRCL & GREEN BELT DR",43.731133,-79.33483,,,,,,1
+15723,15723,"156 Borough Dr - Scarborough Civic Centre and Library","0 BOROUGH DR & BOROUGH APPROACH E",43.772889,-79.256472,,,,,,1
+16708,16708,"Walmart Scarborough Town Centre","SCARBOROUGH TOWN CENTRE & WALMART",43.77757,-79.258592,,,,,,1
+16709,16709,"1255 McCowan Rd - Freshco","MCCOWAN & AT 1255",43.773847,-79.251303,,,,,,1
+16710,16710,"3750 Lawrence Ave East - Giant Tiger","LAWRENCE AVE E & AT 3750",43.762542,-79.215121,,,,,,1
 16711,16711,"225 Confederation Dr - Cedar Ridge Creative Centre","",43.757605,-79.206911,,,,,,1
-16712,16712,"450B Scarborough Golf Club Rd - Masaryktown Residences","",43.754762,-79.217431,,,,,,1
-16713,16713,"123 Guildwood Pkwy - Guildwood Village Shopping Centre","",43.746736,-79.200899,,,,,,1
+16712,16712,"450B Scarborough Golf Club Rd - Masaryktown Residences","SCARBOROUGH GOLF CLUB RD & AT 450A",43.754762,-79.217431,,,,,,1
+16713,16713,"123 Guildwood Pkwy - Guildwood Village Shopping Centre","GUILDWOOD PKWY & AT 123",43.746736,-79.200899,,,,,,1
 16714,16714,"130 Westlake Rd - Guildwood Station","",43.75477,-79.19763,,,,,,1
-16715,16715,"452 Scarborough Golf Club Rd - Masaryktown Homes","",43.755096,-79.214548,,,,,,1
-16165,16165,"Brimorton Dr at Markham Rd","",43.773615,-79.230455,,,,,,1
-16166,16166,"Brimorton Dr at Markham Rd","",43.773329,-79.230905,,,,,,1
-16169,16169,"Brimorton Dr at Bellamy Rd N","",43.767583,-79.238973,,,,,,1
-16170,16170,"Brimorton Dr at Bellamy Rd N","",43.767297,-79.239347,,,,,,1
-16175,16175,"Brimorton Dr at McCowan Rd","",43.765558,-79.248504,,,,,,1
-16798,16798,"Brimorton Dr at Jeffton Cres","",43.770466,-79.220286,,,,,,1
-16799,16799,"Brimorton Dr at Jeffton Cres","",43.770341,-79.219999,,,,,,1
-16800,16800,"Brimorton Dr at Gaitwin Pl","",43.773563,-79.224007,,,,,,1
-16801,16801,"Brimorton Dr at Gaitwin Pl West Side","",43.773715,-79.22382,,,,,,1
-16802,16802,"Brimorton Dr at Amberjack Blvd","",43.770457,-79.235862,,,,,,1
-16803,16803,"Brimorton Dr at Amberjack Blvd","",43.770789,-79.235711,,,,,,1
+16715,16715,"452 Scarborough Golf Club Rd - Masaryktown Homes","0 PLANNING BOUNDARY & HOLTON RD",43.755096,-79.214548,,,,,,1
+16165,16165,"Brimorton Dr at Markham Rd","0 BRIMORTON DR & MARKHAM RD",43.773615,-79.230455,,,,,,1
+16166,16166,"Brimorton Dr at Markham Rd","0 BRIMORTON DR & MARKHAM RD",43.773329,-79.230905,,,,,,1
+16169,16169,"Brimorton Dr at Bellamy Rd N","0 BRIMORTON DR & BELLAMY RD N",43.767583,-79.238973,,,,,,1
+16170,16170,"Brimorton Dr at Bellamy Rd N","0 BRIMORTON DR & BELLAMY RD N",43.767297,-79.239347,,,,,,1
+16175,16175,"Brimorton Dr at McCowan Rd","0 BRIMORTON DR & MCCOWAN RD",43.765558,-79.248504,,,,,,1
+16798,16798,"Brimorton Dr at Jeffton Cres","0 BRIMORTON DR & JEFFTON CRES",43.770466,-79.220286,,,,,,1
+16799,16799,"Brimorton Dr at Jeffton Cres","0 BRIMORTON DR & JEFFTON CRES",43.770341,-79.219999,,,,,,1
+16800,16800,"Brimorton Dr at Gaitwin Pl","0 BRIMORTON DR & GAITWIN PL",43.773563,-79.224007,,,,,,1
+16801,16801,"Brimorton Dr at Gaitwin Pl West Side","0 BRIMORTON DR & GAITWIN PL",43.773715,-79.22382,,,,,,1
+16802,16802,"Brimorton Dr at Amberjack Blvd","0 BRIMORTON DR & AMBERJACK BLVD",43.770457,-79.235862,,,,,,1
+16803,16803,"Brimorton Dr at Amberjack Blvd","0 BRIMORTON DR & AMBERJACK BLVD",43.770789,-79.235711,,,,,,1

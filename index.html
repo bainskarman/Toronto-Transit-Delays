@@ -1,7 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>
+        // Configuration for live tracking
+        const LIVE_TRACKING_CONFIG = {
+            API_URL: "https://bustime.ttc.ca/gtfsrt/vehicles",
+            REFRESH_INTERVAL: 60000, // 60 seconds
+            DEFAULT_ROUTE: "16",
+            MAX_BUSES_PER_ROUTE: 10
+        };
+    </script>
+    
     <style>
+
         /* Fix for map tile loading issues */
         .leaflet-container {
             background-color: var(--primary-bg) !important;
@@ -16,6 +27,144 @@
         .leaflet-layer {
             transition: none !important;
         }
+
+
+        .live-search {
+            background: var(--surface-bg);
+            border-radius: var(--radius-lg);
+            padding: var(--space-md);
+        }
+        
+        .live-controls {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+            margin-top: var(--space-md);
+        }
+        
+        .refresh-btn {
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            padding: var(--space-md);
+            cursor: pointer;
+            font-weight: var(--font-weight-medium);
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-sm);
+        }
+        
+        .refresh-btn:hover {
+            background: var(--accent-secondary);
+            transform: translateY(-1px);
+        }
+        
+        .refresh-icon {
+            font-size: 1.125rem;
+        }
+        
+        .live-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        
+        .live-hint {
+            margin-top: var(--space-md);
+            padding: var(--space-sm);
+            background: var(--tertiary-bg);
+            border-radius: var(--radius-md);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        .live-bus-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .bus-item {
+            background: var(--tertiary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: var(--space-md);
+            margin-bottom: var(--space-sm);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .bus-item:hover {
+            background: var(--surface-bg);
+            border-color: var(--accent-primary);
+        }
+        
+        .bus-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-xs);
+        }
+        
+        .bus-id {
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-primary);
+        }
+        
+        .bus-status {
+            font-size: 0.75rem;
+            padding: 2px 6px;
+            border-radius: var(--radius-sm);
+        }
+        
+        .status-ontime {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+        
+        .status-delayed {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        
+        .bus-details {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+        
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-xs) 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+        
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        
+        .detail-value {
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            font-weight: var(--font-weight-medium);
+        }
+        
+        .live-legend {
+            margin-top: var(--space-md);
+            padding-top: var(--space-md);
+            border-top: 1px solid var(--border-color);
+        }
+        
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -50,13 +199,13 @@
                     <span class="toggle-icon">⏱️</span>
                     Delay
                 </button>
-                <!-- <button class="toggle-btn" data-visual="comparison">
-                    <span class="toggle-icon">📊</span>
-                    Comparison
-                </button> -->
                 <button class="toggle-btn" data-visual="frequency">
                     <span class="toggle-icon">📈</span>
                     Frequency
+                </button>
+                <button class="toggle-btn" data-visual="live">
+                    <span class="toggle-icon">🚍</span>
+                    Live Tracking
                 </button>
             </div>
         </div>
@@ -114,19 +263,48 @@
                 </div>
 
                 <div class="sidebar-section">
-                    <h2 class="section-title">Route Search</h2>
-                    <div class="search-container">
+                    <h2 class="section-title" id="searchTitle">Route Search</h2>
+                    <div class="search-container" id="historicalSearch">
                         <div class="search-input-group">
                             <input type="text" 
-                                   id="routeSearch" 
-                                   class="search-input" 
-                                   placeholder="Search routes or streets..."
-                                   aria-label="Search routes or streets">
+                                id="routeSearch" 
+                                class="search-input" 
+                                placeholder="Search historical routes or streets..."
+                                aria-label="Search historical routes or streets">
                             <button class="search-btn" aria-label="Search">
                                 <span class="search-icon">🔍</span>
                             </button>
                         </div>
                         <div id="searchResults" class="search-results" aria-live="polite"></div>
+                    </div>
+                    
+                    <!-- Live Tracking Controls (initially hidden) -->
+                    <div class="search-container live-search" id="liveSearch" style="display: none;">
+                        <div class="search-input-group">
+                            <input type="text" 
+                                id="liveRouteSearch" 
+                                class="search-input" 
+                                placeholder="Enter route number (e.g., 16)"
+                                aria-label="Enter route number for live tracking"
+                                value="16">
+                            <button class="search-btn" id="liveSearchBtn" aria-label="Search live buses">
+                                <span class="search-icon">🔍</span>
+                            </button>
+                        </div>
+                        
+                        <div class="live-controls">
+                            <button id="refreshLiveBtn" class="refresh-btn">
+                                <span class="refresh-icon">🔄</span> Refresh Positions
+                            </button>
+                            <div class="live-stats">
+                                <span class="live-stat" id="busCount">-- buses</span>
+                                <span class="live-stat" id="lastUpdated">Just now</span>
+                            </div>
+                        </div>
+                        
+                        <div class="live-hint">
+                            <p>Showing real-time bus positions for route: <span id="currentLiveRoute">16</span></p>
+                        </div>
                     </div>
                 </div>
             </aside>
@@ -145,7 +323,9 @@
                         <span class="control-icon">🔄</span>
                     </button>
                 </div>
-                <div class="map-legend" id="mapLegend"></div>
+                <div class="map-legend" id="mapLegend">
+                    <!-- This will be dynamically populated based on mode -->
+                </div>
             </section>
 
             <!-- Right Sidebar -->
@@ -161,11 +341,38 @@
                 </div>
 
                 <div class="sidebar-section">
-                    <h2 class="section-title">Viewport Insights</h2>
+                    <h2 class="section-title" id="viewportTitle">Viewport Insights</h2>
                     <div class="viewport-info">
-                        <p class="hint-text" id="viewportHint">Zoom in to see street-level insights</p>
-                        <div id="viewportRoutes" class="viewport-routes">
-                            <!-- Dynamic content will be inserted here -->
+                        <!-- Historical mode content -->
+                        <div id="historicalViewport">
+                            <p class="hint-text" id="viewportHint">Zoom in to see street-level insights</p>
+                            <div id="viewportRoutes" class="viewport-routes">
+                                <!-- Dynamic content will be inserted here -->
+                            </div>
+                        </div>
+                        
+                        <!-- Live mode content (initially hidden) -->
+                        <div id="liveViewport" style="display: none;">
+                            <div class="live-bus-list" id="liveBusList">
+                                <div class="loading-state">
+                                    <div class="loading-spinner"></div>
+                                    <span>Loading live bus data...</span>
+                                </div>
+                            </div>
+                            <div class="live-legend">
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background: #10b981;"></div>
+                                    <span class="legend-label">On Time (&lt; 2 min delay)</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background: #f59e0b;"></div>
+                                    <span class="legend-label">Minor Delay (2-5 min)</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background: #ef4444;"></div>
+                                    <span class="legend-label">Major Delay (&gt; 5 min)</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -174,6 +381,36 @@
                     <h2 class="section-title">Delay Analytics</h2>
                     <div class="analytics-chart">
                         <canvas id="delayChart" width="300" height="200"></canvas>
+                    </div>
+                </div>
+
+                <div class="sidebar-section" id="busDetailsSection" style="display: none;">
+                    <h2 class="section-title">Selected Bus Details</h2>
+                    <div class="bus-details" id="busDetails">
+                        <div class="detail-item">
+                            <span class="detail-label">Vehicle ID:</span>
+                            <span class="detail-value" id="detailVehicleId">--</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Route:</span>
+                            <span class="detail-value" id="detailRoute">--</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Speed:</span>
+                            <span class="detail-value" id="detailSpeed">-- m/s</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Bearing:</span>
+                            <span class="detail-value" id="detailBearing">--°</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Status:</span>
+                            <span class="detail-value" id="detailStatus">--</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Last Update:</span>
+                            <span class="detail-value" id="detailTimestamp">--</span>
+                        </div>
                     </div>
                 </div>
 
@@ -197,6 +434,8 @@
                 </div>
             </aside>
         </main>
+        <!-- Add this after the Viewport Insights section -->
+
 
         <!-- Footer -->
         <footer class="app-footer">
@@ -210,6 +449,13 @@
                     <button class="footer-link" id="aboutBtn">About</button>
                     <span class="footer-separator">•</span>
                     <button class="footer-link" id="dataSourceBtn">Data Sources</button>
+                </div>
+                <div class="footer-info">
+                    <span class="footer-text">TTC Delay Visualization Platform</span>
+                    <span class="footer-separator">•</span>
+                    <span class="footer-text">Live data: <span id="liveDataStatus">Not connected</span></span>
+                    <span class="footer-separator">•</span>
+                    <span class="footer-text">Not affiliated with TTC or City of Toronto</span>
                 </div>
             </div>
         </footer>

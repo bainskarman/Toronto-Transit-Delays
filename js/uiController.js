@@ -20,6 +20,279 @@ class UIController {
         console.log('✅ UI controller initialized');
     }
 
+    // Live Tracking UI Methods
+    toggleLiveTrackingUI(isLiveMode) {
+        // Show/hide appropriate UI sections
+        const historicalSearch = document.getElementById('historicalSearch');
+        const liveSearch = document.getElementById('liveSearch');
+        const historicalViewport = document.getElementById('historicalViewport');
+        const liveViewport = document.getElementById('liveViewport');
+        const searchTitle = document.getElementById('searchTitle');
+        const viewportTitle = document.getElementById('viewportTitle');
+        const busDetailsSection = document.getElementById('busDetailsSection');
+        
+        if (historicalSearch) {
+            historicalSearch.style.display = isLiveMode ? 'none' : 'block';
+        }
+        if (liveSearch) {
+            liveSearch.style.display = isLiveMode ? 'block' : 'none';
+        }
+        if (historicalViewport) {
+            historicalViewport.style.display = isLiveMode ? 'none' : 'block';
+        }
+        if (liveViewport) {
+            liveViewport.style.display = isLiveMode ? 'block' : 'none';
+        }
+        if (busDetailsSection) {
+            busDetailsSection.style.display = isLiveMode ? 'block' : 'none';
+        }
+        
+        // Update section titles
+        if (searchTitle) {
+            searchTitle.textContent = isLiveMode ? 'Live Route Search' : 'Route Search';
+        }
+        if (viewportTitle) {
+            viewportTitle.textContent = isLiveMode ? 'Live Buses in View' : 'Viewport Insights';
+        }
+        
+        // Clear bus details if switching away from live mode
+        if (!isLiveMode && busDetailsSection) {
+            this.clearBusDetails();
+        }
+    }
+
+    updateLiveLoadingState(isLoading) {
+        const refreshBtn = document.getElementById('refreshLiveBtn');
+        const liveBusList = document.getElementById('liveBusList');
+        
+        if (refreshBtn) {
+            if (isLoading) {
+                refreshBtn.disabled = true;
+                refreshBtn.innerHTML = '<span class="refresh-icon">⏳</span> Loading...';
+            } else {
+                refreshBtn.disabled = false;
+                refreshBtn.innerHTML = '<span class="refresh-icon">🔄</span> Refresh Positions';
+            }
+        }
+        
+        if (liveBusList && isLoading) {
+            liveBusList.innerHTML = `
+                <div class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <span>Loading live bus data...</span>
+                </div>
+            `;
+        }
+    }
+
+    updateLiveBusList(buses) {
+        const container = document.getElementById('liveBusList');
+        if (!container) return;
+        
+        if (!buses || buses.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <span>🚍</span>
+                    <p>No buses found for this route</p>
+                    <p class="hint-text">Try refreshing or check a different route</p>
+                </div>
+            `;
+            return;
+        }
+        
+        const busesHtml = buses.map(bus => {
+            const status = this.getBusStatus(bus.delay_minutes);
+            const statusClass = this.getBusStatusClass(status);
+            const statusText = this.getBusStatusText(status);
+            const speed = bus.speed_mps ? `${bus.speed_mps.toFixed(1)} m/s` : 'N/A';
+            const delay = bus.delay_minutes ? `${bus.delay_minutes.toFixed(1)} min` : 'N/A';
+            
+            return `
+                <div class="bus-item" data-bus-id="${bus.vehicle_id}" role="button" tabindex="0">
+                    <div class="bus-item-header">
+                        <span class="bus-id">${bus.vehicle_label}</span>
+                        <span class="bus-status ${statusClass}">${statusText}</span>
+                    </div>
+                    <div class="bus-details">
+                        <div class="bus-detail-row">
+                            <span class="detail-label">Delay:</span>
+                            <span class="detail-value ${statusClass}">${delay}</span>
+                        </div>
+                        <div class="bus-detail-row">
+                            <span class="detail-label">Speed:</span>
+                            <span class="detail-value">${speed}</span>
+                        </div>
+                        <div class="bus-detail-row">
+                            <span class="detail-label">Status:</span>
+                            <span class="detail-value">${bus.occupancy || 'N/A'}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+        
+        container.innerHTML = busesHtml;
+        
+        // Add click handlers
+        container.querySelectorAll('.bus-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const busId = item.dataset.busId;
+                this.app.selectRoute(busId);
+            });
+            
+            item.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    const busId = item.dataset.busId;
+                    this.app.selectRoute(busId);
+                }
+            });
+        });
+    }
+
+    updateLiveStats(busCount, lastUpdated) {
+        const busCountElement = document.getElementById('busCount');
+        const lastUpdatedElement = document.getElementById('lastUpdated');
+        const liveDataStatus = document.getElementById('liveDataStatus');
+        
+        if (busCountElement) {
+            busCountElement.textContent = `${busCount} ${busCount === 1 ? 'bus' : 'buses'}`;
+        }
+        
+        if (lastUpdatedElement && lastUpdated) {
+            const now = new Date();
+            const diff = Math.floor((now - lastUpdated) / 1000);
+            
+            let timeText;
+            if (diff < 10) {
+                timeText = 'Just now';
+            } else if (diff < 60) {
+                timeText = `${diff} seconds ago`;
+            } else if (diff < 3600) {
+                const minutes = Math.floor(diff / 60);
+                timeText = `${minutes} minute${minutes !== 1 ? 's' : ''} ago`;
+            } else {
+                timeText = lastUpdated.toLocaleTimeString([], { 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
+                });
+            }
+            
+            lastUpdatedElement.textContent = timeText;
+        }
+        
+        if (liveDataStatus) {
+            liveDataStatus.textContent = busCount > 0 ? 'Connected' : 'Not connected';
+        }
+    }
+
+    updateBusDetails(bus) {
+        const detailsContainer = document.getElementById('busDetails');
+        if (!detailsContainer) return;
+        
+        const status = this.getBusStatus(bus.delay_minutes);
+        const statusClass = this.getBusStatusClass(status);
+        const statusText = this.getBusStatusText(status);
+        const speedMph = bus.speed_mps ? (bus.speed_mps * 2.23694).toFixed(1) : 'N/A';
+        
+        // Format timestamp
+        let timeString = 'Unknown';
+        if (bus.timestamp) {
+            const time = new Date(bus.timestamp);
+            timeString = time.toLocaleTimeString([], { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                second: '2-digit'
+            });
+        }
+        
+        // Determine occupancy text and emoji
+        let occupancyEmoji = '🟢';
+        let occupancyText = 'Many seats available';
+        if (bus.occupancy === 'CROWDED') {
+            occupancyEmoji = '🟡';
+            occupancyText = 'Crowded';
+        } else if (bus.occupancy === 'FULL') {
+            occupancyEmoji = '🔴';
+            occupancyText = 'Full';
+        }
+        
+        detailsContainer.innerHTML = `
+            <div class="detail-item">
+                <span class="detail-label">Vehicle ID:</span>
+                <span class="detail-value">${bus.vehicle_id}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Route:</span>
+                <span class="detail-value">${bus.route_id}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Speed:</span>
+                <span class="detail-value">${bus.speed_mps ? bus.speed_mps.toFixed(1) + ' m/s' : 'N/A'} (${speedMph} mph)</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Bearing:</span>
+                <span class="detail-value">${bus.bearing ? bus.bearing.toFixed(0) + '°' : 'N/A'}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Delay:</span>
+                <span class="detail-value ${statusClass}">${bus.delay_minutes ? bus.delay_minutes.toFixed(1) + ' min' : 'N/A'} (${statusText})</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Occupancy:</span>
+                <span class="detail-value">${occupancyEmoji} ${occupancyText}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Last Update:</span>
+                <span class="detail-value">${timeString}</span>
+            </div>
+            <div class="bus-actions">
+                <button class="action-btn focus-btn" onclick="window.ttcApp.mapVisualizer.focusOnBus('${bus.vehicle_id}')">
+                    📍 Focus on Map
+                </button>
+                <button class="action-btn center-btn" onclick="window.ttcApp.mapVisualizer.centerOnBus('${bus.vehicle_id}')">
+                    🎯 Center Map
+                </button>
+            </div>
+        `;
+    }
+
+    clearBusDetails() {
+        const detailsContainer = document.getElementById('busDetails');
+        if (detailsContainer) {
+            detailsContainer.innerHTML = `
+                <div class="empty-state">
+                    <span>🚍</span>
+                    <p>Select a bus to see details</p>
+                </div>
+            `;
+        }
+    }
+
+    // Helper methods for bus status
+    getBusStatus(delayMinutes) {
+        if (delayMinutes < 2) return 'ON_TIME';
+        if (delayMinutes < 5) return 'MINOR_DELAY';
+        return 'MAJOR_DELAY';
+    }
+
+    getBusStatusClass(status) {
+        switch (status) {
+            case 'ON_TIME': return 'status-ontime';
+            case 'MINOR_DELAY': return 'status-minor';
+            case 'MAJOR_DELAY': return 'status-major';
+            default: return '';
+        }
+    }
+
+    getBusStatusText(status) {
+        switch (status) {
+            case 'ON_TIME': return 'On Time';
+            case 'MINOR_DELAY': return 'Minor Delay';
+            case 'MAJOR_DELAY': return 'Major Delay';
+            default: return 'Unknown';
+        }
+    }
+
     // Metrics and Data Display
     updateMetrics(summaryStats) {
         console.log('📊 SummaryStats received for metrics:', summaryStats);
@@ -44,7 +317,7 @@ class UIController {
         this.updateLastRefreshedDate(summaryStats);
     }
 
-    // NEW: Helper method to get routes tracked with fallbacks
+    // Helper method to get routes tracked with fallbacks
     getRoutesTracked(summaryStats) {
         if (!summaryStats) return '--';
         
@@ -133,7 +406,7 @@ class UIController {
             return;
         }
 
-        if (this.app.map.getZoom() < 13) {
+        if (this.app.map && this.app.map.getZoom() < 13) {
             container.innerHTML = `
                 <div class="empty-state">
                     <span>🔍</span>
@@ -189,28 +462,36 @@ class UIController {
 
     updateDataSummary(summaryStats) {
         // Show data period (e.g., "2014-2025")
-        document.getElementById('timePeriod').textContent = summaryStats.time_period || '--';
+        const timePeriodElement = document.getElementById('timePeriod');
+        if (timePeriodElement) {
+            timePeriodElement.textContent = summaryStats.time_period || '--';
+        }
         
         // Show total delay incidents
-        document.getElementById('dataPoints').textContent = summaryStats.total_delays?.toLocaleString() || '--';
+        const dataPointsElement = document.getElementById('dataPoints');
+        if (dataPointsElement) {
+            dataPointsElement.textContent = summaryStats.total_delays?.toLocaleString() || '--';
+        }
         
         // Show most recent data date
-        if (summaryStats.data_most_recent_date) {
-            try {
-                const recentDate = new Date(summaryStats.data_most_recent_date);
-                document.getElementById('dataUpdate').textContent = recentDate.toLocaleDateString();
-            } catch (e) {
-                document.getElementById('dataUpdate').textContent = '--';
+        const dataUpdateElement = document.getElementById('dataUpdate');
+        if (dataUpdateElement) {
+            if (summaryStats.data_most_recent_date) {
+                try {
+                    const recentDate = new Date(summaryStats.data_most_recent_date);
+                    dataUpdateElement.textContent = recentDate.toLocaleDateString();
+                } catch (e) {
+                    dataUpdateElement.textContent = '--';
+                }
+            } else {
+                dataUpdateElement.textContent = '--';
             }
-        } else {
-            document.getElementById('dataUpdate').textContent = '--';
         }
     }
 
     // Chart Management
     initializeCharts(routes) {
         this.initializeDelayDistributionChart(routes);
-        this.initializePeakHoursChart(routes);
     }
 
     initializeDelayDistributionChart(routes) {
@@ -218,6 +499,11 @@ class UIController {
         if (!canvas) return;
 
         const ctx = canvas.getContext('2d');
+        
+        // Check if a chart already exists and destroy it
+        if (this.charts.has('delayDistribution')) {
+            this.charts.get('delayDistribution').destroy();
+        }
         
         // Prepare data for delay distribution
         const delayRanges = [
@@ -248,7 +534,7 @@ class UIController {
             }]
         };
 
-        this.charts.set('delayDistribution', new Chart(ctx, {
+        const chart = new Chart(ctx, {
             type: 'bar',
             data: data,
             options: {
@@ -269,22 +555,31 @@ class UIController {
                 scales: {
                     y: {
                         beginAtZero: true,
-                        grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                        ticks: { color: '#a0aec0' }
+                        grid: { 
+                            color: 'var(--border-color)',
+                            drawBorder: false
+                        },
+                        ticks: { 
+                            color: 'var(--text-secondary)',
+                            font: {
+                                size: 11
+                            }
+                        }
                     },
                     x: {
                         grid: { display: false },
-                        ticks: { color: '#a0aec0', maxRotation: 45 }
+                        ticks: { 
+                            color: 'var(--text-secondary)',
+                            font: {
+                                size: 11
+                            }
+                        }
                     }
                 }
             }
-        }));
-    }
-
-    initializePeakHoursChart(routes) {
-        // This would be implemented when we have time-based data
-        // For now, we'll create a placeholder
-        console.log('📈 Peak hours chart placeholder initialized');
+        });
+        
+        this.charts.set('delayDistribution', chart);
     }
 
     // Search Functionality
@@ -341,8 +636,10 @@ class UIController {
 
     clearSearchResults() {
         const container = document.getElementById('searchResults');
-        container.style.display = 'none';
-        container.innerHTML = '';
+        if (container) {
+            container.style.display = 'none';
+            container.innerHTML = '';
+        }
     }
 
     // Visualization Controls
@@ -360,18 +657,16 @@ class UIController {
 
     updateMapLegend(legendHtml) {
         const container = document.getElementById('mapLegend');
-        if (legendHtml) {
+        if (container && legendHtml) {
             container.innerHTML = legendHtml;
             container.style.display = 'block';
-        } else {
+        } else if (container) {
             container.style.display = 'none';
         }
     }
 
     // Route Details
     updateRouteDetails(route) {
-        // This would update a dedicated route details panel
-        // For now, we'll show a notification
         const routeName = route.route_long_name || `Route ${route.Route}`;
         this.showNotification(`Selected: ${routeName} - ${route.Avg_Delay_Min.toFixed(1)} min avg delay`, 'info');
     }
@@ -383,17 +678,17 @@ class UIController {
     // Loading States
     showLoadingState() {
         const mapContainer = document.querySelector('.map-container');
-        if (!mapContainer.querySelector('.loading-overlay')) {
-            const overlay = document.createElement('div');
-            overlay.className = 'loading-overlay';
-            overlay.innerHTML = `
-                <div class="loading-content">
-                    <div class="loading-spinner large"></div>
-                    <p>Loading visualization...</p>
-                </div>
-            `;
-            mapContainer.appendChild(overlay);
-        }
+        if (!mapContainer || mapContainer.querySelector('.loading-overlay')) return;
+        
+        const overlay = document.createElement('div');
+        overlay.className = 'loading-overlay';
+        overlay.innerHTML = `
+            <div class="loading-content">
+                <div class="loading-spinner large"></div>
+                <p>Loading visualization...</p>
+            </div>
+        `;
+        mapContainer.appendChild(overlay);
     }
 
     hideLoadingState() {
@@ -491,7 +786,10 @@ class UIController {
                 document.body.classList.toggle('mobile-menu-open');
             });
             
-            document.querySelector('.app-header').appendChild(toggle);
+            const header = document.querySelector('.app-header');
+            if (header) {
+                header.appendChild(toggle);
+            }
         }
     }
 
@@ -587,6 +885,8 @@ class UIController {
             'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
         );
         
+        if (focusableElements.length === 0) return;
+        
         const firstElement = focusableElements[0];
         const lastElement = focusableElements[focusableElements.length - 1];
         
@@ -627,9 +927,6 @@ class UIController {
         });
         this.charts.clear();
         
-        // Remove event listeners
-        // (We would need to store references to remove them properly)
-        
         // Remove notification container
         if (this.notificationContainer) {
             this.notificationContainer.remove();
@@ -645,6 +942,269 @@ class UIController {
         };
     }
 }
+
+// Add CSS for new live tracking elements
+const liveStyles = document.createElement('style');
+liveStyles.textContent = `
+    /* Live tracking specific styles */
+    .live-search {
+        background: var(--surface-bg);
+        border-radius: var(--radius-lg);
+        padding: var(--space-md);
+        margin-top: var(--space-md);
+    }
+    
+    .live-controls {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-sm);
+        margin-top: var(--space-md);
+    }
+    
+    .refresh-btn {
+        background: var(--accent-primary);
+        color: white;
+        border: none;
+        border-radius: var(--radius-md);
+        padding: var(--space-md);
+        cursor: pointer;
+        font-weight: var(--font-weight-medium);
+        transition: all var(--transition-fast);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-sm);
+        width: 100%;
+    }
+    
+    .refresh-btn:hover:not(:disabled) {
+        background: var(--accent-secondary);
+        transform: translateY(-1px);
+    }
+    
+    .refresh-btn:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+    
+    .refresh-icon {
+        font-size: 1.125rem;
+    }
+    
+    .live-stats {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+    }
+    
+    .live-hint {
+        margin-top: var(--space-md);
+        padding: var(--space-sm);
+        background: var(--tertiary-bg);
+        border-radius: var(--radius-md);
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        border-left: 3px solid var(--accent-primary);
+    }
+    
+    .live-bus-list {
+        max-height: 300px;
+        overflow-y: auto;
+        margin-bottom: var(--space-md);
+    }
+    
+    .bus-item {
+        background: var(--tertiary-bg);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        padding: var(--space-md);
+        margin-bottom: var(--space-sm);
+        cursor: pointer;
+        transition: all var(--transition-fast);
+    }
+    
+    .bus-item:hover {
+        background: var(--surface-bg);
+        border-color: var(--accent-primary);
+    }
+    
+    .bus-item-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--space-xs);
+    }
+    
+    .bus-id {
+        font-weight: var(--font-weight-semibold);
+        color: var(--text-primary);
+        font-size: 0.875rem;
+    }
+    
+    .bus-status {
+        font-size: 0.75rem;
+        padding: 2px 8px;
+        border-radius: var(--radius-sm);
+        font-weight: var(--font-weight-medium);
+    }
+    
+    .status-ontime {
+        background: rgba(16, 185, 129, 0.2);
+        color: #10b981;
+        border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    
+    .status-minor {
+        background: rgba(245, 158, 11, 0.2);
+        color: #f59e0b;
+        border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+    
+    .status-major {
+        background: rgba(239, 68, 68, 0.2);
+        color: #ef4444;
+        border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    
+    .bus-details {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-xs);
+    }
+    
+    .bus-detail-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.75rem;
+    }
+    
+    .detail-label {
+        color: var(--text-secondary);
+    }
+    
+    .detail-value {
+        color: var(--text-primary);
+        font-weight: var(--font-weight-medium);
+    }
+    
+    .live-legend {
+        margin-top: var(--space-md);
+        padding-top: var(--space-md);
+        border-top: 1px solid var(--border-color);
+    }
+    
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+        margin-bottom: var(--space-xs);
+        font-size: 0.75rem;
+    }
+    
+    .legend-color {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+    }
+    
+    .legend-label {
+        color: var(--text-secondary);
+    }
+    
+    .bus-actions {
+        display: flex;
+        gap: var(--space-sm);
+        margin-top: var(--space-md);
+    }
+    
+    .action-btn {
+        flex: 1;
+        background: var(--tertiary-bg);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        padding: var(--space-sm);
+        color: var(--text-primary);
+        font-size: 0.75rem;
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        text-align: center;
+    }
+    
+    .action-btn:hover {
+        background: var(--surface-bg);
+        border-color: var(--accent-primary);
+    }
+    
+    .focus-btn {
+        background: var(--accent-primary);
+        color: white;
+        border-color: var(--accent-primary);
+    }
+    
+    .center-btn {
+        background: var(--tertiary-bg);
+    }
+    
+    /* Bus popup styles */
+    .bus-popup {
+        min-width: 250px;
+    }
+    
+    .bus-popup .popup-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--space-sm);
+    }
+    
+    .bus-popup .popup-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: var(--space-xs);
+        font-size: 0.875rem;
+    }
+    
+    .bus-popup .label {
+        color: var(--text-secondary);
+    }
+    
+    .bus-popup .value {
+        color: var(--text-primary);
+        font-weight: var(--font-weight-medium);
+    }
+    
+    .bus-popup .popup-actions {
+        margin-top: var(--space-md);
+    }
+    
+    /* Mobile optimizations for live tracking */
+    @media (max-width: 768px) {
+        .live-controls {
+            flex-direction: column;
+        }
+        
+        .bus-actions {
+            flex-direction: column;
+        }
+        
+        .live-bus-list {
+            max-height: 200px;
+        }
+    }
+    
+    /* Animation for bus selection */
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+    }
+    
+    .bus-icon.selected {
+        animation: pulse 1s ease-in-out infinite;
+    }
+`;
+document.head.appendChild(liveStyles);
 
 // Screen reader only class for accessibility
 const style = document.createElement('style');
@@ -710,6 +1270,13 @@ style.textContent = `
         font-size: 2rem;
         display: block;
         margin-bottom: var(--space-md);
+    }
+    
+    .hint-text {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        font-style: italic;
+        margin-top: var(--space-xs);
     }
 `;
 document.head.appendChild(style);

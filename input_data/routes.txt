@@ -165,6 +165,7 @@ route_id,agency_id,route_short_name,route_long_name,route_desc,route_type,route_
 79,1,"79","Scarlett Rd",,700,,ED1C24,FFFFFF
 8,1,"8","Broadview",,700,,ED1C24,FFFFFF
 80,1,"80","Queensway",,700,,ED1C24,FFFFFF
+806,1,"806","Line 6 Shuttle",,700,,939598,FFFFFF
 82,1,"82","Rosedale",,700,,ED1C24,FFFFFF
 83,1,"83","Jones",,700,,ED1C24,FFFFFF
 84,1,"84","Sheppard West",,700,,ED1C24,FFFFFF
@@ -172,7 +173,6 @@ route_id,agency_id,route_short_name,route_long_name,route_desc,route_type,route_
 86,1,"86","Scarborough",,700,,ED1C24,FFFFFF
 87,1,"87","Cosburn",,700,,ED1C24,FFFFFF
 88,1,"88","South Leaside",,700,,ED1C24,FFFFFF
-882,1,"882","Operator Shuttles",,900,,808000,FFFFFF
 89,1,"89","Weston",,700,,ED1C24,FFFFFF
 9,1,"9","Bellamy",,700,,ED1C24,FFFFFF
 90,1,"90","Vaughan",,700,,ED1C24,FFFFFF
@@ -221,3 +221,4 @@ route_id,agency_id,route_short_name,route_long_name,route_desc,route_type,route_
 404,1,"404","East York",,700,,6D6E71,FFFFFF
 405,1,"405","Etobicoke",,700,,6D6E71,FFFFFF
 406,1,"406","Scarborough-Guildwood",,700,,6D6E71,FFFFFF
+6,1,"6","Line 6 (Finch West)",,400,,808080,FFFFFF
