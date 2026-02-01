@@ -10,11 +10,13 @@ class MapVisualizer {
         this.colorScales = new Map();
         this.highlightedRoute = null;
         
-        // NEW: Live tracking properties
+        // Live tracking properties
         this.busMarkers = new Map(); // Store bus markers by vehicle_id
         this.selectedBus = null;
         this.busIconCache = new Map();
         this.routeLines = new Map(); // Store route lines for live mode
+        this.lastMapCenter = null;
+        this.lastZoom = null;
         
         // Visualization configurations
         this.config = {
@@ -50,16 +52,15 @@ class MapVisualizer {
                 minWeight: 3,
                 maxWeight: 8
             },
-            // NEW: Live tracking configuration
+            // Live tracking configuration
             liveTracking: {
                 iconSize: [32, 32],
                 iconAnchor: [16, 16],
                 popupAnchor: [0, -16],
                 colors: {
-                    onTime: '#10b981',    // Green
-                    minorDelay: '#f59e0b', // Yellow
-                    majorDelay: '#ef4444', // Red
-                    selected: '#3b82f6'    // Blue for selected bus
+                    moving: '#10b981',    // Green - moving
+                    slow: '#f59e0b',      // Yellow - slow moving
+                    stopped: '#ef4444'    // Red - stopped
                 },
                 routeLine: {
                     color: '#94a3b8',
@@ -77,6 +78,10 @@ class MapVisualizer {
         this.map = map;
         this.routeGeometries = routeGeometries;
         this.routes = routes;
+        
+        // Store initial map state
+        this.lastMapCenter = map.getCenter();
+        this.lastZoom = map.getZoom();
         
         // Initialize color scales
         this.initializeColorScales();
@@ -358,33 +363,44 @@ class MapVisualizer {
         return routesAdded;
     }
 
-    // NEW: Live Tracking Methods
-    async showLiveBuses(buses) {
-        console.log(`🚍 Showing ${buses.length} live buses...`);
+    // Live Tracking Methods
+    async showLiveBuses(buses, routeId) {
+        console.log(`🚍 Showing ${buses.length} live buses for route ${routeId}...`);
         
         this.clearVisualization();
         this.currentVisualization = 'live';
         
         if (!buses || buses.length === 0) {
             console.warn('⚠️ No buses to display');
-            this.showError('No live bus data available');
+            this.showError('No live bus data available for this route');
             return 0;
         }
 
-        // Get the route from first bus
-        const routeId = buses[0].route_id;
-        console.log(`📍 Showing buses for route ${routeId}`);
+        // Show route geometry if available and not "all"
+        if (routeId && routeId !== 'all') {
+            this.showRouteForLiveTracking(routeId);
+        }
         
-        // Show route geometry if available
-        this.showRouteForLiveTracking(routeId);
+        // FIX: Prevent auto-zooming by checking if we should center
+        const shouldCenter = !this.lastMapCenter || 
+                           this.map.getZoom() < 12 || 
+                           !this.isInTorontoView(this.map.getBounds());
         
-        // Center map on first bus if available
-        const firstBus = buses.find(b => b.latitude && b.longitude);
-        if (firstBus) {
-            this.map.setView([firstBus.latitude, firstBus.longitude], 14);
-        } else {
-            // Center on Toronto
-            this.map.setView([43.6532, -79.3832], 13);
+        if (shouldCenter) {
+            // Center on first bus or Toronto
+            const firstBus = buses.find(b => b.latitude && b.longitude);
+            if (firstBus) {
+                this.map.setView([firstBus.latitude, firstBus.longitude], 13, {
+                    animate: true,
+                    duration: 0.5
+                });
+            } else {
+                // Center on Toronto
+                this.map.setView([43.6532, -79.3832], 12, {
+                    animate: true,
+                    duration: 0.5
+                });
+            }
         }
 
         let busesAdded = 0;
@@ -435,28 +451,34 @@ class MapVisualizer {
             return null;
         }
         
-        // Get bus status and corresponding color
-        const status = this.getBusStatus(bus.delay_minutes);
+        // Get bus status based on speed
+        const speedMps = bus.speed_mps || 0;
+        const speedKmh = speedMps * 3.6;
+        const status = this.getBusStatus(speedKmh);
         const color = this.config.liveTracking.colors[status];
         
-        // Create custom bus icon
-        const icon = this.createBusIcon(busId, color, status, bus.bearing);
+        // Get direction from bearing
+        const bearing = bus.bearing || 0;
+        const direction = this.getDirectionFromBearing(bearing);
         
-        // Create popup content
-        const popupContent = this.createBusPopup(bus);
+        // Create custom bus icon
+        const icon = this.createBusIcon(busId, color, status, bearing, speedKmh);
+        
+        // Create popup content with REAL data from API
+        const popupContent = this.createBusPopup(bus, direction, speedKmh);
         
         // Create marker with rotation
         const marker = L.marker(position, {
             icon: icon,
-            rotationAngle: bus.bearing || 0,
+            rotationAngle: bearing,
             rotationOrigin: 'center',
             zIndexOffset: 1000,
-            title: `Bus ${bus.vehicle_label} (${bus.route_id})`,
+            title: `Bus ${bus.vehicle_label} (Route ${bus.route_id})`,
             alt: `Bus ${bus.vehicle_label} on route ${bus.route_id}`
         })
         .bindPopup(popupContent)
         .bindTooltip(
-            `Bus ${bus.vehicle_label}<br>${bus.delay_minutes ? bus.delay_minutes.toFixed(1) + ' min delay' : 'No delay data'}`,
+            `Bus ${bus.vehicle_label}<br>Route ${bus.route_id} - ${speedKmh.toFixed(0)} km/h<br>${direction}`,
             {
                 permanent: false,
                 direction: 'top',
@@ -492,36 +514,47 @@ class MapVisualizer {
         return marker;
     }
 
-    createBusIcon(busId, color, status, bearing) {
-        const cacheKey = `${busId}_${color}_${status}`;
+    createBusIcon(busId, color, status, bearing, speedKmh) {
+        const cacheKey = `${busId}_${color}_${status}_${bearing.toFixed(0)}`;
         
         // Check cache first
         if (this.busIconCache.has(cacheKey)) {
             return this.busIconCache.get(cacheKey);
         }
         
-        // Create SVG icon
+        // Determine icon style based on status
+        const isStopped = status === 'stopped';
+        const isSlow = status === 'slow';
+        const borderColor = isStopped ? '#ffffff' : '#00274d';
+        
+        // Create SVG icon with better bus representation
         const iconHtml = `
-            <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+            <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
                 <!-- Outer circle -->
-                <circle cx="30" cy="30" r="28" fill="white" stroke="${color}" stroke-width="2"/>
+                <circle cx="20" cy="20" r="18" fill="${color}" stroke="${borderColor}" stroke-width="2"/>
                 
-                <!-- Bus icon -->
-                <g transform="translate(15, 15) scale(0.3)">
-                    <path d="M20 0H80C88.2843 0 95 6.71573 95 15V55C95 63.2843 88.2843 70 80 70H20C11.7157 70 5 63.2843 5 55V15C5 6.71573 11.7157 0 20 0Z" fill="${color}"/>
-                    <rect x="20" y="10" width="60" height="15" rx="2" fill="white"/>
-                    <circle cx="30" y="55" r="10" fill="#333"/>
-                    <circle cx="70" y="55" r="10" fill="#333"/>
-                    <circle cx="30" y="55" r="6" fill="white"/>
-                    <circle cx="70" y="55" r="6" fill="white"/>
-                </g>
+                <!-- Bus body -->
+                <rect x="8" y="12" width="24" height="12" rx="2" fill="white"/>
                 
-                <!-- Status indicator -->
-                <circle cx="45" cy="15" r="5" fill="${color}"/>
+                <!-- Bus windows -->
+                <rect x="10" y="14" width="6" height="3" rx="1" fill="#94a3b8"/>
+                <rect x="18" y="14" width="6" height="3" rx="1" fill="#94a3b8"/>
+                <rect x="26" y="14" width="4" height="3" rx="1" fill="#94a3b8"/>
                 
-                <!-- Bus number background -->
-                <rect x="10" y="40" width="40" height="15" rx="3" fill="white" opacity="0.8"/>
-                <text x="30" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="${color}">${busId.slice(-3)}</text>
+                <!-- Wheels -->
+                <circle cx="12" cy="26" r="3" fill="#1e293b"/>
+                <circle cx="28" cy="26" r="3" fill="#1e293b"/>
+                <circle cx="12" cy="26" r="1.5" fill="white"/>
+                <circle cx="28" cy="26" r="1.5" fill="white"/>
+                
+                <!-- Direction indicator -->
+                <polygon points="20,8 16,12 24,12" fill="${borderColor}"/>
+                
+                <!-- Speed indicator (small dot) -->
+                <circle cx="30" cy="10" r="2" fill="${isStopped ? '#ef4444' : (isSlow ? '#f59e0b' : '#10b981')}"/>
+                
+                <!-- Bus number (last 3 digits of vehicle ID) -->
+                <text x="20" y="34" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" font-weight="bold" fill="white">${busId.slice(-3)}</text>
             </svg>
         `;
         
@@ -540,90 +573,84 @@ class MapVisualizer {
         return icon;
     }
 
-    getBusStatus(delayMinutes) {
-        if (delayMinutes < 2) return 'onTime';
-        if (delayMinutes < 5) return 'minorDelay';
-        return 'majorDelay';
+    getBusStatus(speedKmh) {
+        if (speedKmh < 1) return 'stopped';     // Stopped
+        if (speedKmh < 20) return 'slow';       // Slow moving (0-20 km/h)
+        return 'moving';                         // Normal moving (20+ km/h)
     }
 
-    createBusPopup(bus) {
-        const status = this.getBusStatus(bus.delay_minutes);
-        const statusText = this.getBusStatusText(status);
-        const speedMph = bus.speed_mps ? (bus.speed_mps * 2.23694).toFixed(1) : 'N/A';
+    getDirectionFromBearing(bearing) {
+        if (bearing >= 337.5 || bearing < 22.5) return 'N';
+        if (bearing >= 22.5 && bearing < 67.5) return 'NE';
+        if (bearing >= 67.5 && bearing < 112.5) return 'E';
+        if (bearing >= 112.5 && bearing < 157.5) return 'SE';
+        if (bearing >= 157.5 && bearing < 202.5) return 'S';
+        if (bearing >= 202.5 && bearing < 247.5) return 'SW';
+        if (bearing >= 247.5 && bearing < 292.5) return 'W';
+        return 'NW';
+    }
+
+    createBusPopup(bus, direction, speedKmh) {
+        const timestamp = bus.timestamp ? new Date(bus.timestamp) : new Date();
+        const timeString = timestamp.toLocaleTimeString([], { 
+            hour: '2-digit', 
+            minute: '2-digit',
+            second: '2-digit'
+        });
         
-        // Format timestamp
-        let timeString = 'Unknown';
-        if (bus.timestamp) {
-            const time = new Date(bus.timestamp);
-            timeString = time.toLocaleTimeString([], { 
-                hour: '2-digit', 
-                minute: '2-digit',
-                second: '2-digit'
-            });
-        }
+        const dateString = timestamp.toLocaleDateString();
         
-        // Determine occupancy emoji
-        let occupancyEmoji = '🟢';
-        let occupancyText = 'Many seats available';
-        if (bus.occupancy === 'CROWDED') {
-            occupancyEmoji = '🟡';
-            occupancyText = 'Crowded';
-        } else if (bus.occupancy === 'FULL') {
-            occupancyEmoji = '🔴';
-            occupancyText = 'Full';
-        } else if (bus.occupancy === 'MANY_SEATS_AVAILABLE') {
-            occupancyEmoji = '🟢';
-            occupancyText = 'Many seats';
+        // Format occupancy status
+        let occupancyText = 'Unknown';
+        if (bus.occupancy_status) {
+            occupancyText = bus.occupancy_status
+                .toLowerCase()
+                .replace(/_/g, ' ')
+                .replace(/\b\w/g, l => l.toUpperCase());
         }
         
         return `
             <div class="bus-popup">
                 <div class="popup-header">
-                    <h3>${bus.vehicle_label}</h3>
-                    <span class="bus-status ${status}">${statusText}</span>
+                    <h3><i class="fas fa-bus"></i> TTC Bus ${bus.vehicle_label}</h3>
                 </div>
                 <div class="popup-content">
                     <div class="popup-row">
-                        <span class="label">Route:</span>
+                        <span class="label"><i class="fas fa-route"></i> Route:</span>
                         <span class="value">${bus.route_id}</span>
                     </div>
                     <div class="popup-row">
-                        <span class="label">Delay:</span>
-                        <span class="value ${status}">${bus.delay_minutes ? bus.delay_minutes.toFixed(1) + ' minutes' : 'N/A'}</span>
+                        <span class="label"><i class="fas fa-id-card"></i> Vehicle ID:</span>
+                        <span class="value">${bus.vehicle_id}</span>
                     </div>
                     <div class="popup-row">
-                        <span class="label">Speed:</span>
-                        <span class="value">${bus.speed_mps ? bus.speed_mps.toFixed(1) + ' m/s' : 'N/A'} (${speedMph} mph)</span>
+                        <span class="label"><i class="fas fa-tachometer-alt"></i> Speed:</span>
+                        <span class="value">${speedKmh.toFixed(1)} km/h (${(bus.speed_mps || 0).toFixed(1)} m/s)</span>
                     </div>
                     <div class="popup-row">
-                        <span class="label">Bearing:</span>
-                        <span class="value">${bus.bearing ? bus.bearing.toFixed(0) + '°' : 'N/A'}</span>
+                        <span class="label"><i class="fas fa-compass"></i> Direction:</span>
+                        <span class="value">${direction} (${(bus.bearing || 0).toFixed(0)}°)</span>
                     </div>
                     <div class="popup-row">
-                        <span class="label">Occupancy:</span>
-                        <span class="value">${occupancyEmoji} ${occupancyText}</span>
+                        <span class="label"><i class="fas fa-users"></i> Occupancy:</span>
+                        <span class="value">${occupancyText}</span>
                     </div>
                     <div class="popup-row">
-                        <span class="label">Last Update:</span>
-                        <span class="value">${timeString}</span>
+                        <span class="label"><i class="fas fa-map-marker-alt"></i> Position:</span>
+                        <span class="value">${bus.latitude.toFixed(6)}, ${bus.longitude.toFixed(6)}</span>
+                    </div>
+                    <div class="popup-row">
+                        <span class="label"><i class="fas fa-clock"></i> Last Update:</span>
+                        <span class="value">${timeString}<br><small>${dateString}</small></span>
                     </div>
                 </div>
                 <div class="popup-actions">
                     <button class="popup-btn select-bus" onclick="window.ttcApp.selectRoute('${bus.vehicle_id}')">
-                        📍 Track This Bus
+                        <i class="fas fa-search-location"></i> Track This Bus
                     </button>
                 </div>
             </div>
         `;
-    }
-
-    getBusStatusText(status) {
-        const statusMap = {
-            onTime: 'On Time',
-            minorDelay: 'Minor Delay',
-            majorDelay: 'Major Delay'
-        };
-        return statusMap[status] || 'Unknown';
     }
 
     // Bus interaction handlers
@@ -653,12 +680,13 @@ class MapVisualizer {
             // Store original icon
             const originalIcon = marker.options.icon;
             
-            // Create highlighted icon
+            // Create highlighted icon with blue color
             const highlightedIcon = this.createBusIcon(
                 busId, 
-                this.config.liveTracking.colors.selected,
+                '#3b82f6', // Blue for selected
                 'selected',
-                bus.bearing
+                bus.bearing || 0,
+                (bus.speed_mps || 0) * 3.6
             );
             
             // Apply highlight
@@ -679,13 +707,12 @@ class MapVisualizer {
                 bus: bus
             };
             
-            // Zoom to bus position with padding
+            // FIX: Only center if bus is far from view or user is zoomed out
             const bounds = this.map.getBounds();
             const busPos = marker.getLatLng();
             
-            // Only zoom if bus is near the edge or map is zoomed out
-            if (!bounds.contains(busPos) || this.map.getZoom() < 14) {
-                this.map.setView(busPos, 16, {
+            if (!bounds.contains(busPos) || this.map.getZoom() < 13) {
+                this.map.flyTo(busPos, 15, {
                     animate: true,
                     duration: 1
                 });
@@ -735,8 +762,8 @@ class MapVisualizer {
             const { marker } = busData;
             const position = marker.getLatLng();
             
-            // Center map on bus
-            this.map.setView(position, 16, {
+            // Center map on bus with smooth animation
+            this.map.flyTo(position, 16, {
                 animate: true,
                 duration: 1
             });
@@ -757,7 +784,7 @@ class MapVisualizer {
             const position = marker.getLatLng();
             
             // Center map on bus at current zoom level
-            this.map.setView(position, this.map.getZoom(), {
+            this.map.flyTo(position, this.map.getZoom(), {
                 animate: true,
                 duration: 0.5
             });
@@ -765,100 +792,6 @@ class MapVisualizer {
             // Highlight the bus
             this.highlightBus(busId);
         }
-    }
-
-    // Update bus positions for real-time updates
-    updateBusPositions(buses) {
-        console.log(`🔄 Updating ${buses.length} bus positions...`);
-        
-        let updatedCount = 0;
-        let addedCount = 0;
-        
-        // Track which buses are still active
-        const activeBusIds = new Set();
-        
-        buses.forEach(bus => {
-            const busId = bus.vehicle_id;
-            activeBusIds.add(busId);
-            
-            if (this.busMarkers.has(busId)) {
-                // Update existing bus marker
-                const busData = this.busMarkers.get(busId);
-                const { marker } = busData;
-                
-                // Update position if coordinates are valid
-                if (this.isValidCoordinate(bus.latitude, bus.longitude)) {
-                    const newPos = [bus.latitude, bus.longitude];
-                    marker.setLatLng(newPos);
-                }
-                
-                // Update bearing if available
-                if (bus.bearing !== undefined) {
-                    marker.options.rotationAngle = bus.bearing;
-                }
-                
-                // Update tooltip with current delay
-                const delayText = bus.delay_minutes ? bus.delay_minutes.toFixed(1) + ' min delay' : 'No delay data';
-                marker.setTooltipContent(`Bus ${bus.vehicle_label}<br>${delayText}`);
-                
-                // Update popup content
-                const newPopup = this.createBusPopup(bus);
-                marker.setPopupContent(newPopup);
-                
-                // Update status and color if needed
-                const newStatus = this.getBusStatus(bus.delay_minutes);
-                const newColor = this.config.liveTracking.colors[newStatus];
-                
-                if (busData.status !== newStatus) {
-                    const newIcon = this.createBusIcon(busId, newColor, newStatus, bus.bearing);
-                    marker.setIcon(newIcon);
-                    
-                    // If this bus is selected, update its highlight
-                    if (this.selectedBus && this.selectedBus.busId === busId) {
-                        this.selectedBus.originalIcon = newIcon;
-                    }
-                }
-                
-                // Update bus data
-                busData.bus = bus;
-                busData.status = newStatus;
-                
-                updatedCount++;
-            } else {
-                // Add new bus marker
-                this.addBusMarker(bus);
-                addedCount++;
-            }
-        });
-        
-        // Remove buses that are no longer active
-        const busesToRemove = [];
-        this.busMarkers.forEach((busData, busId) => {
-            if (!activeBusIds.has(busId)) {
-                busesToRemove.push(busId);
-            }
-        });
-        
-        busesToRemove.forEach(busId => {
-            const busData = this.busMarkers.get(busId);
-            if (busData) {
-                const { marker } = busData;
-                this.map.removeLayer(marker);
-                this.busMarkers.delete(busId);
-                
-                // If removed bus was selected, clear selection
-                if (this.selectedBus && this.selectedBus.busId === busId) {
-                    this.clearBusHighlight();
-                }
-            }
-        });
-        
-        console.log(`✅ Live update: ${updatedCount} updated, ${addedCount} added, ${busesToRemove.length} removed`);
-        return { 
-            updated: updatedCount, 
-            added: addedCount, 
-            removed: busesToRemove.length 
-        };
     }
 
     // Route Popup Creation Methods
@@ -894,7 +827,7 @@ class MapVisualizer {
                 </div>
                 <div class="popup-actions">
                     <button class="popup-btn" onclick="window.ttcApp.selectRoute('${route.Route}')">
-                        📍 Focus on Route
+                        <i class="fas fa-search-location"></i> Focus on Route
                     </button>
                 </div>
             </div>
@@ -1022,10 +955,14 @@ class MapVisualizer {
                 routeId: routeId
             };
             
-            // Zoom to route bounds
+            // Zoom to route bounds with smooth animation
             const bounds = layer.getBounds();
             if (bounds.isValid()) {
-                this.map.fitBounds(bounds, { padding: [20, 20] });
+                this.map.flyToBounds(bounds, { 
+                    padding: [20, 20],
+                    animate: true,
+                    duration: 1
+                });
             }
         }
     }
@@ -1050,6 +987,10 @@ class MapVisualizer {
 
     clearVisualization() {
         console.log('🗑️ Clearing current visualization...');
+        
+        // Store current map state before clearing
+        this.lastMapCenter = this.map.getCenter();
+        this.lastZoom = this.map.getZoom();
         
         // Remove all active layers (routes)
         this.activeLayers.forEach((layer, key) => {
@@ -1099,7 +1040,7 @@ class MapVisualizer {
             const div = L.DomUtil.create('div', 'legend-container');
             div.innerHTML = `
                 <div class="legend-title">
-                    <span>🚍 Average Delay (minutes)</span>
+                    <span><i class="fas fa-clock"></i> Average Delay (minutes)</span>
                 </div>
                 <div class="legend-scale">
                     <div class="legend-item">
@@ -1127,41 +1068,6 @@ class MapVisualizer {
         legend.addTo(this.map);
     }
 
-    createHeatmapLegend() {
-        const legend = L.control({ position: 'bottomleft' });
-        
-        legend.onAdd = () => {
-            const div = L.DomUtil.create('div', 'legend-container');
-            div.innerHTML = `
-                <div class="legend-title">
-                    <span>🔥 Delay Hotspots</span>
-                </div>
-                <div class="legend-scale">
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: #10b981"></div>
-                        <span class="legend-label">Low Frequency</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: #f59e0b"></div>
-                        <span class="legend-label">Medium</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: #ef4444"></div>
-                        <span class="legend-label">High</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: #7c3aed"></div>
-                        <span class="legend-label">Very High</span>
-                    </div>
-                </div>
-            `;
-            return div;
-        };
-        
-        this.legend = legend;
-        legend.addTo(this.map);
-    }
-
     createComparisonLegend() {
         const legend = L.control({ position: 'bottomleft' });
         
@@ -1169,7 +1075,7 @@ class MapVisualizer {
             const div = L.DomUtil.create('div', 'legend-container');
             div.innerHTML = `
                 <div class="legend-title">
-                    <span>📊 Route Comparison</span>
+                    <span><i class="fas fa-balance-scale"></i> Route Comparison</span>
                 </div>
                 <div class="legend-scale">
                     <div class="legend-item">
@@ -1198,7 +1104,7 @@ class MapVisualizer {
             const div = L.DomUtil.create('div', 'legend-container');
             div.innerHTML = `
                 <div class="legend-title">
-                    <span>📈 Delay Frequency</span>
+                    <span><i class="fas fa-chart-line"></i> Delay Frequency</span>
                 </div>
                 <div class="legend-scale">
                     <div class="legend-item">
@@ -1233,28 +1139,28 @@ class MapVisualizer {
             const div = L.DomUtil.create('div', 'legend-container live-legend-container');
             div.innerHTML = `
                 <div class="legend-title">
-                    <span>🚍 Live Bus Status</span>
+                    <span><i class="fas fa-bus"></i> Live Bus Status</span>
                 </div>
                 <div class="legend-scale">
                     <div class="legend-item">
-                        <div class="legend-color" style="background: ${this.config.liveTracking.colors.onTime}"></div>
-                        <span class="legend-label">On Time (&lt; 2 min)</span>
+                        <div class="legend-color" style="background: ${this.config.liveTracking.colors.moving}"></div>
+                        <span class="legend-label">Moving (20+ km/h)</span>
                     </div>
                     <div class="legend-item">
-                        <div class="legend-color" style="background: ${this.config.liveTracking.colors.minorDelay}"></div>
-                        <span class="legend-label">Minor Delay (2-5 min)</span>
+                        <div class="legend-color" style="background: ${this.config.liveTracking.colors.slow}"></div>
+                        <span class="legend-label">Slow (1-20 km/h)</span>
                     </div>
                     <div class="legend-item">
-                        <div class="legend-color" style="background: ${this.config.liveTracking.colors.majorDelay}"></div>
-                        <span class="legend-label">Major Delay (&gt; 5 min)</span>
+                        <div class="legend-color" style="background: ${this.config.liveTracking.colors.stopped}"></div>
+                        <span class="legend-label">Stopped (&lt;1 km/h)</span>
                     </div>
                     <div class="legend-item">
-                        <div class="legend-color" style="background: ${this.config.liveTracking.colors.selected}"></div>
+                        <div class="legend-color" style="background: #3b82f6; border: 2px solid white;"></div>
                         <span class="legend-label">Selected Bus</span>
                     </div>
                 </div>
                 <div class="legend-hint">
-                    <small>Click a bus for details</small>
+                    <small><i class="fas fa-mouse-pointer"></i> Click a bus for details</small>
                 </div>
             `;
             return div;
@@ -1272,91 +1178,42 @@ class MapVisualizer {
         console.log(`🎨 Updating map for ${theme} theme...`);
         
         try {
-            // Store current view to restore after tile layer change
+            // Store current view
             const currentCenter = this.map.getCenter();
             const currentZoom = this.map.getZoom();
             
-            // Remove ONLY tile layers, preserve other layers (routes, markers, etc.)
+            // Remove ONLY tile layers
             this.map.eachLayer((layer) => {
                 if (layer instanceof L.TileLayer) {
                     this.map.removeLayer(layer);
                 }
             });
 
-            // Use more reliable tile providers with proper error handling
-            const tileProviders = {
-                dark: [
-                    'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-                    'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png',
-                    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' // fallback
-                ],
-                light: [
-                    'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
-                    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                    'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png' // fallback
-                ]
-            };
-
-            const primaryUrl = theme === 'dark' ? tileProviders.dark[0] : tileProviders.light[0];
-            const fallbackUrls = theme === 'dark' ? tileProviders.dark.slice(1) : tileProviders.light.slice(1);
-
-            // Create primary tile layer with enhanced configuration
-            const primaryLayer = L.tileLayer(primaryUrl, {
+            // Set up new tile layer based on theme
+            const tileUrl = theme === 'dark' 
+                ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+                : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+            
+            const tileLayer = L.tileLayer(tileUrl, {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
                 subdomains: 'abcd',
                 maxZoom: 20,
                 minZoom: 1,
-                noWrap: true,
                 updateWhenIdle: true,
-                reuseTiles: false,
-                crossOrigin: true,
-                detectRetina: true
+                keepBuffer: 4
             });
 
-            // Add primary layer to map
-            primaryLayer.addTo(this.map);
+            // Add new tile layer
+            tileLayer.addTo(this.map);
             
-            // Set up fallback mechanism
-            let currentFallbackIndex = 0;
-            
-            primaryLayer.on('tileerror', (e) => {
-                console.warn('⚠️ Primary tile failed, trying fallback...');
-                
-                if (currentFallbackIndex < fallbackUrls.length) {
-                    // Remove failed layer
-                    this.map.removeLayer(primaryLayer);
-                    
-                    // Add fallback layer
-                    const fallbackLayer = L.tileLayer(fallbackUrls[currentFallbackIndex], {
-                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-                        subdomains: 'abcd',
-                        maxZoom: 20,
-                        minZoom: 1,
-                        noWrap: true,
-                        updateWhenIdle: true,
-                        reuseTiles: false,
-                        crossOrigin: true
-                    });
-                    
-                    fallbackLayer.addTo(this.map);
-                    currentFallbackIndex++;
-                    
-                    console.log(`🔄 Switched to fallback tile provider ${currentFallbackIndex}`);
-                }
-            });
-
-            // Force complete map refresh
+            // Restore map view with slight delay
             setTimeout(() => {
                 this.map.setView(currentCenter, currentZoom, { animate: false });
                 this.map.invalidateSize({ pan: false });
                 
-                // Redraw bus icons to match theme
-                this.redrawBusIconsForTheme(theme);
-                
-                // Double refresh to ensure tiles load
+                // Double check to ensure tiles load
                 setTimeout(() => {
                     this.map.invalidateSize({ pan: false });
-                    primaryLayer.redraw();
                 }, 500);
                 
             }, 200);
@@ -1365,7 +1222,7 @@ class MapVisualizer {
 
         } catch (error) {
             console.error('❌ Error updating map theme:', error);
-            // Emergency fallback to OSM
+            // Fallback to OSM
             const emergencyLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; OpenStreetMap',
                 maxZoom: 19
@@ -1373,37 +1230,13 @@ class MapVisualizer {
         }
     }
 
-    // Helper method to redraw bus icons for theme
-    redrawBusIconsForTheme(theme) {
-        // Clear icon cache to force recreation with theme-appropriate colors
-        this.busIconCache.clear();
-        
-        // Recreate all bus markers with new icons
-        this.busMarkers.forEach((busData, busId) => {
-            const { marker, bus, status } = busData;
-            const color = this.config.liveTracking.colors[status];
-            
-            // Create new icon
-            const newIcon = this.createBusIcon(busId, color, status, bus.bearing);
-            
-            // Apply new icon
-            marker.setIcon(newIcon);
-        });
-        
-        // If there's a selected bus, update its highlight
-        if (this.selectedBus) {
-            const { busId, bus } = this.selectedBus;
-            const highlightedIcon = this.createBusIcon(
-                busId, 
-                this.config.liveTracking.colors.selected,
-                'selected',
-                bus.bearing
-            );
-            
-            if (this.selectedBus.marker) {
-                this.selectedBus.marker.setIcon(highlightedIcon);
-            }
-        }
+    // Helper method to check if map is in Toronto view
+    isInTorontoView(bounds) {
+        const torontoBounds = L.latLngBounds(
+            [43.58, -79.63], // Southwest
+            [43.86, -79.12]  // Northeast
+        );
+        return torontoBounds.contains(bounds.getCenter());
     }
 
     // Utility methods
@@ -1447,7 +1280,7 @@ class MapVisualizer {
             highlightedRoute: this.highlightedRoute ? this.highlightedRoute.routeId : null,
             totalRoutes: this.routes.length,
             routesWithGeometry: Object.keys(this.routeGeometries).length,
-            // NEW: Live tracking stats
+            // Live tracking stats
             liveBuses: this.busMarkers.size,
             selectedBus: this.selectedBus ? this.selectedBus.busId : null,
             routeLines: this.routeLines.size
@@ -1476,7 +1309,7 @@ class MapVisualizer {
                 route: busData.bus.route_id,
                 position: busData.marker.getLatLng(),
                 status: busData.status,
-                delay: busData.bus.delay_minutes
+                speed: busData.bus.speed_mps
             }));
         }
         

@@ -18,28 +18,29 @@ class TTCVisualizationApp {
             currentViewport: null,
             selectedRoute: null,
             searchQuery: '',
-            // NEW: Live tracking state
+            // Live tracking state
             liveTracking: {
                 enabled: false,
-                currentRoute: '16',  // Default route
-                buses: [],
+                currentRoute: '16',
+                allBuses: [],  // All buses from API
+                filteredBuses: [], // Buses filtered by current route
                 isLoading: false,
                 lastUpdated: null,
                 selectedBus: null,
-                autoRefresh: false
+                availableRoutes: [] // Routes with active buses
             }
         };
 
         // Live Tracking Configuration
         this.LIVE_TRACKING_CONFIG = {
-            API_URL: 'https://bustime.ttc.ca/gtfsrt/vehicles',
-            REFRESH_INTERVAL: 60000, // 60 seconds
+            API_URL: '/api/live-buses',
+            REFRESH_INTERVAL: 30000,
             DEFAULT_ROUTE: '16',
-            MAX_BUSES_PER_ROUTE: 10,
+            MAX_BUSES: 100,
             BUS_ICON_COLORS: {
-                onTime: '#10b981',    // Green - < 2 min delay
-                minorDelay: '#f59e0b', // Yellow - 2-5 min delay
-                majorDelay: '#ef4444'  // Red - > 5 min delay
+                moving: '#10b981',    // Green - moving
+                slow: '#f59e0b',      // Yellow - slow moving
+                stopped: '#ef4444'    // Red - stopped
             }
         };
 
@@ -89,13 +90,6 @@ class TTCVisualizationApp {
                 this.dataLoader.loadSummaryStatistics()
             ]);
 
-            // DEBUG: Check what we're getting
-            console.log('🔍 DEBUG - Routes data:', routes);
-            console.log('🔍 DEBUG - Summary stats:', summaryStats);
-            console.log('🔍 DEBUG - Routes count:', routes?.length);
-            console.log('🔍 DEBUG - Unique routes in summary:', summaryStats.unique_routes);
-            console.log('🔍 DEBUG - Displayed routes:', summaryStats.displayed_routes_count);
-
             this.state.routes = routes;
             this.state.routeGeometries = geometries;
             this.state.locationAnalysis = locationAnalysis;
@@ -119,14 +113,23 @@ class TTCVisualizationApp {
                 center: [43.6532, -79.3832], // Toronto coordinates
                 zoom: 11,
                 zoomControl: false,
-                attributionControl: true
+                attributionControl: true,
+                // FIX: Prevent auto-zooming behavior
+                maxBounds: [
+                    [43.58, -79.63], // Southwest bounds
+                    [43.86, -79.12]  // Northeast bounds (Toronto area)
+                ],
+                maxBoundsViscosity: 1.0 // Strict bounds enforcement
             });
 
             // Add base tile layer
             L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
                 subdomains: 'abcd',
-                maxZoom: 19
+                maxZoom: 19,
+                // FIX: Prevent tile layer from causing zoom issues
+                updateWhenIdle: true,
+                keepBuffer: 4
             }).addTo(this.map);
 
             // Add zoom control to bottom right
@@ -179,19 +182,24 @@ class TTCVisualizationApp {
             });
         }
 
-        // Live route search
+        // Live route search with autocomplete
         const liveSearchInput = document.getElementById('liveRouteSearch');
         const liveSearchBtn = document.getElementById('liveSearchBtn');
         
         if (liveSearchInput) {
             liveSearchInput.addEventListener('input', (e) => {
-                this.handleLiveRouteChange(e.target.value);
+                this.handleLiveRouteInput(e.target.value);
             });
             
             liveSearchInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
                     this.updateLiveRoute();
                 }
+            });
+            
+            // Focus event to show available routes
+            liveSearchInput.addEventListener('focus', () => {
+                this.showLiveRouteSuggestions();
             });
         }
         
@@ -231,6 +239,12 @@ class TTCVisualizationApp {
             this.showDataSourceModal();
         });
 
+        // Analytics link
+        document.getElementById('analyticsLink')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.open('https://ttcdelay.streamlit.app/', '_blank');
+        });
+
         // Window resize
         window.addEventListener('resize', () => {
             this.handleResize();
@@ -240,7 +254,12 @@ class TTCVisualizationApp {
     setupMapEvents() {
         if (!this.map) return;
         
-        // Viewport change events
+        // FIX: Prevent unwanted zoom behavior
+        this.map.on('zoomstart', () => {
+            // Clear any pending zoom actions
+            clearTimeout(this.zoomTimeout);
+        });
+
         this.map.on('moveend', () => {
             this.handleViewportChange();
         });
@@ -298,7 +317,6 @@ class TTCVisualizationApp {
             console.error(`❌ Error switching to ${visualType} visualization:`, error);
             this.showError(`Failed to load ${visualType} visualization`);
         } finally {
-            // ALWAYS hide loading state, even if there's an error
             this.uiController.hideLoadingState();
         }
     }
@@ -314,30 +332,41 @@ class TTCVisualizationApp {
                 this.uiController.updateLiveLoadingState(true);
             }
             
-            // Fetch live bus data
-            const buses = await this.fetchLiveBusData(this.state.liveTracking.currentRoute);
+            // Fetch ALL live bus data
+            const allBuses = await this.fetchLiveBusData();
             
-            // Update state
-            this.state.liveTracking.buses = buses;
+            if (!allBuses || allBuses.length === 0) {
+                throw new Error('No live bus data available');
+            }
+            
+            // Update state with all buses
+            this.state.liveTracking.allBuses = allBuses;
             this.state.liveTracking.lastUpdated = new Date();
             
-            // Display buses on map
-            const success = await this.mapVisualizer.showLiveBuses(buses);
+            // Extract available routes for autocomplete
+            this.updateAvailableRoutes(allBuses);
+            
+            // Filter buses by current route
+            const filteredBuses = this.filterBusesByRoute(allBuses, this.state.liveTracking.currentRoute);
+            this.state.liveTracking.filteredBuses = filteredBuses;
+            
+            // Display filtered buses on map
+            const success = await this.mapVisualizer.showLiveBuses(filteredBuses, this.state.liveTracking.currentRoute);
             
             // Update UI
             if (this.uiController.updateLiveBusList) {
-                this.uiController.updateLiveBusList(buses);
+                this.uiController.updateLiveBusList(filteredBuses);
             }
             if (this.uiController.updateLiveStats) {
-                this.uiController.updateLiveStats(buses.length, this.state.liveTracking.lastUpdated);
+                this.uiController.updateLiveStats(filteredBuses.length, this.state.liveTracking.lastUpdated);
             }
             
-            console.log(`✅ Loaded ${buses.length} live buses`);
+            console.log(`✅ Loaded ${filteredBuses.length} live buses for route ${this.state.liveTracking.currentRoute}`);
             return success;
             
         } catch (error) {
             console.error('❌ Error loading live buses:', error);
-            this.showError('Failed to load live bus data. Please try again.');
+            this.showError('Failed to load live bus data. The TTC API might be temporarily unavailable.');
             return false;
         } finally {
             this.state.liveTracking.isLoading = false;
@@ -347,148 +376,124 @@ class TTCVisualizationApp {
         }
     }
 
-    async fetchLiveBusData(routeId) {
-        console.log(`📡 Fetching live data for route ${routeId}...`);
+    async fetchLiveBusData() {
+        console.log('📡 Fetching live bus data from TTC API...');
         
         try {
-            // In a real implementation, you would fetch from the GTFS-RT API
-            // Since we can't run Python in the browser, we'll simulate with sample data
-            // TODO: Replace with actual API call using a proxy server
+            const response = await fetch(this.LIVE_TRACKING_CONFIG.API_URL, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Cache-Control': 'no-cache'
+                }
+            });
             
-            // For now, return sample data based on historical routes
-            const routeData = this.state.routes.find(r => r.Route.toString() === routeId);
-            
-            if (!routeData) {
-                console.warn(`⚠️ No historical data for route ${routeId}`);
-                return this.getSampleLiveBuses(routeId);
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
             }
             
-            // Generate simulated live bus positions along the route geometry
-            return this.generateSimulatedLiveBuses(routeId, routeData);
+            const data = await response.json();
+            
+            if (!data.vehicles || !Array.isArray(data.vehicles)) {
+                throw new Error('Invalid response format from TTC API');
+            }
+            
+            // Process vehicles into our format
+            const buses = data.vehicles.map(vehicle => {
+                const position = vehicle.position || {};
+                const trip = vehicle.trip || {};
+                const vehicleInfo = vehicle.vehicle || {};
+                
+                return {
+                    vehicle_id: vehicleInfo.id || 'Unknown',
+                    vehicle_label: vehicleInfo.label || `Bus ${vehicleInfo.id || 'Unknown'}`,
+                    route_id: trip.route_id || 'Unknown',
+                    latitude: parseFloat(position.latitude) || 0,
+                    longitude: parseFloat(position.longitude) || 0,
+                    speed_mps: parseFloat(position.speed) || 0,
+                    bearing: parseFloat(position.bearing) || 0,
+                    timestamp: vehicle.timestamp || new Date().toISOString(),
+                    occupancy_status: vehicle.occupancy_status || 'UNKNOWN',
+                    trip_id: trip.trip_id || 'Unknown'
+                };
+            }).filter(bus => bus.latitude && bus.longitude); // Filter out buses without valid coordinates
+            
+            console.log(`✅ Received ${buses.length} valid live buses from TTC API`);
+            return buses;
             
         } catch (error) {
-            console.error('❌ Error in fetchLiveBusData:', error);
-            return this.getSampleLiveBuses(routeId);
+            console.error('❌ Error fetching live bus data:', error);
+            throw new Error(`Unable to connect to TTC live data: ${error.message}`);
         }
     }
 
-    generateSimulatedLiveBuses(routeId, routeData) {
-        const geometry = this.state.routeGeometries[routeId];
-        
-        if (!geometry || geometry.length < 2) {
-            return this.getSampleLiveBuses(routeId);
+    filterBusesByRoute(buses, routeId) {
+        if (!routeId || routeId === 'all') {
+            return buses;
         }
         
-        const numBuses = Math.min(Math.floor(Math.random() * 10) + 3, 15); // 3-15 buses
-        const buses = [];
-        
-        for (let i = 0; i < numBuses; i++) {
-            // Distribute buses along the route
-            const progress = i / numBuses;
-            const segmentIndex = Math.floor(progress * (geometry.length - 1));
-            const segmentProgress = (progress * (geometry.length - 1)) % 1;
+        return buses.filter(bus => {
+            const busRoute = bus.route_id.toString();
+            const searchRoute = routeId.toString();
             
-            const point1 = geometry[segmentIndex];
-            const point2 = geometry[segmentIndex + 1];
-            
-            const lat = point1[0] + (point2[0] - point1[0]) * segmentProgress;
-            const lng = point1[1] + (point2[1] - point1[1]) * segmentProgress;
-            
-            // Generate realistic bus data
-            const vehicleId = `${routeId}${String(i+1).padStart(3, '0')}`;
-            const speed = Math.random() * 15 + 5; // 5-20 m/s
-            const bearing = this.calculateBearing(point1, point2);
-            const delay = Math.random() * 10; // 0-10 minute delay
-            const timestamp = new Date();
-            
-            buses.push({
-                vehicle_id: vehicleId,
-                vehicle_label: `Bus ${vehicleId}`,
-                route_id: routeId,
-                latitude: lat,
-                longitude: lng,
-                speed_mps: speed,
-                bearing: bearing,
-                delay_minutes: delay,
-                timestamp: timestamp.toISOString(),
-                occupancy: Math.random() > 0.7 ? 'CROWDED' : 'MANY_SEATS_AVAILABLE',
-                status: this.getBusStatus(delay)
-            });
-        }
-        
-        return buses;
+            // Exact match or route contains the search string
+            return busRoute === searchRoute || busRoute.includes(searchRoute);
+        });
     }
 
-    getSampleLiveBuses(routeId) {
-        return [
-            {
-                vehicle_id: `${routeId}001`,
-                vehicle_label: `Bus ${routeId}001`,
-                route_id: routeId,
-                latitude: 43.6532,
-                longitude: -79.3832,
-                speed_mps: 12.5,
-                bearing: 45,
-                delay_minutes: 1.5,
-                timestamp: new Date().toISOString(),
-                occupancy: 'MANY_SEATS_AVAILABLE',
-                status: 'ON_TIME'
-            },
-            {
-                vehicle_id: `${routeId}002`,
-                vehicle_label: `Bus ${routeId}002`,
-                route_id: routeId,
-                latitude: 43.6600,
-                longitude: -79.3800,
-                speed_mps: 8.2,
-                bearing: 120,
-                delay_minutes: 4.2,
-                timestamp: new Date().toISOString(),
-                occupancy: 'CROWDED',
-                status: 'MINOR_DELAY'
-            },
-            {
-                vehicle_id: `${routeId}003`,
-                vehicle_label: `Bus ${routeId}003`,
-                route_id: routeId,
-                latitude: 43.6450,
-                longitude: -79.3900,
-                speed_mps: 0,
-                bearing: 0,
-                delay_minutes: 8.7,
-                timestamp: new Date().toISOString(),
-                occupancy: 'FULL',
-                status: 'MAJOR_DELAY'
+    updateAvailableRoutes(buses) {
+        const routeSet = new Set();
+        buses.forEach(bus => {
+            if (bus.route_id && bus.route_id !== 'Unknown') {
+                routeSet.add(bus.route_id.toString());
             }
-        ];
-    }
-
-    calculateBearing(point1, point2) {
-        const lat1 = point1[0] * Math.PI / 180;
-        const lat2 = point2[0] * Math.PI / 180;
-        const lng1 = point1[1] * Math.PI / 180;
-        const lng2 = point2[1] * Math.PI / 180;
+        });
         
-        const y = Math.sin(lng2 - lng1) * Math.cos(lat2);
-        const x = Math.cos(lat1) * Math.sin(lat2) -
-                Math.sin(lat1) * Math.cos(lat2) * Math.cos(lng2 - lng1);
+        this.state.liveTracking.availableRoutes = Array.from(routeSet).sort((a, b) => {
+            // Sort routes numerically
+            const numA = parseInt(a) || 0;
+            const numB = parseInt(b) || 0;
+            return numA - numB;
+        });
         
-        let bearing = Math.atan2(y, x) * 180 / Math.PI;
-        bearing = (bearing + 360) % 360;
-        
-        return Math.round(bearing);
-    }
-
-    getBusStatus(delayMinutes) {
-        if (delayMinutes < 2) return 'ON_TIME';
-        if (delayMinutes < 5) return 'MINOR_DELAY';
-        return 'MAJOR_DELAY';
+        // Update UI with available routes
+        if (this.uiController.updateRouteSuggestions) {
+            this.uiController.updateRouteSuggestions(this.state.liveTracking.availableRoutes);
+        }
     }
 
     // Live route management
-    handleLiveRouteChange(routeNumber) {
-        const cleanRoute = routeNumber.replace(/\D/g, ''); // Remove non-digits
-        this.state.liveTracking.currentRoute = cleanRoute || this.LIVE_TRACKING_CONFIG.DEFAULT_ROUTE;
+    handleLiveRouteInput(inputValue) {
+        // Store the input value but don't filter yet
+        this.state.liveTracking.currentRoute = inputValue.trim();
+        
+        // Show suggestions if input has content
+        if (inputValue.trim() && this.uiController.showLiveRouteSuggestions) {
+            const suggestions = this.getRouteSuggestions(inputValue.trim());
+            this.uiController.showLiveRouteSuggestions(suggestions);
+        } else if (this.uiController.hideLiveRouteSuggestions) {
+            this.uiController.hideLiveRouteSuggestions();
+        }
+    }
+
+    getRouteSuggestions(searchTerm) {
+        if (!searchTerm || !this.state.liveTracking.availableRoutes) {
+            return [];
+        }
+        
+        const term = searchTerm.toLowerCase();
+        return this.state.liveTracking.availableRoutes
+            .filter(route => route.toLowerCase().includes(term))
+            .slice(0, 10); // Limit to 10 suggestions
+    }
+
+    showLiveRouteSuggestions() {
+        if (this.uiController.showLiveRouteSuggestions) {
+            const suggestions = this.state.liveTracking.currentRoute 
+                ? this.getRouteSuggestions(this.state.liveTracking.currentRoute)
+                : this.state.liveTracking.availableRoutes.slice(0, 10);
+            this.uiController.showLiveRouteSuggestions(suggestions);
+        }
     }
 
     updateLiveRoute() {
@@ -498,24 +503,36 @@ class TTCVisualizationApp {
         const routeNumber = input.value.trim();
         
         if (!routeNumber) {
-            input.value = this.LIVE_TRACKING_CONFIG.DEFAULT_ROUTE;
-            this.state.liveTracking.currentRoute = this.LIVE_TRACKING_CONFIG.DEFAULT_ROUTE;
+            // Default to showing all buses
+            this.state.liveTracking.currentRoute = 'all';
+            input.value = 'all';
         } else {
-            const cleanRoute = routeNumber.replace(/\D/g, '');
-            if (cleanRoute) {
-                this.state.liveTracking.currentRoute = cleanRoute;
-            }
+            this.state.liveTracking.currentRoute = routeNumber;
         }
         
         // Update UI
         const currentRouteElement = document.getElementById('currentLiveRoute');
         if (currentRouteElement) {
-            currentRouteElement.textContent = this.state.liveTracking.currentRoute;
+            currentRouteElement.textContent = routeNumber || 'all';
         }
         
-        // If we're in live mode, refresh the data
+        // Hide suggestions
+        if (this.uiController.hideLiveRouteSuggestions) {
+            this.uiController.hideLiveRouteSuggestions();
+        }
+        
+        // Refresh the data with new filter
         if (this.currentVisualization === 'live') {
             this.refreshLivePositions();
+        }
+    }
+
+    selectLiveRouteFromSuggestion(route) {
+        const input = document.getElementById('liveRouteSearch');
+        if (input) {
+            input.value = route;
+            this.state.liveTracking.currentRoute = route;
+            this.updateLiveRoute();
         }
     }
 
@@ -702,7 +719,11 @@ class TTCVisualizationApp {
 
     resetMapView() {
         if (this.map) {
-            this.map.setView([43.6532, -79.3832], 11);
+            // FIX: Use flyTo for smoother reset with bounds
+            this.map.flyTo([43.6532, -79.3832], 11, {
+                animate: true,
+                duration: 1
+            });
         }
         this.showNotification('Map view reset', 'info');
     }
@@ -725,11 +746,12 @@ class TTCVisualizationApp {
                 <li>Real-time delay visualization across routes</li>
                 <li>Heatmap of delay hotspots</li>
                 <li>Route comparison and frequency analysis</li>
-                <li><strong>NEW:</strong> Live bus tracking with real-time positions</li>
+                <li><strong>NEW:</strong> Live bus tracking with real-time positions from TTC GTFS-RT API</li>
                 <li>Interactive search and filtering</li>
             </ul>
-            <p><strong>Live Tracking:</strong> Shows real-time bus positions using TTC's GTFS-RT API.</p>
-            <p><strong>Data Sources:</strong> TTC open data, processed and analyzed for visualization.</p>
+            <p><strong>Live Tracking:</strong> Shows real-time bus positions using TTC's official GTFS-RT API.</p>
+            <p><strong>Historical Data:</strong> ${this.state.summaryStats.time_period || '2014-2025'}</p>
+            <p><strong>Advanced Analytics:</strong> <a href="https://ttcdelay.streamlit.app/" target="_blank" style="color: var(--accent-primary);">View time series, hourly patterns, and forecasting</a></p>
             <p><em>Note: This is an independent project and not affiliated with TTC or the City of Toronto.</em></p>
         `;
         
@@ -749,18 +771,22 @@ class TTCVisualizationApp {
             <p><strong>Live Data Source:</strong></p>
             <ul>
                 <li>TTC GTFS-RT Real-time Vehicle Positions API</li>
-                <li>Updated every 60 seconds</li>
+                <li>Updated on manual refresh</li>
                 <li>Route-specific bus tracking</li>
             </ul>
-            <p><strong>Methodology:</strong></p>
+            <p><strong>Available Live Data Fields:</strong></p>
             <ul>
-                <li>Data processed and cleaned for accuracy</li>
-                <li>Average delays calculated from historical data</li>
-                <li>Geospatial analysis for route mapping</li>
-                <li>Real-time data updates for live tracking</li>
+                <li>Real Vehicle IDs (not simulated)</li>
+                <li>Route Numbers</li>
+                <li>GPS Coordinates (Latitude/Longitude)</li>
+                <li>Speed (meters per second)</li>
+                <li>Bearing (compass direction)</li>
+                <li>Occupancy Status</li>
+                <li>Timestamp</li>
             </ul>
             <p><strong>Historical Data Period:</strong> ${this.state.summaryStats.time_period || '2014-2025'}</p>
-            <p><strong>Live Data Status:</strong> <span id="liveDataStatusModal">${this.state.liveTracking.buses.length > 0 ? 'Connected' : 'Not connected'}</span></p>
+            <p><strong>Live Data Status:</strong> <span id="liveDataStatusModal">${this.state.liveTracking.filteredBuses.length > 0 ? 'Connected' : 'Not connected'}</span></p>
+            <p><strong>Advanced Analytics:</strong> <a href="https://ttcdelay.streamlit.app/" target="_blank" style="color: var(--accent-primary);">Explore time series analysis and forecasting</a></p>
         `;
         
         this.showModal('Data Sources', dataContent);
@@ -824,7 +850,7 @@ class TTCVisualizationApp {
     selectRoute(routeId) {
         if (this.currentVisualization === 'live') {
             // In live mode, select a bus if it's a bus ID
-            const bus = this.state.liveTracking.buses.find(b => b.vehicle_id === routeId);
+            const bus = this.state.liveTracking.filteredBuses.find(b => b.vehicle_id === routeId);
             if (bus) {
                 this.selectLiveBus(bus);
                 return;
@@ -859,56 +885,6 @@ class TTCVisualizationApp {
                 this.uiController.clearRouteDetails();
             }
         }
-    }
-
-    // Auto-refresh control methods
-    startAutoRefresh() {
-        if (this.state.liveTracking.autoRefresh) return;
-        
-        this.state.liveTracking.autoRefresh = true;
-        this.liveRefreshInterval = setInterval(() => {
-            if (this.currentVisualization === 'live') {
-                this.refreshLivePositions();
-            }
-        }, this.LIVE_TRACKING_CONFIG.REFRESH_INTERVAL);
-        
-        console.log('🔄 Auto-refresh started');
-    }
-
-    stopAutoRefresh() {
-        this.state.liveTracking.autoRefresh = false;
-        if (this.liveRefreshInterval) {
-            clearInterval(this.liveRefreshInterval);
-            this.liveRefreshInterval = null;
-        }
-        console.log('🛑 Auto-refresh stopped');
-    }
-
-    toggleAutoRefresh() {
-        if (this.state.liveTracking.autoRefresh) {
-            this.stopAutoRefresh();
-        } else {
-            this.startAutoRefresh();
-        }
-    }
-
-    handleLiveTrackingError(error) {
-        console.error('🚨 Live tracking error:', error);
-        
-        let userMessage = 'Failed to load live bus data. ';
-        
-        if (error.message.includes('NetworkError') || error.message.includes('Failed to fetch')) {
-            userMessage += 'Please check your internet connection.';
-        } else if (error.message.includes('CORS')) {
-            userMessage += 'CORS policy prevented the request. Using simulated data instead.';
-        } else {
-            userMessage += 'Using simulated data for demonstration.';
-        }
-        
-        this.showError(userMessage);
-        
-        // Fall back to sample data
-        return this.getSampleLiveBuses(this.state.liveTracking.currentRoute);
     }
 
     // Get application state for debugging

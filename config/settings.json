@@ -1,10 +1,11 @@
 {
   "app": {
     "name": "TTC Delay Visualization",
-    "version": "1.0.0",
-    "description": "Interactive visualization of Toronto Transit Commission delay data",
+    "version": "2.0.0",
+    "description": "Interactive visualization of Toronto Transit Commission delay data with Live Tracking",
     "author": "TTC Data Analytics Team",
-    "lastUpdated": "2024-01-15"
+    "lastUpdated": "2024-01-15",
+    "analyticsUrl": "https://ttcdelay.streamlit.app/"
   },
   "map": {
     "defaultCenter": [43.6532, -79.3832],
@@ -164,14 +165,18 @@
     "includeMetadata": true
   },
   "liveTracking": {
-    "apiUrl": "https://bustime.ttc.ca/gtfsrt/vehicles",
-    "proxyEndpoint": "/api/live-buses",
-    "refreshInterval": 60000,
-    "maxBusesPerRoute": 20,
+    "apiUrl": "/api/live-buses",
+    "refreshInterval": 30000,
+    "maxBuses": 100,
     "colors": {
-      "onTime": "#10b981",
-      "minorDelay": "#f59e0b",
-      "majorDelay": "#ef4444"
+      "moving": "#10b981",
+      "stopped": "#ef4444",
+      "slow": "#f59e0b"
+    },
+    "busIcon": {
+      "size": [24, 24],
+      "anchor": [12, 12],
+      "popupAnchor": [0, -12]
     },
     "defaultRoute": "16"
   }
