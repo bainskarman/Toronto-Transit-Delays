@@ -1,0 +1,30 @@
+[
+  {
+    "period": "Morning (5AM-12PM)",
+    "incident_count": 86407,
+    "avg_delay": 22.8,
+    "total_delay_minutes": 1966002.0,
+    "percentage_of_day": 33.7
+  },
+  {
+    "period": "Afternoon (12PM-5PM)",
+    "incident_count": 80376,
+    "avg_delay": 19.0,
+    "total_delay_minutes": 1525438.0,
+    "percentage_of_day": 31.4
+  },
+  {
+    "period": "Evening (5PM-10PM)",
+    "incident_count": 61217,
+    "avg_delay": 21.1,
+    "total_delay_minutes": 1290662.0,
+    "percentage_of_day": 23.9
+  },
+  {
+    "period": "Night (10PM-5AM)",
+    "incident_count": 12579,
+    "avg_delay": 25.1,
+    "total_delay_minutes": 315366.0,
+    "percentage_of_day": 4.9
+  }
+]

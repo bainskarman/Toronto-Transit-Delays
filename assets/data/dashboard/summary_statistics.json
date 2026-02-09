@@ -1,0 +1,28 @@
+{
+  "total_delays": 256356,
+  "valid_delays": 256356,
+  "avg_delay_minutes": 21.5,
+  "unique_routes": 245,
+  "unique_vehicles": 4088,
+  "unique_locations": 38705,
+  "data_points": 256356,
+  "coverage_percentage": 100.0,
+  "time_period": "2014-2025",
+  "updated_at": "2026-02-08T22:03:48.929735",
+  "data_refresh_date": "2026-02-08",
+  "data_oldest_date": "2014-01-01T00:00:00",
+  "data_most_recent_date": "2025-12-31T00:00:00",
+  "data_update_date": "2026-02-08",
+  "peak_delay_hour": "15:00",
+  "most_delayed_route": "85 - Sheppard East-A B",
+  "displayed_routes_count": 245,
+  "total_routes_count": 245,
+  "routes_in_2025": 251,
+  "analysis_scope": "Routes active in 2025 with historical data from 2014-present",
+  "data_quality": {
+    "valid_delay_percentage": 100.0,
+    "route_coverage": 245,
+    "location_coverage": 38705,
+    "date_range_available": true
+  }
+}

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TTC Delay Visualization | Toronto Transit Analysis & Live Tracking</title>
+    <title>TTC Delay Visualization | Toronto Transit Analysis</title>
     
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -14,293 +14,24 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js" charset="utf-8"></script>
+    
     <!-- Local CSS -->
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/dashboard.css">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <style>
-        /* Additional styles for live tracking */
-        .route-suggestions {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: var(--secondary-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 0 0 var(--radius-md) var(--radius-md);
-            max-height: 200px;
-            overflow-y: auto;
-            z-index: var(--z-dropdown);
-            box-shadow: var(--shadow-lg);
-            display: none;
-        }
-        
-        .route-suggestion {
-            padding: var(--space-sm) var(--space-md);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            display: flex;
-            align-items: center;
-            gap: var(--space-sm);
-        }
-        
-        .route-suggestion:hover {
-            background: var(--tertiary-bg);
-        }
-        
-        .suggestion-icon {
-            color: var(--accent-primary);
-        }
-        
-        .suggestion-text {
-            color: var(--text-primary);
-            font-size: 0.875rem;
-        }
-        
-        .data-source-info {
-            margin-top: var(--space-md);
-            padding-top: var(--space-sm);
-            border-top: 1px solid var(--border-light);
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-align: center;
-        }
-        
-        /* Analytics link */
-        .analytics-link {
-            display: inline-flex;
-            align-items: center;
-            gap: var(--space-xs);
-            color: var(--accent-primary);
-            text-decoration: none;
-            font-size: 0.875rem;
-            transition: all var(--transition-fast);
-        }
-        
-        .analytics-link:hover {
-            text-decoration: underline;
-            color: var(--accent-secondary);
-        }
-        
-        /* Fix for bus icons */
-        .bus-icon {
-            transition: transform 0.2s ease;
-        }
-        
-        .bus-icon:hover {
-            transform: scale(1.1);
-        }
-        
-        /* Live data status indicator */
-        .live-status-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: var(--font-weight-medium);
-            margin-left: 10px;
-        }
-        
-        .live-status-indicator.live {
-            background: rgba(16, 185, 129, 0.2);
-            color: #10b981;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-        
-        .live-status-indicator.mock {
-            background: rgba(245, 158, 11, 0.2);
-            color: #f59e0b;
-            border: 1px solid rgba(245, 158, 11, 0.3);
-        }
-        
-        .live-status-indicator.error {
-            background: rgba(239, 68, 68, 0.2);
-            color: #ef4444;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-        
-        /* Direction indicator */
-        .direction-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            font-weight: var(--font-weight-semibold);
-            font-size: 0.75rem;
-            padding: 2px 8px;
-            border-radius: var(--radius-sm);
-            background: var(--tertiary-bg);
-            border: 1px solid var(--border-color);
-        }
-        
-        /* Occupancy status */
-        .occupancy-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 2px 8px;
-            border-radius: var(--radius-sm);
-            font-size: 0.75rem;
-            font-weight: var(--font-weight-medium);
-        }
-        
-        .occupancy-unknown {
-            background: rgba(148, 163, 184, 0.2);
-            color: #94a3b8;
-            border: 1px solid rgba(148, 163, 184, 0.3);
-        }
-        
-        .occupancy-empty {
-            background: rgba(16, 185, 129, 0.2);
-            color: #10b981;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-        
-        .occupancy-few-seats {
-            background: rgba(245, 158, 11, 0.2);
-            color: #f59e0b;
-            border: 1px solid rgba(245, 158, 11, 0.3);
-        }
-        
-        .occupancy-crowded {
-            background: rgba(239, 68, 68, 0.2);
-            color: #ef4444;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-        
-        /* Real-time update info */
-        .realtime-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: var(--space-sm);
-            background: var(--tertiary-bg);
-            border-radius: var(--radius-md);
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            margin-top: var(--space-sm);
-        }
-        
-        .realtime-timestamp {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        
-        .realtime-count {
-            font-weight: var(--font-weight-semibold);
-            color: var(--accent-primary);
-        }
-        
-        /* Prevent auto-zooming fixes */
-        .leaflet-container {
-            cursor: default !important;
-        }
-        
-        .leaflet-tile {
-            pointer-events: auto !important;
-        }
-        
-        /* Enhanced bus details panel */
-        .bus-detail-panel {
-            background: var(--tertiary-bg);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: var(--space-md);
-            margin-bottom: var(--space-md);
-        }
-        
-        .bus-detail-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: var(--space-md);
-            padding-bottom: var(--space-sm);
-            border-bottom: 1px solid var(--border-light);
-        }
-        
-        .bus-detail-title {
-            font-size: 1rem;
-            font-weight: var(--font-weight-semibold);
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            gap: var(--space-sm);
-        }
-        
-        .bus-detail-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: var(--space-sm);
-        }
-        
-        .bus-detail-item {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        
-        .bus-detail-label {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-        }
-        
-        .bus-detail-value {
-            font-size: 0.875rem;
-            color: var(--text-primary);
-            font-weight: var(--font-weight-medium);
-        }
-        
-        /* Analytics section in footer */
-        .footer-analytics {
-            display: flex;
-            align-items: center;
-            gap: var(--space-sm);
-        }
-        
-        /* Responsive improvements */
-        @media (max-width: 768px) {
-            .route-suggestions {
-                position: fixed;
-                top: auto;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                max-height: 40vh;
-                border-radius: var(--radius-md) var(--radius-md) 0 0;
-            }
-            
-            .bus-detail-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .live-status-indicator {
-                margin-left: 0;
-                margin-top: var(--space-xs);
-            }
-        }
-        
-        /* Animation for selected bus */
-        @keyframes pulse-highlight {
-            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
-        }
-        
-        .bus-selected {
-            animation: pulse-highlight 2s infinite;
-        }
-    </style>
+ 
 </head>
-<body>
+<body data-theme="dark">
     <div class="app-container">
-        <!-- Header -->
+
         <header class="app-header">
             <div class="header-content">
                 <div class="logo-section">
@@ -322,6 +53,10 @@
                             <span class="toggle-icon">📈</span>
                             Frequency
                         </button>
+                        <button class="toggle-btn" data-visual="dashboard">
+                            <span class="toggle-icon">📊</span>
+                            Dashboard
+                        </button>
                     </div>
                 </div>
 
@@ -338,7 +73,6 @@
                 </div>
             </div>
         </header>
-
         <!-- Main Content -->
         <main class="main-content">
             <!-- Left Sidebar -->
@@ -380,7 +114,7 @@
                 <div class="sidebar-section">
                     <h2 class="section-title" id="searchTitle">Route Search</h2>
                     
-                    <!-- Historical Search (visible by default) -->
+                    <!-- Historical Search -->
                     <div class="search-container" id="historicalSearch">
                         <div class="search-input-group">
                             <input type="text" 
@@ -393,43 +127,6 @@
                             </button>
                         </div>
                         <div id="searchResults" class="search-results" aria-live="polite"></div>
-                    </div>
-                    
-                    <!-- Live Search (hidden by default) -->
-                    <div class="search-container live-search" id="liveSearch" style="display: none;">
-                        <div class="search-input-group">
-                            <input type="text" 
-                                id="liveRouteSearch" 
-                                class="search-input" 
-                                placeholder="Enter route number (e.g., 16) or 'all'..."
-                                aria-label="Enter route number for live tracking"
-                                value="16">
-                            <button class="search-btn" id="liveSearchBtn" aria-label="Search live buses">
-                                <span class="search-icon">🔍</span>
-                            </button>
-                        </div>
-                        <!-- Route suggestions dropdown -->
-                        <div id="routeSuggestions" class="route-suggestions"></div>
-                        
-                        <div class="live-controls">
-                            <button id="refreshLiveBtn" class="refresh-btn">
-                                <span class="refresh-icon">🔄</span> Refresh Positions
-                            </button>
-                            <div class="realtime-info">
-                                <div class="realtime-timestamp">
-                                    <i class="fas fa-clock"></i>
-                                    Updated: <span id="lastUpdatedLive">--:--</span>
-                                </div>
-                                <div class="realtime-count">
-                                    <span id="busCount">0</span> buses
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="live-hint">
-                            <p>Showing buses for route: <strong id="currentLiveRoute">16</strong></p>
-                            <p class="hint-text">Type "all" to see all buses. Suggestions appear as you type.</p>
-                        </div>
                     </div>
                 </div>
             </aside>
@@ -453,6 +150,66 @@
                 </div>
             </section>
 
+            
+            <div id="dashboard-overlay-controls" style="
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                z-index: 9999;
+                display: none;
+            ">
+                <button id="globalBackToMapBtn" style="
+                    background: linear-gradient(135deg, #8B0000, #660000);
+                    color: white;
+                    border: none;
+                    padding: 12px 24px;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    font-size: 1rem;
+                    font-weight: 600;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                    transition: all 0.3s ease;
+                ">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Map
+                </button>
+            </div>
+
+            <script>
+                // Show/hide the global back button when dashboard is shown/hidden
+                document.addEventListener('DOMContentLoaded', function() {
+                    const dashboardContainer = document.getElementById('dashboard-container');
+                    const overlayControls = document.getElementById('dashboard-overlay-controls');
+                    const globalBackBtn = document.getElementById('globalBackToMapBtn');
+                    
+                    // Mutation observer to detect when dashboard is shown
+                    const observer = new MutationObserver(function(mutations) {
+                        mutations.forEach(function(mutation) {
+                            if (mutation.attributeName === 'style' || mutation.attributeName === 'class') {
+                                const isVisible = dashboardContainer.style.display !== 'none';
+                                overlayControls.style.display = isVisible ? 'block' : 'none';
+                            }
+                        });
+                    });
+                    
+                    observer.observe(dashboardContainer, { attributes: true });
+                    
+                    // Set initial state
+                    overlayControls.style.display = dashboardContainer.style.display !== 'none' ? 'block' : 'none';
+                    
+                    // Add click handler
+                    if (globalBackBtn) {
+                        globalBackBtn.addEventListener('click', function() {
+                            const delayToggle = document.querySelector('.toggle-btn[data-visual="delay"]');
+                            if (delayToggle) delayToggle.click();
+                        });
+                    }
+                });
+            </script>
+
             <!-- Right Sidebar -->
             <aside class="sidebar right-sidebar">
                 <div class="sidebar-section">
@@ -468,70 +225,12 @@
                 <div class="sidebar-section">
                     <h2 class="section-title" id="viewportTitle">Viewport Insights</h2>
                     <div class="viewport-info">
-                        <!-- Historical Viewport Insights (visible by default) -->
                         <div id="historicalViewport">
                             <p class="hint-text" id="viewportHint">Zoom in to see street-level insights</p>
                             <div id="viewportRoutes" class="viewport-routes">
                                 <!-- Dynamic content will be inserted here -->
                             </div>
                         </div>
-                        
-                        <!-- Live Bus List (hidden by default) -->
-                        <div id="liveViewport" style="display: none;">
-                            <div class="live-bus-list" id="liveBusList">
-                                <div class="empty-state">
-                                    <span>🚍</span>
-                                    <p>Loading live bus data...</p>
-                                    <p class="hint-text">Click Refresh Positions to load data</p>
-                                </div>
-                            </div>
-                            <div class="live-legend">
-                                <div class="legend-item">
-                                    <div class="legend-color" style="background: #10b981;"></div>
-                                    <span class="legend-label">Moving (20+ km/h)</span>
-                                </div>
-                                <div class="legend-item">
-                                    <div class="legend-color" style="background: #f59e0b;"></div>
-                                    <span class="legend-label">Slow (1-20 km/h)</span>
-                                </div>
-                                <div class="legend-item">
-                                    <div class="legend-color" style="background: #ef4444;"></div>
-                                    <span class="legend-label">Stopped (&lt;1 km/h)</span>
-                                </div>
-                                <div class="legend-item">
-                                    <div class="legend-color" style="background: #3b82f6; border: 2px solid white;"></div>
-                                    <span class="legend-label">Selected Bus</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="sidebar-section" id="busDetailsSection" style="display: none;">
-                    <h2 class="section-title">Selected Bus Details</h2>
-                    <div class="bus-detail-panel" id="busDetails">
-                        <div class="bus-detail-header">
-                            <div class="bus-detail-title">
-                                <i class="fas fa-bus"></i>
-                                Bus Details
-                            </div>
-                        </div>
-                        <div class="bus-detail-grid" id="busDetailContent">
-                            <!-- Dynamic bus details will be inserted here -->
-                        </div>
-                        <div class="bus-actions" id="busActions">
-                            <!-- Action buttons will be inserted here -->
-                        </div>
-                        <div class="data-source-info">
-                            <small><i class="fas fa-info-circle"></i> Real-time data from TTC GTFS-RT API</small>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="sidebar-section">
-                    <h2 class="section-title">Delay Analytics</h2>
-                    <div class="analytics-chart">
-                        <canvas id="delayChart" width="300" height="200"></canvas>
                     </div>
                 </div>
 
@@ -550,33 +249,24 @@
                             <span class="summary-label">Most Recent Data:</span>
                             <span class="summary-value" id="dataUpdate">--</span>
                         </div>
-                        <div class="summary-item">
-                            <span class="summary-label">Advanced Analytics:</span>
-                            <span class="summary-value">
-                                <a href="https://ttcdelay.streamlit.app/" target="_blank" class="analytics-link">
-                                    <i class="fas fa-chart-line"></i> View Time Series & Forecasting
-                                </a>
-                            </span>
-                        </div>
                     </div>
                 </div>
             </aside>
+
+            <!-- Dashboard Container (hidden by default) - FIXED: No loading bar -->
+            <div id="dashboard-container">
+                <iframe id="dashboard-frame" src="Dash/dashboard.html" title="TTC Analytics Dashboard"></iframe>
+            </div>
+
         </main>
 
-        <!-- Footer -->
+        <!-- Footer - ALWAYS VISIBLE FOR ALL TABS -->
         <footer class="app-footer">
             <div class="footer-content">
-                <div class="footer-links">
-                    <button class="footer-link" id="aboutBtn">About</button>
-                    <span class="footer-separator">•</span>
-                    <button class="footer-link" id="dataSourceBtn">Data Sources</button>
-                    <span class="footer-separator">•</span>
-                    <div class="footer-analytics">
-                        <a href="https://ttcdelay.streamlit.app/" target="_blank" class="analytics-link">
-                            <i class="fas fa-chart-bar"></i> Advanced Analytics
-                        </a>
-                    </div>
+                <div class="footer-info">
+                    <span class="footer-text">TTC Delay Visualization | Toronto Transit Commission | Historical Data Analysis: 2014-2025</span>
                 </div>
+                <!-- Removed footer links -->
             </div>
         </footer>
     </div>
@@ -627,53 +317,17 @@
                     }
                 });
             }
-            
-            // Analytics link handler
-            document.querySelectorAll('.analytics-link').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    window.open('https://ttcdelay.streamlit.app/', '_blank');
-                });
+
+            // Initialize with delay visualization as default
+            const toggleBtns = document.querySelectorAll('.toggle-btn');
+            toggleBtns.forEach(btn => {
+                if (btn.dataset.visual === 'delay') {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
             });
         });
-        
-        // Track live data status
-        function updateLiveDataStatus(status) {
-            const statusElement = document.getElementById('liveDataStatus');
-            const footerStatus = document.getElementById('liveDataStatusFooter');
-            
-            let statusText = '--';
-            let statusClass = '';
-            
-            switch(status) {
-                case 'live':
-                    statusText = 'Live';
-                    statusClass = 'live';
-                    break;
-                case 'mock':
-                    statusText = 'Demo';
-                    statusClass = 'mock';
-                    break;
-                case 'error':
-                    statusText = 'Error';
-                    statusClass = 'error';
-                    break;
-                default:
-                    statusText = 'Loading';
-            }
-            
-            if (statusElement) {
-                statusElement.textContent = statusText;
-                statusElement.className = `live-status-indicator ${statusClass}`;
-            }
-            
-            if (footerStatus) {
-                footerStatus.textContent = statusText;
-            }
-        }
-        
-        // Expose to global scope for app access
-        window.updateLiveDataStatus = updateLiveDataStatus;
     </script>
 </body>
 </html>

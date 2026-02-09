@@ -1,0 +1,107 @@
+[
+  {
+    "route_number": "32",
+    "route_name": "Eglinton West",
+    "incident_count": 7895,
+    "avg_delay": 15.9,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "36",
+    "route_name": "Finch West",
+    "incident_count": 7094,
+    "avg_delay": 14.2,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "52",
+    "route_name": "Lawrence West",
+    "incident_count": 6972,
+    "avg_delay": 19.8,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "29",
+    "route_name": "Dufferin",
+    "incident_count": 6194,
+    "avg_delay": 17.6,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "35",
+    "route_name": "Jane",
+    "incident_count": 5505,
+    "avg_delay": 15.8,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "7",
+    "route_name": "Bathurst",
+    "incident_count": 5091,
+    "avg_delay": 15.2,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "54",
+    "route_name": "Lawrence East",
+    "incident_count": 4987,
+    "avg_delay": 17.2,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "63",
+    "route_name": "Ossington",
+    "incident_count": 4920,
+    "avg_delay": 15.1,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "95",
+    "route_name": "York Mills",
+    "incident_count": 4455,
+    "avg_delay": 16.4,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "85",
+    "route_name": "Sheppard East",
+    "incident_count": 4216,
+    "avg_delay": 17.6,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "53",
+    "route_name": "Steeles East",
+    "incident_count": 3996,
+    "avg_delay": 17.3,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "41",
+    "route_name": "Keele",
+    "incident_count": 3906,
+    "avg_delay": 19.8,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "116",
+    "route_name": "Morningside",
+    "incident_count": 3872,
+    "avg_delay": 13.2,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "96",
+    "route_name": "Wilson",
+    "incident_count": 3872,
+    "avg_delay": 24.3,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "47",
+    "route_name": "Lansdowne",
+    "incident_count": 3647,
+    "avg_delay": 21.9,
+    "active_in_2025": true
+  }
+]

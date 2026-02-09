@@ -1,0 +1,122 @@
+[
+  {
+    "route_number": "162",
+    "route_name": "Lawrence-Donway",
+    "incident_count": 343,
+    "avg_delay": 98.41,
+    "reliability_score": 61.7,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "77",
+    "route_name": "Swansea",
+    "incident_count": 323,
+    "avg_delay": 85.27,
+    "reliability_score": 53.8,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "32",
+    "route_name": "Eglinton West",
+    "incident_count": 7895,
+    "avg_delay": 15.92,
+    "reliability_score": 49.9,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "55",
+    "route_name": "Warren Park",
+    "incident_count": 252,
+    "avg_delay": 80.1,
+    "reliability_score": 48.9,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "202",
+    "route_name": "",
+    "incident_count": 117,
+    "avg_delay": 70.42,
+    "reliability_score": 47.0,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "82",
+    "route_name": "Rosedale",
+    "incident_count": 200,
+    "avg_delay": 72.03,
+    "reliability_score": 46.4,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "52",
+    "route_name": "Lawrence West",
+    "incident_count": 6972,
+    "avg_delay": 19.79,
+    "reliability_score": 46.2,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "36",
+    "route_name": "Finch West",
+    "incident_count": 7094,
+    "avg_delay": 14.25,
+    "reliability_score": 46.2,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "121",
+    "route_name": "Esplanade-River",
+    "incident_count": 980,
+    "avg_delay": 63.05,
+    "reliability_score": 45.5,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "29",
+    "route_name": "Dufferin",
+    "incident_count": 6194,
+    "avg_delay": 17.6,
+    "reliability_score": 44.7,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "13",
+    "route_name": "Avenue Road",
+    "incident_count": 130,
+    "avg_delay": 73.76,
+    "reliability_score": 44.1,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "28",
+    "route_name": "Bayview South",
+    "incident_count": 158,
+    "avg_delay": 71.85,
+    "reliability_score": 43.6,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "13",
+    "route_name": "Avenue Rd",
+    "incident_count": 426,
+    "avg_delay": 64.82,
+    "reliability_score": 42.4,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "302",
+    "route_name": "Kingston Road-Mcco",
+    "incident_count": 22,
+    "avg_delay": 83.82,
+    "reliability_score": 42.3,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "107",
+    "route_name": "York University He",
+    "incident_count": 120,
+    "avg_delay": 66.64,
+    "reliability_score": 39.7,
+    "active_in_2025": true
+  }
+]

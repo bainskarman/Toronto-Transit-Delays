@@ -1,12 +1,14 @@
 // Main Application Controller for TTC Delay Visualization
 class TTCVisualizationApp {
     constructor() {
+        // Fixed to dark theme only
         this.currentTheme = 'dark';
         this.currentVisualization = 'delay';
         this.map = null;
         this.mapVisualizer = null;
         this.dataLoader = null;
         this.uiController = null;
+        this.dashboardActive = false;
         
         // Application state
         this.state = {
@@ -18,30 +20,6 @@ class TTCVisualizationApp {
             currentViewport: null,
             selectedRoute: null,
             searchQuery: '',
-            // Live tracking state
-            liveTracking: {
-                enabled: false,
-                currentRoute: '16',
-                allBuses: [],  // All buses from API
-                filteredBuses: [], // Buses filtered by current route
-                isLoading: false,
-                lastUpdated: null,
-                selectedBus: null,
-                availableRoutes: [] // Routes with active buses
-            }
-        };
-
-        // Live Tracking Configuration
-        this.LIVE_TRACKING_CONFIG = {
-            API_URL: '/api/live-buses',
-            REFRESH_INTERVAL: 30000,
-            DEFAULT_ROUTE: '16',
-            MAX_BUSES: 100,
-            BUS_ICON_COLORS: {
-                moving: '#10b981',    // Green - moving
-                slow: '#f59e0b',      // Yellow - slow moving
-                stopped: '#ef4444'    // Red - stopped
-            }
         };
 
         this.init();
@@ -62,7 +40,7 @@ class TTCVisualizationApp {
             // Initialize UI components
             this.uiController.init();
             
-            // Initialize map
+            // Initialize map (only for delay/frequency modes)
             await this.initializeMap();
             
             // Set up event listeners
@@ -114,7 +92,7 @@ class TTCVisualizationApp {
                 zoom: 11,
                 zoomControl: false,
                 attributionControl: true,
-                // FIX: Prevent auto-zooming behavior
+                // Prevent auto-zooming behavior
                 maxBounds: [
                     [43.58, -79.63], // Southwest bounds
                     [43.86, -79.12]  // Northeast bounds (Toronto area)
@@ -122,12 +100,12 @@ class TTCVisualizationApp {
                 maxBoundsViscosity: 1.0 // Strict bounds enforcement
             });
 
-            // Add base tile layer
+            // Add base tile layer (dark mode only)
             L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
                 subdomains: 'abcd',
                 maxZoom: 19,
-                // FIX: Prevent tile layer from causing zoom issues
+                // Prevent tile layer from causing zoom issues
                 updateWhenIdle: true,
                 keepBuffer: 4
             }).addTo(this.map);
@@ -155,12 +133,7 @@ class TTCVisualizationApp {
     }
 
     setupEventListeners() {
-        // Theme toggle
-        document.getElementById('themeToggle').addEventListener('click', () => {
-            this.toggleTheme();
-        });
-
-        // Visualization toggles
+        // Visualization toggles - delay, frequency, and dashboard
         document.querySelectorAll('.toggle-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const visualType = e.currentTarget.dataset.visual;
@@ -182,41 +155,6 @@ class TTCVisualizationApp {
             });
         }
 
-        // Live route search with autocomplete
-        const liveSearchInput = document.getElementById('liveRouteSearch');
-        const liveSearchBtn = document.getElementById('liveSearchBtn');
-        
-        if (liveSearchInput) {
-            liveSearchInput.addEventListener('input', (e) => {
-                this.handleLiveRouteInput(e.target.value);
-            });
-            
-            liveSearchInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    this.updateLiveRoute();
-                }
-            });
-            
-            // Focus event to show available routes
-            liveSearchInput.addEventListener('focus', () => {
-                this.showLiveRouteSuggestions();
-            });
-        }
-        
-        if (liveSearchBtn) {
-            liveSearchBtn.addEventListener('click', () => {
-                this.updateLiveRoute();
-            });
-        }
-
-        // Live refresh button
-        const refreshBtn = document.getElementById('refreshLiveBtn');
-        if (refreshBtn) {
-            refreshBtn.addEventListener('click', () => {
-                this.refreshLivePositions();
-            });
-        }
-
         // Map controls
         document.getElementById('fullscreenBtn').addEventListener('click', () => {
             this.toggleFullscreen();
@@ -230,33 +168,20 @@ class TTCVisualizationApp {
             this.resetMapView();
         });
 
-        // Footer links
-        document.getElementById('aboutBtn').addEventListener('click', () => {
-            this.showAboutModal();
-        });
-
-        document.getElementById('dataSourceBtn').addEventListener('click', () => {
-            this.showDataSourceModal();
-        });
-
-        // Analytics link
-        document.getElementById('analyticsLink')?.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.open('https://ttcdelay.streamlit.app/', '_blank');
-        });
-
         // Window resize
         window.addEventListener('resize', () => {
             this.handleResize();
         });
+
+        // Dashboard iframe events - REMOVED OLD DASHBOARD EVENTS
+        // We'll handle dashboard communication differently
     }
 
     setupMapEvents() {
         if (!this.map) return;
         
-        // FIX: Prevent unwanted zoom behavior
+        // Prevent unwanted zoom behavior
         this.map.on('zoomstart', () => {
-            // Clear any pending zoom actions
             clearTimeout(this.zoomTimeout);
         });
 
@@ -275,18 +200,27 @@ class TTCVisualizationApp {
         try {
             // Update UI state
             this.currentVisualization = visualType;
-            this.uiController.updateVisualizationToggles(visualType);
-
-            // Show/hide appropriate UI sections
-            if (this.uiController.toggleLiveTrackingUI) {
-                this.uiController.toggleLiveTrackingUI(visualType === 'live');
+            
+            // Update active toggle button
+            this.updateToggleButtons(visualType);
+            
+            // Clear existing visualization if switching away from map
+            if (this.mapVisualizer && visualType !== 'dashboard') {
+                this.mapVisualizer.clearVisualization();
+            }
+            
+            // Show/hide dashboard
+            if (visualType === 'dashboard') {
+                this.showDashboard();
+                return;
+            } else {
+                this.hideDashboard();
             }
 
-            // Clear existing visualization
-            this.mapVisualizer.clearVisualization();
-
-            // Show loading state
-            this.uiController.showLoadingState();
+            // Show loading state for map visualizations
+            if (visualType !== 'dashboard') {
+                this.uiController.showLoadingState();
+            }
 
             // Apply new visualization
             let success = false;
@@ -294,14 +228,8 @@ class TTCVisualizationApp {
                 case 'delay':
                     success = await this.mapVisualizer.showRouteDelays(this.state.filteredRoutes);
                     break;
-                case 'comparison':
-                    success = await this.mapVisualizer.showRouteComparison(this.state.filteredRoutes);
-                    break;
                 case 'frequency':
                     success = await this.mapVisualizer.showDelayFrequency(this.state.filteredRoutes);
-                    break;
-                case 'live':
-                    success = await this.loadAndDisplayLiveBuses();
                     break;
                 default:
                     console.warn(`Unknown visualization type: ${visualType}`);
@@ -309,7 +237,9 @@ class TTCVisualizationApp {
             }
 
             // Update legend
-            this.updateMapLegend();
+            if (visualType !== 'dashboard') {
+                this.updateMapLegend();
+            }
 
             console.log(`✅ Switched to ${visualType} visualization - Success: ${success}`);
 
@@ -317,230 +247,110 @@ class TTCVisualizationApp {
             console.error(`❌ Error switching to ${visualType} visualization:`, error);
             this.showError(`Failed to load ${visualType} visualization`);
         } finally {
-            this.uiController.hideLoadingState();
-        }
-    }
-
-    // Live Tracking Methods
-    async loadAndDisplayLiveBuses() {
-        console.log(`🚍 Loading live buses for route ${this.state.liveTracking.currentRoute}...`);
-        
-        try {
-            // Set loading state
-            this.state.liveTracking.isLoading = true;
-            if (this.uiController.updateLiveLoadingState) {
-                this.uiController.updateLiveLoadingState(true);
-            }
-            
-            // Fetch ALL live bus data
-            const allBuses = await this.fetchLiveBusData();
-            
-            if (!allBuses || allBuses.length === 0) {
-                throw new Error('No live bus data available');
-            }
-            
-            // Update state with all buses
-            this.state.liveTracking.allBuses = allBuses;
-            this.state.liveTracking.lastUpdated = new Date();
-            
-            // Extract available routes for autocomplete
-            this.updateAvailableRoutes(allBuses);
-            
-            // Filter buses by current route
-            const filteredBuses = this.filterBusesByRoute(allBuses, this.state.liveTracking.currentRoute);
-            this.state.liveTracking.filteredBuses = filteredBuses;
-            
-            // Display filtered buses on map
-            const success = await this.mapVisualizer.showLiveBuses(filteredBuses, this.state.liveTracking.currentRoute);
-            
-            // Update UI
-            if (this.uiController.updateLiveBusList) {
-                this.uiController.updateLiveBusList(filteredBuses);
-            }
-            if (this.uiController.updateLiveStats) {
-                this.uiController.updateLiveStats(filteredBuses.length, this.state.liveTracking.lastUpdated);
-            }
-            
-            console.log(`✅ Loaded ${filteredBuses.length} live buses for route ${this.state.liveTracking.currentRoute}`);
-            return success;
-            
-        } catch (error) {
-            console.error('❌ Error loading live buses:', error);
-            this.showError('Failed to load live bus data. The TTC API might be temporarily unavailable.');
-            return false;
-        } finally {
-            this.state.liveTracking.isLoading = false;
-            if (this.uiController.updateLiveLoadingState) {
-                this.uiController.updateLiveLoadingState(false);
+            if (visualType !== 'dashboard') {
+                this.uiController.hideLoadingState();
             }
         }
     }
 
-    async fetchLiveBusData() {
-        console.log('📡 Fetching live bus data from TTC API...');
-        
-        try {
-            const response = await fetch(this.LIVE_TRACKING_CONFIG.API_URL, {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Cache-Control': 'no-cache'
-                }
-            });
-            
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-            }
-            
-            const data = await response.json();
-            
-            if (!data.vehicles || !Array.isArray(data.vehicles)) {
-                throw new Error('Invalid response format from TTC API');
-            }
-            
-            // Process vehicles into our format
-            const buses = data.vehicles.map(vehicle => {
-                const position = vehicle.position || {};
-                const trip = vehicle.trip || {};
-                const vehicleInfo = vehicle.vehicle || {};
-                
-                return {
-                    vehicle_id: vehicleInfo.id || 'Unknown',
-                    vehicle_label: vehicleInfo.label || `Bus ${vehicleInfo.id || 'Unknown'}`,
-                    route_id: trip.route_id || 'Unknown',
-                    latitude: parseFloat(position.latitude) || 0,
-                    longitude: parseFloat(position.longitude) || 0,
-                    speed_mps: parseFloat(position.speed) || 0,
-                    bearing: parseFloat(position.bearing) || 0,
-                    timestamp: vehicle.timestamp || new Date().toISOString(),
-                    occupancy_status: vehicle.occupancy_status || 'UNKNOWN',
-                    trip_id: trip.trip_id || 'Unknown'
-                };
-            }).filter(bus => bus.latitude && bus.longitude); // Filter out buses without valid coordinates
-            
-            console.log(`✅ Received ${buses.length} valid live buses from TTC API`);
-            return buses;
-            
-        } catch (error) {
-            console.error('❌ Error fetching live bus data:', error);
-            throw new Error(`Unable to connect to TTC live data: ${error.message}`);
-        }
-    }
-
-    filterBusesByRoute(buses, routeId) {
-        if (!routeId || routeId === 'all') {
-            return buses;
-        }
-        
-        return buses.filter(bus => {
-            const busRoute = bus.route_id.toString();
-            const searchRoute = routeId.toString();
-            
-            // Exact match or route contains the search string
-            return busRoute === searchRoute || busRoute.includes(searchRoute);
-        });
-    }
-
-    updateAvailableRoutes(buses) {
-        const routeSet = new Set();
-        buses.forEach(bus => {
-            if (bus.route_id && bus.route_id !== 'Unknown') {
-                routeSet.add(bus.route_id.toString());
+    // Update toggle button states
+    updateToggleButtons(activeVisual) {
+        document.querySelectorAll('.toggle-btn').forEach(btn => {
+            if (btn.dataset.visual === activeVisual) {
+                btn.classList.add('active');
+                btn.setAttribute('aria-selected', 'true');
+            } else {
+                btn.classList.remove('active');
+                btn.setAttribute('aria-selected', 'false');
             }
         });
+    }
+
+    // Dashboard methods - SIMPLIFIED VERSION
+    showDashboard() {
+        console.log('📊 Showing dashboard...');
         
-        this.state.liveTracking.availableRoutes = Array.from(routeSet).sort((a, b) => {
-            // Sort routes numerically
-            const numA = parseInt(a) || 0;
-            const numB = parseInt(b) || 0;
-            return numA - numB;
+        this.dashboardActive = true;
+        document.body.classList.add('dashboard-active');
+        
+        // Get elements
+        const dashboardContainer = document.getElementById('dashboard-container');
+        const iframe = document.getElementById('dashboard-frame');
+        
+        // Show container
+        if (dashboardContainer) {
+            dashboardContainer.style.display = 'block';
+            dashboardContainer.style.opacity = '1';
+            dashboardContainer.style.visibility = 'visible';
+        }
+        
+        // Hide map and sidebars
+        document.querySelectorAll('.sidebar, .map-container').forEach(el => {
+            if (el) el.style.display = 'none';
         });
         
-        // Update UI with available routes
-        if (this.uiController.updateRouteSuggestions) {
-            this.uiController.updateRouteSuggestions(this.state.liveTracking.availableRoutes);
+        // Ensure iframe is loaded
+        if (iframe) {
+            // Set source if not already set
+            const currentSrc = iframe.src;
+            const dashboardPath = 'Dash/dashboard.html';
+            
+            if (!currentSrc.includes('dashboard.html')) {
+                iframe.src = dashboardPath;
+                console.log('Setting iframe src to:', dashboardPath);
+            }
+            
+            // Clear any existing event listeners
+            iframe.onload = null;
+            iframe.onerror = null;
+            
+            // Set new event listener for iframe load
+            iframe.onload = () => {
+                console.log('✅ Dashboard iframe loaded successfully');
+            };
+            
+            iframe.onerror = (error) => {
+                console.error('❌ Dashboard iframe failed to load:', error);
+                this.showError('Failed to load dashboard. Please try again.');
+            };
         }
+        
+        console.log('✅ Dashboard shown');
     }
 
-    // Live route management
-    handleLiveRouteInput(inputValue) {
-        // Store the input value but don't filter yet
-        this.state.liveTracking.currentRoute = inputValue.trim();
+    hideDashboard() {
+        console.log('📊 Hiding dashboard...');
         
-        // Show suggestions if input has content
-        if (inputValue.trim() && this.uiController.showLiveRouteSuggestions) {
-            const suggestions = this.getRouteSuggestions(inputValue.trim());
-            this.uiController.showLiveRouteSuggestions(suggestions);
-        } else if (this.uiController.hideLiveRouteSuggestions) {
-            this.uiController.hideLiveRouteSuggestions();
-        }
-    }
-
-    getRouteSuggestions(searchTerm) {
-        if (!searchTerm || !this.state.liveTracking.availableRoutes) {
-            return [];
+        this.dashboardActive = false;
+        document.body.classList.remove('dashboard-active');
+        
+        // Hide dashboard container
+        const dashboardContainer = document.getElementById('dashboard-container');
+        if (dashboardContainer) {
+            dashboardContainer.style.display = 'none';
+            dashboardContainer.style.opacity = '0';
+            dashboardContainer.style.visibility = 'hidden';
         }
         
-        const term = searchTerm.toLowerCase();
-        return this.state.liveTracking.availableRoutes
-            .filter(route => route.toLowerCase().includes(term))
-            .slice(0, 10); // Limit to 10 suggestions
-    }
-
-    showLiveRouteSuggestions() {
-        if (this.uiController.showLiveRouteSuggestions) {
-            const suggestions = this.state.liveTracking.currentRoute 
-                ? this.getRouteSuggestions(this.state.liveTracking.currentRoute)
-                : this.state.liveTracking.availableRoutes.slice(0, 10);
-            this.uiController.showLiveRouteSuggestions(suggestions);
-        }
-    }
-
-    updateLiveRoute() {
-        const input = document.getElementById('liveRouteSearch');
-        if (!input) return;
+        // Show map and sidebars
+        document.querySelectorAll('.sidebar, .map-container').forEach(el => {
+            if (el) el.style.display = '';
+        });
         
-        const routeNumber = input.value.trim();
-        
-        if (!routeNumber) {
-            // Default to showing all buses
-            this.state.liveTracking.currentRoute = 'all';
-            input.value = 'all';
-        } else {
-            this.state.liveTracking.currentRoute = routeNumber;
+        // Restore main content grid
+        const mainContent = document.querySelector('.main-content');
+        if (mainContent) {
+            mainContent.style.gridTemplateColumns = '320px 1fr 320px';
         }
         
-        // Update UI
-        const currentRouteElement = document.getElementById('currentLiveRoute');
-        if (currentRouteElement) {
-            currentRouteElement.textContent = routeNumber || 'all';
+        // Reset map if needed
+        if (this.map) {
+            setTimeout(() => {
+                this.map.invalidateSize();
+            }, 100);
         }
         
-        // Hide suggestions
-        if (this.uiController.hideLiveRouteSuggestions) {
-            this.uiController.hideLiveRouteSuggestions();
-        }
-        
-        // Refresh the data with new filter
-        if (this.currentVisualization === 'live') {
-            this.refreshLivePositions();
-        }
-    }
-
-    selectLiveRouteFromSuggestion(route) {
-        const input = document.getElementById('liveRouteSearch');
-        if (input) {
-            input.value = route;
-            this.state.liveTracking.currentRoute = route;
-            this.updateLiveRoute();
-        }
-    }
-
-    refreshLivePositions() {
-        if (this.currentVisualization === 'live') {
-            this.loadAndDisplayLiveBuses();
-            this.showNotification('Live positions refreshed', 'success');
-        }
+        console.log('✅ Dashboard hidden');
     }
 
     // Historical search methods
@@ -558,9 +368,6 @@ class TTCVisualizationApp {
         this.state.filteredRoutes = this.filterRoutes();
         
         if (this.state.searchQuery) {
-            // If we have search results, update visualization
-            this.switchVisualization(this.currentVisualization);
-            
             // Update search results UI
             if (this.uiController.updateSearchResults) {
                 this.uiController.updateSearchResults(this.state.filteredRoutes);
@@ -590,7 +397,7 @@ class TTCVisualizationApp {
     }
 
     handleViewportChange() {
-        if (!this.map) return;
+        if (!this.map || this.dashboardActive) return;
         
         const bounds = this.map.getBounds();
         this.state.currentViewport = bounds;
@@ -600,7 +407,7 @@ class TTCVisualizationApp {
     }
 
     updateViewportInsights() {
-        if (!this.state.currentViewport) return;
+        if (!this.state.currentViewport || this.dashboardActive) return;
 
         const bounds = this.state.currentViewport;
         const routesInView = this.state.filteredRoutes.filter(route => {
@@ -626,6 +433,8 @@ class TTCVisualizationApp {
     }
 
     updateMapLegend() {
+        if (this.dashboardActive) return;
+        
         const legend = this.mapVisualizer.getCurrentLegend();
         if (this.uiController.updateMapLegend) {
             this.uiController.updateMapLegend(legend);
@@ -658,34 +467,6 @@ class TTCVisualizationApp {
         }
     }
 
-    toggleTheme() {
-        this.currentTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
-        document.documentElement.setAttribute('data-theme', this.currentTheme);
-        
-        // Update theme button icon
-        const themeIcon = document.querySelector('.theme-icon');
-        if (themeIcon) {
-            themeIcon.textContent = this.currentTheme === 'dark' ? '🌙' : '☀️';
-        }
-        
-        // Store preference
-        localStorage.setItem('theme', this.currentTheme);
-        
-        // Force map refresh with timeout to ensure DOM is updated
-        setTimeout(() => {
-            if (this.map) {
-                this.map.invalidateSize({ animate: false });
-            }
-            
-            // Notify map visualizer about theme change
-            if (this.mapVisualizer) {
-                this.mapVisualizer.onThemeChange(this.currentTheme);
-            }
-        }, 150);
-        
-        console.log(`🎨 Theme switched to ${this.currentTheme}`);
-    }
-
     toggleFullscreen() {
         if (!document.fullscreenElement) {
             document.documentElement.requestFullscreen().catch(err => {
@@ -697,6 +478,8 @@ class TTCVisualizationApp {
     }
 
     locateUser() {
+        if (this.dashboardActive) return;
+        
         if (!navigator.geolocation) {
             this.showError('Geolocation is not supported by your browser');
             return;
@@ -718,111 +501,27 @@ class TTCVisualizationApp {
     }
 
     resetMapView() {
-        if (this.map) {
-            // FIX: Use flyTo for smoother reset with bounds
-            this.map.flyTo([43.6532, -79.3832], 11, {
-                animate: true,
-                duration: 1
-            });
-        }
+        if (this.dashboardActive || !this.map) return;
+        
+        this.map.flyTo([43.6532, -79.3832], 11, {
+            animate: true,
+            duration: 1
+        });
         this.showNotification('Map view reset', 'info');
     }
 
     handleResize() {
-        // Refresh map on resize
-        if (this.map) {
+        // Refresh map on resize if not in dashboard mode
+        if (this.map && !this.dashboardActive) {
             setTimeout(() => {
                 this.map.invalidateSize();
             }, 250);
         }
-    }
-
-    showAboutModal() {
-        const aboutContent = `
-            <h2>About TTC Delay Visualization</h2>
-            <p>This interactive visualization platform provides insights into Toronto Transit Commission (TTC) bus delays and performance metrics.</p>
-            <p><strong>Features:</strong></p>
-            <ul>
-                <li>Real-time delay visualization across routes</li>
-                <li>Heatmap of delay hotspots</li>
-                <li>Route comparison and frequency analysis</li>
-                <li><strong>NEW:</strong> Live bus tracking with real-time positions from TTC GTFS-RT API</li>
-                <li>Interactive search and filtering</li>
-            </ul>
-            <p><strong>Live Tracking:</strong> Shows real-time bus positions using TTC's official GTFS-RT API.</p>
-            <p><strong>Historical Data:</strong> ${this.state.summaryStats.time_period || '2014-2025'}</p>
-            <p><strong>Advanced Analytics:</strong> <a href="https://ttcdelay.streamlit.app/" target="_blank" style="color: var(--accent-primary);">View time series, hourly patterns, and forecasting</a></p>
-            <p><em>Note: This is an independent project and not affiliated with TTC or the City of Toronto.</em></p>
-        `;
         
-        this.showModal('About', aboutContent);
-    }
-
-    showDataSourceModal() {
-        const dataContent = `
-            <h2>Data Sources & Methodology</h2>
-            <p><strong>Historical Data Sources:</strong></p>
-            <ul>
-                <li>TTC Route Performance Data (2014-2025)</li>
-                <li>Route Geometry Information</li>
-                <li>Delay Incident Reports</li>
-                <li>Location Analysis Data</li>
-            </ul>
-            <p><strong>Live Data Source:</strong></p>
-            <ul>
-                <li>TTC GTFS-RT Real-time Vehicle Positions API</li>
-                <li>Updated on manual refresh</li>
-                <li>Route-specific bus tracking</li>
-            </ul>
-            <p><strong>Available Live Data Fields:</strong></p>
-            <ul>
-                <li>Real Vehicle IDs (not simulated)</li>
-                <li>Route Numbers</li>
-                <li>GPS Coordinates (Latitude/Longitude)</li>
-                <li>Speed (meters per second)</li>
-                <li>Bearing (compass direction)</li>
-                <li>Occupancy Status</li>
-                <li>Timestamp</li>
-            </ul>
-            <p><strong>Historical Data Period:</strong> ${this.state.summaryStats.time_period || '2014-2025'}</p>
-            <p><strong>Live Data Status:</strong> <span id="liveDataStatusModal">${this.state.liveTracking.filteredBuses.length > 0 ? 'Connected' : 'Not connected'}</span></p>
-            <p><strong>Advanced Analytics:</strong> <a href="https://ttcdelay.streamlit.app/" target="_blank" style="color: var(--accent-primary);">Explore time series analysis and forecasting</a></p>
-        `;
-        
-        this.showModal('Data Sources', dataContent);
-    }
-
-    showModal(title, content) {
-        // Create modal overlay
-        const modalOverlay = document.createElement('div');
-        modalOverlay.className = 'modal-overlay active';
-        modalOverlay.innerHTML = `
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title">${title}</h3>
-                    <button class="modal-close">&times;</button>
-                </div>
-                <div class="modal-body">
-                    ${content}
-                </div>
-            </div>
-        `;
-
-        // Add to document
-        document.body.appendChild(modalOverlay);
-
-        // Close handlers
-        const closeModal = () => {
-            modalOverlay.classList.remove('active');
-            setTimeout(() => {
-                document.body.removeChild(modalOverlay);
-            }, 300);
-        };
-
-        modalOverlay.querySelector('.modal-close').addEventListener('click', closeModal);
-        modalOverlay.addEventListener('click', (e) => {
-            if (e.target === modalOverlay) closeModal();
-        });
+        // Notify UI controller
+        if (this.uiController.onResize) {
+            this.uiController.onResize();
+        }
     }
 
     showNotification(message, type = 'info') {
@@ -835,29 +534,8 @@ class TTCVisualizationApp {
         this.showNotification(message, 'error');
     }
 
-    // Bus selection methods
-    selectLiveBus(bus) {
-        this.state.liveTracking.selectedBus = bus;
-        if (this.mapVisualizer.highlightBus) {
-            this.mapVisualizer.highlightBus(bus.vehicle_id);
-        }
-        if (this.uiController.updateBusDetails) {
-            this.uiController.updateBusDetails(bus);
-        }
-    }
-
-    // Public method to select a route or bus from UI
+    // Route selection methods
     selectRoute(routeId) {
-        if (this.currentVisualization === 'live') {
-            // In live mode, select a bus if it's a bus ID
-            const bus = this.state.liveTracking.filteredBuses.find(b => b.vehicle_id === routeId);
-            if (bus) {
-                this.selectLiveBus(bus);
-                return;
-            }
-            // Otherwise fall through to route selection
-        }
-        
         const route = this.state.routes.find(r => r.Route.toString() === routeId);
         if (route && this.mapVisualizer) {
             this.mapVisualizer.highlightRoute(routeId);
@@ -874,16 +552,9 @@ class TTCVisualizationApp {
             this.mapVisualizer.clearHighlight();
         }
         
-        if (this.currentVisualization === 'live') {
-            this.state.liveTracking.selectedBus = null;
-            if (this.uiController.clearBusDetails) {
-                this.uiController.clearBusDetails();
-            }
-        } else {
-            this.state.selectedRoute = null;
-            if (this.uiController.clearRouteDetails) {
-                this.uiController.clearRouteDetails();
-            }
+        this.state.selectedRoute = null;
+        if (this.uiController.clearRouteDetails) {
+            this.uiController.clearRouteDetails();
         }
     }
 
@@ -893,17 +564,16 @@ class TTCVisualizationApp {
             ...this.state,
             currentTheme: this.currentTheme,
             currentVisualization: this.currentVisualization,
-            liveTrackingConfig: this.LIVE_TRACKING_CONFIG
+            dashboardActive: this.dashboardActive
         };
     }
 }
 
-// Load user preferences from localStorage
+// Load user preferences from localStorage (dark theme only)
 function loadUserPreferences() {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-        document.documentElement.setAttribute('data-theme', savedTheme);
-    }
+    // Force dark theme
+    const savedTheme = 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
 }
 
 // Initialize application when DOM is loaded

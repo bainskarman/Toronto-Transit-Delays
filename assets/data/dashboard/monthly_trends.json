@@ -1,0 +1,62 @@
+[
+  {
+    "month": "Jan",
+    "incident_count": 59454,
+    "avg_delay": 18.0
+  },
+  {
+    "month": "Feb",
+    "incident_count": 16119,
+    "avg_delay": 24.5
+  },
+  {
+    "month": "Mar",
+    "incident_count": 16051,
+    "avg_delay": 24.6
+  },
+  {
+    "month": "Apr",
+    "incident_count": 15829,
+    "avg_delay": 22.9
+  },
+  {
+    "month": "May",
+    "incident_count": 17035,
+    "avg_delay": 23.2
+  },
+  {
+    "month": "Jun",
+    "incident_count": 18270,
+    "avg_delay": 21.9
+  },
+  {
+    "month": "Jul",
+    "incident_count": 19595,
+    "avg_delay": 20.7
+  },
+  {
+    "month": "Aug",
+    "incident_count": 20189,
+    "avg_delay": 22.1
+  },
+  {
+    "month": "Sep",
+    "incident_count": 18564,
+    "avg_delay": 21.9
+  },
+  {
+    "month": "Oct",
+    "incident_count": 18420,
+    "avg_delay": 22.7
+  },
+  {
+    "month": "Nov",
+    "incident_count": 18118,
+    "avg_delay": 22.3
+  },
+  {
+    "month": "Dec",
+    "incident_count": 18712,
+    "avg_delay": 22.1
+  }
+]

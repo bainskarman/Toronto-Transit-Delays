@@ -406,6 +406,44 @@ class DataLoader {
             summary: summaryStats
         };
     }
+
+    // New method for dashboard data loading (if needed)
+    async loadDashboardData() {
+        console.log('📊 Loading dashboard data...');
+        
+        try {
+            // This method can be extended to load dashboard-specific data
+            // For now, we return a summary of existing data
+            const [routes, geometries, locationAnalysis, summaryStats] = await Promise.all([
+                this.loadRoutePerformance(),
+                this.loadRouteGeometries(),
+                this.loadLocationAnalysis(),
+                this.loadSummaryStatistics()
+            ]);
+
+            const dashboardData = {
+                summary: summaryStats,
+                route_count: routes.length,
+                geometry_count: Object.keys(geometries).length,
+                location_count: locationAnalysis.length,
+                data_timestamp: new Date().toISOString()
+            };
+
+            console.log('✅ Dashboard data loaded');
+            return dashboardData;
+
+        } catch (error) {
+            console.error('❌ Error loading dashboard data:', error);
+            return {
+                summary: this.getDefaultStatistics(),
+                route_count: 0,
+                geometry_count: 0,
+                location_count: 0,
+                data_timestamp: new Date().toISOString(),
+                error: error.message
+            };
+        }
+    }
 }
 
 // Export for module usage

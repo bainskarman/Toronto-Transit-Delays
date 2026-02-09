@@ -6,7 +6,6 @@ class UIController {
         this.charts = new Map();
         this.searchTimeout = null;
         this.isMobile = window.innerWidth <= 768;
-        this.routeSuggestionsContainer = null;
         
         this.init();
     }
@@ -15,358 +14,26 @@ class UIController {
         console.log('🎛️ Initializing UI controller...');
         
         this.createNotificationContainer();
-        this.createRouteSuggestions();
         this.setupMobileView();
         this.setupAccessibility();
         
         console.log('✅ UI controller initialized');
     }
 
-    // Live Tracking UI Methods
-    toggleLiveTrackingUI(isLiveMode) {
-        // Show/hide appropriate UI sections
-        const historicalSearch = document.getElementById('historicalSearch');
-        const liveSearch = document.getElementById('liveSearch');
-        const historicalViewport = document.getElementById('historicalViewport');
-        const liveViewport = document.getElementById('liveViewport');
-        const searchTitle = document.getElementById('searchTitle');
-        const viewportTitle = document.getElementById('viewportTitle');
-        const busDetailsSection = document.getElementById('busDetailsSection');
-        
-        if (historicalSearch) {
-            historicalSearch.style.display = isLiveMode ? 'none' : 'block';
-        }
-        if (liveSearch) {
-            liveSearch.style.display = isLiveMode ? 'block' : 'none';
-        }
-        if (historicalViewport) {
-            historicalViewport.style.display = isLiveMode ? 'none' : 'block';
-        }
-        if (liveViewport) {
-            liveViewport.style.display = isLiveMode ? 'block' : 'none';
-        }
-        if (busDetailsSection) {
-            busDetailsSection.style.display = isLiveMode ? 'block' : 'none';
-        }
-        
-        // Update section titles
-        if (searchTitle) {
-            searchTitle.textContent = isLiveMode ? 'Live Route Search' : 'Route Search';
-        }
-        if (viewportTitle) {
-            viewportTitle.textContent = isLiveMode ? 'Live Buses in View' : 'Viewport Insights';
-        }
-        
-        // Clear bus details if switching away from live mode
-        if (!isLiveMode && busDetailsSection) {
-            this.clearBusDetails();
-        }
-        
-        // Show/hide route suggestions
-        this.hideLiveRouteSuggestions();
-    }
-
-    createRouteSuggestions() {
-        // Create dropdown for route suggestions
-        this.routeSuggestionsContainer = document.createElement('div');
-        this.routeSuggestionsContainer.id = 'routeSuggestions';
-        this.routeSuggestionsContainer.className = 'route-suggestions';
-        this.routeSuggestionsContainer.style.display = 'none';
-        
-        const liveSearchContainer = document.querySelector('.live-search');
-        if (liveSearchContainer) {
-            liveSearchContainer.appendChild(this.routeSuggestionsContainer);
-        }
-    }
-
-    showLiveRouteSuggestions(suggestions) {
-        if (!this.routeSuggestionsContainer || !suggestions || suggestions.length === 0) {
-            this.hideLiveRouteSuggestions();
-            return;
-        }
-        
-        const suggestionsHtml = suggestions.map(route => `
-            <div class="route-suggestion" data-route="${route}" role="button" tabindex="0">
-                <span class="suggestion-icon">🚍</span>
-                <span class="suggestion-text">Route ${route}</span>
-            </div>
-        `).join('');
-        
-        this.routeSuggestionsContainer.innerHTML = suggestionsHtml;
-        this.routeSuggestionsContainer.style.display = 'block';
-        
-        // Add click handlers
-        this.routeSuggestionsContainer.querySelectorAll('.route-suggestion').forEach(item => {
-            item.addEventListener('click', () => {
-                const route = item.dataset.route;
-                if (this.app.selectLiveRouteFromSuggestion) {
-                    this.app.selectLiveRouteFromSuggestion(route);
-                }
-            });
+    // Dashboard UI Methods - UPDATED
+    updateVisualizationToggles(activeVisual) {
+        document.querySelectorAll('.toggle-btn').forEach(btn => {
+            if (btn.dataset.visual === activeVisual) {
+                btn.classList.add('active');
+                btn.setAttribute('aria-selected', 'true');
+            } else {
+                btn.classList.remove('active');
+                btn.setAttribute('aria-selected', 'false');
+            }
         });
     }
 
-    hideLiveRouteSuggestions() {
-        if (this.routeSuggestionsContainer) {
-            this.routeSuggestionsContainer.style.display = 'none';
-        }
-    }
-
-    updateRouteSuggestions(availableRoutes) {
-        // This method can be called to update the list of available routes
-        console.log(`🔄 Updated route suggestions: ${availableRoutes.length} routes available`);
-    }
-
-    updateLiveLoadingState(isLoading) {
-        const refreshBtn = document.getElementById('refreshLiveBtn');
-        const liveBusList = document.getElementById('liveBusList');
-        
-        if (refreshBtn) {
-            if (isLoading) {
-                refreshBtn.disabled = true;
-                refreshBtn.innerHTML = '<span class="refresh-icon">⏳</span> Loading...';
-            } else {
-                refreshBtn.disabled = false;
-                refreshBtn.innerHTML = '<span class="refresh-icon">🔄</span> Refresh Positions';
-            }
-        }
-        
-        if (liveBusList && isLoading) {
-            liveBusList.innerHTML = `
-                <div class="loading-state">
-                    <div class="loading-spinner"></div>
-                    <span>Loading live bus data from TTC...</span>
-                </div>
-            `;
-        }
-    }
-
-    updateLiveBusList(buses) {
-        const container = document.getElementById('liveBusList');
-        if (!container) return;
-        
-        if (!buses || buses.length === 0) {
-            container.innerHTML = `
-                <div class="empty-state">
-                    <span>🚍</span>
-                    <p>No buses found for this route</p>
-                    <p class="hint-text">Try a different route number or check "all"</p>
-                </div>
-            `;
-            return;
-        }
-        
-        const busesHtml = buses.map(bus => {
-            const speedKmh = (bus.speed_mps || 0) * 3.6;
-            const status = this.getBusStatus(speedKmh);
-            const statusClass = this.getBusStatusClass(status);
-            const statusText = this.getBusStatusText(status);
-            const direction = this.getDirectionFromBearing(bus.bearing || 0);
-            
-            return `
-                <div class="bus-item" data-bus-id="${bus.vehicle_id}" role="button" tabindex="0">
-                    <div class="bus-item-header">
-                        <span class="bus-id">${bus.vehicle_label}</span>
-                        <span class="bus-status ${statusClass}">${statusText}</span>
-                    </div>
-                    <div class="bus-details">
-                        <div class="bus-detail-row">
-                            <span class="detail-label">Route:</span>
-                            <span class="detail-value">${bus.route_id}</span>
-                        </div>
-                        <div class="bus-detail-row">
-                            <span class="detail-label">Speed:</span>
-                            <span class="detail-value ${statusClass}">${speedKmh.toFixed(1)} km/h</span>
-                        </div>
-                        <div class="bus-detail-row">
-                            <span class="detail-label">Direction:</span>
-                            <span class="detail-value">${direction} (${(bus.bearing || 0).toFixed(0)}°)</span>
-                        </div>
-                        <div class="bus-detail-row">
-                            <span class="detail-label">Status:</span>
-                            <span class="detail-value">${this.formatOccupancy(bus.occupancy_status)}</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }).join('');
-        
-        container.innerHTML = busesHtml;
-        
-        // Add click handlers
-        container.querySelectorAll('.bus-item').forEach(item => {
-            item.addEventListener('click', () => {
-                const busId = item.dataset.busId;
-                this.app.selectRoute(busId);
-            });
-            
-            item.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    const busId = item.dataset.busId;
-                    this.app.selectRoute(busId);
-                }
-            });
-        });
-    }
-
-    updateLiveStats(busCount, lastUpdated) {
-        const busCountElement = document.getElementById('busCount');
-        const lastUpdatedElement = document.getElementById('lastUpdatedLive');
-        const liveDataStatus = document.getElementById('liveDataStatus');
-        
-        if (busCountElement) {
-            busCountElement.textContent = `${busCount} ${busCount === 1 ? 'bus' : 'buses'}`;
-        }
-        
-        if (lastUpdatedElement && lastUpdated) {
-            const now = new Date();
-            const diff = Math.floor((now - lastUpdated) / 1000);
-            
-            let timeText;
-            if (diff < 10) {
-                timeText = 'Just now';
-            } else if (diff < 60) {
-                timeText = `${diff} seconds ago`;
-            } else if (diff < 3600) {
-                const minutes = Math.floor(diff / 60);
-                timeText = `${minutes} minute${minutes !== 1 ? 's' : ''} ago`;
-            } else {
-                timeText = lastUpdated.toLocaleTimeString([], { 
-                    hour: '2-digit', 
-                    minute: '2-digit' 
-                });
-            }
-            
-            lastUpdatedElement.textContent = timeText;
-        }
-        
-        if (liveDataStatus) {
-            liveDataStatus.textContent = busCount > 0 ? 'Connected' : 'Not connected';
-        }
-    }
-
-    updateBusDetails(bus) {
-        const detailsContainer = document.getElementById('busDetails');
-        if (!detailsContainer) return;
-        
-        const speedKmh = (bus.speed_mps || 0) * 3.6;
-        const status = this.getBusStatus(speedKmh);
-        const statusClass = this.getBusStatusClass(status);
-        const statusText = this.getBusStatusText(status);
-        const direction = this.getDirectionFromBearing(bus.bearing || 0);
-        
-        // Format timestamp
-        let timeString = 'Unknown';
-        let dateString = '';
-        if (bus.timestamp) {
-            const time = new Date(bus.timestamp);
-            timeString = time.toLocaleTimeString([], { 
-                hour: '2-digit', 
-                minute: '2-digit',
-                second: '2-digit'
-            });
-            dateString = time.toLocaleDateString();
-        }
-        
-        detailsContainer.innerHTML = `
-            <div class="detail-item">
-                <span class="detail-label"><i class="fas fa-id-card"></i> Vehicle ID:</span>
-                <span class="detail-value">${bus.vehicle_id}</span>
-            </div>
-            <div class="detail-item">
-                <span class="detail-label"><i class="fas fa-route"></i> Route:</span>
-                <span class="detail-value">${bus.route_id}</span>
-            </div>
-            <div class="detail-item">
-                <span class="detail-label"><i class="fas fa-tachometer-alt"></i> Speed:</span>
-                <span class="detail-value ${statusClass}">${speedKmh.toFixed(1)} km/h (${(bus.speed_mps || 0).toFixed(1)} m/s)</span>
-            </div>
-            <div class="detail-item">
-                <span class="detail-label"><i class="fas fa-compass"></i> Direction:</span>
-                <span class="detail-value">${direction} (${(bus.bearing || 0).toFixed(0)}°)</span>
-            </div>
-            <div class="detail-item">
-                <span class="detail-label"><i class="fas fa-map-marker-alt"></i> Position:</span>
-                <span class="detail-value">${bus.latitude.toFixed(6)}, ${bus.longitude.toFixed(6)}</span>
-            </div>
-            <div class="detail-item">
-                <span class="detail-label"><i class="fas fa-users"></i> Occupancy:</span>
-                <span class="detail-value">${this.formatOccupancy(bus.occupancy_status)}</span>
-            </div>
-            <div class="detail-item">
-                <span class="detail-label"><i class="fas fa-clock"></i> Last Update:</span>
-                <span class="detail-value">${timeString}<br><small>${dateString}</small></span>
-            </div>
-            <div class="bus-actions">
-                <button class="action-btn focus-btn" onclick="window.ttcApp.mapVisualizer.focusOnBus('${bus.vehicle_id}')">
-                    <i class="fas fa-search-location"></i> Focus on Map
-                </button>
-                <button class="action-btn center-btn" onclick="window.ttcApp.mapVisualizer.centerOnBus('${bus.vehicle_id}')">
-                    <i class="fas fa-crosshairs"></i> Center Map
-                </button>
-            </div>
-            <div class="data-source-info">
-                <small><i class="fas fa-info-circle"></i> Data sourced from TTC GTFS-RT API</small>
-            </div>
-        `;
-    }
-
-    clearBusDetails() {
-        const detailsContainer = document.getElementById('busDetails');
-        if (detailsContainer) {
-            detailsContainer.innerHTML = `
-                <div class="empty-state">
-                    <span>🚍</span>
-                    <p>Select a bus to see details</p>
-                    <p class="hint-text">Click any bus on the map or in the list</p>
-                </div>
-            `;
-        }
-    }
-
-    // Helper methods for bus data
-    getBusStatus(speedKmh) {
-        if (speedKmh < 1) return 'stopped';
-        if (speedKmh < 20) return 'slow';
-        return 'moving';
-    }
-
-    getBusStatusClass(status) {
-        switch (status) {
-            case 'stopped': return 'status-stopped';
-            case 'slow': return 'status-slow';
-            case 'moving': return 'status-moving';
-            default: return '';
-        }
-    }
-
-    getBusStatusText(status) {
-        switch (status) {
-            case 'stopped': return 'Stopped';
-            case 'slow': return 'Slow';
-            case 'moving': return 'Moving';
-            default: return 'Unknown';
-        }
-    }
-
-    getDirectionFromBearing(bearing) {
-        if (bearing >= 337.5 || bearing < 22.5) return 'N';
-        if (bearing >= 22.5 && bearing < 67.5) return 'NE';
-        if (bearing >= 67.5 && bearing < 112.5) return 'E';
-        if (bearing >= 112.5 && bearing < 157.5) return 'SE';
-        if (bearing >= 157.5 && bearing < 202.5) return 'S';
-        if (bearing >= 202.5 && bearing < 247.5) return 'SW';
-        if (bearing >= 247.5 && bearing < 292.5) return 'W';
-        return 'NW';
-    }
-
-    formatOccupancy(occupancy) {
-        if (!occupancy || occupancy === 'UNKNOWN') return 'Unknown';
-        return occupancy
-            .toLowerCase()
-            .replace(/_/g, ' ')
-            .replace(/\b\w/g, l => l.toUpperCase());
-    }
+    // Remove old toggleDashboardUI method - replaced by updateVisualizationToggles
 
     // Metrics and Data Display
     updateMetrics(summaryStats) {
@@ -550,16 +217,6 @@ class UIController {
                 dataUpdateElement.textContent = '--';
             }
         }
-        
-        // Update analytics link
-        const analyticsLink = document.getElementById('analyticsLink');
-        if (analyticsLink) {
-            analyticsLink.innerHTML = `
-                <a href="https://ttcdelay.streamlit.app/" target="_blank" style="color: var(--accent-primary); text-decoration: none;">
-                    <i class="fas fa-chart-line"></i> View Advanced Analytics
-                </a>
-            `;
-        }
     }
 
     // Chart Management
@@ -715,19 +372,7 @@ class UIController {
         }
     }
 
-    // Visualization Controls
-    updateVisualizationToggles(activeVisual) {
-        document.querySelectorAll('.toggle-btn').forEach(btn => {
-            if (btn.dataset.visual === activeVisual) {
-                btn.classList.add('active');
-                btn.setAttribute('aria-selected', 'true');
-            } else {
-                btn.classList.remove('active');
-                btn.setAttribute('aria-selected', 'false');
-            }
-        });
-    }
-
+    // Map Legend
     updateMapLegend(legendHtml) {
         const container = document.getElementById('mapLegend');
         if (container && legendHtml) {
@@ -944,7 +589,6 @@ class UIController {
     handleEscapeKey() {
         // Close modals, search results, etc.
         this.clearSearchResults();
-        this.hideLiveRouteSuggestions();
         
         // Close any open popups
         const openPopups = document.querySelectorAll('.leaflet-popup');
@@ -991,11 +635,6 @@ class UIController {
         this.charts.forEach(chart => {
             chart.resize();
         });
-        
-        // Hide suggestions on mobile if showing
-        if (this.isMobile && this.routeSuggestionsContainer) {
-            this.hideLiveRouteSuggestions();
-        }
     }
 
     // Cleanup
@@ -1010,11 +649,6 @@ class UIController {
         if (this.notificationContainer) {
             this.notificationContainer.remove();
         }
-        
-        // Remove route suggestions
-        if (this.routeSuggestionsContainer) {
-            this.routeSuggestionsContainer.remove();
-        }
     }
 
     // Debug and Development
@@ -1027,83 +661,58 @@ class UIController {
     }
 }
 
-// Add CSS for new live tracking elements
-const liveStyles = document.createElement('style');
-liveStyles.textContent = `
-    /* Live tracking specific styles */
-    .live-search {
-        background: var(--surface-bg);
-        border-radius: var(--radius-lg);
-        padding: var(--space-md);
-        margin-top: var(--space-md);
-        position: relative;
-    }
-    
-    .live-controls {
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-sm);
-        margin-top: var(--space-md);
-    }
-    
-    .refresh-btn {
-        background: var(--accent-primary);
-        color: white;
-        border: none;
-        border-radius: var(--radius-md);
-        padding: var(--space-md);
-        cursor: pointer;
-        font-weight: var(--font-weight-medium);
-        transition: all var(--transition-fast);
+// Add CSS for dashboard loading
+const dashboardStyles = document.createElement('style');
+dashboardStyles.textContent = `
+    /* Dashboard loading state */
+    .dashboard-loading {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: var(--space-sm);
-        width: 100%;
+        height: 100%;
+        background: var(--primary-bg);
     }
     
-    .refresh-btn:hover:not(:disabled) {
-        background: var(--accent-secondary);
-        transform: translateY(-1px);
-        box-shadow: var(--shadow-md);
-    }
-    
-    .refresh-btn:disabled {
-        opacity: 0.7;
-        cursor: not-allowed;
-    }
-    
-    .refresh-icon {
-        font-size: 1.125rem;
-    }
-    
-    .live-stats {
-        display: flex;
-        justify-content: space-between;
-        font-size: 0.875rem;
+    .dashboard-loading-content {
+        text-align: center;
         color: var(--text-secondary);
-        padding: var(--space-sm);
-        background: var(--tertiary-bg);
-        border-radius: var(--radius-md);
     }
     
-    .live-hint {
-        margin-top: var(--space-md);
-        padding: var(--space-sm);
-        background: var(--tertiary-bg);
-        border-radius: var(--radius-md);
-        font-size: 0.75rem;
-        color: var(--text-muted);
-        border-left: 3px solid var(--accent-primary);
+    .dashboard-loading-spinner {
+        width: 48px;
+        height: 48px;
+        border: 4px solid var(--border-color);
+        border-top: 4px solid var(--accent-primary);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 1rem;
     }
     
-    .live-bus-list {
-        max-height: 300px;
-        overflow-y: auto;
-        margin-bottom: var(--space-md);
+    /* Dashboard iframe styling */
+    #dashboard-frame {
+        width: 100%;
+        height: 100%;
+        border: none;
+        background: var(--primary-bg);
     }
     
-    .bus-item {
+    /* Dashboard container transitions */
+    #dashboard-container {
+        transition: opacity 0.3s ease;
+    }
+    
+    #dashboard-container.active {
+        opacity: 1;
+        pointer-events: all;
+    }
+    
+    #dashboard-container:not(.active) {
+        opacity: 0;
+        pointer-events: none;
+    }
+    
+    /* Viewport route items */
+    .viewport-route {
         background: var(--tertiary-bg);
         border: 1px solid var(--border-color);
         border-radius: var(--radius-md);
@@ -1111,271 +720,131 @@ liveStyles.textContent = `
         margin-bottom: var(--space-sm);
         cursor: pointer;
         transition: all var(--transition-fast);
+        display: flex;
+        align-items: center;
+        gap: var(--space-md);
     }
     
-    .bus-item:hover {
+    .viewport-route:hover {
         background: var(--surface-bg);
         border-color: var(--accent-primary);
         transform: translateX(2px);
     }
     
-    .bus-item-header {
+    .viewport-route-rank {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: var(--accent-primary);
+        color: white;
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        margin-bottom: var(--space-xs);
+        justify-content: center;
+        font-weight: var(--font-weight-bold);
+        flex-shrink: 0;
     }
     
-    .bus-id {
-        font-weight: var(--font-weight-semibold);
-        color: var(--text-primary);
-        font-size: 0.875rem;
-    }
-    
-    .bus-status {
-        font-size: 0.75rem;
-        padding: 2px 8px;
-        border-radius: var(--radius-sm);
-        font-weight: var(--font-weight-medium);
-    }
-    
-    .status-stopped {
-        background: rgba(239, 68, 68, 0.2);
-        color: #ef4444;
-        border: 1px solid rgba(239, 68, 68, 0.3);
-    }
-    
-    .status-slow {
-        background: rgba(245, 158, 11, 0.2);
-        color: #f59e0b;
-        border: 1px solid rgba(245, 158, 11, 0.3);
-    }
-    
-    .status-moving {
-        background: rgba(16, 185, 129, 0.2);
-        color: #10b981;
-        border: 1px solid rgba(16, 185, 129, 0.3);
-    }
-    
-    .bus-details {
+    .viewport-route-info {
+        flex: 1;
         display: flex;
         flex-direction: column;
         gap: var(--space-xs);
     }
     
-    .bus-detail-row {
-        display: flex;
-        justify-content: space-between;
-        font-size: 0.75rem;
-    }
-    
-    .detail-label {
-        color: var(--text-secondary);
-    }
-    
-    .detail-value {
-        color: var(--text-primary);
-        font-weight: var(--font-weight-medium);
-    }
-    
-    /* Route suggestions */
-    .route-suggestions {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: var(--secondary-bg);
-        border: 1px solid var(--border-color);
-        border-radius: 0 0 var(--radius-md) var(--radius-md);
-        max-height: 200px;
-        overflow-y: auto;
-        z-index: var(--z-dropdown);
-        box-shadow: var(--shadow-lg);
-        margin-top: -1px;
-    }
-    
-    .route-suggestion {
-        padding: var(--space-sm) var(--space-md);
-        cursor: pointer;
-        transition: all var(--transition-fast);
-        display: flex;
-        align-items: center;
-        gap: var(--space-sm);
-    }
-    
-    .route-suggestion:hover {
-        background: var(--tertiary-bg);
-    }
-    
-    .suggestion-icon {
-        color: var(--accent-primary);
-    }
-    
-    .suggestion-text {
+    .viewport-route-name {
+        font-weight: var(--font-weight-semibold);
         color: var(--text-primary);
         font-size: 0.875rem;
     }
     
-    .live-legend {
-        margin-top: var(--space-md);
-        padding-top: var(--space-md);
-        border-top: 1px solid var(--border-color);
-    }
-    
-    .legend-item {
-        display: flex;
-        align-items: center;
-        gap: var(--space-sm);
-        margin-bottom: var(--space-xs);
+    .viewport-route-delay {
         font-size: 0.75rem;
-    }
-    
-    .legend-color {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-    }
-    
-    .legend-label {
-        color: var(--text-secondary);
-    }
-    
-    .bus-actions {
-        display: flex;
-        gap: var(--space-sm);
-        margin-top: var(--space-md);
-    }
-    
-    .action-btn {
-        flex: 1;
-        background: var(--tertiary-bg);
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius-md);
-        padding: var(--space-sm);
-        color: var(--text-primary);
-        font-size: 0.75rem;
-        cursor: pointer;
-        transition: all var(--transition-fast);
-        text-align: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: var(--space-xs);
-    }
-    
-    .action-btn:hover {
-        background: var(--surface-bg);
-        border-color: var(--accent-primary);
-    }
-    
-    .focus-btn {
-        background: var(--accent-primary);
-        color: white;
-        border-color: var(--accent-primary);
-    }
-    
-    .center-btn {
-        background: var(--tertiary-bg);
-    }
-    
-    .data-source-info {
-        margin-top: var(--space-md);
-        padding-top: var(--space-sm);
-        border-top: 1px solid var(--border-light);
-        font-size: 0.75rem;
-        color: var(--text-muted);
-        text-align: center;
-    }
-    
-    /* Bus popup styles */
-    .bus-popup {
-        min-width: 250px;
-    }
-    
-    .bus-popup .popup-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: var(--space-sm);
-    }
-    
-    .bus-popup .popup-row {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: var(--space-xs);
-        font-size: 0.875rem;
-    }
-    
-    .bus-popup .label {
-        color: var(--text-secondary);
-        display: flex;
-        align-items: center;
-        gap: var(--space-xs);
-    }
-    
-    .bus-popup .value {
-        color: var(--text-primary);
         font-weight: var(--font-weight-medium);
-        text-align: right;
     }
     
-    .bus-popup .popup-actions {
-        margin-top: var(--space-md);
+    .viewport-route-delay.low {
+        color: var(--accent-success);
     }
     
-    /* Mobile optimizations for live tracking */
+    .viewport-route-delay.medium {
+        color: var(--accent-warning);
+    }
+    
+    .viewport-route-delay.high {
+        color: var(--accent-error);
+    }
+    
+    .viewport-route-delay.critical {
+        color: #7c3aed;
+    }
+    
+    /* Mobile optimizations for dashboard */
     @media (max-width: 768px) {
-        .live-controls {
-            flex-direction: column;
+        .viewport-route {
+            padding: var(--space-sm);
+            gap: var(--space-sm);
         }
         
-        .bus-actions {
-            flex-direction: column;
+        .viewport-route-rank {
+            width: 28px;
+            height: 28px;
+            font-size: 0.875rem;
         }
         
-        .live-bus-list {
-            max-height: 200px;
+        .viewport-route-name {
+            font-size: 0.8125rem;
         }
         
-        .route-suggestions {
+        .viewport-route-delay {
+            font-size: 0.6875rem;
+        }
+        
+        .dashboard-mode .app-header {
+            display: none !important;
+        }
+        
+        .dashboard-mode .app-footer {
+            display: none !important;
+        }
+        
+        .dashboard-mode #dashboard-container {
             position: fixed;
-            top: auto;
-            bottom: 0;
+            top: 0;
             left: 0;
             right: 0;
-            max-height: 40vh;
-            border-radius: var(--radius-md) var(--radius-md) 0 0;
-            margin-top: 0;
+            bottom: 0;
+            height: 100vh !important;
         }
     }
     
-    /* Animation for bus selection */
-    @keyframes bus-pulse {
-        0% { transform: scale(1); opacity: 1; }
-        50% { transform: scale(1.1); opacity: 0.8; }
-        100% { transform: scale(1); opacity: 1; }
+    /* Dashboard mode specific styles */
+    .dashboard-active .app-header {
+        background: var(--secondary-bg) !important;
     }
     
-    .bus-icon.selected {
-        animation: bus-pulse 1s ease-in-out infinite;
+    .dashboard-active .app-footer {
+        display: flex !important;
     }
     
-    /* Analytics link */
-    .analytics-link {
-        display: inline-flex;
-        align-items: center;
-        gap: var(--space-xs);
-        color: var(--accent-primary);
-        text-decoration: none;
-        font-size: 0.875rem;
-        margin-top: var(--space-sm);
+    .dashboard-active .main-content {
+        height: calc(100vh - 120px);
+        grid-template-columns: 1fr !important;
+        grid-template-rows: 1fr !important;
+        overflow: hidden;
     }
     
-    .analytics-link:hover {
-        text-decoration: underline;
+    .dashboard-active #dashboard-container {
+        height: 100%;
+        width: 100%;
+        position: relative;
+    }
+    
+    .dashboard-active #dashboard-frame {
+        height: 100%;
+        width: 100%;
     }
 `;
-document.head.appendChild(liveStyles);
+document.head.appendChild(dashboardStyles);
 
 // Screen reader only class for accessibility
 const style = document.createElement('style');
@@ -1448,6 +917,17 @@ style.textContent = `
         color: var(--text-muted);
         font-style: italic;
         margin-top: var(--space-xs);
+    }
+    
+    /* Hide footer links */
+    .footer-link[data-action="about"],
+    .footer-link[data-action="data-source"] {
+        display: none !important;
+    }
+    
+    /* Hide analytics footer */
+    .footer-analytics {
+        display: none !important;
     }
 `;
 document.head.appendChild(style);

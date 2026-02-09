@@ -1,0 +1,152 @@
+[
+  {
+    "route_number": "340",
+    "route_name": "Junction",
+    "current_avg_delay": 30.0,
+    "previous_avg_delay": 117.0,
+    "delay_change": -87.0,
+    "percent_change": -74.4,
+    "improvement": 87.0,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "77",
+    "route_name": "Swansea",
+    "current_avg_delay": 84.3,
+    "previous_avg_delay": 145.6,
+    "delay_change": -61.3,
+    "percent_change": -42.1,
+    "improvement": 61.3,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "93",
+    "route_name": "Parkview Hills",
+    "current_avg_delay": 29.4,
+    "previous_avg_delay": 71.8,
+    "delay_change": -42.3,
+    "percent_change": -59.0,
+    "improvement": 42.3,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "121",
+    "route_name": "Esplanade-River",
+    "current_avg_delay": 44.2,
+    "previous_avg_delay": 82.0,
+    "delay_change": -37.8,
+    "percent_change": -46.1,
+    "improvement": 37.8,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "301",
+    "route_name": "Queen",
+    "current_avg_delay": 15.0,
+    "previous_avg_delay": 52.0,
+    "delay_change": -37.0,
+    "percent_change": -71.2,
+    "improvement": 37.0,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "307",
+    "route_name": "Bathurst",
+    "current_avg_delay": 35.2,
+    "previous_avg_delay": 71.1,
+    "delay_change": -35.9,
+    "percent_change": -50.5,
+    "improvement": 35.9,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "106",
+    "route_name": "Sentinel",
+    "current_avg_delay": 27.4,
+    "previous_avg_delay": 59.1,
+    "delay_change": -31.7,
+    "percent_change": -53.7,
+    "improvement": 31.7,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "935",
+    "route_name": "Jane Express",
+    "current_avg_delay": 13.3,
+    "previous_avg_delay": 41.2,
+    "delay_change": -28.0,
+    "percent_change": -67.8,
+    "improvement": 28.0,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "41",
+    "route_name": "Keele",
+    "current_avg_delay": 15.5,
+    "previous_avg_delay": 34.1,
+    "delay_change": -18.6,
+    "percent_change": -54.5,
+    "improvement": 18.6,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "10",
+    "route_name": "Van Horne",
+    "current_avg_delay": 27.2,
+    "previous_avg_delay": 45.3,
+    "delay_change": -18.1,
+    "percent_change": -40.0,
+    "improvement": 18.1,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "108",
+    "route_name": "Driftwood",
+    "current_avg_delay": 28.3,
+    "previous_avg_delay": 43.6,
+    "delay_change": -15.3,
+    "percent_change": -35.1,
+    "improvement": 15.3,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "50",
+    "route_name": "Burnhamthorpe",
+    "current_avg_delay": 21.0,
+    "previous_avg_delay": 36.3,
+    "delay_change": -15.3,
+    "percent_change": -42.1,
+    "improvement": 15.3,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "363",
+    "route_name": "Ossington",
+    "current_avg_delay": 42.1,
+    "previous_avg_delay": 56.9,
+    "delay_change": -14.8,
+    "percent_change": -26.0,
+    "improvement": 14.8,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "84",
+    "route_name": "Sheppard West",
+    "current_avg_delay": 17.2,
+    "previous_avg_delay": 31.8,
+    "delay_change": -14.6,
+    "percent_change": -45.8,
+    "improvement": 14.6,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "503",
+    "route_name": "Kingston Rd",
+    "current_avg_delay": 7.2,
+    "previous_avg_delay": 21.0,
+    "delay_change": -13.8,
+    "percent_change": -65.7,
+    "improvement": 13.8,
+    "active_in_2025": true
+  }
+]

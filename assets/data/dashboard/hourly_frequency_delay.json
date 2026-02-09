@@ -1,0 +1,146 @@
+[
+  {
+    "hour": 0,
+    "hour_label": "00:00",
+    "incident_count": 4710,
+    "avg_delay": 21.5
+  },
+  {
+    "hour": 1,
+    "hour_label": "01:00",
+    "incident_count": 3141,
+    "avg_delay": 23.4
+  },
+  {
+    "hour": 2,
+    "hour_label": "02:00",
+    "incident_count": 2735,
+    "avg_delay": 35.2
+  },
+  {
+    "hour": 3,
+    "hour_label": "03:00",
+    "incident_count": 2230,
+    "avg_delay": 28.0
+  },
+  {
+    "hour": 4,
+    "hour_label": "04:00",
+    "incident_count": 2961,
+    "avg_delay": 26.9
+  },
+  {
+    "hour": 5,
+    "hour_label": "05:00",
+    "incident_count": 10805,
+    "avg_delay": 22.7
+  },
+  {
+    "hour": 6,
+    "hour_label": "06:00",
+    "incident_count": 16271,
+    "avg_delay": 19.6
+  },
+  {
+    "hour": 7,
+    "hour_label": "07:00",
+    "incident_count": 12951,
+    "avg_delay": 26.0
+  },
+  {
+    "hour": 8,
+    "hour_label": "08:00",
+    "incident_count": 12061,
+    "avg_delay": 24.6
+  },
+  {
+    "hour": 9,
+    "hour_label": "09:00",
+    "incident_count": 11824,
+    "avg_delay": 22.3
+  },
+  {
+    "hour": 10,
+    "hour_label": "10:00",
+    "incident_count": 11458,
+    "avg_delay": 22.3
+  },
+  {
+    "hour": 11,
+    "hour_label": "11:00",
+    "incident_count": 11037,
+    "avg_delay": 22.5
+  },
+  {
+    "hour": 12,
+    "hour_label": "12:00",
+    "incident_count": 11961,
+    "avg_delay": 20.0
+  },
+  {
+    "hour": 13,
+    "hour_label": "13:00",
+    "incident_count": 13774,
+    "avg_delay": 19.6
+  },
+  {
+    "hour": 14,
+    "hour_label": "14:00",
+    "incident_count": 17524,
+    "avg_delay": 18.8
+  },
+  {
+    "hour": 15,
+    "hour_label": "15:00",
+    "incident_count": 19349,
+    "avg_delay": 18.9
+  },
+  {
+    "hour": 16,
+    "hour_label": "16:00",
+    "incident_count": 17768,
+    "avg_delay": 18.1
+  },
+  {
+    "hour": 17,
+    "hour_label": "17:00",
+    "incident_count": 17263,
+    "avg_delay": 18.7
+  },
+  {
+    "hour": 18,
+    "hour_label": "18:00",
+    "incident_count": 15199,
+    "avg_delay": 19.6
+  },
+  {
+    "hour": 19,
+    "hour_label": "19:00",
+    "incident_count": 10727,
+    "avg_delay": 22.9
+  },
+  {
+    "hour": 20,
+    "hour_label": "20:00",
+    "incident_count": 9395,
+    "avg_delay": 22.8
+  },
+  {
+    "hour": 21,
+    "hour_label": "21:00",
+    "incident_count": 8633,
+    "avg_delay": 24.2
+  },
+  {
+    "hour": 22,
+    "hour_label": "22:00",
+    "incident_count": 6756,
+    "avg_delay": 25.6
+  },
+  {
+    "hour": 23,
+    "hour_label": "23:00",
+    "incident_count": 5823,
+    "avg_delay": 24.4
+  }
+]

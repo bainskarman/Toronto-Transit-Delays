@@ -1,0 +1,52 @@
+[
+  {
+    "incident_type": "Mechanical",
+    "count": 72262,
+    "percentage": 28.2
+  },
+  {
+    "incident_type": "Operations - Operator",
+    "count": 40073,
+    "percentage": 15.6
+  },
+  {
+    "incident_type": "Utilized Off Route",
+    "count": 13458,
+    "percentage": 5.2
+  },
+  {
+    "incident_type": "EFO",
+    "count": 12945,
+    "percentage": 5.0
+  },
+  {
+    "incident_type": "Diversion",
+    "count": 11767,
+    "percentage": 4.6
+  },
+  {
+    "incident_type": "General Delay",
+    "count": 10509,
+    "percentage": 4.1
+  },
+  {
+    "incident_type": "Collision - TTC",
+    "count": 10419,
+    "percentage": 4.1
+  },
+  {
+    "incident_type": "Security",
+    "count": 10188,
+    "percentage": 4.0
+  },
+  {
+    "incident_type": "Emergency Services",
+    "count": 7747,
+    "percentage": 3.0
+  },
+  {
+    "incident_type": "Investigation",
+    "count": 6584,
+    "percentage": 2.6
+  }
+]

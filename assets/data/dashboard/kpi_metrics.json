@@ -1,0 +1,10 @@
+{
+  "total_incidents": 256356,
+  "avg_delay_minutes": 21.5,
+  "routes_tracked": 245,
+  "locations_covered": 38705,
+  "peak_hour": "15:00",
+  "routes_in_2025": 251,
+  "data_years": "2014-2026",
+  "analysis_focus": "Routes active in 2025 (with historical data from 2014-present)"
+}

@@ -1,0 +1,122 @@
+[
+  {
+    "route_number": "32",
+    "route_name": "Eglinton West",
+    "peak_incident_count": 2666,
+    "total_incident_count": 7897,
+    "peak_percentage": 33.8,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "36",
+    "route_name": "Finch West",
+    "peak_incident_count": 2302,
+    "total_incident_count": 7094,
+    "peak_percentage": 32.4,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "52",
+    "route_name": "Lawrence West",
+    "peak_incident_count": 2202,
+    "total_incident_count": 6973,
+    "peak_percentage": 31.6,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "29",
+    "route_name": "Dufferin",
+    "peak_incident_count": 1977,
+    "total_incident_count": 6196,
+    "peak_percentage": 31.9,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "35",
+    "route_name": "Jane",
+    "peak_incident_count": 1709,
+    "total_incident_count": 5506,
+    "peak_percentage": 31.0,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "63",
+    "route_name": "Ossington",
+    "peak_incident_count": 1706,
+    "total_incident_count": 4920,
+    "peak_percentage": 34.7,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "7",
+    "route_name": "Bathurst",
+    "peak_incident_count": 1665,
+    "total_incident_count": 5091,
+    "peak_percentage": 32.7,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "54",
+    "route_name": "Lawrence East",
+    "peak_incident_count": 1609,
+    "total_incident_count": 4987,
+    "peak_percentage": 32.3,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "95",
+    "route_name": "York Mills",
+    "peak_incident_count": 1437,
+    "total_incident_count": 4456,
+    "peak_percentage": 32.2,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "939",
+    "route_name": "Finch Express",
+    "peak_incident_count": 1346,
+    "total_incident_count": 3556,
+    "peak_percentage": 37.9,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "85",
+    "route_name": "Sheppard East",
+    "peak_incident_count": 1307,
+    "total_incident_count": 4218,
+    "peak_percentage": 31.0,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "47",
+    "route_name": "Lansdowne",
+    "peak_incident_count": 1254,
+    "total_incident_count": 3649,
+    "peak_percentage": 34.4,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "116",
+    "route_name": "Morningside",
+    "peak_incident_count": 1253,
+    "total_incident_count": 3872,
+    "peak_percentage": 32.4,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "41",
+    "route_name": "Keele",
+    "peak_incident_count": 1217,
+    "total_incident_count": 3906,
+    "peak_percentage": 31.2,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "96",
+    "route_name": "Wilson",
+    "peak_incident_count": 1191,
+    "total_incident_count": 3872,
+    "peak_percentage": 30.8,
+    "active_in_2025": true
+  }
+]

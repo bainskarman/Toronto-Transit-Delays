@@ -1,0 +1,137 @@
+[
+  {
+    "route_number": "34",
+    "route_name": "Eglinton",
+    "current_avg_delay": 196.0,
+    "previous_avg_delay": 16.3,
+    "delay_change": 179.7,
+    "percent_change": 1099.2,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "117",
+    "route_name": "Birchmount South",
+    "current_avg_delay": 100.0,
+    "previous_avg_delay": 21.5,
+    "delay_change": 78.5,
+    "percent_change": 364.9,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "162",
+    "route_name": "Lawrence-Donway",
+    "current_avg_delay": 127.8,
+    "previous_avg_delay": 63.9,
+    "delay_change": 63.9,
+    "percent_change": 100.0,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "324",
+    "route_name": "Victoria Park",
+    "current_avg_delay": 126.9,
+    "previous_avg_delay": 64.7,
+    "delay_change": 62.2,
+    "percent_change": 96.1,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "102",
+    "route_name": "Markham Rd",
+    "current_avg_delay": 83.2,
+    "previous_avg_delay": 23.7,
+    "delay_change": 59.6,
+    "percent_change": 251.3,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "99",
+    "route_name": "Arrow Rd",
+    "current_avg_delay": 88.0,
+    "previous_avg_delay": 31.1,
+    "delay_change": 56.9,
+    "percent_change": 183.4,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "82",
+    "route_name": "Rosedale",
+    "current_avg_delay": 105.8,
+    "previous_avg_delay": 57.4,
+    "delay_change": 48.4,
+    "percent_change": 84.3,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "28",
+    "route_name": "Bayview South",
+    "current_avg_delay": 145.4,
+    "previous_avg_delay": 103.1,
+    "delay_change": 42.4,
+    "percent_change": 41.1,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "127",
+    "route_name": "Davenport",
+    "current_avg_delay": 61.6,
+    "previous_avg_delay": 31.5,
+    "delay_change": 30.1,
+    "percent_change": 95.5,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "104",
+    "route_name": "Faywood",
+    "current_avg_delay": 51.2,
+    "previous_avg_delay": 26.1,
+    "delay_change": 25.1,
+    "percent_change": 96.0,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "315",
+    "route_name": "Evans-Brown'S Line",
+    "current_avg_delay": 76.7,
+    "previous_avg_delay": 52.8,
+    "delay_change": 23.9,
+    "percent_change": 45.2,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "160",
+    "route_name": "Bathurst North",
+    "current_avg_delay": 60.0,
+    "previous_avg_delay": 36.5,
+    "delay_change": 23.5,
+    "percent_change": 64.4,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "506",
+    "route_name": "Carlton",
+    "current_avg_delay": 43.9,
+    "previous_avg_delay": 22.3,
+    "delay_change": 21.5,
+    "percent_change": 96.4,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "126",
+    "route_name": "Christie",
+    "current_avg_delay": 46.4,
+    "previous_avg_delay": 25.9,
+    "delay_change": 20.5,
+    "percent_change": 79.2,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "385",
+    "route_name": "Sheppard East",
+    "current_avg_delay": 64.9,
+    "previous_avg_delay": 44.8,
+    "delay_change": 20.1,
+    "percent_change": 44.9,
+    "active_in_2025": true
+  }
+]
