@@ -25,44 +25,6 @@ class TTCVisualizationApp {
         this.init();
     }
 
-    // Mobile menu functionality
-    createMobileMenu() {
-    if (this.isMobile()) {
-        const mobileToggle = document.createElement('button');
-        mobileToggle.className = 'mobile-menu-toggle';
-        mobileToggle.innerHTML = '☰';
-        mobileToggle.setAttribute('aria-label', 'Toggle menu');
-        
-        mobileToggle.addEventListener('click', () => {
-        this.toggleMobileMenu();
-        });
-        
-        document.body.appendChild(mobileToggle);
-    }
-    }
-
-    isMobile() {
-    return window.innerWidth <= 768;
-    }
-
-    toggleMobileMenu() {
-    const leftSidebar = document.querySelector('.left-sidebar');
-    const rightSidebar = document.querySelector('.right-sidebar');
-    
-    // Simple toggle - show left sidebar first, then right
-    if (!this.mobileMenuState) {
-        leftSidebar.style.display = 'block';
-        this.mobileMenuState = 'left';
-    } else if (this.mobileMenuState === 'left') {
-        leftSidebar.style.display = 'none';
-        rightSidebar.style.display = 'block';
-        this.mobileMenuState = 'right';
-    } else {
-        rightSidebar.style.display = 'none';
-        this.mobileMenuState = null;
-    }
-    }
-
     async init() {
         console.log('🚍 Initializing TTC Delay Visualization...');
         
