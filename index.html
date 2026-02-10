@@ -389,725 +389,11 @@
             position: relative;
             margin-top: 3rem;
         }
-
-        /* ==================== MOBILE-FIRST STYLES ==================== */
-        /* Mobile Container */
-        .mobile-container {
-            display: none;
-            flex-direction: column;
-            height: 100vh;
-            width: 100vw;
-            background: var(--primary-bg);
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 2000;
-            overflow: hidden;
-        }
-
-        /* KPI Section (10-15% of screen) */
-        .mobile-kpi-section {
-            height: 15vh;
-            min-height: 100px;
-            max-height: 150px;
-            background: linear-gradient(135deg, var(--secondary-bg), var(--tertiary-bg));
-            border-bottom: 1px solid var(--border-color);
-            padding: 1rem 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            z-index: 10;
-        }
-
-        .mobile-kpi-card {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 0.8rem;
-            background: rgba(139, 0, 0, 0.1);
-            border-radius: 12px;
-            border: 1px solid rgba(139, 0, 0, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .mobile-kpi-card:hover {
-            background: rgba(139, 0, 0, 0.15);
-            transform: translateY(-2px);
-        }
-
-        .mobile-kpi-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 0.3rem;
-            line-height: 1;
-        }
-
-        .mobile-kpi-label {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 600;
-            text-align: center;
-        }
-
-        .mobile-kpi-divider {
-            width: 1px;
-            height: 40px;
-            background: var(--border-color);
-            margin: 0 1rem;
-        }
-
-        /* Segmented Control (7-9% of screen) */
-        .mobile-segmented-control {
-            height: 8vh;
-            min-height: 50px;
-            max-height: 70px;
-            background: var(--secondary-bg);
-            border-bottom: 1px solid var(--border-color);
-            padding: 0.5rem 1rem;
-            display: flex;
-            gap: 0.5rem;
-            z-index: 10;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .mobile-segment {
-            flex: 1;
-            background: var(--tertiary-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .mobile-segment:hover {
-            background: var(--surface-bg);
-        }
-
-        .mobile-segment.active {
-            background: var(--accent-primary);
-            color: white;
-            border-color: var(--accent-primary);
-            box-shadow: 0 2px 8px rgba(139, 0, 0, 0.3);
-        }
-
-        .mobile-segment-icon {
-            font-size: 1.1rem;
-        }
-
-        /* Search Section (7-10% of screen) */
-        .mobile-search-section {
-            height: 9vh;
-            min-height: 60px;
-            max-height: 80px;
-            background: var(--secondary-bg);
-            border-bottom: 1px solid var(--border-color);
-            padding: 0.8rem 1rem;
-            z-index: 10;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .mobile-search-container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-        }
-
-        .mobile-search-input {
-            width: 100%;
-            height: 100%;
-            background: var(--tertiary-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 0 1rem 0 3rem;
-            font-size: 1rem;
-            color: var(--text-primary);
-            font-family: var(--font-family);
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        .mobile-search-input:focus {
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.1);
-        }
-
-        .mobile-search-input::placeholder {
-            color: var(--text-muted);
-        }
-
-        .mobile-search-icon {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-secondary);
-            font-size: 1.2rem;
-        }
-
-        .mobile-search-results {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: var(--secondary-bg);
-            border: 1px solid var(--border-color);
-            border-top: none;
-            border-radius: 0 0 12px 12px;
-            max-height: 200px;
-            overflow-y: auto;
-            z-index: 1000;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-            display: none;
-        }
-
-        .mobile-search-result {
-            padding: 1rem;
-            border-bottom: 1px solid var(--border-light);
-            cursor: pointer;
-            transition: background 0.2s ease;
-        }
-
-        .mobile-search-result:hover {
-            background: var(--tertiary-bg);
-        }
-
-        .mobile-search-result:last-child {
-            border-bottom: none;
-        }
-
-        .mobile-search-result-title {
-            font-weight: 600;
-            color: var(--text-primary);
-            font-size: 0.95rem;
-            margin-bottom: 0.3rem;
-        }
-
-        .mobile-search-result-subtitle {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }
-
-        /* Map Container (Remaining space) */
-        .mobile-map-container {
-            flex: 1;
-            position: relative;
-            background: var(--tertiary-bg);
-            overflow: hidden;
-        }
-
-        #mobile-map {
-            width: 100%;
-            height: 100%;
-            cursor: default;
-            touch-action: pan-x pan-y;
-        }
-
-        /* Legend Info Button */
-        .mobile-legend-button {
-            position: absolute;
-            bottom: 1rem;
-            left: 1rem;
-            width: 44px;
-            height: 44px;
-            background: var(--accent-primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.3rem;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(139, 0, 0, 0.4);
-            z-index: 100;
-            transition: all 0.3s ease;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .mobile-legend-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 16px rgba(139, 0, 0, 0.5);
-        }
-
-        .mobile-legend-button.active {
-            background: var(--accent-secondary);
-            transform: rotate(180deg);
-        }
-
-        /* Legend Panel */
-        .mobile-legend-panel {
-            position: absolute;
-            bottom: 5rem;
-            left: 1rem;
-            right: 1rem;
-            background: var(--secondary-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 1.5rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            z-index: 999;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.3s ease;
-            pointer-events: none;
-            max-height: 70vh;
-            overflow-y: auto;
-        }
-
-        .mobile-legend-panel.active {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: all;
-        }
-
-        .mobile-legend-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .mobile-legend-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .mobile-legend-close {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0.2rem;
-            border-radius: 6px;
-            transition: all 0.2s ease;
-        }
-
-        .mobile-legend-close:hover {
-            color: var(--text-primary);
-            background: var(--tertiary-bg);
-        }
-
-        .mobile-legend-content {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .mobile-legend-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 0.5rem 0;
-        }
-
-        .mobile-legend-color {
-            width: 16px;
-            height: 16px;
-            border-radius: 4px;
-            flex-shrink: 0;
-        }
-
-        .mobile-legend-label {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            line-height: 1.4;
-        }
-
-        .mobile-legend-explanation {
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--border-light);
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            line-height: 1.5;
-        }
-
-        /* Mobile Back Button (for About page) */
-        .mobile-back-button {
-            position: fixed;
-            top: 1rem;
-            left: 1rem;
-            z-index: 1001;
-            background: var(--accent-primary);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 44px;
-            height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .mobile-back-button:hover {
-            transform: scale(1.1);
-            background: var(--accent-secondary);
-        }
-
-        /* Mobile About Page */
-        .mobile-about-container {
-            display: none;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--primary-bg);
-            z-index: 1000;
-            overflow-y: auto;
-            padding: 1rem;
-            padding-top: 4rem;
-        }
-
-        .mobile-about-container.active {
-            display: block;
-        }
-
-        .mobile-about-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .mobile-about-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, #8B0000, #FF6B6B);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .mobile-about-subtitle {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            line-height: 1.5;
-        }
-
-        .mobile-about-content {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .mobile-about-section {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 1.5rem;
-            border: 1px solid var(--border-color);
-        }
-
-        .mobile-about-text {
-            color: var(--text-secondary);
-            line-height: 1.6;
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
-        }
-
-        /* Mobile map controls */
-        .mobile-map-controls {
-            position: absolute;
-            bottom: 1rem;
-            right: 1rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            z-index: 100;
-        }
-
-        .mobile-map-control {
-            width: 44px;
-            height: 44px;
-            background: var(--secondary-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-primary);
-            font-size: 1.2rem;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .mobile-map-control:hover {
-            background: var(--surface-bg);
-            transform: translateY(-2px);
-        }
-
-        /* Loading overlay for mobile */
-        .mobile-loading {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(15, 17, 23, 0.9);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            gap: 1rem;
-        }
-
-        .mobile-loading-spinner {
-            width: 48px;
-            height: 48px;
-            border: 4px solid var(--border-color);
-            border-top: 4px solid var(--accent-primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        .mobile-loading-text {
-            color: var(--text-secondary);
-            font-size: 1rem;
-            font-weight: 500;
-        }
-
-        /* Mobile search loading */
-        .mobile-search-loading {
-            padding: 2rem;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .mobile-search-loading-spinner {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--border-color);
-            border-top: 2px solid var(--accent-primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 0.5rem;
-        }
-
-        /* Mobile notification */
-        .mobile-notification {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--secondary-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem;
-            max-width: 300px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            z-index: 2001;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-        }
-
-        .mobile-notification.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .mobile-notification-content {
-            text-align: center;
-            color: var(--text-primary);
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-
-        /* Fix for mobile legend button - replaced with icon */
-        .mobile-legend-toggle-btn {
-            position: absolute;
-            bottom: 1rem;
-            left: 1rem;
-            width: 44px;
-            height: 44px;
-            background: var(--accent-primary);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(139, 0, 0, 0.4);
-            z-index: 100;
-            transition: all 0.3s ease;
-        }
-
-        /* Animation for mobile elements */
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .mobile-slide-up {
-            animation: slideUp 0.3s ease;
-        }
-
-        /* Touch-friendly adjustments */
-        @media (hover: none) and (pointer: coarse) {
-            .mobile-segment {
-                padding: 0.8rem;
-            }
-            
-            .mobile-kpi-card {
-                padding: 1rem;
-            }
-            
-            .mobile-map-control,
-            .mobile-legend-toggle-btn,
-            .mobile-back-button {
-                width: 48px;
-                height: 48px;
-            }
-        }
-
-        /* Reduce motion for accessibility */
-        @media (prefers-reduced-motion: reduce) {
-            .mobile-segment,
-            .mobile-kpi-card,
-            .mobile-map-control,
-            .mobile-legend-toggle-btn,
-            .mobile-back-button {
-                transition: none;
-            }
-            
-            .mobile-legend-panel {
-                transition: none;
-            }
-            
-            .mobile-slide-up {
-                animation: none;
-            }
-        }
-
-        /* Media Query for Mobile Only */
-        @media (max-width: 768px) {
-            /* Hide desktop elements on mobile */
-            .app-container {
-                display: none !important;
-            }
-            
-            .mobile-container {
-                display: flex;
-            }
-
-            /* Fix for mobile map legend - ensure it doesn't show by default */
-            .mobile-legend-panel {
-                display: block;
-            }
-        }
-
-        @media (min-width: 769px) {
-            /* Hide mobile elements on desktop */
-            .mobile-container {
-                display: none !important;
-            }
-            
-            .app-container {
-                display: flex;
-            }
-        }
-
-        /* FIX: Ensure About tab doesn't show map */
-        body.about-active #map,
-        body.about-active .left-sidebar,
-        body.about-active .right-sidebar {
-            display: none !important;
-        }
-
-        /* FIX: Ensure dashboard back button is visible */
-        #dashboard-overlay-controls {
-            position: fixed !important;
-            top: 80px !important;
-            right: 20px !important;
-            z-index: 9999 !important;
-            display: none;
-        }
-
-        #globalBackToMapBtn {
-            background: linear-gradient(135deg, #8B0000, #660000) !important;
-            color: white !important;
-            border: none !important;
-            padding: 12px 24px !important;
-            border-radius: 8px !important;
-            cursor: pointer !important;
-            font-size: 1rem !important;
-            font-weight: 600 !important;
-            display: flex !important;
-            align-items: center !important;
-            gap: 10px !important;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
-            transition: all 0.3s ease !important;
-        }
-
-        #globalBackToMapBtn:hover {
-            transform: translateY(-2px) !important;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.4) !important;
-        }
-
-        /* FIX: Prevent legend duplication in desktop */
-        .map-container .leaflet-control.leaflet-legend {
-            display: none !important;
-        }
-
-        .map-legend {
-            display: block !important;
-        }
-
-        /* Mobile-specific utility classes */
-        .mobile-hidden {
-            display: none !important;
-        }
-
-        .mobile-visible {
-            display: block !important;
-        }
     </style>
 </head>
 <body data-theme="dark">
-    <!-- Desktop Container (unchanged) -->
     <div class="app-container">
+
         <header class="app-header">
             <div class="header-content">
                 <div class="logo-section">
@@ -1115,10 +401,10 @@
                         <span class="title-icon">🚍</span>
                         TTC Delay Visualization
                     </h1>
-                    <p class="app-subtitle">Toronto Transit Commission Analytics & Real-time Tracking</p>
+                    <p class="app-subtitle">Toronto Transit Commission Analytics</p>
                 </div>
                 
-                <!-- Visualization Toggles -->
+                <!-- Visualization Toggles - UPDATED WITH ABOUT TAB -->
                 <div class="header-toggles">
                     <div class="toggle-group">
                         <button class="toggle-btn active" data-visual="delay">
@@ -1317,6 +603,8 @@
                         </div>
                     </div>
                 </div>
+
+
             </aside>
 
             <!-- Map Container -->
@@ -1333,8 +621,10 @@
                         <span class="control-icon">🔄</span>
                     </button>
                 </div>
-                <div class="map-legend" id="mapLegend">
-                    <!-- Dynamic legend will be inserted here -->
+                <div class="legend-toggle-container">
+                    <button id="legendToggleBtn" class="legend-toggle-btn" aria-label="Toggle legend">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
                 </div>
             </section>
 
@@ -1379,6 +669,7 @@
                         </div>
                     </div>
                 </div>
+                
             </aside>
 
             <!-- Dashboard Container (hidden by default) -->
@@ -1386,10 +677,11 @@
                 <iframe id="dashboard-frame" src="Dash/dashboard.html" title="TTC Analytics Dashboard"></iframe>
             </div>
 
-            <!-- About Container (hidden by default) -->
+            <!-- About Container (hidden by default) - NEW -->
             <div id="about-container" class="about-container">
                 <div class="about-header">
                     <div class="profile-image">
+                        <!-- Your photo - update src to your image path -->
                         <img src="assets/images/my.png" alt="Karman Bains">
                     </div>
                     <h1 class="about-title">About This Project</h1>
@@ -1524,16 +816,37 @@
                 </div>
             </div>
 
-            <!-- Dashboard Overlay Controls - FIXED: Now properly positioned -->
-            <div id="dashboard-overlay-controls">
-                <button id="globalBackToMapBtn">
+            <!-- Dashboard Overlay Controls (unchanged) -->
+            <div id="dashboard-overlay-controls" style="
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                z-index: 9999;
+                display: none;
+            ">
+                <button id="globalBackToMapBtn" style="
+                    background: linear-gradient(135deg, #8B0000, #660000);
+                    color: white;
+                    border: none;
+                    padding: 12px 24px;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    font-size: 1rem;
+                    font-weight: 600;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                    transition: all 0.3s ease;
+                ">
                     <i class="fas fa-arrow-left"></i>
                     Back to Map
                 </button>
             </div>
+
         </main>
 
-        <!-- Footer -->
+        <!-- Footer - ALWAYS VISIBLE FOR ALL TABS -->
         <footer class="app-footer">
             <div class="footer-content">
                 <div class="footer-info">
@@ -1543,920 +856,172 @@
         </footer>
     </div>
 
-    <!-- Mobile Container (hidden on desktop) -->
-    <div class="mobile-container">
-        <!-- KPI Section (10-15% of screen) -->
-        <div class="mobile-kpi-section">
-            <div class="mobile-kpi-card">
-                <div class="mobile-kpi-value" id="mobile-total-incidents">--</div>
-                <div class="mobile-kpi-label">Total Incidents</div>
-            </div>
-            
-            <div class="mobile-kpi-divider"></div>
-            
-            <div class="mobile-kpi-card">
-                <div class="mobile-kpi-value" id="mobile-avg-delay">-- min</div>
-                <div class="mobile-kpi-label">Average Delay</div>
-            </div>
-        </div>
-
-        <!-- Segmented Control (7-9% of screen) -->
-        <div class="mobile-segmented-control">
-            <div class="mobile-segment active" data-mobile-visual="delay">
-                <span class="mobile-segment-icon">⏱️</span>
-                <span class="mobile-segment-text">Delay</span>
-            </div>
-            <div class="mobile-segment" data-mobile-visual="frequency">
-                <span class="mobile-segment-icon">📈</span>
-                <span class="mobile-segment-text">Frequency</span>
-            </div>
-            <div class="mobile-segment" data-mobile-visual="about">
-                <span class="mobile-segment-icon">ℹ️</span>
-                <span class="mobile-segment-text">About</span>
-            </div>
-        </div>
-
-        <!-- Search Section (7-10% of screen) -->
-        <div class="mobile-search-section">
-            <div class="mobile-search-container">
-                <div class="mobile-search-icon">🔍</div>
-                <input type="text" 
-                       class="mobile-search-input" 
-                       placeholder="Search TTC routes..."
-                       id="mobile-route-search">
-                <div class="mobile-search-results" id="mobile-search-results"></div>
-            </div>
-        </div>
-
-        <!-- Map Container (Remaining space) -->
-        <div class="mobile-map-container">
-            <div id="mobile-map" class="mobile-slide-up"></div>
-            
-            <!-- Legend Toggle Button -->
-            <button class="mobile-legend-toggle-btn" id="mobile-legend-toggle-btn" aria-label="Toggle legend">
-                <i class="fas fa-info-circle"></i>
-            </button>
-            
-            <!-- Map Controls -->
-            <div class="mobile-map-controls">
-                <button class="mobile-map-control" id="mobile-locate-btn" aria-label="Locate me">
-                    📍
-                </button>
-                <button class="mobile-map-control" id="mobile-reset-view-btn" aria-label="Reset view">
-                    🔄
-                </button>
-            </div>
-            
-            <!-- Loading Overlay -->
-            <div class="mobile-loading" id="mobile-loading">
-                <div class="mobile-loading-spinner"></div>
-                <div class="mobile-loading-text">Loading TTC Data...</div>
-            </div>
-        </div>
-
-        <!-- Legend Panel -->
-        <div class="mobile-legend-panel" id="mobile-legend-panel">
-            <div class="mobile-legend-header">
-                <h3 class="mobile-legend-title">
-                    <span>📊</span>
-                    Map Legend
-                </h3>
-                <button class="mobile-legend-close" id="mobile-legend-close">&times;</button>
-            </div>
-            
-            <div class="mobile-legend-content" id="mobile-legend-content">
-                <!-- Dynamic legend content will be inserted here -->
-            </div>
-            
-            <div class="mobile-legend-explanation" id="mobile-legend-explanation">
-                <!-- Dynamic explanation will be inserted here -->
-            </div>
-        </div>
-
-        <!-- About Page (hidden by default) -->
-        <div class="mobile-about-container" id="mobile-about-container">
-            <button class="mobile-back-button" id="mobile-about-back">
-                ←
-            </button>
-            
-            <div class="mobile-about-header">
-                <h1 class="mobile-about-title">About This Project</h1>
-                <p class="mobile-about-subtitle">A data-driven exploration of TTC delays and transit reliability</p>
-            </div>
-            
-            <div class="mobile-about-content">
-                <div class="mobile-about-section">
-                    <p class="mobile-about-text">
-                        Let's start with a confession: I've been in Canada for years and still only have my G1 license. 
-                        As someone who <strong>relies entirely on public transit</strong>, I've spent countless hours waiting for buses that either never show up or arrive so late they might as well be a different route entirely.
-                    </p>
-                    <p class="mobile-about-text">
-                        That frustration standing in the cold, watching estimated arrival times tick up like a cruel joke is what inspired this project. 
-                        What started as a personal quest to understand <strong>why the 501 Queen Streetcar is perpetually late</strong> evolved into a comprehensive analysis of Toronto's entire transit system.
-                    </p>
-                    <p class="mobile-about-text">
-                        This web app is my attempt to bring transparency to TTC performance, helping fellow transit users make informed decisions and maybe, just maybe, arrive at their destinations on time.
-                    </p>
-                </div>
-                
-                <div class="mobile-about-section">
-                    <p class="mobile-about-text">
-                        <strong>Project Evolution:</strong> This project began in 2022 as simple curiosity about TTC delays, starting with a basic 
-                        <a href="https://public.tableau.com/app/profile/karman.bains/viz/TTCDelayDash/Dashboard1" target="_blank">Tableau dashboard</a>.
-                    </p>
-                    <p class="mobile-about-text">
-                        In 2024, I expanded it into a comprehensive 
-                        <a href="https://app.powerbi.com/view?r=eyJrIjoiOTRkYTMyZjctMjU3Yi00MTQzLTg0NTItZTQ2YjQwMzRkYWRjIiwidCI6ImI2NDE3Y2QwLTFmNzMtNDQ3MS05YTM5LTIwOTUzODIyYTM0YSIsImMiOjN9&source=post_page-----20d7b475d736------------------------------------" target="_blank">Power BI semantic data model</a>,
-                        merging multiple datasets for deeper analysis.
-                    </p>
-                    <p class="mobile-about-text">
-                        The project evolved further with a 
-                        <a href="https://ttcdelay.streamlit.app/" target="_blank">Streamlit app</a> for forecasting and trend analysis, 
-                        and GIS work to map routes geographically.
-                    </p>
-                </div>
-                
-                <div class="mobile-about-section">
-                    <p class="mobile-about-text">
-                        <strong>Contact:</strong><br>
-                        Email: <a href="mailto:bsinghkarman@gmail.com">bsinghkarman@gmail.com</a><br>
-                        Portfolio: <a href="https://bainskarman.github.io/portfolio.io/" target="_blank">bainskarman.github.io</a><br>
-                        GitHub: <a href="https://github.com/bainskarman" target="_blank">github.com/bainskarman</a>
-                    </p>
-                </div>
-                
-                <div class="mobile-about-section">
-                    <p class="mobile-about-text">
-                        <strong>Data Sources:</strong><br>
-                        • <a href="https://www.ttc.ca/About-the-TTC/Projects-and-Initiatives/Open-Data" target="_blank">TTC Open Data Portal</a><br>
-                        • <a href="https://open.toronto.ca/" target="_blank">City of Toronto Open Data</a>
-                    </p>
-                </div>
-                
-                <div class="mobile-about-section" style="text-align: center;">
-                    <a href="https://buymeacoffee.com/bainskarman" target="_blank" class="coffee-btn" style="font-size: 1rem; padding: 0.8rem 1.5rem;">
-                        <i class="fas fa-coffee"></i>
-                        Support This Project
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Notification -->
-        <div class="mobile-notification" id="mobile-notification">
-            <div class="mobile-notification-content" id="mobile-notification-content"></div>
-        </div>
-    </div>
-
     <!-- Scripts -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="js/dataLoader.js"></script>
-    <script src="js/mapVisualizer.js"></script>
-    <script src="js/uiController.js"></script>
-    <script src="js/app.js"></script>
+<script src="js/mapVisualizer.js"></script>
+<script src="js/uiController.js"></script>
+<script src="js/app.js"></script>
 
-    <!-- Mobile-specific JavaScript -->
-    <script>
-        // Mobile App Controller - Fixed version
-        class MobileApp {
-            constructor() {
-                this.currentVisualization = 'delay';
-                this.mobileMap = null;
-                this.mapVisualizer = null;
-                this.dataLoader = null;
-                this.isMobile = window.innerWidth <= 768;
-                this.state = {
-                    routes: [],
-                    routeGeometries: {},
-                    summaryStats: {},
-                    searchQuery: '',
-                    selectedRoute: null,
-                    activeVisualization: 'delay'
-                };
-                
-                this.init();
-            }
-
-            async init() {
-                console.log('📱 Initializing Mobile TTC Delay Visualization...');
-                
-                try {
-                    // Check if mobile container is visible
-                    if (!this.isMobile) {
-                        console.log('📱 Not in mobile mode, skipping mobile init');
-                        return;
-                    }
-                    
-                    // Initialize data loader
-                    this.dataLoader = new DataLoader();
-                    
-                    // Load data
-                    await this.loadData();
-                    
-                    // Initialize mobile map
-                    await this.initializeMobileMap();
-                    
-                    // Setup event listeners
-                    this.setupEventListeners();
-                    
-                    // Update UI with initial data
-                    this.updateMobileUI();
-                    
-                    // Hide loading overlay
-                    this.hideLoading();
-                    
-                    console.log('🎉 Mobile TTC Delay Visualization initialized successfully');
-                    
-                } catch (error) {
-                    console.error('❌ Failed to initialize mobile app:', error);
-                    this.showNotification('Failed to load mobile app. Please refresh.', 'error');
+<script>
+    // Fix for Leaflet auto-zooming issues
+    document.addEventListener('DOMContentLoaded', function() {
+        // Prevent unwanted zoom behavior on mobile
+        if (window.ttcApp && window.ttcApp.map) {
+            // Disable double-click zoom
+            window.ttcApp.map.doubleClickZoom.disable();
+            
+            // Disable scroll wheel zoom unless Ctrl/Cmd key is pressed
+            window.ttcApp.map.scrollWheelZoom.disable();
+            
+            // Add strict bounds to prevent auto-zooming
+            const torontoBounds = L.latLngBounds(
+                [43.58, -79.63], // Southwest
+                [43.86, -79.12]  // Northeast
+            );
+            
+            window.ttcApp.map.setMaxBounds(torontoBounds);
+            window.ttcApp.map.setMinZoom(10);
+            window.ttcApp.map.setMaxZoom(18);
+            
+            // Prevent dragging outside bounds
+            window.ttcApp.map.on('drag', function() {
+                window.ttcApp.map.panInsideBounds(torontoBounds, { animate: false });
+            });
+            
+            // Add scroll wheel zoom only with modifier key
+            window.addEventListener('keydown', function(e) {
+                if (e.ctrlKey || e.metaKey) {
+                    window.ttcApp.map.scrollWheelZoom.enable();
                 }
-            }
-
-            async loadData() {
-                console.log('📱 Loading mobile data...');
-                
-                try {
-                    const [routes, geometries, summaryStats] = await Promise.all([
-                        this.dataLoader.loadRoutePerformance(),
-                        this.dataLoader.loadRouteGeometries(),
-                        this.dataLoader.loadSummaryStatistics()
-                    ]);
-
-                    this.state.routes = routes;
-                    this.state.routeGeometries = geometries;
-                    this.state.summaryStats = summaryStats;
-
-                    console.log(`✅ Loaded ${routes.length} routes for mobile`);
-                    
-                } catch (error) {
-                    console.error('❌ Error loading mobile data:', error);
-                    throw error;
+            });
+            
+            window.addEventListener('keyup', function(e) {
+                if (!e.ctrlKey && !e.metaKey) {
+                    window.ttcApp.map.scrollWheelZoom.disable();
                 }
-            }
-
-            async initializeMobileMap() {
-                console.log('🗺️ Initializing mobile map...');
-                
-                try {
-                    // Initialize Leaflet map for mobile
-                    this.mobileMap = L.map('mobile-map', {
-                        center: [43.6532, -79.3832], // Toronto coordinates
-                        zoom: 11,
-                        zoomControl: false,
-                        attributionControl: false,
-                        maxBounds: [
-                            [43.58, -79.63], // Southwest bounds
-                            [43.86, -79.12]  // Northeast bounds
-                        ],
-                        maxBoundsViscosity: 1.0,
-                        touchZoom: true,
-                        scrollWheelZoom: false,
-                        tap: false // Prevent double-tap zoom issues on mobile
-                    });
-
-                    // Add dark base tile layer
-                    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-                        attribution: '&copy; OpenStreetMap contributors',
-                        subdomains: 'abcd',
-                        maxZoom: 19,
-                        updateWhenIdle: true
-                    }).addTo(this.mobileMap);
-
-                    // Initialize map visualizer for mobile
-                    this.mapVisualizer = new MapVisualizer();
-                    this.mapVisualizer.init(this.mobileMap, this.state.routeGeometries, this.state.routes);
-                    
-                    // Load initial visualization
-                    await this.switchMobileVisualization(this.currentVisualization);
-
-                    console.log('✅ Mobile map initialized successfully');
-
-                } catch (error) {
-                    console.error('❌ Error initializing mobile map:', error);
-                    throw error;
-                }
-            }
-
-            setupEventListeners() {
-                // Mobile segmented control
-                document.querySelectorAll('.mobile-segment').forEach(segment => {
-                    segment.addEventListener('click', (e) => {
-                        const visual = e.currentTarget.dataset.mobileVisual;
-                        this.switchMobileVisualization(visual);
-                    });
-                });
-
-                // Mobile search
-                const searchInput = document.getElementById('mobile-route-search');
-                if (searchInput) {
-                    searchInput.addEventListener('input', (e) => {
-                        this.handleMobileSearch(e.target.value);
-                    });
-
-                    searchInput.addEventListener('keypress', (e) => {
-                        if (e.key === 'Enter') {
-                            this.performMobileSearch();
-                        }
-                    });
-
-                    // Close search results when clicking outside
-                    document.addEventListener('click', (e) => {
-                        if (!e.target.closest('.mobile-search-container')) {
-                            this.hideMobileSearchResults();
-                        }
-                    });
-                }
-
-                // Legend toggle button
-                const legendToggle = document.getElementById('mobile-legend-toggle-btn');
-                if (legendToggle) {
-                    legendToggle.addEventListener('click', () => {
-                        this.toggleMobileLegend();
-                    });
-                }
-
-                // Legend close button
-                const legendClose = document.getElementById('mobile-legend-close');
-                if (legendClose) {
-                    legendClose.addEventListener('click', () => {
-                        this.hideMobileLegend();
-                    });
-                }
-
-                // Map controls
-                document.getElementById('mobile-locate-btn').addEventListener('click', () => {
-                    this.locateOnMobile();
-                });
-
-                document.getElementById('mobile-reset-view-btn').addEventListener('click', () => {
-                    this.resetMobileMapView();
-                });
-
-                // About back button
-                document.getElementById('mobile-about-back').addEventListener('click', () => {
-                    this.switchMobileVisualization('delay');
-                });
-
-                // Close legend when clicking outside
-                document.addEventListener('click', (e) => {
-                    const legendPanel = document.getElementById('mobile-legend-panel');
-                    const legendButton = document.getElementById('mobile-legend-toggle-btn');
-                    
-                    if (legendPanel.classList.contains('active') && 
-                        !legendPanel.contains(e.target) && 
-                        !legendButton.contains(e.target)) {
-                        this.hideMobileLegend();
-                    }
-                });
-
-                // Handle window resize
-                window.addEventListener('resize', () => {
-                    this.handleMobileResize();
-                });
-
-                // Handle orientation change
-                window.addEventListener('orientationchange', () => {
-                    setTimeout(() => {
-                        this.handleMobileResize();
-                    }, 200);
-                });
-
-                // Add route click handler for mobile map
-                this.mobileMap.on('click', (e) => {
-                    // Check if a route was clicked (this will be handled by MapVisualizer)
-                    this.hideMobileLegend(); // Close legend on map click
-                });
-            }
-
-            async switchMobileVisualization(visualType) {
-                console.log(`🔄 Switching to ${visualType} visualization on mobile...`);
-                
-                try {
-                    // Update active segment
-                    this.updateMobileSegments(visualType);
-                    
-                    // Handle About page separately
-                    if (visualType === 'about') {
-                        this.showMobileAboutPage();
-                        return;
-                    } else {
-                        this.hideMobileAboutPage();
-                    }
-                    
-                    // Show loading state
-                    this.showLoading();
-                    
-                    // Update current visualization
-                    this.currentVisualization = visualType;
-                    this.state.activeVisualization = visualType;
-                    
-                    // Clear existing layers first
-                    if (this.mapVisualizer) {
-                        this.mapVisualizer.clearMap();
-                    }
-                    
-                    // Apply visualization
-                    let success = false;
-                    switch (visualType) {
-                        case 'delay':
-                            success = await this.mapVisualizer.showRouteDelays(this.state.routes);
-                            break;
-                        case 'frequency':
-                            success = await this.mapVisualizer.showDelayFrequency(this.state.routes);
-                            break;
-                        default:
-                            success = await this.mapVisualizer.showRouteDelays(this.state.routes);
-                    }
-                    
-                    // Update legend
-                    this.updateMobileLegend();
-                    
-                    console.log(`✅ Switched to ${visualType} visualization on mobile - Success: ${success}`);
-                    
-                } catch (error) {
-                    console.error(`❌ Error switching to ${visualType} visualization on mobile:`, error);
-                    this.showNotification(`Failed to load ${visualType} visualization`, 'error');
-                } finally {
-                    this.hideLoading();
-                }
-            }
-
-            updateMobileSegments(activeVisual) {
-                document.querySelectorAll('.mobile-segment').forEach(segment => {
-                    if (segment.dataset.mobileVisual === activeVisual) {
-                        segment.classList.add('active');
-                    } else {
-                        segment.classList.remove('active');
-                    }
-                });
-            }
-
-            showMobileAboutPage() {
-                document.getElementById('mobile-about-container').classList.add('active');
-                document.getElementById('mobile-map').style.display = 'none';
-                document.getElementById('mobile-legend-toggle-btn').style.display = 'none';
-                document.querySelector('.mobile-map-controls').style.display = 'none';
-                document.querySelector('.mobile-search-section').style.display = 'none';
-                document.querySelector('.mobile-segmented-control').style.display = 'none';
-                document.querySelector('.mobile-kpi-section').style.display = 'none';
-            }
-
-            hideMobileAboutPage() {
-                document.getElementById('mobile-about-container').classList.remove('active');
-                document.getElementById('mobile-map').style.display = 'block';
-                document.getElementById('mobile-legend-toggle-btn').style.display = 'flex';
-                document.querySelector('.mobile-map-controls').style.display = 'flex';
-                document.querySelector('.mobile-search-section').style.display = 'block';
-                document.querySelector('.mobile-segmented-control').style.display = 'flex';
-                document.querySelector('.mobile-kpi-section').style.display = 'flex';
-            }
-
-            handleMobileSearch(query) {
-                this.state.searchQuery = query;
-                
-                clearTimeout(this.searchTimeout);
-                this.searchTimeout = setTimeout(() => {
-                    this.performMobileSearch();
-                }, 300);
-            }
-
-            performMobileSearch() {
-                const query = this.state.searchQuery.toLowerCase().trim();
-                
-                if (!query) {
-                    this.hideMobileSearchResults();
-                    return;
-                }
-                
-                const results = this.state.routes.filter(route => {
-                    const routeId = route.Route.toString();
-                    const routeName = (route.route_long_name || '').toLowerCase();
-                    
-                    return routeId.includes(query) || 
-                           routeName.includes(query) ||
-                           `route ${routeId}`.includes(query);
-                }).slice(0, 10); // Limit to 10 results
-                
-                this.showMobileSearchResults(results);
-            }
-
-            showMobileSearchResults(results) {
-                const container = document.getElementById('mobile-search-results');
-                
-                if (results.length === 0) {
-                    container.innerHTML = `
-                        <div class="mobile-search-result">
-                            <div class="mobile-search-result-title">No routes found</div>
-                            <div class="mobile-search-result-subtitle">Try a different search term</div>
-                        </div>
-                    `;
-                } else {
-                    const resultsHtml = results.map(route => {
-                        const routeId = route.Route.toString();
-                        const routeName = route.route_long_name || `Route ${routeId}`;
-                        const avgDelay = route.Avg_Delay_Min.toFixed(1);
-                        
-                        return `
-                            <div class="mobile-search-result" data-route-id="${routeId}">
-                                <div class="mobile-search-result-title">${routeName}</div>
-                                <div class="mobile-search-result-subtitle">Avg delay: ${avgDelay} min</div>
-                            </div>
-                        `;
-                    }).join('');
-                    
-                    container.innerHTML = resultsHtml;
-                    
-                    // Add click handlers
-                    container.querySelectorAll('.mobile-search-result').forEach(result => {
-                        result.addEventListener('click', (e) => {
-                            e.stopPropagation();
-                            const routeId = result.dataset.routeId;
-                            this.selectMobileRoute(routeId);
-                            this.hideMobileSearchResults();
-                            document.getElementById('mobile-route-search').value = '';
-                            this.state.searchQuery = '';
-                        });
-                    });
-                }
-                
-                container.style.display = 'block';
-            }
-
-            hideMobileSearchResults() {
-                const container = document.getElementById('mobile-search-results');
-                container.style.display = 'none';
-            }
-
-            async selectMobileRoute(routeId) {
-                const route = this.state.routes.find(r => r.Route.toString() === routeId);
-                if (!route) return;
-                
-                // Highlight route on map
-                if (this.mapVisualizer) {
-                    this.mapVisualizer.highlightRoute(routeId);
-                    
-                    // Zoom to route bounds
-                    const geometry = this.state.routeGeometries[routeId];
-                    if (geometry && geometry.length > 0) {
-                        const bounds = L.latLngBounds(geometry);
-                        if (bounds.isValid()) {
-                            this.mobileMap.flyToBounds(bounds, {
-                                padding: [50, 50],
-                                animate: true,
-                                duration: 1
-                            });
-                        }
-                    }
-                    
-                    // Show notification with route info
-                    const routeName = route.route_long_name || `Route ${routeId}`;
-                    const avgDelay = route.Avg_Delay_Min.toFixed(1);
-                    const delayCount = route.Delay_Count || 0;
-                    
-                    this.showNotification(
-                        `<strong>${routeName}</strong><br>` +
-                        `Avg Delay: ${avgDelay} min<br>` +
-                        `Delay Incidents: ${delayCount}`
-                    );
-                }
-            }
-
-            updateMobileLegend() {
-                const legendContent = document.getElementById('mobile-legend-content');
-                const explanation = document.getElementById('mobile-legend-explanation');
-                
-                if (!legendContent) return;
-                
-                if (this.currentVisualization === 'delay') {
-                    legendContent.innerHTML = `
-                        <div class="mobile-legend-item">
-                            <div class="mobile-legend-color" style="background: #10b981;"></div>
-                            <div class="mobile-legend-label">0-5 min (Low delay)</div>
-                        </div>
-                        <div class="mobile-legend-item">
-                            <div class="mobile-legend-color" style="background: #f59e0b;"></div>
-                            <div class="mobile-legend-label">5-10 min (Moderate delay)</div>
-                        </div>
-                        <div class="mobile-legend-item">
-                            <div class="mobile-legend-color" style="background: #ef4444;"></div>
-                            <div class="mobile-legend-label">10-15 min (High delay)</div>
-                        </div>
-                        <div class="mobile-legend-item">
-                            <div class="mobile-legend-color" style="background: #7c3aed;"></div>
-                            <div class="mobile-legend-label">15+ min (Critical delay)</div>
-                        </div>
-                    `;
-                    
-                    explanation.textContent = 'Routes are color-coded by average delay time. Tap any route to see details.';
-                } else if (this.currentVisualization === 'frequency') {
-                    legendContent.innerHTML = `
-                        <div class="mobile-legend-item">
-                            <div class="mobile-legend-color" style="background: #93c5fd;"></div>
-                            <div class="mobile-legend-label">Low frequency (0-10 delays)</div>
-                        </div>
-                        <div class="mobile-legend-item">
-                            <div class="mobile-legend-color" style="background: #3b82f6;"></div>
-                            <div class="mobile-legend-label">Medium frequency (10-50 delays)</div>
-                        </div>
-                        <div class="mobile-legend-item">
-                            <div class="mobile-legend-color" style="background: #1d4ed8;"></div>
-                            <div class="mobile-legend-label">High frequency (50-100 delays)</div>
-                        </div>
-                        <div class="mobile-legend-item">
-                            <div class="mobile-legend-color" style="background: #7e22ce;"></div>
-                            <div class="mobile-legend-label">Very high frequency (100+ delays)</div>
-                        </div>
-                    `;
-                    
-                    explanation.textContent = 'Routes are color-coded by delay frequency. Thicker lines indicate more frequent delays.';
-                }
-            }
-
-            toggleMobileLegend() {
-                const panel = document.getElementById('mobile-legend-panel');
-                const button = document.getElementById('mobile-legend-toggle-btn');
-                
-                if (panel.classList.contains('active')) {
-                    this.hideMobileLegend();
-                } else {
-                    this.showMobileLegend();
-                }
-            }
-
-            showMobileLegend() {
-                const panel = document.getElementById('mobile-legend-panel');
-                const button = document.getElementById('mobile-legend-toggle-btn');
-                
-                panel.classList.add('active');
-                button.classList.add('active');
-            }
-
-            hideMobileLegend() {
-                const panel = document.getElementById('mobile-legend-panel');
-                const button = document.getElementById('mobile-legend-toggle-btn');
-                
-                panel.classList.remove('active');
-                button.classList.remove('active');
-            }
-
-            updateMobileUI() {
-                // Update KPI metrics
-                const totalIncidents = this.state.summaryStats.total_delays?.toLocaleString() || '0';
-                const avgDelay = (this.state.summaryStats.avg_delay_minutes || 0).toFixed(1) + ' min';
-                
-                document.getElementById('mobile-total-incidents').textContent = totalIncidents;
-                document.getElementById('mobile-avg-delay').textContent = avgDelay;
-            }
-
-            showLoading() {
-                document.getElementById('mobile-loading').style.display = 'flex';
-            }
-
-            hideLoading() {
-                document.getElementById('mobile-loading').style.display = 'none';
-            }
-
-            showNotification(message, type = 'info') {
-                const notification = document.getElementById('mobile-notification');
-                const content = document.getElementById('mobile-notification-content');
-                
-                content.innerHTML = message;
-                notification.classList.add('active');
-                
-                setTimeout(() => {
-                    notification.classList.remove('active');
-                }, 3000);
-            }
-
-            locateOnMobile() {
-                if (!navigator.geolocation) {
-                    this.showNotification('Geolocation is not supported on your device', 'error');
-                    return;
-                }
-
-                this.showNotification('Finding your location...', 'info');
-                
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        const { latitude, longitude } = position.coords;
-                        if (this.mobileMap) {
-                            this.mobileMap.flyTo([latitude, longitude], 14, {
-                                animate: true,
-                                duration: 1
-                            });
-                            this.showNotification('Location found!', 'success');
-                        }
-                    },
-                    (error) => {
-                        console.error('Error getting location:', error);
-                        this.showNotification('Unable to get your location', 'error');
-                    },
-                    {
-                        enableHighAccuracy: true,
-                        timeout: 10000,
-                        maximumAge: 0
-                    }
-                );
-            }
-
-            resetMobileMapView() {
-                if (this.mobileMap) {
-                    this.mobileMap.flyTo([43.6532, -79.3832], 11, {
-                        animate: true,
-                        duration: 1
-                    });
-                    this.showNotification('Map view reset', 'info');
-                }
-            }
-
-            handleMobileResize() {
-                const newIsMobile = window.innerWidth <= 768;
-                
-                if (this.isMobile !== newIsMobile) {
-                    this.isMobile = newIsMobile;
-                    
-                    if (this.isMobile && this.mobileMap) {
-                        setTimeout(() => {
-                            this.mobileMap.invalidateSize();
-                        }, 200);
-                    }
-                }
-            }
+            });
         }
 
-        // Desktop JavaScript - Fixed version
-        document.addEventListener('DOMContentLoaded', function() {
-            // Check if we're in mobile view
-            const isMobile = window.innerWidth <= 768;
-            
-            if (isMobile) {
-                // Initialize mobile app
-                window.mobileApp = new MobileApp();
-                
-                // Fix for Leaflet auto-zooming issues on mobile
-                if (window.mobileApp && window.mobileApp.mobileMap) {
-                    // Disable double-tap zoom on mobile
-                    window.mobileApp.mobileMap.tap?.disable();
-                    
-                    // Handle touch interactions
-                    window.mobileApp.mobileMap.on('touchstart', function() {
-                        // Prevent default behavior that might interfere with scrolling
-                    });
-                }
+        // Initialize with delay visualization as default
+        const toggleBtns = document.querySelectorAll('.toggle-btn');
+        toggleBtns.forEach(btn => {
+            if (btn.dataset.visual === 'delay') {
+                btn.classList.add('active');
             } else {
-                // Initialize desktop app
-                console.log('🖥️ Initializing Desktop TTC Delay Visualization...');
-                
-                // Get all toggle buttons
-                const toggleButtons = document.querySelectorAll('.toggle-btn');
-                const dashboardContainer = document.getElementById('dashboard-container');
-                const aboutContainer = document.getElementById('about-container');
-                const mapContainer = document.getElementById('map');
-                const leftSidebar = document.querySelector('.left-sidebar');
-                const rightSidebar = document.querySelector('.right-sidebar');
-                const overlayControls = document.getElementById('dashboard-overlay-controls');
-                const body = document.body;
-                
-                // Handle toggle button clicks for desktop
-                toggleButtons.forEach(button => {
-                    button.addEventListener('click', function() {
-                        const visual = this.getAttribute('data-visual');
-                        
-                        // Remove active class from all buttons
-                        toggleButtons.forEach(btn => btn.classList.remove('active'));
-                        
-                        // Add active class to clicked button
-                        this.classList.add('active');
-                        
-                        // Hide all containers
-                        dashboardContainer.style.display = 'none';
-                        aboutContainer.style.display = 'none';
-                        overlayControls.style.display = 'none';
-                        
-                        // Remove about-active class from body
-                        body.classList.remove('about-active');
-                        
-                        // Show the selected visualization
-                        if (visual === 'delay' || visual === 'frequency') {
-                            // Show map and sidebars
-                            mapContainer.style.display = 'block';
-                            leftSidebar.style.display = 'block';
-                            rightSidebar.style.display = 'block';
-                            
-                            // Trigger visualization switch if app exists
-                            if (window.ttcApp && window.ttcApp.switchVisualization) {
-                                window.ttcApp.switchVisualization(visual);
-                            }
-                        } else if (visual === 'dashboard') {
-                            // Show dashboard
-                            dashboardContainer.style.display = 'block';
-                            overlayControls.style.display = 'block';
-                            
-                            // Hide map and sidebars
-                            mapContainer.style.display = 'none';
-                            leftSidebar.style.display = 'none';
-                            rightSidebar.style.display = 'none';
-                        } else if (visual === 'about') {
-                            // Show about page
-                            aboutContainer.style.display = 'block';
-                            body.classList.add('about-active');
-                            
-                            // Hide map, sidebars, and legend
-                            mapContainer.style.display = 'none';
-                            leftSidebar.style.display = 'none';
-                            rightSidebar.style.display = 'none';
-                            
-                            // Also hide dashboard overlay if it was showing
-                            overlayControls.style.display = 'none';
-                        }
-                    });
-                });
-                
-                // Handle global back button for dashboard
-                const globalBackBtn = document.getElementById('globalBackToMapBtn');
-                if (globalBackBtn) {
-                    globalBackBtn.addEventListener('click', function() {
-                        const delayToggle = document.querySelector('.toggle-btn[data-visual="delay"]');
-                        if (delayToggle) delayToggle.click();
-                    });
-                }
-                
-                // Initialize with delay visualization as default
-                const delayToggle = document.querySelector('.toggle-btn[data-visual="delay"]');
-                if (delayToggle) {
-                    delayToggle.click();
-                }
-                
-                // Fix for Leaflet auto-zooming issues on desktop
-                if (window.ttcApp && window.ttcApp.map) {
-                    // Disable double-click zoom
-                    window.ttcApp.map.doubleClickZoom.disable();
-                    
-                    // Add strict bounds to prevent auto-zooming
-                    const torontoBounds = L.latLngBounds(
-                        [43.58, -79.63], // Southwest
-                        [43.86, -79.12]  // Northeast
-                    );
-                    
-                    window.ttcApp.map.setMaxBounds(torontoBounds);
-                    window.ttcApp.map.setMinZoom(10);
-                    window.ttcApp.map.setMaxZoom(18);
-                    
-                    // Prevent dragging outside bounds
-                    window.ttcApp.map.on('drag', function() {
-                        window.ttcApp.map.panInsideBounds(torontoBounds, { animate: false });
-                    });
-                }
+                btn.classList.remove('active');
             }
         });
+    });
+</script>
 
-        // Handle orientation changes
-        window.addEventListener('orientationchange', function() {
-            // Re-check if we should be in mobile mode
-            const isMobile = window.innerWidth <= 768;
-            const mobileContainer = document.querySelector('.mobile-container');
-            const desktopContainer = document.querySelector('.app-container');
-            
-            if (isMobile && mobileContainer.style.display === 'none') {
-                // Switch to mobile
-                mobileContainer.style.display = 'flex';
-                desktopContainer.style.display = 'none';
+<!-- About Page JavaScript -->
+<script>
+    // Extend the existing UI controller to handle About tab
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get all toggle buttons
+        const toggleButtons = document.querySelectorAll('.toggle-btn');
+        const dashboardContainer = document.getElementById('dashboard-container');
+        const aboutContainer = document.getElementById('about-container');
+        const mapContainer = document.getElementById('map');
+        const leftSidebar = document.querySelector('.left-sidebar');
+        const rightSidebar = document.querySelector('.right-sidebar');
+        const overlayControls = document.getElementById('dashboard-overlay-controls');
+        const body = document.body;
+        
+        // Add click handlers to visualization links in About page
+        document.querySelectorAll('.visualization-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const visual = this.getAttribute('data-visual');
                 
-                // Initialize mobile app if not already
-                if (!window.mobileApp) {
-                    window.mobileApp = new MobileApp();
-                } else {
-                    // Update mobile map size
-                    setTimeout(() => {
-                        if (window.mobileApp && window.mobileApp.mobileMap) {
-                            window.mobileApp.mobileMap.invalidateSize();
-                        }
-                    }, 200);
+                // Find and click the corresponding toggle button
+                const targetBtn = document.querySelector(`.toggle-btn[data-visual="${visual}"]`);
+                if (targetBtn) {
+                    targetBtn.click();
                 }
-            } else if (!isMobile && desktopContainer.style.display === 'none') {
-                // Switch to desktop
-                mobileContainer.style.display = 'none';
-                desktopContainer.style.display = 'flex';
+            });
+        });
+        
+        // Handle toggle button clicks
+        toggleButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const visual = this.getAttribute('data-visual');
                 
-                // Update desktop map size
-                setTimeout(() => {
-                    if (window.ttcApp && window.ttcApp.map) {
-                        window.ttcApp.map.invalidateSize();
+                // Remove active class from all buttons
+                toggleButtons.forEach(btn => btn.classList.remove('active'));
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Hide all containers
+                dashboardContainer.style.display = 'none';
+                aboutContainer.style.display = 'none';
+                overlayControls.style.display = 'none';
+                
+                // Remove about-active class from body
+                body.classList.remove('about-active');
+                
+                // Show the selected visualization
+                if (visual === 'delay' || visual === 'frequency') {
+                    // Show map and sidebars
+                    mapContainer.style.display = 'block';
+                    leftSidebar.style.display = 'block';
+                    rightSidebar.style.display = 'block';
+                    
+                    // Trigger visualization switch if app exists
+                    if (window.ttcApp && window.ttcApp.switchVisualization) {
+                        window.ttcApp.switchVisualization(visual);
                     }
-                }, 200);
-            }
+                } else if (visual === 'dashboard') {
+                    // Show dashboard
+                    dashboardContainer.style.display = 'block';
+                    overlayControls.style.display = 'block';
+                    
+                    // Hide map and sidebars
+                    mapContainer.style.display = 'none';
+                    leftSidebar.style.display = 'none';
+                    rightSidebar.style.display = 'none';
+                } else if (visual === 'about') {
+                    // Show about page
+                    aboutContainer.style.display = 'block';
+                    body.classList.add('about-active');
+                    
+                    // Hide map, sidebars, and legend
+                    mapContainer.style.display = 'none';
+                    leftSidebar.style.display = 'none';
+                    rightSidebar.style.display = 'none';
+                    
+                }
+            });
         });
-
-        // Prevent duplicate legend creation
-        const originalCreateLegend = MapVisualizer.prototype.createLegend;
-        MapVisualizer.prototype.createLegend = function(visualizationType) {
-            // Only create legend if it's the desktop map
-            if (this.map.getContainer().id === 'map') {
-                return originalCreateLegend.call(this, visualizationType);
-            }
-            return null;
-        };
-    </script>
+        
+        // Handle global back button
+        const globalBackBtn = document.getElementById('globalBackToMapBtn');
+        if (globalBackBtn) {
+            globalBackBtn.addEventListener('click', function() {
+                const delayToggle = document.querySelector('.toggle-btn[data-visual="delay"]');
+                if (delayToggle) delayToggle.click();
+            });
+        }
+        
+        // Mutation observer for dashboard visibility
+        if (dashboardContainer) {
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.attributeName === 'style' || mutation.attributeName === 'class') {
+                        const isVisible = dashboardContainer.style.display !== 'none';
+                        overlayControls.style.display = isVisible ? 'block' : 'none';
+                    }
+                });
+            });
+            
+            observer.observe(dashboardContainer, { attributes: true });
+            
+            // Set initial state
+            overlayControls.style.display = dashboardContainer.style.display !== 'none' ? 'block' : 'none';
+        }
+    });
+</script>
 </body>
 </html>
