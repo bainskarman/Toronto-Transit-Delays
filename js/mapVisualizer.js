@@ -244,10 +244,6 @@ class MapVisualizer {
                         <span class="metric-label">Total Delays:</span>
                         <span class="metric-value">${delayCount.toLocaleString()}</span>
                     </div>
-                    <div class="popup-metric">
-                        <span class="metric-label">On-Time Performance:</span>
-                        <span class="metric-value">${route.On_Time_Percentage ? route.On_Time_Percentage.toFixed(1) + '%' : 'N/A'}</span>
-                    </div>
                     ${route.Delay_Frequency ? `
                     <div class="popup-metric">
                         <span class="metric-label">Delay Frequency:</span>

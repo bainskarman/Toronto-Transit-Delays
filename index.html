@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>TTC Delay Visualization | Toronto Transit Analysis</title>
     
     <!-- Leaflet CSS -->
@@ -28,7 +28,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* About Page Styles - Added inline to ensure proper isolation */
+        /* About Page Styles */
         .about-container {
             display: none;
             position: absolute;
@@ -345,7 +345,449 @@
             color: var(--text-secondary);
         }
 
-        /* Responsive Design */
+        /* MOBILE VIEW STYLES - COMPLETELY UPDATED */
+        /* Mobile Header Structure */
+        .mobile-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--secondary-bg);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1050;
+            backdrop-filter: blur(10px);
+            padding: 0;
+            margin: 0;
+            display: none;
+        }
+
+        .mobile-kpis {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-sm);
+            padding: var(--space-sm) var(--space-md);
+            background: var(--tertiary-bg);
+            min-height: 15vh;
+            max-height: 15vh;
+            height: 15vh;
+        }
+
+        .mobile-kpi {
+            background: var(--surface-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: var(--space-sm);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            min-height: 60px;
+        }
+
+        .mobile-kpi-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .mobile-kpi-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            min-width: 0;
+            flex: 1;
+        }
+
+        .mobile-kpi-value {
+            font-size: 1.2rem;
+            font-weight: var(--font-weight-bold);
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .mobile-kpi-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .mobile-nav {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            height: 8vh;
+            min-height: 8vh;
+            max-height: 8vh;
+        }
+
+        .mobile-nav-btn {
+            background: var(--secondary-bg);
+            border: none;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            padding: var(--space-xs);
+            height: 100%;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .mobile-nav-btn.active {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .mobile-nav-btn:hover:not(.active) {
+            background: var(--tertiary-bg);
+            color: var(--text-primary);
+        }
+
+        .mobile-nav-icon {
+            font-size: 1.2rem;
+        }
+
+        .mobile-nav-text {
+            font-weight: var(--font-weight-medium);
+            font-size: 0.7rem;
+            text-align: center;
+            line-height: 1.1;
+        }
+
+        .mobile-search {
+            padding: var(--space-sm) var(--space-md);
+            background: var(--secondary-bg);
+            border-bottom: 1px solid var(--border-color);
+            height: 8vh;
+            min-height: 8vh;
+            max-height: 8vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .mobile-search-input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .mobile-search-input {
+            width: 100%;
+            background: var(--tertiary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: var(--space-sm) var(--space-lg);
+            padding-right: 2.5rem;
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            height: 40px;
+        }
+
+        .mobile-search-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+
+        .mobile-search-btn {
+            position: absolute;
+            right: var(--space-sm);
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: var(--space-xs);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .mobile-search-results {
+            position: absolute;
+            top: 100%;
+            left: var(--space-md);
+            right: var(--space-md);
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: var(--z-dropdown);
+            box-shadow: var(--shadow-lg);
+            display: none;
+        }
+
+        .mobile-search-results .search-result-item {
+            padding: var(--space-sm);
+            border-bottom: 1px solid var(--border-light);
+            cursor: pointer;
+            transition: background var(--transition-fast);
+        }
+
+        .mobile-search-results .search-result-item:hover {
+            background: var(--tertiary-bg);
+        }
+
+        /* Mobile Legend System */
+        .mobile-legend-toggle {
+            position: fixed;
+            bottom: var(--space-lg);
+            left: var(--space-lg);
+            width: 44px;
+            height: 44px;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: var(--z-fixed);
+            box-shadow: var(--shadow-lg);
+            transition: transform var(--transition-normal);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .mobile-legend-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .legend-toggle-icon {
+            font-size: 1.5rem;
+        }
+
+        .mobile-legend {
+            position: fixed;
+            bottom: 80px;
+            left: var(--space-lg);
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: var(--space-md);
+            z-index: var(--z-modal);
+            box-shadow: var(--shadow-xl);
+            max-width: 250px;
+            display: none;
+            animation: slideUp 0.3s ease;
+        }
+
+        .mobile-legend.visible {
+            display: block;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mobile-legend-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-sm);
+        }
+
+        .mobile-legend-header h4 {
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .mobile-legend-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #mobileLegendContent .legend-container {
+            background: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+            backdrop-filter: none !important;
+        }
+
+        #mobileLegendContent .legend-title {
+            font-size: 0.75rem !important;
+            margin-bottom: var(--space-xs) !important;
+        }
+
+        #mobileLegendContent .legend-scale {
+            gap: var(--space-xs) !important;
+        }
+
+        #mobileLegendContent .legend-item {
+            padding: var(--space-xs) 0 !important;
+        }
+
+        #mobileLegendContent .legend-color {
+            width: 16px !important;
+            height: 4px !important;
+        }
+
+        #mobileLegendContent .legend-label {
+            font-size: 0.7rem !important;
+        }
+
+        /* Mobile Layout Adjustments */
+        @media (max-width: 768px) {
+            body.mobile-view {
+                overflow: hidden;
+            }
+
+            .mobile-header {
+                display: block;
+            }
+
+            .mobile-legend-toggle {
+                display: flex;
+            }
+
+            /* Hide desktop elements on mobile */
+            .app-header,
+            .sidebar,
+            .header-toggles,
+            .header-controls,
+            .map-controls,
+            .map-legend,
+            .toggle-btn[data-visual="dashboard"] {
+                display: none !important;
+            }
+
+            /* Adjust main content for mobile header */
+            .main-content {
+                display: block !important;
+                padding-top: 31vh !important; /* 15% + 8% + 8% = 31vh */
+                height: 100vh !important;
+                position: relative !important;
+                overflow: hidden !important;
+            }
+
+            /* Map container takes remaining space */
+            .map-container {
+                height: 69vh !important; /* 100vh - 31vh header */
+                width: 100% !important;
+                position: relative !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            .map {
+                height: 100% !important;
+                width: 100% !important;
+            }
+
+            /* Hide dashboard container on mobile */
+            #dashboard-container {
+                display: none !important;
+            }
+
+            /* Adjust about page for mobile */
+            .about-container {
+                padding-top: 31vh !important;
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                overflow-y: auto !important;
+                -webkit-overflow-scrolling: touch !important;
+            }
+
+            .about-content {
+                padding: var(--space-md) !important;
+            }
+
+            .about-section {
+                padding: var(--space-lg) var(--space-md) !important;
+                margin-bottom: var(--space-lg) !important;
+            }
+
+            .about-title {
+                font-size: 2rem !important;
+            }
+
+            .section-title {
+                font-size: 1.4rem !important;
+            }
+
+            /* Mobile touch optimizations */
+            .leaflet-container {
+                cursor: pointer !important;
+            }
+
+            .leaflet-touch .leaflet-control-layers,
+            .leaflet-touch .leaflet-bar {
+                -webkit-tap-highlight-color: transparent !important;
+            }
+
+            /* Improve touch targets */
+            .mobile-nav-btn,
+            .mobile-search-btn,
+            .mobile-legend-toggle,
+            .mobile-legend-close {
+                min-height: 44px !important;
+                min-width: 44px !important;
+            }
+
+            /* Prevent text selection on mobile */
+            .mobile-kpi,
+            .mobile-nav-btn,
+            .mobile-search-input {
+                user-select: none !important;
+                -webkit-user-select: none !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .mobile-kpi-value {
+                font-size: 1rem !important;
+            }
+
+            .mobile-kpi-label {
+                font-size: 0.65rem !important;
+            }
+
+            .mobile-nav-text {
+                font-size: 0.65rem !important;
+            }
+
+            .mobile-search-input {
+                font-size: 0.8rem !important;
+                padding: var(--space-xs) var(--space-md) !important;
+            }
+        }
+
+        /* Desktop: hide mobile elements */
+        @media (min-width: 769px) {
+            .mobile-header,
+            .mobile-legend-toggle,
+            .mobile-legend {
+                display: none !important;
+            }
+        }
+
+        /* Responsive Design for About Page */
         @media (max-width: 768px) {
             .about-content {
                 padding: 1rem;
@@ -389,11 +831,94 @@
             position: relative;
             margin-top: 3rem;
         }
+
+        /* About page mobile specific */
+        @media (max-width: 768px) {
+            body.about-active .mobile-header,
+            body.about-active .mobile-legend-toggle {
+                display: none !important;
+            }
+
+            body.about-active .main-content {
+                padding-top: 0 !important;
+                height: 100vh !important;
+            }
+
+            body.about-active .about-container {
+                padding-top: 0 !important;
+            }
+        }
     </style>
 </head>
 <body data-theme="dark">
-    <div class="app-container">
+    <!-- Mobile Header - Hidden on Desktop -->
+    <div class="mobile-header">
+        <!-- Mobile KPIs (15% height) -->
+        <div class="mobile-kpis">
+            <div class="mobile-kpi">
+                <div class="mobile-kpi-icon">⏱️</div>
+                <div class="mobile-kpi-content">
+                    <span class="mobile-kpi-value" id="mobileTotalDelays">--</span>
+                    <span class="mobile-kpi-label">Total Incidents</span>
+                </div>
+            </div>
+            <div class="mobile-kpi">
+                <div class="mobile-kpi-icon">📊</div>
+                <div class="mobile-kpi-content">
+                    <span class="mobile-kpi-value" id="mobileAvgDelay">-- min</span>
+                    <span class="mobile-kpi-label">Avg Delay</span>
+                </div>
+            </div>
+        </div>
 
+        <!-- Mobile Navigation Tabs (8% height) -->
+        <div class="mobile-nav">
+            <button class="mobile-nav-btn active" data-visual="delay" aria-label="Delay visualization">
+                <span class="mobile-nav-icon">⏱️</span>
+                <span class="mobile-nav-text">Delay</span>
+            </button>
+            <button class="mobile-nav-btn" data-visual="frequency" aria-label="Frequency visualization">
+                <span class="mobile-nav-icon">📈</span>
+                <span class="mobile-nav-text">Frequency</span>
+            </button>
+            <button class="mobile-nav-btn" data-visual="about" aria-label="About this project">
+                <span class="mobile-nav-icon">ℹ️</span>
+                <span class="mobile-nav-text">About</span>
+            </button>
+        </div>
+
+        <!-- Mobile Search (8% height) -->
+        <div class="mobile-search">
+            <div class="mobile-search-input-group">
+                <input type="text" 
+                       id="mobileRouteSearch" 
+                       class="mobile-search-input" 
+                       placeholder="Search routes or streets..."
+                       aria-label="Search routes or streets">
+                <button class="mobile-search-btn" aria-label="Search">
+                    <span class="mobile-search-icon">🔍</span>
+                </button>
+            </div>
+            <div id="mobileSearchResults" class="mobile-search-results" aria-live="polite"></div>
+        </div>
+    </div>
+
+    <!-- Mobile Legend Toggle -->
+    <div class="mobile-legend-toggle" id="mobileLegendToggle" aria-label="Toggle legend">
+        <span class="legend-toggle-icon">ℹ️</span>
+    </div>
+
+    <!-- Mobile Legend Panel -->
+    <div class="mobile-legend" id="mobileLegend">
+        <div class="mobile-legend-header">
+            <h4>Map Legend</h4>
+            <button class="mobile-legend-close" id="mobileLegendClose" aria-label="Close legend">×</button>
+        </div>
+        <div id="mobileLegendContent"></div>
+    </div>
+
+    <!-- Desktop App Container -->
+    <div class="app-container">
         <header class="app-header">
             <div class="header-content">
                 <div class="logo-section">
@@ -404,7 +929,7 @@
                     <p class="app-subtitle">Toronto Transit Commission Analytics & Real-time Tracking</p>
                 </div>
                 
-                <!-- Visualization Toggles - UPDATED WITH ABOUT TAB -->
+                <!-- Visualization Toggles -->
                 <div class="header-toggles">
                     <div class="toggle-group">
                         <button class="toggle-btn active" data-visual="delay">
@@ -427,11 +952,6 @@
                 </div>
 
                 <div class="header-controls">
-                    <div class="theme-toggle">
-                        <button id="themeToggle" class="theme-btn" aria-label="Toggle theme">
-                            <span class="theme-icon">🌙</span>
-                        </button>
-                    </div>
                     <div class="last-updated">
                         <span class="update-label">Data Refreshed:</span>
                         <span id="lastUpdated" class="update-time">Loading...</span>
@@ -603,8 +1123,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </aside>
 
             <!-- Map Container -->
@@ -669,7 +1187,6 @@
                         </div>
                     </div>
                 </div>
-                
             </aside>
 
             <!-- Dashboard Container (hidden by default) -->
@@ -677,11 +1194,10 @@
                 <iframe id="dashboard-frame" src="Dash/dashboard.html" title="TTC Analytics Dashboard"></iframe>
             </div>
 
-            <!-- About Container (hidden by default) - NEW -->
+            <!-- About Container (hidden by default) -->
             <div id="about-container" class="about-container">
                 <div class="about-header">
                     <div class="profile-image">
-                        <!-- Your photo - update src to your image path -->
                         <img src="assets/images/my.png" alt="Karman Bains">
                     </div>
                     <h1 class="about-title">About This Project</h1>
@@ -716,7 +1232,7 @@
                         </div>
                     </section>
 
-                    <!-- Merged Project Story & App Functionality Section -->
+                    <!-- Project Story Section -->
                     <section class="about-section">
                         <div class="section-header">
                             <span class="section-icon">📊</span>
@@ -724,7 +1240,6 @@
                         </div>
                         
                         <div class="project-story">
-                            <!-- First Paragraph: Project Evolution -->
                             <div class="story-paragraph">
                                 <div class="story-content">
                                     This project began in 2022 as simple curiosity about TTC delays, starting with a basic 
@@ -816,7 +1331,7 @@
                 </div>
             </div>
 
-            <!-- Dashboard Overlay Controls (unchanged) -->
+            <!-- Dashboard Overlay Controls -->
             <div id="dashboard-overlay-controls" style="
                 position: absolute;
                 top: 20px;
@@ -843,10 +1358,9 @@
                     Back to Map
                 </button>
             </div>
-
         </main>
 
-        <!-- Footer - ALWAYS VISIBLE FOR ALL TABS -->
+        <!-- Footer -->
         <footer class="app-footer">
             <div class="footer-content">
                 <div class="footer-info">
@@ -859,176 +1373,339 @@
     <!-- Scripts -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="js/dataLoader.js"></script>
-<script src="js/mapVisualizer.js"></script>
-<script src="js/uiController.js"></script>
-<script src="js/app.js"></script>
+    <script src="js/mapVisualizer.js"></script>
+    <script src="js/uiController.js"></script>
+    <script src="js/app.js"></script>
 
-<script>
-    // Fix for Leaflet auto-zooming issues
-    document.addEventListener('DOMContentLoaded', function() {
-        // Prevent unwanted zoom behavior on mobile
-        if (window.ttcApp && window.ttcApp.map) {
-            // Disable double-click zoom
-            window.ttcApp.map.doubleClickZoom.disable();
+    <script>
+        // Mobile view detection and setup
+        document.addEventListener('DOMContentLoaded', function() {
+            const isMobile = window.innerWidth <= 768;
             
-            // Disable scroll wheel zoom unless Ctrl/Cmd key is pressed
-            window.ttcApp.map.scrollWheelZoom.disable();
-            
-            // Add strict bounds to prevent auto-zooming
-            const torontoBounds = L.latLngBounds(
-                [43.58, -79.63], // Southwest
-                [43.86, -79.12]  // Northeast
-            );
-            
-            window.ttcApp.map.setMaxBounds(torontoBounds);
-            window.ttcApp.map.setMinZoom(10);
-            window.ttcApp.map.setMaxZoom(18);
-            
-            // Prevent dragging outside bounds
-            window.ttcApp.map.on('drag', function() {
-                window.ttcApp.map.panInsideBounds(torontoBounds, { animate: false });
-            });
-            
-            // Add scroll wheel zoom only with modifier key
-            window.addEventListener('keydown', function(e) {
-                if (e.ctrlKey || e.metaKey) {
-                    window.ttcApp.map.scrollWheelZoom.enable();
-                }
-            });
-            
-            window.addEventListener('keyup', function(e) {
-                if (!e.ctrlKey && !e.metaKey) {
-                    window.ttcApp.map.scrollWheelZoom.disable();
-                }
-            });
-        }
-
-        // Initialize with delay visualization as default
-        const toggleBtns = document.querySelectorAll('.toggle-btn');
-        toggleBtns.forEach(btn => {
-            if (btn.dataset.visual === 'delay') {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
+            // Add mobile-view class to body if mobile
+            if (isMobile) {
+                document.body.classList.add('mobile-view');
+                console.log('📱 Mobile view detected');
             }
-        });
-    });
-</script>
-
-<!-- About Page JavaScript -->
-<script>
-    // Extend the existing UI controller to handle About tab
-    document.addEventListener('DOMContentLoaded', function() {
-        // Get all toggle buttons
-        const toggleButtons = document.querySelectorAll('.toggle-btn');
-        const dashboardContainer = document.getElementById('dashboard-container');
-        const aboutContainer = document.getElementById('about-container');
-        const mapContainer = document.getElementById('map');
-        const leftSidebar = document.querySelector('.left-sidebar');
-        const rightSidebar = document.querySelector('.right-sidebar');
-        const overlayControls = document.getElementById('dashboard-overlay-controls');
-        const body = document.body;
-        
-        // Add click handlers to visualization links in About page
-        document.querySelectorAll('.visualization-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const visual = this.getAttribute('data-visual');
+            
+            // Fix for Leaflet auto-zooming issues
+            if (window.ttcApp && window.ttcApp.map) {
+                // Disable double-click zoom
+                window.ttcApp.map.doubleClickZoom.disable();
                 
-                // Find and click the corresponding toggle button
-                const targetBtn = document.querySelector(`.toggle-btn[data-visual="${visual}"]`);
-                if (targetBtn) {
-                    targetBtn.click();
-                }
-            });
-        });
-        
-        // Handle toggle button clicks
-        toggleButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const visual = this.getAttribute('data-visual');
+                // Disable scroll wheel zoom unless Ctrl/Cmd key is pressed
+                window.ttcApp.map.scrollWheelZoom.disable();
                 
-                // Remove active class from all buttons
-                toggleButtons.forEach(btn => btn.classList.remove('active'));
+                // Add strict bounds to prevent auto-zooming
+                const torontoBounds = L.latLngBounds(
+                    [43.58, -79.63], // Southwest
+                    [43.86, -79.12]  // Northeast
+                );
                 
-                // Add active class to clicked button
-                this.classList.add('active');
+                window.ttcApp.map.setMaxBounds(torontoBounds);
+                window.ttcApp.map.setMinZoom(10);
+                window.ttcApp.map.setMaxZoom(18);
                 
-                // Hide all containers
-                dashboardContainer.style.display = 'none';
-                aboutContainer.style.display = 'none';
-                overlayControls.style.display = 'none';
+                // Prevent dragging outside bounds
+                window.ttcApp.map.on('drag', function() {
+                    window.ttcApp.map.panInsideBounds(torontoBounds, { animate: false });
+                });
                 
-                // Remove about-active class from body
-                body.classList.remove('about-active');
-                
-                // Show the selected visualization
-                if (visual === 'delay' || visual === 'frequency') {
-                    // Show map and sidebars
-                    mapContainer.style.display = 'block';
-                    leftSidebar.style.display = 'block';
-                    rightSidebar.style.display = 'block';
-                    
-                    // Trigger visualization switch if app exists
-                    if (window.ttcApp && window.ttcApp.switchVisualization) {
-                        window.ttcApp.switchVisualization(visual);
+                // Add scroll wheel zoom only with modifier key
+                window.addEventListener('keydown', function(e) {
+                    if (e.ctrlKey || e.metaKey) {
+                        window.ttcApp.map.scrollWheelZoom.enable();
                     }
-                } else if (visual === 'dashboard') {
-                    // Show dashboard
-                    dashboardContainer.style.display = 'block';
-                    overlayControls.style.display = 'block';
-                    
-                    // Hide map and sidebars
-                    mapContainer.style.display = 'none';
-                    leftSidebar.style.display = 'none';
-                    rightSidebar.style.display = 'none';
-                } else if (visual === 'about') {
-                    // Show about page
-                    aboutContainer.style.display = 'block';
-                    body.classList.add('about-active');
-                    
-                    // Hide map, sidebars, and legend
-                    mapContainer.style.display = 'none';
-                    leftSidebar.style.display = 'none';
-                    rightSidebar.style.display = 'none';
-                    
-                    // Ensure map legend is hidden
-                    const mapLegend = document.querySelector('.map-legend');
-                    if (mapLegend) mapLegend.style.display = 'none';
-                    
-                    // Ensure map controls are hidden
-                    const mapControls = document.querySelector('.map-controls');
-                    if (mapControls) mapControls.style.display = 'none';
+                });
+                
+                window.addEventListener('keyup', function(e) {
+                    if (!e.ctrlKey && !e.metaKey) {
+                        window.ttcApp.map.scrollWheelZoom.disable();
+                    }
+                });
+            }
+
+            // Initialize with delay visualization as default
+            const toggleBtns = document.querySelectorAll('.toggle-btn');
+            toggleBtns.forEach(btn => {
+                if (btn.dataset.visual === 'delay') {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
                 }
             });
         });
-        
-        // Handle global back button
-        const globalBackBtn = document.getElementById('globalBackToMapBtn');
-        if (globalBackBtn) {
-            globalBackBtn.addEventListener('click', function() {
-                const delayToggle = document.querySelector('.toggle-btn[data-visual="delay"]');
-                if (delayToggle) delayToggle.click();
-            });
+
+        // Mobile specific initialization
+        function initializeMobileView() {
+            if (window.innerWidth <= 768) {
+                // Setup mobile navigation
+                const mobileNavBtns = document.querySelectorAll('.mobile-nav-btn');
+                mobileNavBtns.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const visual = this.getAttribute('data-visual');
+                        
+                        // Remove active class from all mobile buttons
+                        mobileNavBtns.forEach(b => b.classList.remove('active'));
+                        
+                        // Add active class to clicked button
+                        this.classList.add('active');
+                        
+                        // Call the existing visualization switch
+                        const toggleBtn = document.querySelector(`.toggle-btn[data-visual="${visual}"]`);
+                        if (toggleBtn) {
+                            toggleBtn.click();
+                        }
+                    });
+                });
+                
+                // Setup mobile search
+                const mobileSearchInput = document.getElementById('mobileRouteSearch');
+                const mobileSearchResults = document.getElementById('mobileSearchResults');
+                
+                if (mobileSearchInput && mobileSearchResults) {
+                    let searchTimeout;
+                    
+                    mobileSearchInput.addEventListener('input', function(e) {
+                        clearTimeout(searchTimeout);
+                        searchTimeout = setTimeout(() => {
+                            const query = e.target.value;
+                            
+                            if (!query.trim()) {
+                                mobileSearchResults.innerHTML = '';
+                                mobileSearchResults.style.display = 'none';
+                                return;
+                            }
+                            
+                            // Call the main app's search function if available
+                            if (window.ttcApp && window.ttcApp.handleHistoricalSearch) {
+                                window.ttcApp.handleHistoricalSearch(query);
+                            }
+                        }, 300);
+                    });
+                    
+                    // Close search results when clicking outside
+                    document.addEventListener('click', function(e) {
+                        if (!mobileSearchInput.contains(e.target) && !mobileSearchResults.contains(e.target)) {
+                            mobileSearchResults.style.display = 'none';
+                        }
+                    });
+                }
+                
+                // Setup mobile legend toggle
+                const legendToggle = document.getElementById('mobileLegendToggle');
+                const legendClose = document.getElementById('mobileLegendClose');
+                const mobileLegend = document.getElementById('mobileLegend');
+                
+                if (legendToggle && mobileLegend && legendClose) {
+                    let legendVisible = false;
+                    
+                    legendToggle.addEventListener('click', function() {
+                        legendVisible = !legendVisible;
+                        if (legendVisible) {
+                            mobileLegend.classList.add('visible');
+                        } else {
+                            mobileLegend.classList.remove('visible');
+                        }
+                    });
+                    
+                    legendClose.addEventListener('click', function() {
+                        legendVisible = false;
+                        mobileLegend.classList.remove('visible');
+                    });
+                    
+                    // Close legend when clicking outside on mobile
+                    document.addEventListener('click', function(e) {
+                        if (legendVisible && 
+                            !mobileLegend.contains(e.target) && 
+                            !legendToggle.contains(e.target)) {
+                            legendVisible = false;
+                            mobileLegend.classList.remove('visible');
+                        }
+                    });
+                }
+                
+                // Update mobile KPIs when data loads
+                if (window.ttcApp) {
+                    const updateMobileKPIs = function() {
+                        if (window.ttcApp.state && window.ttcApp.state.summaryStats) {
+                            const stats = window.ttcApp.state.summaryStats;
+                            const totalDelays = document.getElementById('mobileTotalDelays');
+                            const avgDelay = document.getElementById('mobileAvgDelay');
+                            
+                            if (totalDelays) {
+                                totalDelays.textContent = stats.total_delays?.toLocaleString() || '--';
+                            }
+                            
+                            if (avgDelay) {
+                                avgDelay.textContent = (stats.avg_delay_minutes?.toFixed(1) || '--') + ' min';
+                            }
+                        }
+                    };
+                    
+                    // Update KPIs when app initializes
+                    setTimeout(updateMobileKPIs, 1000);
+                    
+                    // Also update when visualization changes
+                    const originalSwitch = window.ttcApp.switchVisualization;
+                    if (originalSwitch) {
+                        window.ttcApp.switchVisualization = function(...args) {
+                            const result = originalSwitch.apply(this, args);
+                            setTimeout(updateMobileKPIs, 500);
+                            return result;
+                        };
+                    }
+                }
+                
+                // Handle orientation changes
+                window.addEventListener('orientationchange', function() {
+                    setTimeout(() => {
+                        if (window.ttcApp && window.ttcApp.map) {
+                            window.ttcApp.map.invalidateSize();
+                        }
+                    }, 300);
+                });
+            }
         }
-        
-        // Mutation observer for dashboard visibility
-        if (dashboardContainer) {
-            const observer = new MutationObserver(function(mutations) {
-                mutations.forEach(function(mutation) {
-                    if (mutation.attributeName === 'style' || mutation.attributeName === 'class') {
-                        const isVisible = dashboardContainer.style.display !== 'none';
-                        overlayControls.style.display = isVisible ? 'block' : 'none';
+
+        // Run mobile initialization after page loads
+        setTimeout(initializeMobileView, 1000);
+
+        // About Page JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all toggle buttons
+            const toggleButtons = document.querySelectorAll('.toggle-btn');
+            const dashboardContainer = document.getElementById('dashboard-container');
+            const aboutContainer = document.getElementById('about-container');
+            const mapContainer = document.getElementById('map');
+            const leftSidebar = document.querySelector('.left-sidebar');
+            const rightSidebar = document.querySelector('.right-sidebar');
+            const overlayControls = document.getElementById('dashboard-overlay-controls');
+            const body = document.body;
+            
+            // Add click handlers to visualization links in About page
+            document.querySelectorAll('.visualization-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const visual = this.getAttribute('data-visual');
+                    
+                    // Find and click the corresponding toggle button
+                    const targetBtn = document.querySelector(`.toggle-btn[data-visual="${visual}"]`);
+                    if (targetBtn) {
+                        targetBtn.click();
                     }
                 });
             });
             
-            observer.observe(dashboardContainer, { attributes: true });
+            // Handle toggle button clicks
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const visual = this.getAttribute('data-visual');
+                    
+                    // Remove active class from all buttons
+                    toggleButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Hide all containers
+                    dashboardContainer.style.display = 'none';
+                    aboutContainer.style.display = 'none';
+                    overlayControls.style.display = 'none';
+                    
+                    // Remove about-active class from body
+                    body.classList.remove('about-active');
+                    
+                    // Show the selected visualization
+                    if (visual === 'delay' || visual === 'frequency') {
+                        // Show map and sidebars (only on desktop)
+                        mapContainer.style.display = 'block';
+                        leftSidebar.style.display = 'block';
+                        rightSidebar.style.display = 'block';
+                        
+                        // On mobile, hide sidebars
+                        if (window.innerWidth <= 768) {
+                            leftSidebar.style.display = 'none';
+                            rightSidebar.style.display = 'none';
+                        }
+                        
+                        // Trigger visualization switch if app exists
+                        if (window.ttcApp && window.ttcApp.switchVisualization) {
+                            window.ttcApp.switchVisualization(visual);
+                        }
+                    } else if (visual === 'dashboard') {
+                        // Show dashboard
+                        dashboardContainer.style.display = 'block';
+                        overlayControls.style.display = 'block';
+                        
+                        // Hide map and sidebars
+                        mapContainer.style.display = 'none';
+                        leftSidebar.style.display = 'none';
+                        rightSidebar.style.display = 'none';
+                    } else if (visual === 'about') {
+                        // Show about page
+                        aboutContainer.style.display = 'block';
+                        body.classList.add('about-active');
+                        
+                        // Hide map, sidebars, and legend
+                        mapContainer.style.display = 'none';
+                        leftSidebar.style.display = 'none';
+                        rightSidebar.style.display = 'none';
+                        
+                        // Ensure map legend is hidden
+                        const mapLegend = document.querySelector('.map-legend');
+                        if (mapLegend) mapLegend.style.display = 'none';
+                        
+                        // Ensure map controls are hidden
+                        const mapControls = document.querySelector('.map-controls');
+                        if (mapControls) mapControls.style.display = 'none';
+                        
+                        // On mobile, also hide mobile header and legend toggle
+                        if (window.innerWidth <= 768) {
+                            document.querySelector('.mobile-header').style.display = 'none';
+                            document.querySelector('.mobile-legend-toggle').style.display = 'none';
+                        }
+                    }
+                });
+            });
             
-            // Set initial state
-            overlayControls.style.display = dashboardContainer.style.display !== 'none' ? 'block' : 'none';
-        }
-    });
-</script>
+            // Handle global back button
+            const globalBackBtn = document.getElementById('globalBackToMapBtn');
+            if (globalBackBtn) {
+                globalBackBtn.addEventListener('click', function() {
+                    const delayToggle = document.querySelector('.toggle-btn[data-visual="delay"]');
+                    if (delayToggle) delayToggle.click();
+                });
+            }
+            
+            // Mutation observer for dashboard visibility
+            if (dashboardContainer) {
+                const observer = new MutationObserver(function(mutations) {
+                    mutations.forEach(function(mutation) {
+                        if (mutation.attributeName === 'style' || mutation.attributeName === 'class') {
+                            const isVisible = dashboardContainer.style.display !== 'none';
+                            overlayControls.style.display = isVisible ? 'block' : 'none';
+                        }
+                    });
+                });
+                
+                observer.observe(dashboardContainer, { attributes: true });
+                
+                // Set initial state
+                overlayControls.style.display = dashboardContainer.style.display !== 'none' ? 'block' : 'none';
+            }
+        });
+
+        // Mobile view compatibility
+        window.addEventListener('resize', function() {
+            const isMobile = window.innerWidth <= 768;
+            if (isMobile && !document.body.classList.contains('mobile-view')) {
+                document.body.classList.add('mobile-view');
+                initializeMobileView();
+            } else if (!isMobile && document.body.classList.contains('mobile-view')) {
+                document.body.classList.remove('mobile-view');
+            }
+        });
+    </script>
 </body>
 </html>

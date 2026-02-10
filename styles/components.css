@@ -134,6 +134,77 @@
     transform: translateY(-1px) !important;
 }
 
+
+/* Mobile Search Results */
+.mobile-search-results .search-result-item {
+  padding: var(--space-sm);
+  border-bottom: 1px solid var(--border-light);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.mobile-search-results .search-result-item:hover {
+  background: var(--tertiary-bg);
+}
+
+/* Mobile Legend Content */
+#mobileLegendContent .legend-container {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  backdrop-filter: none !important;
+}
+
+#mobileLegendContent .legend-title {
+  font-size: 0.75rem !important;
+  margin-bottom: var(--space-xs) !important;
+}
+
+#mobileLegendContent .legend-scale {
+  gap: var(--space-xs) !important;
+}
+
+#mobileLegendContent .legend-item {
+  padding: var(--space-xs) 0 !important;
+}
+
+#mobileLegendContent .legend-color {
+  width: 16px !important;
+  height: 4px !important;
+}
+
+#mobileLegendContent .legend-label {
+  font-size: 0.7rem !important;
+}
+
+/* Mobile touch optimizations */
+@media (max-width: 768px) {
+  .leaflet-container {
+    cursor: pointer !important;
+  }
+
+  .leaflet-touch .leaflet-control-layers,
+  .leaflet-touch .leaflet-bar {
+    -webkit-tap-highlight-color: transparent !important;
+  }
+
+  /* Improve touch targets */
+  .mobile-nav-btn,
+  .mobile-search-btn,
+  .mobile-legend-toggle {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Prevent text selection on mobile */
+  .mobile-kpi,
+  .mobile-nav-btn,
+  .mobile-search-input {
+    user-select: none;
+    -webkit-user-select: none;
+  }
+}
+
 /* Custom Legend Styles */
 .legend-container {
     background: var(--secondary-bg) !important;

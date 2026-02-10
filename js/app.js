@@ -9,7 +9,8 @@ class TTCVisualizationApp {
         this.dataLoader = null;
         this.uiController = null;
         this.dashboardActive = false;
-        
+        this.isMobile = window.innerWidth <= 768;
+        this.mobileLegendVisible = false;
         // Application state
         this.state = {
             routes: [],
@@ -132,6 +133,279 @@ class TTCVisualizationApp {
         }
     }
 
+    setupMobileView() {
+  if (!this.isMobile) return;
+  
+  console.log('📱 Setting up mobile view...');
+  
+  // Update mobile KPIs
+  this.updateMobileKPIs();
+  
+  // Setup mobile navigation
+  this.setupMobileNavigation();
+  
+  // Setup mobile search
+  this.setupMobileSearch();
+  
+  // Setup mobile legend toggle
+  this.setupMobileLegend();
+  
+  // Hide dashboard tab
+  this.hideDashboardOnMobile();
+  
+  // Force initial visualization to delay
+  this.switchVisualization('delay');
+}
+
+updateMobileKPIs() {
+  if (!this.isMobile || !this.state.summaryStats) return;
+  
+  const stats = this.state.summaryStats;
+  document.getElementById('mobileTotalDelays').textContent = 
+    stats.total_delays?.toLocaleString() || '--';
+  document.getElementById('mobileAvgDelay').textContent = 
+    (stats.avg_delay_minutes?.toFixed(1) || '--') + ' min';
+}
+
+setupMobileNavigation() {
+  const mobileNavBtns = document.querySelectorAll('.mobile-nav-btn');
+  mobileNavBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const visualType = e.currentTarget.dataset.visual;
+      
+      // Remove active class from all buttons
+      mobileNavBtns.forEach(b => b.classList.remove('active'));
+      
+      // Add active class to clicked button
+      btn.classList.add('active');
+      
+      // Switch visualization
+      this.switchVisualization(visualType);
+      
+      // On mobile, close legend when switching
+      this.hideMobileLegend();
+    });
+  });
+}
+
+setupMobileSearch() {
+  const searchInput = document.getElementById('mobileRouteSearch');
+  const searchResults = document.getElementById('mobileSearchResults');
+  
+  if (!searchInput || !searchResults) return;
+  
+  let searchTimeout;
+  
+  searchInput.addEventListener('input', (e) => {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+      this.handleMobileSearch(e.target.value);
+    }, 300);
+  });
+  
+  searchInput.addEventListener('focus', () => {
+    if (searchResults.innerHTML.trim()) {
+      searchResults.style.display = 'block';
+    }
+  });
+  
+  // Close search results when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+      searchResults.style.display = 'none';
+    }
+  });
+}
+
+handleMobileSearch(query) {
+  const searchResults = document.getElementById('mobileSearchResults');
+  if (!searchResults) return;
+  
+  if (!query.trim()) {
+    searchResults.innerHTML = '';
+    searchResults.style.display = 'none';
+    return;
+  }
+  
+  const filteredRoutes = this.state.routes.filter(route => 
+    route.Route.toString().toLowerCase().includes(query.toLowerCase()) ||
+    (route.route_long_name && route.route_long_name.toLowerCase().includes(query.toLowerCase()))
+  ).slice(0, 5); // Limit to 5 results on mobile
+  
+  if (filteredRoutes.length === 0) {
+    searchResults.innerHTML = `
+      <div class="search-result-item" style="padding: var(--space-sm); color: var(--text-muted);">
+        No routes found
+      </div>
+    `;
+  } else {
+    searchResults.innerHTML = filteredRoutes.map(route => `
+      <div class="search-result-item" data-route-id="${route.Route}">
+        <div style="display: flex; align-items: center; gap: var(--space-sm);">
+          <div style="width: 24px; height: 24px; background: var(--accent-primary); 
+                      border-radius: var(--radius-sm); display: flex; align-items: center; 
+                      justify-content: center; color: white; font-size: 0.75rem; font-weight: bold;">
+            ${route.Route}
+          </div>
+          <div style="flex: 1;">
+            <div style="font-size: 0.875rem; font-weight: 500; color: var(--text-primary);">
+              ${route.route_long_name || `Route ${route.Route}`}
+            </div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary);">
+              ${route.Avg_Delay_Min.toFixed(1)} min avg delay
+            </div>
+          </div>
+        </div>
+      </div>
+    `).join('');
+    
+    // Add click handlers
+    searchResults.querySelectorAll('.search-result-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const routeId = item.dataset.routeId;
+        this.selectRoute(routeId);
+        searchResults.style.display = 'none';
+        searchInput.value = '';
+        
+        // Zoom to selected route on mobile
+        if (this.mapVisualizer) {
+          this.mapVisualizer.highlightRoute(routeId);
+        }
+      });
+    });
+  }
+  
+  searchResults.style.display = 'block';
+}
+
+    setupMobileLegend() {
+        const legendToggle = document.getElementById('mobileLegendToggle');
+        const legendClose = document.getElementById('mobileLegendClose');
+        const legend = document.getElementById('mobileLegend');
+        
+        if (!legendToggle || !legend || !legendClose) return;
+        
+        legendToggle.addEventListener('click', () => {
+            this.toggleMobileLegend();
+        });
+        
+        legendClose.addEventListener('click', () => {
+            this.hideMobileLegend();
+        });
+        
+        // Close legend when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (this.mobileLegendVisible && 
+                !legend.contains(e.target) && 
+                !legendToggle.contains(e.target)) {
+            this.hideMobileLegend();
+            }
+        });
+        }
+
+        toggleMobileLegend() {
+        const legend = document.getElementById('mobileLegend');
+        if (!legend) return;
+        
+        if (this.mobileLegendVisible) {
+            this.hideMobileLegend();
+        } else {
+            this.showMobileLegend();
+        }
+        }
+
+        showMobileLegend() {
+        const legend = document.getElementById('mobileLegend');
+        const legendContent = document.getElementById('mobileLegendContent');
+        
+        if (!legend || !legendContent) return;
+        
+        // Get current legend content from map visualizer
+        const currentLegend = this.mapVisualizer.getCurrentLegend();
+        if (currentLegend) {
+            legendContent.innerHTML = currentLegend;
+        } else {
+            legendContent.innerHTML = `
+            <div style="color: var(--text-secondary); text-align: center; padding: var(--space-md);">
+                No legend available
+            </div>
+            `;
+        }
+        
+        legend.classList.add('visible');
+        this.mobileLegendVisible = true;
+        }
+
+        hideMobileLegend() {
+        const legend = document.getElementById('mobileLegend');
+        if (!legend) return;
+        
+        legend.classList.remove('visible');
+        this.mobileLegendVisible = false;
+        }
+
+        hideDashboardOnMobile() {
+        if (!this.isMobile) return;
+        
+        // Hide dashboard toggle button
+        const dashboardToggle = document.querySelector('.toggle-btn[data-visual="dashboard"]');
+        if (dashboardToggle) {
+            dashboardToggle.style.display = 'none';
+        }
+        
+        // Ensure we're not on dashboard view
+        if (this.currentVisualization === 'dashboard') {
+            this.switchVisualization('delay');
+        }
+        }
+
+        // Add to init() method in TTCVisualizationApp
+        async init() {
+        console.log('🚍 Initializing TTC Delay Visualization...');
+        
+        try {
+            // Check if mobile
+            this.isMobile = window.innerWidth <= 768;
+            
+            // Initialize modules
+            this.dataLoader = new DataLoader();
+            this.mapVisualizer = new MapVisualizer();
+            this.uiController = new UIController(this);
+            
+            // Load application data
+            await this.loadData();
+            
+            // Initialize UI components
+            this.uiController.init();
+            
+            // Setup mobile view if needed
+            if (this.isMobile) {
+            this.setupMobileView();
+            }
+            
+            // Initialize map (only for delay/frequency modes)
+            await this.initializeMap();
+            
+            // Set up event listeners
+            this.setupEventListeners();
+            
+            // Update UI with initial data
+            this.updateUI();
+            
+            // Update mobile KPIs if on mobile
+            if (this.isMobile) {
+            this.updateMobileKPIs();
+            }
+            
+            console.log('🎉 TTC Delay Visualization initialized successfully');
+            
+        } catch (error) {
+            console.error('❌ Failed to initialize application:', error);
+            this.showError('Failed to initialize application. Please refresh the page.');
+        }
+        }
+
+
     setupEventListeners() {
         // Visualization toggles - delay, frequency, and dashboard
         document.querySelectorAll('.toggle-btn').forEach(btn => {
@@ -201,70 +475,130 @@ class TTCVisualizationApp {
             // Update UI state
             this.currentVisualization = visualType;
             
-            // Update active toggle button
+            // Update active toggle buttons (both desktop and mobile)
             this.updateToggleButtons(visualType);
             
+            // Handle dashboard - hide on mobile
+            if (visualType === 'dashboard' && this.isMobile) {
+            console.log('📱 Dashboard not available on mobile');
+            this.showNotification('Dashboard not available on mobile view', 'info');
+            return;
+            }
+            
             // Clear existing visualization if switching away from map
-            if (this.mapVisualizer && visualType !== 'dashboard') {
-                this.mapVisualizer.clearVisualization();
+            if (this.mapVisualizer && visualType !== 'dashboard' && visualType !== 'about') {
+            this.mapVisualizer.clearVisualization();
             }
             
             // Show/hide dashboard
             if (visualType === 'dashboard') {
-                this.showDashboard();
-                return;
+            this.showDashboard();
+            return;
+            } else if (visualType === 'about') {
+            this.showAboutPage();
+            return;
             } else {
-                this.hideDashboard();
+            this.hideDashboard();
+            this.hideAboutPage();
             }
-
-            // Show loading state for map visualizations
-            if (visualType !== 'dashboard') {
-                this.uiController.showLoadingState();
-            }
-
+            
             // Apply new visualization
             let success = false;
             switch (visualType) {
-                case 'delay':
-                    success = await this.mapVisualizer.showRouteDelays(this.state.filteredRoutes);
-                    break;
-                case 'frequency':
-                    success = await this.mapVisualizer.showDelayFrequency(this.state.filteredRoutes);
-                    break;
-                default:
-                    console.warn(`Unknown visualization type: ${visualType}`);
-                    success = await this.mapVisualizer.showRouteDelays(this.state.filteredRoutes);
+            case 'delay':
+                success = await this.mapVisualizer.showRouteDelays(this.state.filteredRoutes);
+                break;
+            case 'frequency':
+                success = await this.mapVisualizer.showDelayFrequency(this.state.filteredRoutes);
+                break;
+            default:
+                console.warn(`Unknown visualization type: ${visualType}`);
+                success = await this.mapVisualizer.showRouteDelays(this.state.filteredRoutes);
             }
-
-            // Update legend
-            if (visualType !== 'dashboard') {
-                this.updateMapLegend();
+            
+            // Update legend (mobile or desktop)
+            this.updateMapLegend();
+            
+            // Update mobile legend if open
+            if (this.isMobile && this.mobileLegendVisible) {
+            this.showMobileLegend();
             }
-
+            
             console.log(`✅ Switched to ${visualType} visualization - Success: ${success}`);
-
+            
         } catch (error) {
             console.error(`❌ Error switching to ${visualType} visualization:`, error);
             this.showError(`Failed to load ${visualType} visualization`);
-        } finally {
-            if (visualType !== 'dashboard') {
-                this.uiController.hideLoadingState();
-            }
         }
-    }
+        }
+    
+    showAboutPage() {
+  if (this.isMobile) {
+    // On mobile, show about page
+    document.body.classList.add('about-active');
+    document.querySelector('.map-container').style.display = 'none';
+    document.querySelector('.mobile-header').style.display = 'none';
+    document.querySelector('.mobile-legend-toggle').style.display = 'none';
+  }
+}
+
+    hideAboutPage() {
+        if (this.isMobile) {
+            document.body.classList.remove('about-active');
+            document.querySelector('.map-container').style.display = 'block';
+            document.querySelector('.mobile-header').style.display = 'flex';
+            document.querySelector('.mobile-legend-toggle').style.display = 'flex';
+        }
+        }
+
+        // Add resize handler
+        handleResize() {
+        const wasMobile = this.isMobile;
+        this.isMobile = window.innerWidth <= 768;
+        
+        if (wasMobile !== this.isMobile) {
+            // Mobile state changed, reload appropriate view
+            location.reload();
+        }
+        
+        // Refresh map on resize if not in dashboard mode
+        if (this.map && !this.dashboardActive) {
+            setTimeout(() => {
+            this.map.invalidateSize();
+            }, 250);
+        }
+        
+        // Notify UI controller
+        if (this.uiController.onResize) {
+            this.uiController.onResize();
+        }
+        }
+
 
     // Update toggle button states
     updateToggleButtons(activeVisual) {
+        // Update desktop buttons
         document.querySelectorAll('.toggle-btn').forEach(btn => {
             if (btn.dataset.visual === activeVisual) {
-                btn.classList.add('active');
-                btn.setAttribute('aria-selected', 'true');
+            btn.classList.add('active');
+            btn.setAttribute('aria-selected', 'true');
             } else {
-                btn.classList.remove('active');
-                btn.setAttribute('aria-selected', 'false');
+            btn.classList.remove('active');
+            btn.setAttribute('aria-selected', 'false');
             }
         });
-    }
+        
+        // Update mobile buttons
+        if (this.isMobile) {
+            document.querySelectorAll('.mobile-nav-btn').forEach(btn => {
+            if (btn.dataset.visual === activeVisual) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+            });
+        }
+        }
 
     // Dashboard methods - SIMPLIFIED VERSION
     showDashboard() {
