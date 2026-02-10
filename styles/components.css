@@ -987,4 +987,45 @@
     .notification {
         max-width: 300px !important;
     }
+
+    /* ========== MOBILE TOUCH ENHANCEMENTS ========== */
+    @media (max-width: 768px) {
+    /* Larger touch targets */
+    button, 
+    .toggle-btn,
+    .map-control-btn,
+    .route-item,
+    .search-result-item {
+        min-height: 44px !important;
+        min-width: 44px !important;
+        padding: 12px !important;
+    }
+    
+    /* Prevent text selection on tap */
+    .route-item,
+    .search-result-item {
+        -webkit-tap-highlight-color: transparent;
+        user-select: none;
+    }
+    
+    /* Better scrolling */
+    .sidebar,
+    .search-results,
+    .routes-list {
+        -webkit-overflow-scrolling: touch !important;
+        scroll-behavior: smooth !important;
+    }
+    
+    /* Fix iframe touch */
+    #dashboard-frame {
+        touch-action: manipulation !important;
+    }
+    
+    /* Disable hover effects on mobile */
+    .metric-card:hover,
+    .route-item:hover,
+    .toggle-btn:hover {
+        transform: none !important;
+    }
+    }
 }
