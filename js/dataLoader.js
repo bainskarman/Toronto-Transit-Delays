@@ -145,7 +145,7 @@ class DataLoader {
                 total_routes: data.unique_routes || data.total_routes || 0,
                 coverage_percentage: data.coverage_percentage || 0,
                 data_points: data.data_points || data.total_delays || 0,
-                time_period: data.time_period || '2014-2025',
+                time_period: data.time_period || '2014-Present',
                 updated_at: data.updated_at || new Date().toISOString(),
                 data_refresh_date: data.data_refresh_date || data.updated_at,
                 data_most_recent_date: data.data_most_recent_date,

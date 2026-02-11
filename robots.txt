@@ -11,7 +11,7 @@ Disallow: /temp/
 Crawl-delay: 2
 
 # Sitemap
-Sitemap: https://ttdelay.kbains.com/sitemap.xml
+Sitemap: https://ttcdelay.kbains.com/sitemap.xml
 
 # Host
-Host: https://ttdelay.kbains.com
+Host: https://ttcdelay.kbains.com
