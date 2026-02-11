@@ -1,0 +1,16 @@
+/* TEAM */
+Creator: Karman Bains
+Email: bsinghkarman@gmail.com
+Website: https://bainskarman.github.io/portfolio.io/
+GitHub: https://github.com/bainskarman
+Location: Toronto, Ontario, Canada
+
+/* THANKS */
+TTC Open Data Team
+City of Toronto Open Data
+
+
+/* SITE */
+Last update: 2025-01-01
+Standards: HTML5, CSS3, JavaScript ES6+
+Components: Leaflet, Chart.js, Plotly.js

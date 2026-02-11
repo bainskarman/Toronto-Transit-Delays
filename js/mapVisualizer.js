@@ -89,6 +89,116 @@ class MapVisualizer {
         return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
     }
 
+    // Add to MapVisualizer class in mapVisualizer.js
+    showMobileRouteDelays(routes) {
+        console.log('📱 Showing mobile route delays...');
+        
+        if (!routes || routes.length === 0) {
+            console.error('❌ No routes data available for mobile');
+            return false;
+        }
+
+        if (!this.map) {
+            console.error('❌ Map not initialized');
+            return false;
+        }
+
+        // Clear any existing layers
+        this.clearVisualization();
+
+        // Use simplified visualization for mobile
+        const colorScale = this.colorScales.get('delay');
+        let routesAdded = 0;
+
+        routes.forEach(route => {
+            const routeId = route.Route.toString();
+            const geometry = this.routeGeometries[routeId];
+            
+            if (!geometry || geometry.length === 0) {
+                return;
+            }
+
+            const avgDelay = route.Avg_Delay_Min;
+            const delayCount = route.Delay_Count;
+            const routeName = route.route_long_name || `Route ${routeId}`;
+            const color = colorScale(avgDelay);
+
+            try {
+                const popupContent = this.createRoutePopup(route, routeName, avgDelay, delayCount);
+                
+                const polyline = L.polyline(geometry, {
+                    color: color,
+                    weight: 3, // Thinner lines for mobile
+                    opacity: 0.7,
+                    className: 'mobile-route-line'
+                })
+                .bindPopup(popupContent)
+                .addTo(this.map);
+
+                this.activeLayers.set(routeId, polyline);
+                routesAdded++;
+
+            } catch (error) {
+                console.warn(`⚠️ Error adding route ${routeId} to mobile map:`, error);
+            }
+        });
+
+        console.log(`✅ Mobile route delays: ${routesAdded} routes displayed`);
+        return routesAdded > 0;
+    }
+
+
+    showMobileDelayFrequency(routes) {
+        console.log('📱 Showing mobile delay frequency...');
+        
+        if (!routes || routes.length === 0) {
+            console.error('❌ No routes data available');
+            return false;
+        }
+
+        if (!this.map) {
+            console.error('❌ Map not initialized');
+            return false;
+        }
+
+        // Clear any existing layers
+        this.clearVisualization();
+
+        // Use simplified visualization for mobile
+        const colorScale = this.colorScales.get('frequency');
+        let routesAdded = 0;
+
+        routes.forEach(route => {
+            const routeId = route.Route.toString();
+            const geometry = this.routeGeometries[routeId];
+            
+            if (!geometry || geometry.length === 0) {
+                return;
+            }
+
+            const delayCount = route.Delay_Count;
+            const color = colorScale(delayCount);
+
+            try {
+                const polyline = L.polyline(geometry, {
+                    color: color,
+                    weight: 3, // Thinner lines for mobile
+                    opacity: 0.7,
+                    className: 'mobile-route-line'
+                }).addTo(this.map);
+
+                this.activeLayers.set(routeId, polyline);
+                routesAdded++;
+
+            } catch (error) {
+                console.warn(`⚠️ Error adding frequency route ${routeId} to mobile map:`, error);
+            }
+        });
+
+        console.log(`✅ Mobile delay frequency: ${routesAdded} routes displayed`);
+        return routesAdded > 0;
+    }
+
     async showRouteDelays(filteredRoutes) {
         console.log('🔄 Showing route delays visualization...');
         
@@ -398,38 +508,70 @@ class MapVisualizer {
         this.currentVisualization = null;
     }
 
-    // Legend creation methods
+    // Legend creation methods - UPDATED with toggle button
     createDelayLegend(colorScale) {
         const maxDelay = Math.max(...this.routes.map(r => r.Avg_Delay_Min));
         const breaks = [0, maxDelay * 0.3, maxDelay * 0.6, maxDelay];
         
+        // Remove existing legend if it exists
+        if (this.legend) {
+            this.map.removeControl(this.legend);
+        }
+        
         const legend = L.control({ position: 'bottomleft' });
         
         legend.onAdd = () => {
-            const div = L.DomUtil.create('div', 'legend-container');
+            const div = L.DomUtil.create('div', 'legend-toggle-container');
             div.innerHTML = `
-                <div class="legend-title">
-                    <span><i class="fas fa-clock"></i> Average Delay (minutes)</span>
-                </div>
-                <div class="legend-scale">
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: ${colorScale(breaks[0])}"></div>
-                        <span class="legend-label">0 - ${breaks[1].toFixed(1)}</span>
+                <button class="legend-toggle-btn" title="Show/Hide Legend">
+                    <i class="fas fa-info"></i>
+                </button>
+                <div class="legend-container" style="display: none;">
+                    <div class="legend-title">
+                        <span><i class="fas fa-clock"></i> Average Delay (minutes)</span>
                     </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: ${colorScale(breaks[1])}"></div>
-                        <span class="legend-label">${breaks[1].toFixed(1)} - ${breaks[2].toFixed(1)}</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: ${colorScale(breaks[2])}"></div>
-                        <span class="legend-label">${breaks[2].toFixed(1)} - ${breaks[3].toFixed(1)}</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: ${colorScale(breaks[3])}"></div>
-                        <span class="legend-label">${breaks[3].toFixed(1)}+</span>
+                    <div class="legend-scale">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: ${colorScale(breaks[0])}"></div>
+                            <span class="legend-label">0 - ${breaks[1].toFixed(1)}</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: ${colorScale(breaks[1])}"></div>
+                            <span class="legend-label">${breaks[1].toFixed(1)} - ${breaks[2].toFixed(1)}</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: ${colorScale(breaks[2])}"></div>
+                            <span class="legend-label">${breaks[2].toFixed(1)} - ${breaks[3].toFixed(1)}</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: ${colorScale(breaks[3])}"></div>
+                            <span class="legend-label">${breaks[3].toFixed(1)}+</span>
+                        </div>
                     </div>
                 </div>
             `;
+            
+            // Add click event to toggle button
+            const toggleBtn = div.querySelector('.legend-toggle-btn');
+            const legendContainer = div.querySelector('.legend-container');
+            
+            toggleBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isVisible = legendContainer.style.display === 'block';
+                legendContainer.style.display = isVisible ? 'none' : 'block';
+                toggleBtn.classList.toggle('active', !isVisible);
+                toggleBtn.innerHTML = isVisible ? '<i class="fas fa-info"></i>' : '<i class="fas fa-times"></i>';
+            });
+            
+            // Close legend when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!div.contains(e.target)) {
+                    legendContainer.style.display = 'none';
+                    toggleBtn.classList.remove('active');
+                    toggleBtn.innerHTML = '<i class="fas fa-info"></i>';
+                }
+            });
+            
             return div;
         };
         
@@ -440,39 +582,73 @@ class MapVisualizer {
     createFrequencyLegend(colorScale, maxFrequency) {
         const breaks = [0, maxFrequency * 0.3, maxFrequency * 0.6, maxFrequency];
         
+        // Remove existing legend if it exists
+        if (this.legend) {
+            this.map.removeControl(this.legend);
+        }
+        
         const legend = L.control({ position: 'bottomleft' });
         
         legend.onAdd = () => {
-            const div = L.DomUtil.create('div', 'legend-container');
+            const div = L.DomUtil.create('div', 'legend-toggle-container');
             div.innerHTML = `
-                <div class="legend-title">
-                    <span><i class="fas fa-chart-line"></i> Delay Frequency</span>
-                </div>
-                <div class="legend-scale">
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: ${colorScale(breaks[0])}"></div>
-                        <span class="legend-label">0 - ${Math.round(breaks[1])}</span>
+                <button class="legend-toggle-btn" title="Show/Hide Legend">
+                    <i class="fas fa-info"></i>
+                </button>
+                <div class="legend-container" style="display: none;">
+                    <div class="legend-title">
+                        <span><i class="fas fa-chart-line"></i> Delay Frequency</span>
                     </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: ${colorScale(breaks[1])}"></div>
-                        <span class="legend-label">${Math.round(breaks[1])} - ${Math.round(breaks[2])}</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: ${colorScale(breaks[2])}"></div>
-                        <span class="legend-label">${Math.round(breaks[2])} - ${Math.round(breaks[3])}</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: ${colorScale(breaks[3])}"></div>
-                        <span class="legend-label">${Math.round(breaks[3])}+</span>
+                    <div class="legend-scale">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: ${colorScale(breaks[0])}"></div>
+                            <span class="legend-label">0 - ${Math.round(breaks[1])}</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: ${colorScale(breaks[1])}"></div>
+                            <span class="legend-label">${Math.round(breaks[1])} - ${Math.round(breaks[2])}</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: ${colorScale(breaks[2])}"></div>
+                            <span class="legend-label">${Math.round(breaks[2])} - ${Math.round(breaks[3])}</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: ${colorScale(breaks[3])}"></div>
+                            <span class="legend-label">${Math.round(breaks[3])}+</span>
+                        </div>
                     </div>
                 </div>
             `;
+            
+            // Add click event to toggle button
+            const toggleBtn = div.querySelector('.legend-toggle-btn');
+            const legendContainer = div.querySelector('.legend-container');
+            
+            toggleBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isVisible = legendContainer.style.display === 'block';
+                legendContainer.style.display = isVisible ? 'none' : 'block';
+                toggleBtn.classList.toggle('active', !isVisible);
+                toggleBtn.innerHTML = isVisible ? '<i class="fas fa-info"></i>' : '<i class="fas fa-times"></i>';
+            });
+            
+            // Close legend when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!div.contains(e.target)) {
+                    legendContainer.style.display = 'none';
+                    toggleBtn.classList.remove('active');
+                    toggleBtn.innerHTML = '<i class="fas fa-info"></i>';
+                }
+            });
+            
             return div;
         };
         
         this.legend = legend;
         legend.addTo(this.map);
     }
+
+    
 
     getCurrentLegend() {
         return this.legend ? this.legend.getContainer().innerHTML : null;

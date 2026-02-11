@@ -1104,3 +1104,213 @@ iframe {
   color: #fff !important;
 }
 
+/* ==================== MOBILE DETECTION & RESPONSIVE ==================== */
+@media (max-width: 768px) and (orientation: portrait) {
+    /* Hide all desktop elements when mobile container is active */
+    body.mobile-active .app-container {
+        display: none !important;
+    }
+    
+    body.mobile-active .mobile-container {
+        display: flex !important;
+    }
+}
+
+/* Ensure proper tap targets on mobile */
+@media (max-width: 768px) {
+    button, 
+    .toggle-btn, 
+    .map-control-btn,
+    .route-item,
+    .search-result-item {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    /* Improve touch scrolling */
+    .sidebar,
+    .routes-list,
+    .viewport-routes {
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* Prevent horizontal scroll on mobile */
+@media (max-width: 768px) {
+    body {
+        overflow-x: hidden;
+        position: relative;
+    }
+    
+    .main-content {
+        overflow-x: hidden;
+    }
+}
+
+/* Print styles for SEO content */
+@media print {
+    .mobile-container,
+    .map-controls,
+    .sidebar,
+    .toggle-group,
+    .header-controls {
+        display: none !important;
+    }
+    
+    .app-container {
+        display: block !important;
+        height: auto !important;
+    }
+    
+    .main-content {
+        grid-template-columns: 1fr !important;
+        height: auto !important;
+    }
+    
+    .map-container {
+        height: 600px !important;
+        page-break-inside: avoid;
+    }
+    
+    /* Ensure content is visible for search engines */
+    .about-container.active {
+        display: block !important;
+        position: static !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+}
+
+/* Toggle Button Legend Styles */
+.legend-toggle-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.legend-toggle-btn {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-md);
+    transition: all 0.2s ease;
+    z-index: 1000;
+}
+
+.legend-toggle-btn:hover,
+.legend-toggle-btn:focus {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-lg);
+}
+
+.legend-toggle-btn.active {
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+}
+
+.legend-toggle-btn.active:hover {
+    background: linear-gradient(135deg, #b91c1c, #991b1b);
+}
+
+.legend-container {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    background: var(--secondary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1rem;
+    box-shadow: var(--shadow-xl);
+    min-width: 200px;
+    z-index: 999;
+}
+
+.legend-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.legend-title span {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.legend-title i {
+    color: var(--accent-primary);
+}
+
+.legend-scale {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.legend-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+/* Mobile-specific legend toggle (override for mobile) */
+@media (max-width: 768px) {
+    .legend-toggle-container {
+        position: fixed !important;
+        bottom: 20px;
+        left: 20px;
+        z-index: 1000;
+    }
+    
+    .legend-toggle-btn {
+        width: 44px;
+        height: 44px;
+        background: linear-gradient(135deg, #dc2626, #b91c1c);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    }
+    
+    .legend-container {
+        position: fixed;
+        bottom: 70px;
+        left: 20px;
+        right: 20px;
+        background: rgba(22, 27, 34, 0.95);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        min-width: auto;
+        max-width: 300px;
+    }
+    
+    .legend-title span {
+        color: #ffffff;
+    }
+    
+    .legend-label {
+        color: rgba(255, 255, 255, 0.8);
+    }
+}

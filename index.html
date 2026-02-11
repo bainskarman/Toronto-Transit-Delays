@@ -1,19 +1,72 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- ==================== SEO OPTIMIZATION ==================== -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TTC Delay Visualization | Toronto Transit Analysis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     
+    <!-- Primary Meta Tags -->
+    <title>TTC Delay Visualization | Toronto Transit Commission Analytics Dashboard</title>
+    <meta name="title" content="TTC Delay Visualization | Toronto Transit Commission Analytics Dashboard">
+    <meta name="description" content="Interactive visualization of 12 years of Toronto TTC delay data (2014-2025). Analyze transit delays, frequency patterns, and route performance across Toronto.">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ttdelay.kbains.com/">
+    <meta property="og:title" content="TTC Delay Visualization | Toronto Transit Commission Analytics Dashboard">
+    <meta property="og:description" content="Interactive visualization of 12 years of Toronto TTC delay data (2014-2025). Analyze transit delays, frequency patterns, and route performance across Toronto.">
+    <meta property="og:image" content="https://ttdelay.kbains.com/assets/images/social-preview.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://ttdelay.kbains.com/">
+    <meta property="twitter:title" content="TTC Delay Visualization | Toronto Transit Commission Analytics Dashboard">
+    <meta property="twitter:description" content="Interactive visualization of 12 years of Toronto TTC delay data (2014-2025). Analyze transit delays, frequency patterns, and route performance across Toronto.">
+    <meta property="twitter:image" content="https://ttdelay.kbains.com/assets/images/social-preview.jpg">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Dataset",
+      "name": "Toronto TTC Delay Data 2014-2025",
+      "description": "Comprehensive dataset of Toronto Transit Commission delays from 2014 to 2025, including route performance, delay frequency, and geographical patterns.",
+      "url": "https://ttdelay.kbains.com/",
+      "sameAs": [
+        "https://github.com/bainskarman/ttdelay.kbains.com",
+        "https://medium.com/@bsinghkarman/tracking-time-lost-a-data-dive-into-torontos-public-transit-delays-20d7b475d736"
+      ],
+      "keywords": "TTC, Toronto Transit, Public Transportation, Delay Analysis, Transit Data, Transportation Analytics",
+      "license": "https://creativecommons.org/licenses/by/4.0/",
+      "creator": {
+        "@type": "Person",
+        "name": "Karman Bains",
+        "url": "https://bainskarman.github.io/portfolio.io/"
+      },
+      "temporalCoverage": "2014-01-01/2025-12-31",
+      "spatialCoverage": {
+        "@type": "Place",
+        "name": "Toronto, Ontario, Canada",
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": "43.6532",
+          "longitude": "-79.3832"
+        }
+      },
+      "distribution": {
+        "@type": "DataDownload",
+        "encodingFormat": "CSV",
+        "contentUrl": "https://ttdelay.kbains.com/assets/data/"
+      }
+    }
+    </script>
+    
+    <!-- ==================== CSS IMPORTS ==================== -->
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
     <!-- Plotly.js -->
     <script src="https://cdn.plot.ly/plotly-2.24.1.min.js" charset="utf-8"></script>
     
@@ -21,11 +74,32 @@
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/components.css">
     <link rel="stylesheet" href="styles/dashboard.css">
+    <link rel="stylesheet" href="styles/mobile.css">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="js/app.js" as="script">
+    <link rel="preload" href="assets/data/route_performance.csv" as="fetch" crossorigin>
+    <link rel="preload" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" as="script">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://ttdelay.kbains.com/">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+    
+    <!-- Additional SEO Tags -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="author" content="Karman Bains">
+    <meta name="keywords" content="TTC, Toronto Transit, Public Transportation, Delay Analysis, Transit Data, Transportation Analytics, Toronto, Ontario, Canada, Bus Delays, Streetcar Delays, Subway Delays">
+    <meta name="theme-color" content="#8B0000">
     
     <style>
         /* About Page Styles - Added inline to ensure proper isolation */
@@ -392,6 +466,86 @@
     </style>
 </head>
 <body data-theme="dark">
+    <!-- ==================== MOBILE CONTAINER (Hidden on Desktop) ==================== -->
+    <div class="mobile-container" aria-hidden="true" style="display: none;">
+        <!-- Mobile KPI Section -->
+        <div class="mobile-kpi-section">
+            <div class="mobile-kpi-grid">
+                <div class="mobile-kpi-card">
+                    <div class="mobile-kpi-icon">📊</div>
+                    <div class="mobile-kpi-content">
+                        <div class="mobile-kpi-value" id="mobileTotalIncidents">0</div>
+                        <div class="mobile-kpi-label">Incidents</div>
+                    </div>
+                </div>
+                <div class="mobile-kpi-card">
+                    <div class="mobile-kpi-icon">⏱️</div>
+                    <div class="mobile-kpi-content">
+                        <div class="mobile-kpi-value" id="mobileAvgDelay">0 min</div>
+                        <div class="mobile-kpi-label">Avg Delay</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Segmented Control -->
+        <div class="mobile-segmented-control">
+            <div class="mobile-segment active" data-visual="delay" aria-selected="true">
+                <div class="segment-icon"></div>
+                <div class="segment-label">⏱️Delay</div>
+            </div>
+            <div class="mobile-segment" data-visual="frequency" aria-selected="false">
+                <div class="segment-icon"></div>
+                <div class="segment-label">📈Frequency</div>
+            </div>
+            <div class="mobile-segment" data-visual="about" aria-selected="false">
+                <div class="segment-icon"></div>
+                <div class="segment-label">ℹ️About</div>
+            </div>
+        </div>
+
+        <!-- Mobile Search Section -->
+        <div class="mobile-search-section">
+            <div class="mobile-search-container">
+                <input 
+                    type="text" 
+                    id="mobileRouteSearch" 
+                    class="mobile-search-input" 
+                    placeholder="Search route number or name..."
+                    aria-label="Search TTC routes"
+                >
+                <button id="mobileSearchBtn" class="mobile-search-btn" aria-label="Search">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div id="mobileSearchResults" class="mobile-search-results" style="display: none;"></div>
+        </div>
+
+        <!-- Mobile Map Section -->
+        <div id="mobile-map-section" class="mobile-map-section">
+            <div id="mobile-map" class="mobile-map"></div>
+            
+            <!-- Floating Legend Toggle -->
+            <button id="mobileLegendToggle" class="mobile-legend-toggle" aria-label="Show legend">
+                <i class="fas fa-info"></i>
+            </button>
+            
+            <!-- Legend Panel -->
+            <div id="mobileLegendPanel" class="mobile-legend-panel" aria-hidden="true" style="display: none;">
+                <div class="mobile-legend-header">
+                    <h3>Map Legend</h3>
+                    <button id="mobileLegendClose" class="mobile-legend-close" aria-label="Close legend">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div id="mobileLegendContent" class="mobile-legend-content"></div>
+            </div>
+        </div>
+
+        <!-- Mobile About Content -->
+        <div id="mobile-about-content" class="mobile-about-content" aria-hidden="true" style="display: none;"></div>
+    </div>
+
     <div class="app-container">
 
         <header class="app-header">
@@ -680,12 +834,7 @@
             <!-- About Container (hidden by default) - NEW -->
             <div id="about-container" class="about-container">
                 <div class="about-header">
-                    <div class="profile-image">
-                        <!-- Your photo - update src to your image path -->
-                        <img src="assets/images/my.png" alt="Karman Bains">
-                    </div>
                     <h1 class="about-title">About This Project</h1>
-                    <p class="about-subtitle">A data-driven exploration of TTC delays and transit reliability, born from personal frustration and curiosity</p>
                     
                     <!-- Support Button at Top -->
                     <div style="margin-top: 2rem;">
@@ -1022,6 +1171,37 @@
             overlayControls.style.display = dashboardContainer.style.display !== 'none' ? 'block' : 'none';
         }
     });
+</script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="js/dataLoader.js"></script>
+<script src="js/mapVisualizer.js"></script>
+<script src="js/uiController.js"></script>
+<script src="js/app.js"></script>
+<script src="js/mobile.js"></script>
+
+<!-- JSON-LD for Dataset -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "TTC Delay Visualization",
+    "url": "https://ttdelay.kbains.com/",
+    "applicationCategory": "DataVisualization",
+    "operatingSystem": "Any",
+    "description": "Interactive web application for visualizing Toronto TTC delay patterns from 2014 to 2025",
+    "featureList": [
+    "Interactive map visualization",
+    "Route performance analytics",
+    "Delay frequency analysis",
+    "Historical data exploration"
+    ],
+    "screenshot": "https://ttdelay.kbains.com/assets/images/screenshot.jpg",
+    "creator": {
+    "@type": "Person",
+    "name": "Karman Bains",
+    "url": "https://bainskarman.github.io/portfolio.io/"
+    }
+}
 </script>
 </body>
 </html>
