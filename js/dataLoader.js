@@ -8,45 +8,91 @@ class DataLoader {
 
     async loadRoutePerformance(dateRange = null) {
         console.log('📈 Loading route performance data...');
-        
+
         try {
             const data = await this.fetchCSV('route_performance.csv');
             console.log('✅ Raw CSV data loaded:', data.length, 'rows');
-            
+
             if (!data || data.length === 0) {
                 console.warn('⚠️ CSV data is empty, using sample data');
                 return this.getSampleRoutePerformance();
             }
 
-            const processedData = data.map(row => {
+            // First pass: parse all rows and extract required fields
+            const parsedRows = data.map(row => {
                 const avgDelay = this.parseNumber(row.Avg_Delay_Min);
-                if (avgDelay === null || avgDelay === 0) {
-                    console.warn('⚠️ Invalid delay value in row:', row);
-                }
-                
+                const delayCount = this.parseNumber(row.Delay_Count);
+                const delaysPerDay = this.parseNumber(row.Delays_Per_Day) || 0;
+                const totalDelay = this.parseNumber(row.Total_Delay_Min);
+                // Parse active_in_2025 column (handle both string "True"/"False" and boolean)
+                const active = row.active_in_2025 === 'True' || row.active_in_2025 === true;
+
                 return {
                     Route: this.cleanRouteId(row.Route),
                     route_long_name: row.route_long_name || `Route ${row.Route}`,
                     Avg_Delay_Min: avgDelay,
-                    Delay_Count: this.parseNumber(row.Delay_Count),
-                    Total_Delay_Min: this.parseNumber(row.Total_Delay_Min),
-                    On_Time_Percentage: this.parseNumber(row.On_Time_Percentage),
-                    Delay_Frequency: this.parseNumber(row.Delay_Frequency)
+                    Delay_Count: delayCount,
+                    Total_Delay_Min: totalDelay,
+                    Delays_Per_Day: delaysPerDay,
+                    active_in_2025: active          // ← new field
                 };
-            }).filter(route => {
-                const isValid = route.Avg_Delay_Min !== null && 
-                               route.Delay_Count !== null &&
-                               route.Route;
-                return isValid;
-            });
+            }).filter(route => 
+                route.Avg_Delay_Min !== null && 
+                route.Delay_Count !== null && 
+                route.Route
+            );
 
-            console.log(`✅ Processed ${processedData.length} valid route records`);
-            
-            if (processedData.length === 0) {
+            if (parsedRows.length === 0) {
                 console.warn('⚠️ No valid routes after processing, using sample data');
                 return this.getSampleRoutePerformance();
             }
 
+            // --- Compute reliability score using Delays_Per_Day ---
+            // 1. Filter routes used for scaling: avg delay <= 120 AND delay count >= 200
+            const validForScaling = parsedRows.filter(r => 
+                r.Avg_Delay_Min <= 120 && r.Delay_Count >= 200
+            );
+
+            if (validForScaling.length === 0) {
+                console.warn('No routes meet criteria for reliability scaling – using all routes');
+                // Fallback: use all routes for scaling
+                const maxDelayPerDay = Math.max(...parsedRows.map(r => r.Delays_Per_Day));
+                parsedRows.forEach(route => {
+                    if (maxDelayPerDay > 0) {
+                        route.On_Time_Percentage = Math.max(0, 100 - (route.Delays_Per_Day / maxDelayPerDay * 100));
+                    } else {
+                        route.On_Time_Percentage = 100;
+                    }
+                });
+            } else {
+                const maxDelayPerDay = Math.max(...validForScaling.map(r => r.Delays_Per_Day));
+                console.log(`Reliability scaling: max delays per day = ${maxDelayPerDay}`);
+
+                parsedRows.forEach(route => {
+                    if (maxDelayPerDay > 0) {
+                        // Compute reliability: 100 - (delaysPerDay / max * 100), clamped 0-100
+                        let reliability = 100 - (route.Delays_Per_Day / maxDelayPerDay * 100);
+                        reliability = Math.max(0, Math.min(100, reliability));
+                        route.On_Time_Percentage = reliability;
+                    } else {
+                        route.On_Time_Percentage = 100;
+                    }
+                });
+            }
+
+            // --- Prepare final output with all expected fields ---
+            const processedData = parsedRows.map(route => ({
+                Route: route.Route,
+                route_long_name: route.route_long_name,
+                Avg_Delay_Min: route.Avg_Delay_Min,
+                Delay_Count: route.Delay_Count,
+                Total_Delay_Min: route.Total_Delay_Min,
+                On_Time_Percentage: route.On_Time_Percentage,   // Reliability Score
+                Delay_Frequency: route.Delays_Per_Day,          // Original delays per day
+                active_in_2025: route.active_in_2025             // ← new field in final output
+            }));
+
+            console.log(`✅ Processed ${processedData.length} valid route records with reliability scores`);
             return processedData;
 
         } catch (error) {

@@ -14,13 +14,14 @@ class MapVisualizer {
         this.config = {
             routeDelay: {
                 colors: ['#10b981', '#f59e0b', '#ef4444', '#7c3aed'],
-                weight: 4,
-                opacity: 0.7
+                weight: 2,
+                opacity: 0.8
             },
             frequency: {
                 colors: ['#93c5fd', '#3b82f6', '#1d4ed8', '#7e22ce'],
-                minWeight: 3,
-                maxWeight: 8
+                minWeight: 2,
+                maxWeight: 3,
+                opacity: 0.8
             }
         };
     }
@@ -39,21 +40,21 @@ class MapVisualizer {
     }
 
     initializeColorScales() {
-        // Delay-based color scale
-        const maxDelay = Math.max(...this.routes.map(r => r.Avg_Delay_Min));
-        this.colorScales.set('delay', this.createColorScale(
-            [0, maxDelay * 0.3, maxDelay * 0.6, maxDelay],
-            this.config.routeDelay.colors
-        ));
+        // --- Delay-based color scale (hardcoded thresholds) ---
+        this.colorScales.set('delay', (avgDelay) => {
+            if (avgDelay < 20) return '#10b981';   // green
+            if (avgDelay < 45) return '#f59e0b';   // orange
+            return '#ef4444';                        // purple
+        });
 
-        // Frequency-based color scale
+        // --- Frequency-based color scale (unchanged) ---
         const maxFrequency = Math.max(...this.routes.map(r => r.Delay_Count));
         this.colorScales.set('frequency', this.createColorScale(
             [0, maxFrequency * 0.3, maxFrequency * 0.6, maxFrequency],
             this.config.frequency.colors
         ));
 
-        console.log('🎨 Color scales initialized');
+        console.log('🎨 Color scales initialized (delay: fixed thresholds, frequency: dynamic)');
     }
 
     createColorScale(breaks, colors) {

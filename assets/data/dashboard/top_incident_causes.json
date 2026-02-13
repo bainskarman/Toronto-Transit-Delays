@@ -1,52 +1,52 @@
 [
   {
     "incident_type": "Mechanical",
-    "count": 72262,
-    "percentage": 28.2
-  },
-  {
-    "incident_type": "Operations - Operator",
-    "count": 40073,
-    "percentage": 15.6
+    "count": 229952,
+    "percentage": 33.5
   },
   {
     "incident_type": "Utilized Off Route",
-    "count": 13458,
-    "percentage": 5.2
+    "count": 68547,
+    "percentage": 10.0
+  },
+  {
+    "incident_type": "General Delay",
+    "count": 67502,
+    "percentage": 9.8
+  },
+  {
+    "incident_type": "Late Leaving Garage",
+    "count": 57913,
+    "percentage": 8.4
+  },
+  {
+    "incident_type": "Operations - Operator",
+    "count": 49657,
+    "percentage": 7.2
+  },
+  {
+    "incident_type": "Investigation",
+    "count": 46838,
+    "percentage": 6.8
+  },
+  {
+    "incident_type": "Diversion",
+    "count": 36240,
+    "percentage": 5.3
+  },
+  {
+    "incident_type": "Emergency Services",
+    "count": 18077,
+    "percentage": 2.6
+  },
+  {
+    "incident_type": "Security",
+    "count": 13062,
+    "percentage": 1.9
   },
   {
     "incident_type": "EFO",
     "count": 12945,
-    "percentage": 5.0
-  },
-  {
-    "incident_type": "Diversion",
-    "count": 11767,
-    "percentage": 4.6
-  },
-  {
-    "incident_type": "General Delay",
-    "count": 10509,
-    "percentage": 4.1
-  },
-  {
-    "incident_type": "Collision - TTC",
-    "count": 10419,
-    "percentage": 4.1
-  },
-  {
-    "incident_type": "Security",
-    "count": 10188,
-    "percentage": 4.0
-  },
-  {
-    "incident_type": "Emergency Services",
-    "count": 7747,
-    "percentage": 3.0
-  },
-  {
-    "incident_type": "Investigation",
-    "count": 6584,
-    "percentage": 2.6
+    "percentage": 1.9
   }
 ]

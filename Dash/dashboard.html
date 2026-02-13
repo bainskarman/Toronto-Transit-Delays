@@ -767,7 +767,7 @@
                     <span id="activeTabTitle">Overview Dashboard</span>
                 </div>
                 <div class="main-subtitle" id="activeTabSubtitle">
-                    TTC Delay Patterns Analysis 2014-2025
+                    TTC Delay Patterns Analysis 2014-2025 (Active Routes Only)
                 </div>
             </header>
 
@@ -1183,7 +1183,7 @@
                         </div>
                     </div>
 
-                    <!-- Reliability Distribution -->
+                    <!-- Reliability Distribution
                     <div class="chart-container" style="margin-top: 20px;">
                         <div class="chart-header">
                             <h3 class="chart-title">
@@ -1194,7 +1194,7 @@
                         <div class="chart-description">
                             Distribution of routes across reliability score categories
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
                 <!-- Trends & Changes Tab Content -->
@@ -3850,8 +3850,6 @@
             // Create Reliability Heatmap
             createReliabilityHeatmap();
             
-            // Create Reliability Distribution Chart
-            createReliabilityDistributionChart();
         }
 
         // Create Reliable Routes Chart
@@ -4303,107 +4301,7 @@
                 chartContainer.parentNode.insertBefore(countDisplay, chartContainer.nextSibling);
             }
         }
-        // Create Reliability Distribution Chart
-        function createReliabilityDistributionChart() {
-            const ctx = document.getElementById('reliabilityDistributionChart').getContext('2d');
-            const reliableData = dashboardData.most_reliable_routes || [];
-            const unreliableData = dashboardData.least_reliable_routes || [];
-            
-            if (reliableData.length === 0 && unreliableData.length === 0) {
-                document.getElementById('reliabilityDistributionChart').parentElement.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-chart-bar"></i>
-                        <p>No reliability distribution data available</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            // Destroy existing chart
-            if (charts.reliabilityDistribution) {
-                charts.reliabilityDistribution.destroy();
-            }
-            
-            // Combine all reliability scores
-            const allScores = [...reliableData, ...unreliableData].map(r => r.reliability_score);
-            
-            // Create reliability categories
-            const categories = [
-                { min: 0, max: 20, label: 'Excellent (0-20)', color: '#48bb78' },
-                { min: 20, max: 40, label: 'Good (20-40)', color: '#4299e1' },
-                { min: 40, max: 60, label: 'Fair (40-60)', color: '#ed8936' },
-                { min: 60, max: 80, label: 'Poor (60-80)', color: '#f56565' },
-                { min: 80, max: 100, label: 'Critical (80-100)', color: '#8B0000' }
-            ];
-            
-            // Count routes in each category
-            const counts = categories.map(category => {
-                return allScores.filter(score => score >= category.min && score < category.max).length;
-            });
-            
-            const labels = categories.map(c => c.label);
-            const colors = categories.map(c => c.color);
-            
-            charts.reliabilityDistribution = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Number of Routes',
-                        data: counts,
-                        backgroundColor: colors,
-                        borderColor: colors.map(c => c.replace('0.7', '1')),
-                        borderWidth: 1,
-                        borderRadius: 4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { 
-                            display: false
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: (context) => {
-                                    return `${context.parsed.y} routes`;
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: { 
-                                color: 'rgba(255, 255, 255, 0.1)',
-                                drawBorder: false
-                            },
-                            ticks: { 
-                                color: '#a0aec0'
-                            },
-                            title: {
-                                display: true,
-                                text: 'Number of Routes',
-                                color: '#a0aec0',
-                                padding: {top: 0, bottom: 10}
-                            }
-                        },
-                        x: {
-                            grid: { display: false },
-                            ticks: { 
-                                color: '#a0aec0',
-                                maxRotation: 45
-                            }
-                        }
-                    },
-                    animation: {
-                        duration: 1000,
-                        easing: 'easeOutQuart'
-                    }
-                }
-            });
-        }
+
 
         // Initialize Trends Tab
         async function initializeTrendsTab() {

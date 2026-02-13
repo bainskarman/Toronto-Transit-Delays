@@ -843,13 +843,13 @@ class MobileController {
                         <div class="mobile-project-story">
                             <div class="mobile-story-paragraph">
                                 <div class="mobile-story-content">
-                                    This project began in 2022 as simple curiosity about TTC delays, starting with a basic 
+                                    This project began in 2023 as simple curiosity about TTC delays, starting with a basic 
                                     <a href="https://public.tableau.com/app/profile/karman.bains/viz/TTCDelayDash/Dashboard1" target="_blank" class="mobile-story-link">Tableau dashboard</a>. 
                                     In 2024, I expanded it into a comprehensive 
                                     <a href="https://app.powerbi.com/view?r=eyJrIjoiOTRkYTMyZjctMjU3Yi00MTQzLTg0NTItZTQ2YjQwMzRkYWRjIiwidCI6ImI2NDE3Y2QwLTFmNzMtNDQ3MS05YTM5LTIwOTUzODIyYTM0YSIsImMiOjN9&source=post_page-----20d7b475d736------------------------------------" target="_blank" class="mobile-story-link">Power BI semantic data model</a>, 
                                     merging multiple datasets for deeper analysis. The project evolved further with a 
                                     <a href="https://ttcdelay.streamlit.app/" target="_blank" class="mobile-story-link">Streamlit app</a> for forecasting and trend analysis, 
-                                    and GIS work to map routes geographically. In November 2025, I shared insights in a 
+                                    and GIS work to map routes geographically. In May 2025, I shared insights in a 
                                     <a href="https://medium.com/@bsinghkarman/tracking-time-lost-a-data-dive-into-torontos-public-transit-delays-20d7b475d736" target="_blank" class="mobile-story-link">Medium article</a>, 
                                     and the current web app was inspired by projects like the 
                                     <a href="https://toronto-parking-production.up.railway.app/" target="_blank" class="mobile-story-link">Toronto Parking Analysis</a>.

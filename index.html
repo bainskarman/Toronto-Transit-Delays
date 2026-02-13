@@ -626,9 +626,17 @@
                             <div class="metric-icon">📈</div>
                             <div class="metric-content">
                                 <span class="metric-value" id="coverage">--%</span>
-                                <span class="metric-label">City Coverage</span>
+                                <span class="metric-label">Route Coverage</span>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="sidebar-section" style="margin-bottom: 0; padding-bottom: 0;">
+                    <div class="filter-control" style="padding: 0 var(--space-lg) var(--space-md) var(--space-lg);">
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none;">
+                            <input type="checkbox" id="hideInactiveRoutes" checked style="width: 16px; height: 16px; accent-color: var(--accent-primary);">
+                            <span style="color: var(--text-secondary); font-size: 0.9rem;">Hide inactive routes</span>
+                        </label>
                     </div>
                 </div>
 
@@ -690,48 +698,6 @@
                             onmouseout="this.style.color='var(--text-secondary)'; this.style.background='transparent';">
                                 <i class="fas fa-chart-bar" style="width: 16px; text-align: center; color: var(--accent-primary);"></i>
                                 <span>Power BI Dashboard</span>
-                            </a>
-                        </div>
-                        
-                        <div class="link-item" style="margin-bottom: var(--space-sm);">
-                            <a href="https://public.tableau.com/app/profile/karman.bains/viz/TTCDelayDash/Dashboard1" 
-                            target="_blank" 
-                            style="
-                                    display: flex;
-                                    align-items: center;
-                                    gap: var(--space-sm);
-                                    color: var(--text-secondary);
-                                    text-decoration: none;
-                                    padding: 6px 8px;
-                                    border-radius: var(--radius-sm);
-                                    font-size: 0.85rem;
-                                    transition: all var(--transition-fast);
-                            "
-                            onmouseover="this.style.color='var(--text-primary)'; this.style.background='var(--tertiary-bg)';"
-                            onmouseout="this.style.color='var(--text-secondary)'; this.style.background='transparent';">
-                                <i class="fas fa-chart-pie" style="width: 16px; text-align: center; color: var(--accent-primary);"></i>
-                                <span>Tableau Dashboard</span>
-                            </a>
-                        </div>
-                        
-                        <div class="link-item" style="margin-bottom: var(--space-sm);">
-                            <a href="https://medium.com/@bsinghkarman/tracking-time-lost-a-data-dive-into-torontos-public-transit-delays-20d7b475d736?source=user_profile_page---------0-------------425a3545a20d----------------------" 
-                            target="_blank" 
-                            style="
-                                    display: flex;
-                                    align-items: center;
-                                    gap: var(--space-sm);
-                                    color: var(--text-secondary);
-                                    text-decoration: none;
-                                    padding: 6px 8px;
-                                    border-radius: var(--radius-sm);
-                                    font-size: 0.85rem;
-                                    transition: all var(--transition-fast);
-                            "
-                            onmouseover="this.style.color='var(--text-primary)'; this.style.background='var(--tertiary-bg)';"
-                            onmouseout="this.style.color='var(--text-secondary)'; this.style.background='transparent';">
-                                <i class="fab fa-medium" style="width: 16px; text-align: center; color: var(--accent-primary);"></i>
-                                <span>Medium Article</span>
                             </a>
                         </div>
                         
@@ -858,7 +824,7 @@
                         </div>
                         <div class="about-text">
                             That frustration standing in the cold, watching estimated arrival times tick up like a cruel joke is what inspired this project. 
-                            What started as a personal quest to understand <span class="highlight">why the 501 Queen Streetcar is perpetually late</span> evolved into a comprehensive analysis of Toronto's entire transit system.
+                            What started as a personal quest to understand <span class="highlight">why the 16-McCowan Bus is perpetually late</span> evolved into a comprehensive analysis of Toronto's entire transit system.
                         </div>
                         <div class="about-text">
                             This web app is my attempt to bring transparency to TTC performance, helping fellow transit users make informed decisions and maybe, just maybe, arrive at their destinations on time.
@@ -876,13 +842,13 @@
                             <!-- First Paragraph: Project Evolution -->
                             <div class="story-paragraph">
                                 <div class="story-content">
-                                    This project began in 2022 as simple curiosity about TTC delays, starting with a basic 
+                                    This project began in 2023 as simple curiosity about TTC delays, starting with a basic 
                                     <a href="https://public.tableau.com/app/profile/karman.bains/viz/TTCDelayDash/Dashboard1" target="_blank" class="story-link">Tableau dashboard</a>. 
                                     In 2024, I expanded it into a comprehensive 
                                     <a href="https://app.powerbi.com/view?r=eyJrIjoiOTRkYTMyZjctMjU3Yi00MTQzLTg0NTItZTQ2YjQwMzRkYWRjIiwidCI6ImI2NDE3Y2QwLTFmNzMtNDQ3MS05YTM5LTIwOTUzODIyYTM0YSIsImMiOjN9&source=post_page-----20d7b475d736------------------------------------" target="_blank" class="story-link">Power BI semantic data model</a>, 
                                     merging multiple datasets for deeper analysis. The project evolved further with a 
                                     <a href="https://ttcdelay.streamlit.app/" target="_blank" class="story-link">Streamlit app</a> for forecasting and trend analysis, 
-                                    and GIS work to map routes geographically. In November 2025, I shared insights in a 
+                                    and GIS work to map routes geographically. In May 2025, I shared insights in a 
                                     <a href="https://medium.com/@bsinghkarman/tracking-time-lost-a-data-dive-into-torontos-public-transit-delays-20d7b475d736" target="_blank" class="story-link">Medium article</a>, 
                                     and the current web app was inspired by projects like the 
                                     <a href="https://toronto-parking-production.up.railway.app/" target="_blank" class="story-link">Toronto Parking Analysis</a>.

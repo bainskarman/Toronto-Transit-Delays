@@ -173,6 +173,20 @@ class TTCVisualizationApp {
             this.handleResize();
         });
 
+        const hideInactiveCheckbox = document.getElementById('hideInactiveRoutes');
+        if (hideInactiveCheckbox) {
+            hideInactiveCheckbox.addEventListener('change', () => {
+                this.state.filteredRoutes = this.filterRoutes();
+                if (this.currentVisualization === 'delay') {
+                    this.mapVisualizer.showRouteDelays(this.state.filteredRoutes);
+                } else if (this.currentVisualization === 'frequency') {
+                    this.mapVisualizer.showDelayFrequency(this.state.filteredRoutes);
+                }
+                this.updateTopRoutesFromFiltered();
+                this.handleViewportChange();
+            });
+        }
+
         // Dashboard iframe events - REMOVED OLD DASHBOARD EVENTS
         // We'll handle dashboard communication differently
     }
@@ -384,7 +398,13 @@ class TTCVisualizationApp {
     filterRoutes() {
         let filtered = [...this.state.routes];
 
-        // Apply search filter only
+        // Apply active filter if checkbox is checked
+        const hideInactiveCheckbox = document.getElementById('hideInactiveRoutes');
+        if (hideInactiveCheckbox && hideInactiveCheckbox.checked) {
+            filtered = filtered.filter(route => route.active_in_2025 === true);
+        }
+
+        // Apply search query
         if (this.state.searchQuery) {
             const query = this.state.searchQuery.toLowerCase();
             filtered = filtered.filter(route => 

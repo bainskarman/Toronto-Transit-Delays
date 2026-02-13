@@ -171,6 +171,7 @@ class TTCDataTransformer:
     def load_and_merge_ttc_bus_delay_data(self):
         """
         Load TTC bus delay files and merge all years (2014-2025)
+        Handles multi‑sheet Excel files (pre‑2022) correctly.
         """
         print("🚌 Loading and merging TTC Bus Delay Data (2014-2025)...")
         
@@ -215,12 +216,25 @@ class TTCDataTransformer:
 
             try:
                 if fmt == "xlsx":
-                    df = pd.read_excel(BytesIO(response.content))
+                    # Read all sheets and concatenate
+                    excel_data = pd.read_excel(BytesIO(response.content), sheet_name=None)
+                    sheet_dfs = []
+                    for sheet_name, sheet_df in excel_data.items():
+                        # Skip empty sheets or metadata sheets if any
+                        if sheet_df.empty:
+                            continue
+                        # Clean each sheet separately
+                        sheet_df = self.clean_and_standardize(sheet_df)
+                        sheet_dfs.append(sheet_df)
+                    if sheet_dfs:
+                        df = pd.concat(sheet_dfs, ignore_index=True)
+                    else:
+                        print(f"⚠️ No data found in any sheet of {name}")
+                        continue
                 else:
                     df = pd.read_csv(StringIO(response.text))
+                    df = self.clean_and_standardize(df)
 
-                # Clean + standardize
-                df = self.clean_and_standardize(df)
                 all_dfs.append(df)
                 print(f"✅ Loaded {len(df)} records from {name}")
                 
@@ -873,48 +887,69 @@ class TTCDataTransformer:
         return heatmap_data
 
     def process_most_reliable_routes(self, top_n=15):
-        """Process most reliable routes (only routes active in 2025)"""
-        print("🏆 Processing most reliable routes (active in 2025)...")
-        
+        """Process most reliable routes (only routes active in 2025) with additional filters:
+           - route_name must not contain any digits (0-9)
+           - route_name must not contain the word 'Shuttle' (case-insensitive)
+           - incident_count >= 250
+        """
+        print("🏆 Processing most reliable routes (active in 2025) with filters...")
+
         df = self.cleaned_delay_data
         df_valid = df[df['Min Delay'] > 0]
-        
+
         if 'Route' not in df_valid.columns:
             print("⚠️ No route data available")
             return []
-        
+
         # Filter to only include routes active in 2025
         df_valid = df_valid[df_valid['Route'].isin(self.routes_in_2025)]
-        
+
         # Group by route
         route_stats = df_valid.groupby(['Route', 'Route Name']).agg({
             'Min Delay': ['count', 'mean', 'std']
         }).round(2)
-        
+
         route_stats.columns = ['incident_count', 'avg_delay', 'delay_std']
         route_stats = route_stats.reset_index()
-        
-        # Filter routes with sufficient data
-        route_stats = route_stats[route_stats['incident_count'] >= 20]
-        
+
+        # Apply filters:
+        # 1. incident_count >= 250
+        route_stats = route_stats[route_stats['incident_count'] >= 250]
+
+        # 2. Route Name must not contain any digits (0-9)
+        # 3. Route Name must not contain 'Shuttle' (case-insensitive)
+        def passes_filters(route_name):
+            if pd.isna(route_name):
+                return False
+            name_str = str(route_name)
+            # No digits
+            if re.search(r'\d', name_str):
+                return False
+            # No 'Shuttle' (case-insensitive)
+            if re.search(r'shuttle', name_str, re.IGNORECASE):
+                return False
+            return True
+
+        route_stats = route_stats[route_stats['Route Name'].apply(passes_filters)]
+
         if route_stats.empty:
-            print("⚠️ No routes with sufficient data for reliability analysis")
+            print("⚠️ No routes with sufficient data after applying filters")
             return []
-        
+
         # Calculate reliability score (lower is better)
-        # Combine low frequency and low average delay
         max_count = route_stats['incident_count'].max()
         max_delay = route_stats['avg_delay'].max()
-        
+        max_std = route_stats['delay_std'].max() if not route_stats['delay_std'].isna().all() else 1
+
         route_stats['reliability_score'] = (
             (route_stats['incident_count'] / max_count * 40) +  # Weight: 40%
             (route_stats['avg_delay'] / max_delay * 40) +        # Weight: 40%
-            (route_stats['delay_std'].fillna(0) / route_stats['delay_std'].max() * 20)  # Weight: 20%
+            (route_stats['delay_std'].fillna(0) / max_std * 20)  # Weight: 20%
         )
-        
+
         # Sort by reliability score (ascending = better)
         reliable_routes = route_stats.sort_values('reliability_score').head(top_n)
-        
+
         result = []
         for _, row in reliable_routes.iterrows():
             result.append({
@@ -925,8 +960,8 @@ class TTCDataTransformer:
                 'reliability_score': round(float(row['reliability_score']), 1),
                 'active_in_2025': True
             })
-        
-        print(f"✅ Most reliable routes processed: {len(result)} routes (all active in 2025)")
+
+        print(f"✅ Most reliable routes processed: {len(result)} routes (all active in 2025 and meeting filters)")
         return result
 
     def process_least_reliable_routes(self, top_n=15):
@@ -1281,29 +1316,134 @@ class TTCDataTransformer:
         
         print(f"✅ Location analysis processed: {len(result)} locations (routes active in 2025)")
         return result
+    
+    def process_route_performance_with_trips(self):
+        """
+        Generate route performance data including trip variations.
+        Uses the unfiltered delay dataset (all routes) and joins with trips.txt.
+        Returns a list of dicts suitable for saving as CSV.
+        The 'Route' column contains the route number concatenated with the trip
+        short name (e.g., '100A', '100B'). If no trip short name exists, only
+        the route number is used.
+        Adds 'active_in_2025' column indicating if the base route is active in 2025.
+        """
+        print("🚏 Processing route performance with trip variations (all routes)...")
+
+        # Use unfiltered data
+        df = self.cleaned_all_delay_data if hasattr(self, 'cleaned_all_delay_data') else self.cleaned_delay_data
+        df_valid = df[df['Min Delay'] > 0].copy()
+
+        if df_valid.empty:
+            print("⚠️ No valid delay data for route performance.")
+            return []
+
+        # Aggregate per route (basic stats)
+        route_agg = df_valid.groupby('Route').agg(
+            Delay_Count=('Min Delay', 'count'),
+            Avg_Delay_Min=('Min Delay', 'mean'),
+            Total_Delay_Min=('Min Delay', 'sum'),
+            Unique_Vehicles=('Vehicle', 'nunique')
+        ).reset_index()
+
+        # Approximate Delays_Per_Day (using full date range)
+        date_min = df_valid['Date'].min()
+        date_max = df_valid['Date'].max()
+        if pd.notna(date_min) and pd.notna(date_max):
+            days_span = (date_max - date_min).days + 1
+        else:
+            days_span = 365  # fallback
+
+        route_agg['Delays_Per_Day'] = (route_agg['Delay_Count'] / days_span).round(2)
+
+        # Add route name from mapping or original data
+        route_names = df_valid.groupby('Route')['Route Name'].first().to_dict()
+        route_agg['route_long_name'] = route_agg['Route'].map(route_names).fillna('')
+
+        # --- Load trips.txt and get distinct route_id + trip_short_name ---
+        trips_df = None
+        if self.gtfs_data and 'trips.txt' in self.gtfs_data:
+            try:
+                trips_content = self.gtfs_data['trips.txt']
+                trips_df = pd.read_csv(StringIO(trips_content))
+                # Keep only needed columns and distinct pairs
+                if 'route_id' in trips_df.columns and 'trip_short_name' in trips_df.columns:
+                    # Convert route_id to string for safe join
+                    trips_df['route_id'] = trips_df['route_id'].astype(str)
+                    trips_df['trip_short_name'] = trips_df['trip_short_name'].fillna('').astype(str)
+                    distinct_pairs = trips_df[['route_id', 'trip_short_name']].drop_duplicates()
+                else:
+                    print("⚠️ trips.txt missing required columns (route_id, trip_short_name)")
+                    distinct_pairs = pd.DataFrame(columns=['route_id', 'trip_short_name'])
+            except Exception as e:
+                print(f"⚠️ Could not parse trips.txt: {e}")
+                distinct_pairs = pd.DataFrame(columns=['route_id', 'trip_short_name'])
+        else:
+            print("⚠️ trips.txt not found in GTFS data")
+            distinct_pairs = pd.DataFrame(columns=['route_id', 'trip_short_name'])
+
+        # --- Build final list by joining route aggregates with distinct pairs ---
+        result = []
+        for _, route_row in route_agg.iterrows():
+            route_num = str(route_row['Route'])
+            # Determine if base route is active in 2025
+            active_in_2025 = route_num in self.routes_in_2025
+
+            # Find all trip variations for this route from trips.txt
+            route_pairs = distinct_pairs[distinct_pairs['route_id'] == route_num]
+            if route_pairs.empty:
+                # Route appears in delays but not in trips.txt – create one row with plain route number
+                result.append({
+                    'Route': route_num,  # no suffix
+                    'Delay_Count': int(route_row['Delay_Count']),
+                    'Avg_Delay_Min': round(route_row['Avg_Delay_Min'], 2),
+                    'Total_Delay_Min': round(route_row['Total_Delay_Min'], 2),
+                    'Unique_Vehicles': int(route_row['Unique_Vehicles']),
+                    'Delays_Per_Day': route_row['Delays_Per_Day'],
+                    'active_in_2025': active_in_2025,
+                    'route_long_name': route_row['route_long_name']
+                })
+            else:
+                for _, pair in route_pairs.iterrows():
+                    trip_suffix = pair['trip_short_name'].strip()
+                    # Combine route number and suffix (e.g., "100" + "A" -> "100A")
+                    combined_route = route_num + trip_suffix if trip_suffix else route_num
+                    result.append({
+                        'Route': combined_route,
+                        'Delay_Count': int(route_row['Delay_Count']),
+                        'Avg_Delay_Min': round(route_row['Avg_Delay_Min'], 2),
+                        'Total_Delay_Min': round(route_row['Total_Delay_Min'], 2),
+                        'Unique_Vehicles': int(route_row['Unique_Vehicles']),
+                        'Delays_Per_Day': route_row['Delays_Per_Day'],
+                        'active_in_2025': active_in_2025,
+                        'route_long_name': route_row['route_long_name']
+                    })
+
+        print(f"✅ Route performance with trip variations: {len(result)} rows")
+        return result
 
     def sanitize_location_id(self, location_name):
         """Create a sanitized location ID"""
         return (re.sub(r'[^a-zA-Z0-9_]', '', location_name.lower().replace(' ', '_'))[:50])
 
     def process_summary_statistics(self):
-        """Calculate comprehensive summary statistics (only routes active in 2025)"""
-        print("📈 Processing summary statistics (routes active in 2025)...")
-        
-        df = self.cleaned_delay_data
+        """Calculate comprehensive summary statistics (using all routes, not only 2025)."""
+        print("📈 Processing summary statistics (all routes)...")
+
+        # Use the unfiltered dataset (all routes)
+        df = self.cleaned_all_delay_data if hasattr(self, 'cleaned_all_delay_data') else self.cleaned_delay_data
         df_valid = df[df['Min Delay'] > 0]
-        
+
         total_delays = len(df_valid)
         avg_delay = df_valid['Min Delay'].mean() if total_delays > 0 else 0
-        
+
         unique_routes = df_valid['Route'].nunique()
         unique_vehicles = df_valid['Vehicle'].nunique()
         unique_locations = df_valid['Location'].nunique()
-        
+
         # Date range
         oldest_date = df_valid['Date'].min() if 'Date' in df_valid.columns and not df_valid['Date'].isna().all() else None
         most_recent_date = df_valid['Date'].max() if 'Date' in df_valid.columns and not df_valid['Date'].isna().all() else None
-        
+
         # Time period
         data_period = "Unknown"
         if oldest_date and most_recent_date:
@@ -1313,7 +1453,7 @@ class TTCDataTransformer:
                 data_period = str(most_recent_year)
             else:
                 data_period = f"{oldest_year}-{most_recent_year}"
-        
+
         # Peak hour calculation
         peak_hour = "08:00"
         if 'Hour' in df_valid.columns:
@@ -1321,7 +1461,7 @@ class TTCDataTransformer:
             if not hour_counts.empty:
                 peak_hour_int = hour_counts.idxmax()
                 peak_hour = f"{peak_hour_int:02d}:00"
-        
+
         # Most delayed route
         most_delayed_route = "Unknown"
         if 'Route' in df_valid.columns and 'Route Name' in df_valid.columns:
@@ -1329,10 +1469,10 @@ class TTCDataTransformer:
             if not route_delays.empty:
                 most_delayed = route_delays.idxmax()
                 most_delayed_route = f"{most_delayed[0]} - {most_delayed[1]}"
-        
+
         stats = {
             'total_delays': total_delays,
-            'valid_delays': total_delays,  # All are valid since we filtered
+            'valid_delays': total_delays,
             'avg_delay_minutes': round(avg_delay, 2),
             'unique_routes': unique_routes,
             'unique_vehicles': unique_vehicles,
@@ -1349,8 +1489,7 @@ class TTCDataTransformer:
             'most_delayed_route': most_delayed_route,
             'displayed_routes_count': unique_routes,
             'total_routes_count': unique_routes,
-            'routes_in_2025': len(self.routes_in_2025),
-            'analysis_scope': 'Routes active in 2025 with historical data from 2014-present',
+            'analysis_scope': 'All routes (including those not active in 2025)',
             'data_quality': {
                 'valid_delay_percentage': 100.0,
                 'route_coverage': unique_routes,
@@ -1358,8 +1497,8 @@ class TTCDataTransformer:
                 'date_range_available': oldest_date is not None and most_recent_date is not None
             }
         }
-        
-        print("✅ Summary statistics calculated (for routes active in 2025)")
+
+        print("✅ Summary statistics calculated (all routes)")
         return stats
 
     def process_all_datasets(self):
@@ -1470,77 +1609,63 @@ class TTCDataTransformer:
     def save_datasets(self):
         """Save all processed datasets to files"""
         print("💾 Saving all datasets to files...")
-        
+
         # Create dashboard data directory
         dashboard_dir = os.path.join(self.output_data_folder, "dashboard")
         self.ensure_folder_exists(dashboard_dir)
-        
-        # Save KPI metrics
+
+        # Save KPI metrics (unchanged)
         kpi_file = os.path.join(dashboard_dir, "kpi_metrics.json")
         with open(kpi_file, 'w', encoding='utf-8') as f:
             json.dump(self.dashboard_datasets['kpi_metrics'], f, indent=2)
         print(f"✅ Saved KPI metrics to {kpi_file}")
-        
-        # Save all other datasets
+
+        # Save all other datasets (unchanged)
         for dataset_name, data in self.dashboard_datasets.items():
             if dataset_name == 'kpi_metrics':
-                continue  # Already saved
-            
+                continue
             file_name = f"{dataset_name}.json"
             file_path = os.path.join(dashboard_dir, file_name)
-            
             with open(file_path, 'w', encoding='utf-8') as f:
                 json.dump(data, f, indent=2, default=str)
-            
             print(f"✅ Saved {dataset_name} to {file_path}")
-        
-        # Save summary statistics
-        summary_file = os.path.join(self.output_data_folder, "summary_statistics.json")
-        with open(summary_file, 'w', encoding='utf-8') as f:
-            json.dump(self.dashboard_datasets['summary_statistics'], f, indent=2, default=str)
-        print(f"✅ Saved summary statistics to {summary_file}")
-        
-        # Save location analysis
+
+        # --- NEW: Save route_performance.csv using the trip‑variation function ---
+        route_perf_data = self.process_route_performance_with_trips()
+        if route_perf_data:
+            route_perf_file = os.path.join(self.output_data_folder, "route_performance.csv")
+            df = pd.DataFrame(route_perf_data)
+            df.to_csv(route_perf_file, index=False)
+            print(f"✅ Saved route performance (with trip variations) to {route_perf_file}")
+        else:
+            print("⚠️ No route performance data to save.")
+        # -------------------------------------------------------------------------
+
+        # Save location analysis (unchanged)
         location_file = os.path.join(self.output_data_folder, "location_analysis.csv")
         if self.dashboard_datasets['location_analysis']:
             df = pd.DataFrame(self.dashboard_datasets['location_analysis'])
             df.to_csv(location_file, index=False)
             print(f"✅ Saved location analysis to {location_file}")
-        
-        # Save route performance
-        route_perf_file = os.path.join(self.output_data_folder, "route_performance.csv")
-        # Create route performance from scatter data
-        if self.dashboard_datasets['route_scatter_data']:
-            route_perf_data = []
-            for route in self.dashboard_datasets['route_scatter_data']:
-                route_perf_data.append({
-                    'Route': route['route_number'],
-                    'Delay_Count': route['incident_count'],
-                    'Avg_Delay_Min': route['avg_delay'],
-                    'Total_Delay_Min': route['incident_count'] * route['avg_delay'],
-                    'Unique_Vehicles': 0,  # Would need actual vehicle data
-                    'Delays_Per_Day': round(route['incident_count'] / 365, 2),  # Approximate
-                    'On_Time_Percentage': 0,
-                    'route_long_name': route['route_name'],
-                    'active_in_2025': route.get('active_in_2025', True)
-                })
-            
-            df = pd.DataFrame(route_perf_data)
-            df.to_csv(route_perf_file, index=False)
-            print(f"✅ Saved route performance to {route_perf_file}")
-        
-        # Save routes in 2025 list
+
+        # Save routes in 2025 list (unchanged)
         routes_2025_file = os.path.join(self.output_data_folder, "routes_in_2025.json")
         with open(routes_2025_file, 'w', encoding='utf-8') as f:
             json.dump(list(self.routes_in_2025), f, indent=2)
         print(f"✅ Saved routes in 2025 list to {routes_2025_file}")
-        
-        # Save combined dashboard data
+
+        # Save combined dashboard data (unchanged)
         combined_file = os.path.join(dashboard_dir, "dashboard_data_combined.json")
         with open(combined_file, 'w', encoding='utf-8') as f:
             json.dump(self.dashboard_datasets, f, indent=2, default=str)
         print(f"✅ Saved combined dashboard data to {combined_file}")
-        
+
+        # Save summary statistics (now from unfiltered data, updated above)
+        summary_file = os.path.join(self.output_data_folder, "summary_statistics.json")
+        with open(summary_file, 'w', encoding='utf-8') as f:
+            json.dump(self.dashboard_datasets['summary_statistics'], f, indent=2, default=str)
+        print(f"✅ Saved summary statistics to {summary_file}")
+
         print(f"\n📁 All datasets saved to: {dashboard_dir}")
         print("✨ Dashboard data processing complete!")
 
@@ -1564,6 +1689,10 @@ class TTCDataTransformer:
             # Step 3: Clean delay data
             print("\n🧹 Cleaning and preparing delay data...")
             self.cleaned_delay_data = self.clean_delay_data(self.delay_data)
+            
+            # --- NEW: Keep a copy of the fully cleaned data (unfiltered) ---
+            self.cleaned_all_delay_data = self.cleaned_delay_data.copy()
+            # ----------------------------------------------------------------
             
             print(f"📊 Cleaned data summary:")
             print(f"   - Total records: {len(self.cleaned_delay_data):,}")

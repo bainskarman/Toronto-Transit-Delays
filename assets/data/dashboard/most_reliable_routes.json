@@ -1,122 +1,114 @@
 [
   {
-    "route_number": "512",
-    "route_name": "St Clair",
-    "incident_count": 57,
-    "avg_delay": 6.19,
-    "reliability_score": 3.1,
-    "active_in_2025": true
-  },
-  {
-    "route_number": "513",
-    "route_name": "",
-    "incident_count": 22,
-    "avg_delay": 8.5,
-    "reliability_score": 4.0,
-    "active_in_2025": true
-  },
-  {
-    "route_number": "510",
-    "route_name": "Spadina",
-    "incident_count": 45,
-    "avg_delay": 7.31,
-    "reliability_score": 4.6,
-    "active_in_2025": true
-  },
-  {
-    "route_number": "999",
-    "route_name": "",
-    "incident_count": 139,
-    "avg_delay": 7.86,
+    "route_number": "504",
+    "route_name": "King",
+    "incident_count": 657,
+    "avg_delay": 9.15,
     "reliability_score": 4.7,
     "active_in_2025": true
   },
   {
-    "route_number": "600",
-    "route_name": "",
-    "incident_count": 391,
-    "avg_delay": 6.03,
-    "reliability_score": 5.9,
-    "active_in_2025": true
-  },
-  {
-    "route_number": "944",
-    "route_name": "Kipling South Expr",
-    "incident_count": 57,
-    "avg_delay": 10.72,
-    "reliability_score": 6.1,
-    "active_in_2025": true
-  },
-  {
-    "route_number": "986",
-    "route_name": "Scarborough Expres",
-    "incident_count": 143,
-    "avg_delay": 10.66,
-    "reliability_score": 6.5,
-    "active_in_2025": true
-  },
-  {
-    "route_number": "191",
-    "route_name": "Underhill",
-    "incident_count": 432,
-    "avg_delay": 9.02,
-    "reliability_score": 6.9,
-    "active_in_2025": true
-  },
-  {
-    "route_number": "952",
-    "route_name": "Lawrence West Expr",
-    "incident_count": 182,
-    "avg_delay": 13.03,
-    "reliability_score": 7.2,
-    "active_in_2025": true
-  },
-  {
-    "route_number": "985",
-    "route_name": "Sheppard East Expr",
-    "incident_count": 156,
-    "avg_delay": 14.71,
-    "reliability_score": 8.2,
+    "route_number": "512",
+    "route_name": "St Clair",
+    "incident_count": 636,
+    "avg_delay": 9.86,
+    "reliability_score": 5.1,
     "active_in_2025": true
   },
   {
     "route_number": "986",
     "route_name": "Scarborough Express",
-    "incident_count": 460,
-    "avg_delay": 10.97,
-    "reliability_score": 8.5,
+    "incident_count": 686,
+    "avg_delay": 10.46,
+    "reliability_score": 5.2,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "960",
+    "route_name": "Steeles West Expre",
+    "incident_count": 558,
+    "avg_delay": 12.19,
+    "reliability_score": 5.6,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "903",
+    "route_name": "Kennedy Stn-Scarborough Express",
+    "incident_count": 689,
+    "avg_delay": 11.67,
+    "reliability_score": 5.7,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "954",
+    "route_name": "Lawrence East Express",
+    "incident_count": 493,
+    "avg_delay": 13.06,
+    "reliability_score": 5.9,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "1",
+    "route_name": "Yonge-University Line",
+    "incident_count": 543,
+    "avg_delay": 13.42,
+    "reliability_score": 6.2,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "984",
+    "route_name": "Sheppard West Express",
+    "incident_count": 1085,
+    "avg_delay": 11.22,
+    "reliability_score": 6.3,
     "active_in_2025": true
   },
   {
     "route_number": "924",
     "route_name": "Victoria Park Express",
-    "incident_count": 452,
-    "avg_delay": 11.71,
-    "reliability_score": 8.5,
+    "incident_count": 736,
+    "avg_delay": 12.63,
+    "reliability_score": 6.3,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "944",
+    "route_name": "Kipling South Express",
+    "incident_count": 481,
+    "avg_delay": 14.62,
+    "reliability_score": 6.6,
     "active_in_2025": true
   },
   {
     "route_number": "501",
     "route_name": "Queen",
-    "incident_count": 209,
-    "avg_delay": 12.46,
-    "reliability_score": 8.5,
+    "incident_count": 1232,
+    "avg_delay": 11.46,
+    "reliability_score": 6.7,
     "active_in_2025": true
   },
   {
-    "route_number": "504",
-    "route_name": "King",
-    "incident_count": 109,
-    "avg_delay": 11.43,
-    "reliability_score": 8.7,
+    "route_number": "945",
+    "route_name": "Kipling Express",
+    "incident_count": 1007,
+    "avg_delay": 12.54,
+    "reliability_score": 6.8,
     "active_in_2025": true
   },
   {
-    "route_number": "900",
-    "route_name": "Airport Rocket",
-    "incident_count": 88,
-    "avg_delay": 13.33,
-    "reliability_score": 8.7,
+    "route_number": "904",
+    "route_name": "Sheppard-Kennedy E",
+    "incident_count": 484,
+    "avg_delay": 17.2,
+    "reliability_score": 7.2,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "165",
+    "route_name": "Weston Road North",
+    "incident_count": 898,
+    "avg_delay": 14.58,
+    "reliability_score": 7.3,
     "active_in_2025": true
   }
 ]
