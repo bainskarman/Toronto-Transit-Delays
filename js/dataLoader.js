@@ -1,498 +1,124 @@
-// Data Loading and Processing Module for TTC Delay Visualization
+// js/dataLoader.js
+// Data Loading and Processing Module
+
 class DataLoader {
     constructor() {
         this.basePath = 'assets/data/';
         this.cache = new Map();
-        this.cacheTimeout = 5 * 60 * 1000; // 5 minutes cache
+        this.cacheTimeout = 5 * 60 * 1000; // 5 minutes
     }
 
-    async loadRoutePerformance(dateRange = null) {
-        console.log('📈 Loading route performance data...');
-
-        try {
-            const data = await this.fetchCSV('route_performance.csv');
-            console.log('✅ Raw CSV data loaded:', data.length, 'rows');
-
-            if (!data || data.length === 0) {
-                console.warn('⚠️ CSV data is empty, using sample data');
-                return this.getSampleRoutePerformance();
-            }
-
-            // First pass: parse all rows and extract required fields
-            const parsedRows = data.map(row => {
-                const avgDelay = this.parseNumber(row.Avg_Delay_Min);
-                const delayCount = this.parseNumber(row.Delay_Count);
-                const delaysPerDay = this.parseNumber(row.Delays_Per_Day) || 0;
-                const totalDelay = this.parseNumber(row.Total_Delay_Min);
-                // Parse active_in_2025 column (handle both string "True"/"False" and boolean)
-                const active = row.active_in_2025 === 'True' || row.active_in_2025 === true;
-
-                return {
-                    Route: this.cleanRouteId(row.Route),
-                    route_long_name: row.route_long_name || `Route ${row.Route}`,
-                    Avg_Delay_Min: avgDelay,
-                    Delay_Count: delayCount,
-                    Total_Delay_Min: totalDelay,
-                    Delays_Per_Day: delaysPerDay,
-                    active_in_2025: active          // ← new field
-                };
-            }).filter(route => 
-                route.Avg_Delay_Min !== null && 
-                route.Delay_Count !== null && 
-                route.Route
-            );
-
-            if (parsedRows.length === 0) {
-                console.warn('⚠️ No valid routes after processing, using sample data');
-                return this.getSampleRoutePerformance();
-            }
-
-            // --- Compute reliability score using Delays_Per_Day ---
-            // 1. Filter routes used for scaling: avg delay <= 120 AND delay count >= 200
-            const validForScaling = parsedRows.filter(r => 
-                r.Avg_Delay_Min <= 120 && r.Delay_Count >= 200
-            );
-
-            if (validForScaling.length === 0) {
-                console.warn('No routes meet criteria for reliability scaling – using all routes');
-                // Fallback: use all routes for scaling
-                const maxDelayPerDay = Math.max(...parsedRows.map(r => r.Delays_Per_Day));
-                parsedRows.forEach(route => {
-                    if (maxDelayPerDay > 0) {
-                        route.On_Time_Percentage = Math.max(0, 100 - (route.Delays_Per_Day / maxDelayPerDay * 100));
-                    } else {
-                        route.On_Time_Percentage = 100;
-                    }
-                });
-            } else {
-                const maxDelayPerDay = Math.max(...validForScaling.map(r => r.Delays_Per_Day));
-                console.log(`Reliability scaling: max delays per day = ${maxDelayPerDay}`);
-
-                parsedRows.forEach(route => {
-                    if (maxDelayPerDay > 0) {
-                        // Compute reliability: 100 - (delaysPerDay / max * 100), clamped 0-100
-                        let reliability = 100 - (route.Delays_Per_Day / maxDelayPerDay * 100);
-                        reliability = Math.max(0, Math.min(100, reliability));
-                        route.On_Time_Percentage = reliability;
-                    } else {
-                        route.On_Time_Percentage = 100;
-                    }
-                });
-            }
-
-            // --- Prepare final output with all expected fields ---
-            const processedData = parsedRows.map(route => ({
-                Route: route.Route,
-                route_long_name: route.route_long_name,
-                Avg_Delay_Min: route.Avg_Delay_Min,
-                Delay_Count: route.Delay_Count,
-                Total_Delay_Min: route.Total_Delay_Min,
-                On_Time_Percentage: route.On_Time_Percentage,   // Reliability Score
-                Delay_Frequency: route.Delays_Per_Day,          // Original delays per day
-                active_in_2025: route.active_in_2025             // ← new field in final output
-            }));
-
-            console.log(`✅ Processed ${processedData.length} valid route records with reliability scores`);
-            return processedData;
-
-        } catch (error) {
-            console.error('❌ Error loading route performance data:', error);
-            return this.getSampleRoutePerformance();
-        }
-    }
-
-    async loadRouteGeometries() {
-        console.log('🗺️ Loading route geometries...');
-        
-        try {
-            const data = await this.fetchJSON('route_geometries.json');
-            
-            // Process and clean geometry data
-            const processedGeometries = {};
-            let validCount = 0;
-            let emptyCount = 0;
-
-            for (const [routeId, coordinates] of Object.entries(data)) {
-                const cleanRouteId = this.cleanRouteId(routeId);
-                
-                if (coordinates && Array.isArray(coordinates) && coordinates.length > 0) {
-                    // Filter out invalid coordinates
-                    const validCoords = coordinates.filter(coord => 
-                        coord && 
-                        Array.isArray(coord) && 
-                        coord.length === 2 &&
-                        this.isValidCoordinate(coord[0], coord[1])
-                    );
-
-                    if (validCoords.length > 0) {
-                        processedGeometries[cleanRouteId] = validCoords;
-                        validCount++;
-                    } else {
-                        emptyCount++;
-                    }
-                } else {
-                    emptyCount++;
-                }
-            }
-
-            console.log(`✅ Loaded ${validCount} valid route geometries, ${emptyCount} empty/invalid`);
-            return processedGeometries;
-
-        } catch (error) {
-            console.error('❌ Error loading route geometries:', error);
-            
-            // Return sample geometries for demonstration
-            console.warn('⚠️ Using sample geometries for demonstration');
-            return this.getSampleRouteGeometries();
-        }
-    }
-
-    async loadLocationAnalysis() {
-        console.log('📍 Loading location analysis...');
-        
-        try {
-            const data = await this.fetchCSV('location_analysis.csv');
-            
-            // Process location data
-            const processedData = data.map(row => ({
-                location_id: row.location_id,
-                location_name: row.location_name,
-                total_delays: this.parseNumber(row.total_delays),
-                avg_delay_min: this.parseNumber(row.avg_delay_min),
-                latitude: this.parseNumber(row.latitude),
-                longitude: this.parseNumber(row.longitude),
-                route_count: this.parseNumber(row.route_count),
-                peak_hours: row.peak_hours ? JSON.parse(row.peak_hours) : []
-            })).filter(location => 
-                location.latitude !== null && 
-                location.longitude !== null &&
-                this.isValidCoordinate(location.latitude, location.longitude)
-            );
-
-            console.log(`✅ Loaded ${processedData.length} location analysis records`);
-            return processedData;
-
-        } catch (error) {
-            console.error('❌ Error loading location analysis:', error);
-            return [];
-        }
-    }
-
-    async loadSummaryStatistics() {
-        console.log('📊 Loading summary statistics...');
-        
-        try {
-            const data = await this.fetchJSON('summary_statistics.json');
-            
-            // Use the exact property names from your Python output
-            const stats = {
-                total_delays: data.total_delays || data.valid_delays || 0,
-                avg_delay_minutes: data.avg_delay_minutes || data.avg_delay_min || 0,
-                total_routes: data.unique_routes || data.total_routes || 0,
-                coverage_percentage: data.coverage_percentage || 0,
-                data_points: data.data_points || data.total_delays || 0,
-                time_period: data.time_period || '2014-Present',
-                updated_at: data.updated_at || new Date().toISOString(),
-                data_refresh_date: data.data_refresh_date || data.updated_at,
-                data_most_recent_date: data.data_most_recent_date,
-                data_oldest_date: data.data_oldest_date,
-                peak_delay_hour: data.peak_delay_hour || '08:00',
-                most_delayed_route: data.most_delayed_route || 'Unknown'
-            };
-
-            console.log('✅ Loaded summary statistics');
-            return stats;
-
-        } catch (error) {
-            console.error('❌ Error loading summary statistics:', error);
-            return this.getDefaultStatistics();
-        }
-    }
-
-    // Helper method to fetch CSV files
-    async fetchCSV(filename) {
-        const cacheKey = `csv_${filename}`;
-        
-        // Check cache first
+    // Generic fetch with caching
+    async fetchFile(filename, type = 'json') {
+        const cacheKey = `${type}_${filename}`;
         if (this.isCacheValid(cacheKey)) {
             return this.cache.get(cacheKey).data;
         }
 
-        const response = await fetch(`${this.basePath}${filename}`);
-        
+        const url = this.basePath + filename;
+        const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`Failed to fetch ${filename}: ${response.statusText}`);
         }
 
-        const csvText = await response.text();
-        const data = this.parseCSV(csvText);
-        
-        // Cache the result
-        this.cache.set(cacheKey, {
-            data: data,
-            timestamp: Date.now()
-        });
+        let data;
+        if (type === 'json') {
+            data = await response.json();
+        } else if (type === 'csv') {
+            const text = await response.text();
+            data = this.parseCSV(text);
+        } else if (type === 'geojson') {
+            data = await response.json(); // GeoJSON is just JSON
+        }
 
+        this.cache.set(cacheKey, { data, timestamp: Date.now() });
         return data;
     }
 
-    // Helper method to fetch JSON files
-    async fetchJSON(filename) {
-        const cacheKey = `json_${filename}`;
-        
-        // Check cache first
-        if (this.isCacheValid(cacheKey)) {
-            return this.cache.get(cacheKey).data;
-        }
-
-        const response = await fetch(`${this.basePath}${filename}`);
-        
-        if (!response.ok) {
-            throw new Error(`Failed to fetch ${filename}: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        
-        // Cache the result
-        this.cache.set(cacheKey, {
-            data: data,
-            timestamp: Date.now()
-        });
-
-        return data;
-    }
-
-    // Parse CSV text into array of objects
     parseCSV(csvText) {
         const lines = csvText.trim().split('\n');
         if (lines.length < 2) return [];
-
         const headers = lines[0].split(',').map(h => h.trim());
         const result = [];
-
         for (let i = 1; i < lines.length; i++) {
             const values = lines[i].split(',').map(v => v.trim());
             const row = {};
-            
             headers.forEach((header, index) => {
                 row[header] = values[index] || '';
             });
-            
             result.push(row);
         }
-
         return result;
     }
 
-    // Clean and validate route IDs
-    cleanRouteId(routeId) {
-        if (typeof routeId === 'number') return routeId.toString();
-        if (typeof routeId === 'string') return routeId.trim();
-        return '';
-    }
-
-    // Parse numbers with validation
-    parseNumber(value) {
-        if (value === null || value === undefined || value === '') return null;
-        
-        const num = parseFloat(value);
-        return isNaN(num) ? null : num;
-    }
-
-    // Validate geographic coordinates
-    isValidCoordinate(lat, lng) {
-        return lat !== null && 
-               lng !== null && 
-               !isNaN(lat) && 
-               !isNaN(lng) &&
-               lat >= -90 && lat <= 90 &&
-               lng >= -180 && lng <= 180;
-    }
-
-    // Cache validation
     isCacheValid(key) {
         if (!this.cache.has(key)) return false;
-        
         const cached = this.cache.get(key);
         return (Date.now() - cached.timestamp) < this.cacheTimeout;
+    }
+
+    // Specific load methods for each required file
+    async loadRouteAnalysis() {
+        return this.fetchFile('route_analysis.csv', 'csv');
+    }
+
+    // New aggregated data files
+    async loadWardsAggregated() {
+        return this.fetchFile('wards_aggregated.json', 'json');
+    }
+
+    async loadNeighbourhoodsAggregated() {
+        return this.fetchFile('neighbourhoods_aggregated.json', 'json');
+    }
+
+    async loadHotspotsAggregated() {
+        return this.fetchFile('hotspots_aggregated.json', 'json');
+    }
+
+    async loadRouteGeometries() {
+        return this.fetchFile('route_geometries.json', 'json');
+    }
+
+    async loadWardBoundaries() {
+        return this.fetchFile('gtawards.geojson', 'geojson');
+    }
+
+    async loadNeighbourhoodBoundaries() {
+        return this.fetchFile('toronto.geojson', 'geojson');
+    }
+
+    // Convenience method to load all datasets at once
+    async loadAll() {
+        const [
+            routeAnalysis,
+            wardsAgg,
+            neighbourhoodsAgg,
+            hotspotsAgg,
+            routeGeometries,
+            wardsGeoJSON,
+            neighbourhoodsGeoJSON
+        ] = await Promise.all([
+            this.loadRouteAnalysis(),
+            this.loadWardsAggregated(),
+            this.loadNeighbourhoodsAggregated(),
+            this.loadHotspotsAggregated(),
+            this.loadRouteGeometries(),
+            this.loadWardBoundaries(),
+            this.loadNeighbourhoodBoundaries()
+        ]);
+        return {
+            routeAnalysis,
+            wardsAgg,
+            neighbourhoodsAgg,
+            hotspotsAgg,
+            routeGeometries,
+            wardsGeoJSON,
+            neighbourhoodsGeoJSON
+        };
     }
 
     // Clear cache
     clearCache() {
         this.cache.clear();
-        console.log('🗑️ Data cache cleared');
     }
-
-    // Get cache statistics
-    getCacheStats() {
-        return {
-            size: this.cache.size,
-            keys: Array.from(this.cache.keys())
-        };
-    }
-
-    // Sample data for demonstration purposes (fallback only)
-    getSampleRoutePerformance() {
-        return [
-            { Route: '501', route_long_name: 'Queen Street', Avg_Delay_Min: 8.5, Delay_Count: 245, Total_Delay_Min: 2082.5, On_Time_Percentage: 72.3, Delay_Frequency: 2.1 },
-            { Route: '504', route_long_name: 'King Street', Avg_Delay_Min: 12.3, Delay_Count: 189, Total_Delay_Min: 2324.7, On_Time_Percentage: 65.8, Delay_Frequency: 3.4 },
-            { Route: '505', route_long_name: 'Dundas Street', Avg_Delay_Min: 6.7, Delay_Count: 156, Total_Delay_Min: 1045.2, On_Time_Percentage: 81.2, Delay_Frequency: 1.8 },
-            { Route: '506', route_long_name: 'Carlton Street', Avg_Delay_Min: 15.2, Delay_Count: 278, Total_Delay_Min: 4225.6, On_Time_Percentage: 58.9, Delay_Frequency: 4.2 },
-            { Route: '509', route_long_name: 'Harbourfront', Avg_Delay_Min: 4.3, Delay_Count: 98, Total_Delay_Min: 421.4, On_Time_Percentage: 88.7, Delay_Frequency: 1.2 },
-            { Route: '510', route_long_name: 'Spadina Avenue', Avg_Delay_Min: 9.8, Delay_Count: 167, Total_Delay_Min: 1636.6, On_Time_Percentage: 74.5, Delay_Frequency: 2.5 }
-        ];
-    }
-
-    getSampleRouteGeometries() {
-        // Sample coordinates around Toronto downtown
-        const torontoCenter = [43.6532, -79.3832];
-        
-        return {
-            '501': this.generateRouteCoordinates(torontoCenter, 0.02, 15),
-            '504': this.generateRouteCoordinates(torontoCenter, 0.025, 20),
-            '505': this.generateRouteCoordinates(torontoCenter, 0.018, 12),
-            '506': this.generateRouteCoordinates(torontoCenter, 0.022, 18),
-            '509': this.generateRouteCoordinates(torontoCenter, 0.015, 10),
-            '510': this.generateRouteCoordinates(torontoCenter, 0.02, 16)
-        };
-    }
-
-    generateRouteCoordinates(center, radius, pointCount) {
-        const coordinates = [];
-        
-        for (let i = 0; i < pointCount; i++) {
-            const angle = (i / pointCount) * Math.PI * 2;
-            const lat = center[0] + Math.cos(angle) * radius * (0.5 + Math.random() * 0.5);
-            const lng = center[1] + Math.sin(angle) * radius * (0.5 + Math.random() * 0.5);
-            coordinates.push([lat, lng]);
-        }
-        
-        return coordinates;
-    }
-
-    getDefaultStatistics() {
-        return {
-            total_delays: 12478,
-            avg_delay_minutes: 8.7,
-            total_routes: 156,
-            coverage_percentage: 87.5,
-            data_points: 456892,
-            time_period: '2014-2025',
-            updated_at: new Date().toISOString(),
-            data_refresh_date: new Date().toISOString().split('T')[0],
-            data_most_recent_date: new Date().toISOString(),
-            data_oldest_date: new Date('2014-01-01').toISOString(),
-            peak_delay_hour: '08:00',
-            most_delayed_route: '506 - Carlton Street'
-        };
-    }
-
-    // Data validation and quality checks
-    validateDataQuality(routes, geometries) {
-        const issues = [];
-        
-        // Check for routes without geometry
-        const routesWithoutGeometry = routes.filter(route => 
-            !geometries[route.Route.toString()]
-        );
-        
-        if (routesWithoutGeometry.length > 0) {
-            issues.push(`${routesWithoutGeometry.length} routes missing geometry data`);
-        }
-        
-        // Check for geometries without route data
-        const geometriesWithoutRoutes = Object.keys(geometries).filter(geoRouteId => 
-            !routes.find(route => route.Route.toString() === geoRouteId)
-        );
-        
-        if (geometriesWithoutRoutes.length > 0) {
-            issues.push(`${geometriesWithoutRoutes.length} geometries without route data`);
-        }
-        
-        // Check for invalid delay values
-        const invalidDelays = routes.filter(route => 
-            route.Avg_Delay_Min < 0 || route.Avg_Delay_Min > 60
-        );
-        
-        if (invalidDelays.length > 0) {
-            issues.push(`${invalidDelays.length} routes with unrealistic delay values`);
-        }
-        
-        return {
-            isValid: issues.length === 0,
-            issues: issues,
-            stats: {
-                total_routes: routes.length,
-                routes_with_geometry: routes.length - routesWithoutGeometry.length,
-                total_geometries: Object.keys(geometries).length
-            }
-        };
-    }
-
-    // Export data for debugging
-    exportDataSummary(routes, geometries, locationAnalysis, summaryStats) {
-        return {
-            routes: {
-                count: routes.length,
-                sample: routes.slice(0, 3),
-                delay_stats: {
-                    min: Math.min(...routes.map(r => r.Avg_Delay_Min)),
-                    max: Math.max(...routes.map(r => r.Avg_Delay_Min)),
-                    avg: routes.reduce((sum, r) => sum + r.Avg_Delay_Min, 0) / routes.length
-                }
-            },
-            geometries: {
-                count: Object.keys(geometries).length,
-                sample_keys: Object.keys(geometries).slice(0, 3),
-                total_coordinates: Object.values(geometries).reduce((sum, coords) => sum + coords.length, 0)
-            },
-            locations: {
-                count: locationAnalysis.length
-            },
-            summary: summaryStats
-        };
-    }
-
-    // New method for dashboard data loading (if needed)
-    async loadDashboardData() {
-        console.log('📊 Loading dashboard data...');
-        
-        try {
-            // This method can be extended to load dashboard-specific data
-            // For now, we return a summary of existing data
-            const [routes, geometries, locationAnalysis, summaryStats] = await Promise.all([
-                this.loadRoutePerformance(),
-                this.loadRouteGeometries(),
-                this.loadLocationAnalysis(),
-                this.loadSummaryStatistics()
-            ]);
-
-            const dashboardData = {
-                summary: summaryStats,
-                route_count: routes.length,
-                geometry_count: Object.keys(geometries).length,
-                location_count: locationAnalysis.length,
-                data_timestamp: new Date().toISOString()
-            };
-
-            console.log('✅ Dashboard data loaded');
-            return dashboardData;
-
-        } catch (error) {
-            console.error('❌ Error loading dashboard data:', error);
-            return {
-                summary: this.getDefaultStatistics(),
-                route_count: 0,
-                geometry_count: 0,
-                location_count: 0,
-                data_timestamp: new Date().toISOString(),
-                error: error.message
-            };
-        }
-    }
-}
-
-// Export for module usage
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = DataLoader;
 }

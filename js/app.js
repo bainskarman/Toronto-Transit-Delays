@@ -1,610 +1,582 @@
-// Main Application Controller for TTC Delay Visualization
+// js/app.js
+// Main Application Controller for TTC Bus Delay Analytics (updated for new mobile design)
+
 class TTCVisualizationApp {
     constructor() {
-        // Fixed to dark theme only
-        this.currentTheme = 'dark';
-        this.currentVisualization = 'delay';
-        this.map = null;
-        this.mapVisualizer = null;
+        // Core properties
         this.dataLoader = null;
+        this.mapVisualizer = null;
         this.uiController = null;
-        this.dashboardActive = false;
-        
+        this.mobileController = null;
+        this.map = null;
+
         // Application state
         this.state = {
-            routes: [],
+            // Data
+            routesData: [],
+            wardsData: [],
+            neighbourhoodsData: [],
+            hotspotsAggregated: [],
             routeGeometries: {},
-            locationAnalysis: [],
-            summaryStats: {},
-            filteredRoutes: [],
-            currentViewport: null,
-            selectedRoute: null,
-            searchQuery: '',
+            wardGeometries: null,
+            neighbourhoodGeometries: null,
+
+            // UI state
+            currentView: 'routes',
+            currentMetric: 'time',
+            filters: {
+                year: null,
+                transitTypes: null,
+                incidentCategories: null,
+                activeOnly: true,
+                searchQuery: ''
+            },
+            theme: 'dark',
+            panelCollapsed: false,
+            mobile: window.innerWidth <= 768,
+            selectedFeature: null,
+            hoveredFeature: null
         };
 
-        this.init();
+        // New properties for aggregated data
+        this.wardsAgg = [];
+        this.neighbourhoodsAgg = [];
+        this.hotspotsAgg = [];
+
+        // Bind methods
+        this.init = this.init.bind(this);
+        this.loadData = this.loadData.bind(this);
+        this.updateView = this.updateView.bind(this);
+        this.applyFilters = this.applyFilters.bind(this);
+        this.handleResize = this.handleResize.bind(this);
+        this.handleThemeChange = this.handleThemeChange.bind(this);
+        this.onFeatureClick = this.onFeatureClick.bind(this);
+        this.onFeatureHover = this.onFeatureHover.bind(this);
     }
 
     async init() {
-        console.log('🚍 Initializing TTC Delay Visualization...');
-        
+        console.log('🚀 Initializing TTC Bus Delay Analytics...');
+
         try {
             // Initialize modules
             this.dataLoader = new DataLoader();
-            this.mapVisualizer = new MapVisualizer();
             this.uiController = new UIController(this);
-            
-            // Load application data
+            this.mapVisualizer = new MapVisualizer(this);
+            this.mobileController = new MobileController(this);   // <-- uses new MobileController
+
+            // Load all data
             await this.loadData();
-            
-            // Initialize UI components
+
+            // Initialize map (will be created by MapVisualizer)
+            this.map = this.mapVisualizer.init('map', this.state);
+
+            // Set up UI event listeners (buttons, panels, etc.)
             this.uiController.init();
-            
-            // Initialize map (only for delay/frequency modes)
-            await this.initializeMap();
-            
-            // Set up event listeners
-            this.setupEventListeners();
-            
-            // Update UI with initial data
-            this.updateUI();
-            
-            console.log('🎉 TTC Delay Visualization initialized successfully');
-            
+
+            // If mobile, activate mobile layout
+            if (this.state.mobile) {
+                this.mobileController.init();
+            }
+
+            // Set initial view (routes, time metric)
+            await this.updateView();
+
+            // Listen to window resize
+            window.addEventListener('resize', this.handleResize);
+
+            // Listen to theme changes (system preference)
+            this.setupThemeListener();
+
+            console.log('✅ Application initialized');
         } catch (error) {
-            console.error('❌ Failed to initialize application:', error);
-            this.showError('Failed to initialize application. Please refresh the page.');
+            console.error('❌ Initialization failed:', error);
+            this.uiController.showError('Failed to initialize application. Please refresh.');
         }
     }
 
     async loadData() {
-        console.log('📊 Loading ALL historical data (2014-2025)...');
-        
+        console.log('📊 Loading all data from assets...');
         try {
-            const [routes, geometries, locationAnalysis, summaryStats] = await Promise.all([
-                this.dataLoader.loadRoutePerformance(),
-                this.dataLoader.loadRouteGeometries(),
-                this.dataLoader.loadLocationAnalysis(),
-                this.dataLoader.loadSummaryStatistics()
-            ]);
+            const data = await this.dataLoader.loadAll();
 
-            this.state.routes = routes;
-            this.state.routeGeometries = geometries;
-            this.state.locationAnalysis = locationAnalysis;
-            this.state.summaryStats = summaryStats;
-            this.state.filteredRoutes = routes;
+            // Process route data (unchanged)
+            this.processRouteData(data.routeAnalysis);
 
-            console.log(`✅ Loaded ALL ${routes.length} routes from 2014-2025`);
-            
+            // Store aggregated location data
+            this.wardsAgg = data.wardsAgg;
+            this.neighbourhoodsAgg = data.neighbourhoodsAgg;
+            this.hotspotsAgg = data.hotspotsAgg;
+
+            // Store geometries
+            this.state.routeGeometries = data.routeGeometries;
+            this.state.wardGeometries = data.wardsGeoJSON;
+            this.state.neighbourhoodGeometries = data.neighbourhoodsGeoJSON;
+
+            console.log('✅ Data loaded and processed');
+            console.log(`   Wards: ${this.wardsAgg.length} aggregated rows`);
+            console.log(`   Neighbourhoods: ${this.neighbourhoodsAgg.length} rows`);
+            console.log(`   Hotspots: ${this.hotspotsAgg.length} rows`);
         } catch (error) {
-            console.error('❌ Error loading data:', error);
+            console.error('❌ Data loading error:', error);
             throw error;
         }
     }
 
-    async initializeMap() {
-        console.log('🗺️ Initializing map...');
-        
-        try {
-            // Initialize Leaflet map
-            this.map = L.map('map', {
-                center: [43.6532, -79.3832], // Toronto coordinates
-                zoom: 11,
-                zoomControl: false,
-                attributionControl: true,
-                // Prevent auto-zooming behavior
-                maxBounds: [
-                    [43.58, -79.63], // Southwest bounds
-                    [43.86, -79.12]  // Northeast bounds (Toronto area)
-                ],
-                maxBoundsViscosity: 1.0 // Strict bounds enforcement
-            });
+    processRouteData(routeAnalysis) {
+        // Store raw rows for later filtering
+        this.rawRouteData = routeAnalysis.map(row => ({
+            route: String(row.Route).trim(),
+            year: parseInt(row.Year, 10),
+            transit: row.Transit ? row.Transit.trim() : '',
+            category: row.Incident_Category ? row.Incident_Category.trim() : '',
+            delayCount: parseInt(row.Delay_Count, 10) || 0,
+            totalDelayMin: parseFloat(row.Total_Delay_Min) || 0,
+            active2025: row.active_in_2025 === 'True' || row.active_in_2025 === true,
+            longName: row.route_long_name ? row.route_long_name.trim() : `Route ${row.Route}`,
+            rank: parseInt(row.rank, 10) || 1
+        }));
 
-            // Add base tile layer (dark mode only)
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-                subdomains: 'abcd',
-                maxZoom: 19,
-                // Prevent tile layer from causing zoom issues
-                updateWhenIdle: true,
-                keepBuffer: 4
-            }).addTo(this.map);
-
-            // Add zoom control to bottom right
-            L.control.zoom({
-                position: 'bottomright'
-            }).addTo(this.map);
-
-            // Initialize map visualizer with map instance
-            this.mapVisualizer.init(this.map, this.state.routeGeometries, this.state.routes);
-            
-            // Load initial visualization
-            await this.switchVisualization(this.currentVisualization);
-
-            // Set up map event listeners
-            this.setupMapEvents();
-
-            console.log('✅ Map initialized successfully');
-
-        } catch (error) {
-            console.error('❌ Error initializing map:', error);
-            throw error;
-        }
-    }
-
-    setupEventListeners() {
-        // Visualization toggles - delay, frequency, and dashboard
-        document.querySelectorAll('.toggle-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const visualType = e.currentTarget.dataset.visual;
-                this.switchVisualization(visualType);
-            });
-        });
-
-        // Historical route search
-        const searchInput = document.getElementById('routeSearch');
-        if (searchInput) {
-            searchInput.addEventListener('input', (e) => {
-                this.handleHistoricalSearch(e.target.value);
-            });
-
-            searchInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    this.performHistoricalSearch();
-                }
-            });
-        }
-
-        // Map controls
-        document.getElementById('fullscreenBtn').addEventListener('click', () => {
-            this.toggleFullscreen();
-        });
-
-        document.getElementById('locateBtn').addEventListener('click', () => {
-            this.locateUser();
-        });
-
-        document.getElementById('resetViewBtn').addEventListener('click', () => {
-            this.resetMapView();
-        });
-
-        // Window resize
-        window.addEventListener('resize', () => {
-            this.handleResize();
-        });
-
-        const hideInactiveCheckbox = document.getElementById('hideInactiveRoutes');
-        if (hideInactiveCheckbox) {
-            hideInactiveCheckbox.addEventListener('change', () => {
-                this.state.filteredRoutes = this.filterRoutes();
-                if (this.currentVisualization === 'delay') {
-                    this.mapVisualizer.showRouteDelays(this.state.filteredRoutes);
-                } else if (this.currentVisualization === 'frequency') {
-                    this.mapVisualizer.showDelayFrequency(this.state.filteredRoutes);
-                }
-                this.updateTopRoutesFromFiltered();
-                this.handleViewportChange();
-            });
-        }
-
-        // Dashboard iframe events - REMOVED OLD DASHBOARD EVENTS
-        // We'll handle dashboard communication differently
-    }
-
-    setupMapEvents() {
-        if (!this.map) return;
-        
-        // Prevent unwanted zoom behavior
-        this.map.on('zoomstart', () => {
-            clearTimeout(this.zoomTimeout);
-        });
-
-        this.map.on('moveend', () => {
-            this.handleViewportChange();
-        });
-
-        this.map.on('zoomend', () => {
-            this.handleViewportChange();
-        });
-    }
-
-    async switchVisualization(visualType) {
-        console.log(`🔄 Switching to ${visualType} visualization...`);
-        
-        try {
-            // Update UI state
-            this.currentVisualization = visualType;
-            
-            // Update active toggle button
-            this.updateToggleButtons(visualType);
-            
-            // Clear existing visualization if switching away from map
-            if (this.mapVisualizer && visualType !== 'dashboard') {
-                this.mapVisualizer.clearVisualization();
-            }
-            
-            // Show/hide dashboard
-            if (visualType === 'dashboard') {
-                this.showDashboard();
-                return;
-            } else {
-                this.hideDashboard();
-            }
-
-            // Show loading state for map visualizations
-            if (visualType !== 'dashboard') {
-                this.uiController.showLoadingState();
-            }
-
-            // Apply new visualization
-            let success = false;
-            switch (visualType) {
-                case 'delay':
-                    success = await this.mapVisualizer.showRouteDelays(this.state.filteredRoutes);
-                    break;
-                case 'frequency':
-                    success = await this.mapVisualizer.showDelayFrequency(this.state.filteredRoutes);
-                    break;
-                default:
-                    console.warn(`Unknown visualization type: ${visualType}`);
-                    success = await this.mapVisualizer.showRouteDelays(this.state.filteredRoutes);
-            }
-
-            // Update legend
-            if (visualType !== 'dashboard') {
-                this.updateMapLegend();
-            }
-
-            console.log(`✅ Switched to ${visualType} visualization - Success: ${success}`);
-
-        } catch (error) {
-            console.error(`❌ Error switching to ${visualType} visualization:`, error);
-            this.showError(`Failed to load ${visualType} visualization`);
-        } finally {
-            if (visualType !== 'dashboard') {
-                this.uiController.hideLoadingState();
-            }
-        }
-    }
-
-    // Update toggle button states
-    updateToggleButtons(activeVisual) {
-        document.querySelectorAll('.toggle-btn').forEach(btn => {
-            if (btn.dataset.visual === activeVisual) {
-                btn.classList.add('active');
-                btn.setAttribute('aria-selected', 'true');
-            } else {
-                btn.classList.remove('active');
-                btn.setAttribute('aria-selected', 'false');
+        // Build metadata map for quick lookup
+        const routeMetadata = new Map();
+        this.rawRouteData.forEach(row => {
+            if (!routeMetadata.has(row.route)) {
+                routeMetadata.set(row.route, {
+                    longName: row.longName,
+                    active2025: row.active2025
+                });
             }
         });
-    }
 
-    // Dashboard methods - SIMPLIFIED VERSION
-    showDashboard() {
-        console.log('📊 Showing dashboard...');
-        
-        this.dashboardActive = true;
-        document.body.classList.add('dashboard-active');
-        
-        // Get elements
-        const dashboardContainer = document.getElementById('dashboard-container');
-        const iframe = document.getElementById('dashboard-frame');
-        
-        // Show container
-        if (dashboardContainer) {
-            dashboardContainer.style.display = 'block';
-            dashboardContainer.style.opacity = '1';
-            dashboardContainer.style.visibility = 'visible';
-        }
-        
-        // Hide map and sidebars
-        document.querySelectorAll('.sidebar, .map-container').forEach(el => {
-            if (el) el.style.display = 'none';
-        });
-        
-        // Ensure iframe is loaded
-        if (iframe) {
-            // Set source if not already set
-            const currentSrc = iframe.src;
-            const dashboardPath = 'Dash/dashboard.html';
-            
-            if (!currentSrc.includes('dashboard.html')) {
-                iframe.src = dashboardPath;
-                console.log('Setting iframe src to:', dashboardPath);
+        // Also build the per-route aggregated data for the routes view (initially unfiltered)
+        const routeMap = new Map();
+        this.rawRouteData.forEach(row => {
+            if (!routeMap.has(row.route)) {
+                routeMap.set(row.route, {
+                    route: row.route,
+                    longName: row.longName,
+                    active2025: row.active2025,
+                    years: new Set(),
+                    transitTypes: new Set(),
+                    categories: new Set(),
+                    totalDelayCount: 0,
+                    totalDelayMinutes: 0,
+                });
             }
-            
-            // Clear any existing event listeners
-            iframe.onload = null;
-            iframe.onerror = null;
-            
-            // Set new event listener for iframe load
-            iframe.onload = () => {
-                console.log('✅ Dashboard iframe loaded successfully');
-            };
-            
-            iframe.onerror = (error) => {
-                console.error('❌ Dashboard iframe failed to load:', error);
-                this.showError('Failed to load dashboard. Please try again.');
-            };
-        }
-        
-        console.log('✅ Dashboard shown');
-    }
-
-    hideDashboard() {
-        console.log('📊 Hiding dashboard...');
-        
-        this.dashboardActive = false;
-        document.body.classList.remove('dashboard-active');
-        
-        // Hide dashboard container
-        const dashboardContainer = document.getElementById('dashboard-container');
-        if (dashboardContainer) {
-            dashboardContainer.style.display = 'none';
-            dashboardContainer.style.opacity = '0';
-            dashboardContainer.style.visibility = 'hidden';
-        }
-        
-        // Show map and sidebars
-        document.querySelectorAll('.sidebar, .map-container').forEach(el => {
-            if (el) el.style.display = '';
-        });
-        
-        // Restore main content grid
-        const mainContent = document.querySelector('.main-content');
-        if (mainContent) {
-            mainContent.style.gridTemplateColumns = '320px 1fr 320px';
-        }
-        
-        // Reset map if needed
-        if (this.map) {
-            setTimeout(() => {
-                this.map.invalidateSize();
-            }, 100);
-        }
-        
-        console.log('✅ Dashboard hidden');
-    }
-
-    // Historical search methods
-    handleHistoricalSearch(query) {
-        this.state.searchQuery = query;
-        
-        // Debounce search execution
-        clearTimeout(this.searchTimeout);
-        this.searchTimeout = setTimeout(() => {
-            this.performHistoricalSearch();
-        }, 300);
-    }
-
-    performHistoricalSearch() {
-        this.state.filteredRoutes = this.filterRoutes();
-        
-        if (this.state.searchQuery) {
-            // Update search results UI
-            if (this.uiController.updateSearchResults) {
-                this.uiController.updateSearchResults(this.state.filteredRoutes);
-            }
-        } else {
-            // Clear search results
-            if (this.uiController.clearSearchResults) {
-                this.uiController.clearSearchResults();
-            }
-        }
-    }
-
-    // Filter routes for historical data
-    filterRoutes() {
-        let filtered = [...this.state.routes];
-
-        // Apply active filter if checkbox is checked
-        const hideInactiveCheckbox = document.getElementById('hideInactiveRoutes');
-        if (hideInactiveCheckbox && hideInactiveCheckbox.checked) {
-            filtered = filtered.filter(route => route.active_in_2025 === true);
-        }
-
-        // Apply search query
-        if (this.state.searchQuery) {
-            const query = this.state.searchQuery.toLowerCase();
-            filtered = filtered.filter(route => 
-                route.Route.toString().toLowerCase().includes(query) ||
-                (route.route_long_name && route.route_long_name.toLowerCase().includes(query))
-            );
-        }
-
-        return filtered;
-    }
-
-    handleViewportChange() {
-        if (!this.map || this.dashboardActive) return;
-        
-        const bounds = this.map.getBounds();
-        this.state.currentViewport = bounds;
-        
-        // Update viewport insights
-        this.updateViewportInsights();
-    }
-
-    updateViewportInsights() {
-        if (!this.state.currentViewport || this.dashboardActive) return;
-
-        const bounds = this.state.currentViewport;
-        const routesInView = this.state.filteredRoutes.filter(route => {
-            const routeId = route.Route.toString();
-            const geometry = this.state.routeGeometries[routeId];
-            
-            if (!geometry) return false;
-            
-            // Check if any coordinate is within bounds
-            return geometry.some(coord => 
-                bounds.contains(L.latLng(coord[0], coord[1]))
-            );
+            const entry = routeMap.get(row.route);
+            entry.years.add(row.year);
+            entry.transitTypes.add(row.transit);
+            entry.categories.add(row.category);
+            entry.totalDelayCount += row.delayCount;
+            entry.totalDelayMinutes += row.totalDelayMin;
         });
 
-        // Sort by delay and take top 5
-        const topRoutes = routesInView
-            .sort((a, b) => b.Avg_Delay_Min - a.Avg_Delay_Min)
-            .slice(0, 5);
+        this.state.routesData = Array.from(routeMap.values()).map(r => ({
+            ...r,
+            years: Array.from(r.years).sort((a,b) => a-b),
+            transitTypes: Array.from(r.transitTypes),
+            categories: Array.from(r.categories),
+            avgDelay: r.totalDelayCount > 0 ? r.totalDelayMinutes / r.totalDelayCount : 0
+        }));
 
-        if (this.uiController.updateViewportInsights) {
-            this.uiController.updateViewportInsights(topRoutes, routesInView.length);
-        }
+        console.log(`Processed ${this.rawRouteData.length} raw rows, ${this.state.routesData.length} routes`);
     }
 
-    updateMapLegend() {
-        if (this.dashboardActive) return;
-        
-        const legend = this.mapVisualizer.getCurrentLegend();
-        if (this.uiController.updateMapLegend) {
-            this.uiController.updateMapLegend(legend);
-        }
+    getKPIRouteRows() {
+        // Get all filtered rows (including duplicates)
+        const allRows = this.getFilteredRouteRows();
+        // Keep only primary rows (rank === 1)
+        return allRows.filter(row => row.rank === 1);
     }
 
-    updateUI() {
-        // Update metrics
-        if (this.uiController.updateMetrics) {
-            this.uiController.updateMetrics(this.state.summaryStats);
-        }
-        
-        // Update top routes list
-        const topRoutes = this.state.routes
-            .sort((a, b) => b.Avg_Delay_Min - a.Avg_Delay_Min)
-            .slice(0, 10);
-        
-        if (this.uiController.updateTopRoutes) {
-            this.uiController.updateTopRoutes(topRoutes);
-        }
-        
-        // Update data summary
-        if (this.uiController.updateDataSummary) {
-            this.uiController.updateDataSummary(this.state.summaryStats);
-        }
-        
-        // Initialize charts
-        if (this.uiController.initializeCharts) {
-            this.uiController.initializeCharts(this.state.routes);
-        }
-    }
-
-    toggleFullscreen() {
-        if (!document.fullscreenElement) {
-            document.documentElement.requestFullscreen().catch(err => {
-                console.error('Error attempting to enable fullscreen:', err);
-            });
-        } else {
-            document.exitFullscreen();
-        }
-    }
-
-    locateUser() {
-        if (this.dashboardActive) return;
-        
-        if (!navigator.geolocation) {
-            this.showError('Geolocation is not supported by your browser');
-            return;
+    getFilteredRouteRows() {
+        if (!this.rawRouteData || !Array.isArray(this.rawRouteData)) {
+            console.warn('rawRouteData not available');
+            return [];
         }
 
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                const { latitude, longitude } = position.coords;
-                if (this.map) {
-                    this.map.setView([latitude, longitude], 13);
-                }
-                this.showNotification('Location found!', 'success');
-            },
-            (error) => {
-                console.error('Error getting location:', error);
-                this.showError('Unable to get your location');
+        const filters = this.state.filters;
+
+        return this.rawRouteData.filter(row => {
+            // Year filter
+            if (filters.year !== null) {
+                if (!Array.isArray(filters.year) || filters.year.length === 0) return false;
+                if (!filters.year.includes(row.year)) return false;
             }
+
+            // Transit types filter
+            if (filters.transitTypes !== null && filters.transitTypes.length > 0) {
+                if (!filters.transitTypes.includes(row.transit)) return false;
+            }
+
+            // Incident categories filter
+            if (filters.incidentCategories !== null && filters.incidentCategories.length > 0) {
+                if (!filters.incidentCategories.includes(row.category)) return false;
+            }
+
+            // Active only filter
+            if (filters.activeOnly && !row.active2025) return false;
+
+            // Search query filter
+            if (filters.searchQuery && filters.searchQuery.trim() !== '') {
+                const q = filters.searchQuery.toLowerCase().trim();
+                const routeMatch = row.route.toLowerCase().includes(q);
+                const nameMatch = row.longName.toLowerCase().includes(q);
+                if (!routeMatch && !nameMatch) return false;
+            }
+
+            return true;
+        });
+    }
+    
+    // Add this method to the TTCVisualizationApp class
+    getFilteredRoutesData() {
+        if (!this.rawRouteData) return [];
+
+        const filters = this.state.filters;
+
+        return this.rawRouteData.filter(row => {
+            // Year filter: if year array is not empty, check if row.year is in the array
+            if (filters.year && filters.year.length > 0) {
+                if (!filters.year.includes(row.year)) return false;
+            }
+
+            // Transit types filter
+            if (filters.transitTypes && filters.transitTypes.length > 0) {
+                if (!filters.transitTypes.includes(row.transit)) return false;
+            }
+
+            // Incident categories filter
+            if (filters.incidentCategories && filters.incidentCategories.length > 0) {
+                if (!filters.incidentCategories.includes(row.category)) return false;
+            }
+
+            // Active only filter
+            if (filters.activeOnly && !row.active2025) return false;
+
+            // Search query filter
+            if (filters.searchQuery && filters.searchQuery.trim() !== '') {
+                const q = filters.searchQuery.toLowerCase().trim();
+                const routeMatch = row.route.toLowerCase().includes(q);
+                const nameMatch = row.longName.toLowerCase().includes(q);
+                if (!routeMatch && !nameMatch) return false;
+            }
+
+            return true;
+        });
+    }
+
+    // Helper: get distinct years for a given view
+    getDistinctYearsForView(view) {
+        let data = [];
+        switch (view) {
+            case 'routes':
+                data = this.state.routesData;
+                break;
+            case 'wards':
+                data = this.wardsAgg;
+                break;
+            case 'neighbourhoods':
+                data = this.neighbourhoodsAgg;
+                break;
+            case 'hotspots':
+                data = this.hotspotsAgg;
+                break;
+        }
+        const years = new Set();
+        data.forEach(item => {
+            if (item.year) years.add(item.year);
+            else if (item.years) item.years.forEach(y => years.add(y)); // for routes
+        });
+        return Array.from(years).sort((a, b) => b - a); // descending
+    }
+
+    // Helper: get distinct transit types for a given view
+    getDistinctTransitForView(view) {
+        let data = [];
+        switch (view) {
+            case 'routes':
+                data = this.state.routesData;
+                break;
+            case 'wards':
+                data = this.wardsAgg;
+                break;
+            case 'neighbourhoods':
+                data = this.neighbourhoodsAgg;
+                break;
+            case 'hotspots':
+                data = this.hotspotsAgg;
+                break;
+        }
+        const types = new Set();
+        data.forEach(item => {
+            if (item.transit) types.add(item.transit);
+            else if (item.transitTypes) item.transitTypes.forEach(t => types.add(t)); // routes
+        });
+        return Array.from(types).sort();
+    }
+
+    // Helper: get distinct incident categories for a given view
+    getDistinctCategoriesForView(view) {
+        let data = [];
+        switch (view) {
+            case 'routes':
+                data = this.state.routesData;
+                break;
+            case 'wards':
+                data = this.wardsAgg;
+                break;
+            case 'neighbourhoods':
+                data = this.neighbourhoodsAgg;
+                break;
+            case 'hotspots':
+                data = this.hotspotsAgg;
+                break;
+        }
+        const cats = new Set();
+        data.forEach(item => {
+            if (item.category) cats.add(item.category);
+            else if (item.categories) item.categories.forEach(c => cats.add(c)); // routes
+        });
+        return Array.from(cats).sort();
+    }
+
+    // New method: aggregate an array of (ward/neighbourhood/hotspot) entries by current filters
+    aggregateByFilters(dataArray, groupByKey) {
+        const filters = this.state.filters;
+
+        const filtered = dataArray.filter(entry => {
+            // Year filter
+            if (filters.year && filters.year.length > 0) {
+                if (!filters.year.includes(entry.year)) return false;
+            }
+
+            // Transit types filter
+            if (filters.transitTypes && filters.transitTypes.length > 0) {
+                if (!filters.transitTypes.includes(entry.transit)) return false;
+            }
+
+            // Incident categories filter
+            if (filters.incidentCategories && filters.incidentCategories.length > 0) {
+                if (!filters.incidentCategories.includes(entry.category)) return false;
+            }
+
+            return true;
+        });
+
+        const grouped = new Map();
+        filtered.forEach(entry => {
+            let key;
+            if (groupByKey === 'ward') key = entry.ward;
+            else if (groupByKey === 'neighbourhood') key = entry.neighbourhood;
+            else if (groupByKey === 'hotspot') key = `${entry.lat},${entry.lon}`;
+
+            if (!grouped.has(key)) {
+                const base = (groupByKey === 'hotspot')
+                    ? { lat: entry.lat, lon: entry.lon }
+                    : { name: key };
+                grouped.set(key, {
+                    ...base,
+                    totalDelayCount: 0,
+                    totalDelayMinutes: 0
+                });
+            }
+            const grp = grouped.get(key);
+            grp.totalDelayCount += entry.delay_count;
+            grp.totalDelayMinutes += entry.total_delay_min;
+        });
+
+        return Array.from(grouped.values()).map(g => ({
+            ...g,
+            avgDelay: g.totalDelayCount > 0 ? g.totalDelayMinutes / g.totalDelayCount : 0,
+            totalCount: g.totalDelayCount
+        }));
+    }
+
+    async updateView() {
+        await this.mapVisualizer.renderView(
+            this.state.currentView,
+            this.state.currentMetric,
+            this.getFilteredData()
         );
+        const breaks = this.mapVisualizer.currentBreaks; // or a getter
+        this.updateKPI();
+        this.updateLegend(breaks);
     }
 
-    resetMapView() {
-        if (this.dashboardActive || !this.map) return;
-        
-        this.map.flyTo([43.6532, -79.3832], 11, {
-            animate: true,
-            duration: 1
-        });
-        this.showNotification('Map view reset', 'info');
+    getFilteredData() {
+        const { currentView } = this.state;
+
+        switch (currentView) {
+            case 'routes': {
+                const filteredRows = this.getFilteredRouteRows(); // or getFilteredRoutesData()? We need a method that returns raw rows
+                // Group by route
+                const routeMap = new Map();
+                filteredRows.forEach(row => {
+                    if (!routeMap.has(row.route)) {
+                        routeMap.set(row.route, {
+                            route: row.route,
+                            longName: row.longName,
+                            active2025: row.active2025,
+                            years: new Set(),
+                            transitTypes: new Set(),
+                            categories: new Set(),
+                            totalDelayCount: 0,
+                            totalDelayMinutes: 0,
+                        });
+                    }
+                    const entry = routeMap.get(row.route);
+                    entry.years.add(row.year);
+                    entry.transitTypes.add(row.transit);
+                    entry.categories.add(row.category);
+                    entry.totalDelayCount += row.delayCount;
+                    entry.totalDelayMinutes += row.totalDelayMin;
+                });
+                return Array.from(routeMap.values()).map(r => ({
+                    ...r,
+                    years: Array.from(r.years).sort((a,b) => a-b),
+                    transitTypes: Array.from(r.transitTypes),
+                    categories: Array.from(r.categories),
+                    avgDelay: r.totalDelayCount > 0 ? r.totalDelayMinutes / r.totalDelayCount : 0
+                }));
+            }
+
+            case 'wards':
+                return this.aggregateByFilters(this.wardsAgg, 'ward');
+
+            case 'neighbourhoods':
+                return this.aggregateByFilters(this.neighbourhoodsAgg, 'neighbourhood');
+
+            case 'hotspots':
+                return this.aggregateByFilters(this.hotspotsAgg, 'hotspot');
+
+            default:
+                return [];
+        }
+    }
+    
+    updateKPI() {
+        const filteredRows = this.getKPIRouteRows(); // rank=1 only
+
+        const totalIncidents = filteredRows.reduce((sum, r) => sum + r.delayCount, 0);
+        const totalDelayMin = filteredRows.reduce((sum, r) => sum + r.totalDelayMin, 0);
+        const avgDelay = totalIncidents > 0 ? (totalDelayMin / totalIncidents).toFixed(1) + ' min' : '0 min';
+        const routesReporting = new Set(filteredRows.map(r => r.route)).size;
+
+        // Update desktop KPI
+        this.uiController.updateKPI(avgDelay, totalIncidents, routesReporting);
+
+        // Update mobile KPI if mobile is active
+        if (this.state.mobile && this.mobileController) {
+            this.mobileController.updateKPI(avgDelay, totalIncidents, routesReporting);
+        }
+    }
+
+    updateLegend(breaks) {
+        // Compute min/max for fallback (if needed)
+        const data = this.getFilteredData();
+        let min = 0, max = 0;
+        if (this.state.currentMetric === 'time') {
+            const values = data.map(d => d.avgDelay || 0).filter(v => v > 0);
+            min = values.length ? Math.min(...values) : 0;
+            max = values.length ? Math.max(...values) : 60;
+        } else {
+            const values = data.map(d => d.totalCount || 0).filter(v => v > 0);
+            min = values.length ? Math.min(...values) : 0;
+            max = values.length ? Math.max(...values) : 1000;
+        }
+        const metricLabel = this.state.currentMetric === 'time' ? 'Avg Delay (min)' : 'Incident Count';
+
+        // Pass breaks to controllers
+        this.uiController.quantileBreaks = breaks;
+        this.uiController.updateLegend(min, max, metricLabel);
+
+        if (this.state.mobile && this.mobileController) {
+            this.mobileController.quantileBreaks = breaks;
+            this.mobileController.updateLegend(this.state.currentMetric);
+        }
+    }
+
+    applyFilters(newFilters) {
+        this.state.filters = { ...this.state.filters, ...newFilters };
+        this.updateView();
+    }
+
+    onFeatureClick(feature) {
+        this.state.selectedFeature = feature;
+        // On desktop, show popup (handled by mapVisualizer), on mobile we rely only on popup
+        if (this.state.mobile && this.mobileController) {
+            // Do nothing – the map popup is already shown by mapVisualizer
+            // Optionally, you could still show a small bottom sheet, but user requested removal.
+            // So we comment out the call:
+            // this.mobileController.showBottomSheet(feature);
+        } else {
+            // Desktop uses map popup (already handled)
+        }
+    }
+
+    onFeatureHover(feature) {
+        this.state.hoveredFeature = feature;
+        // Only desktop uses tooltip
+        if (!this.state.mobile) {
+            this.uiController.showTooltip(feature);
+        }
     }
 
     handleResize() {
-        // Refresh map on resize if not in dashboard mode
-        if (this.map && !this.dashboardActive) {
-            setTimeout(() => {
-                this.map.invalidateSize();
-            }, 250);
-        }
-        
-        // Notify UI controller
-        if (this.uiController.onResize) {
-            this.uiController.onResize();
-        }
-    }
-
-    showNotification(message, type = 'info') {
-        if (this.uiController.showNotification) {
-            this.uiController.showNotification(message, type);
-        }
-    }
-
-    showError(message) {
-        this.showNotification(message, 'error');
-    }
-
-    // Route selection methods
-    selectRoute(routeId) {
-        const route = this.state.routes.find(r => r.Route.toString() === routeId);
-        if (route && this.mapVisualizer) {
-            this.mapVisualizer.highlightRoute(routeId);
-            this.state.selectedRoute = route;
-            if (this.uiController.updateRouteDetails) {
-                this.uiController.updateRouteDetails(route);
+        const mobile = window.innerWidth <= 768;
+        if (mobile !== this.state.mobile) {
+            this.state.mobile = mobile;
+            if (mobile) {
+                this.mobileController.init();
+                // Hide desktop UI (already handled by body class in mobileController)
+            } else {
+                this.mobileController.destroy();
+                // Show desktop UI (body class removed)
             }
         }
-    }
-
-    // Public method to clear selection
-    clearSelection() {
-        if (this.mapVisualizer) {
-            this.mapVisualizer.clearHighlight();
-        }
-        
-        this.state.selectedRoute = null;
-        if (this.uiController.clearRouteDetails) {
-            this.uiController.clearRouteDetails();
+        if (this.map) {
+            this.map.invalidateSize();
         }
     }
 
-    // Get application state for debugging
-    getState() {
-        return {
-            ...this.state,
-            currentTheme: this.currentTheme,
-            currentVisualization: this.currentVisualization,
-            dashboardActive: this.dashboardActive
+    setupThemeListener() {
+        const darkModeMedia = window.matchMedia('(prefers-color-scheme: dark)');
+        const setTheme = (e) => {
+            if (!localStorage.getItem('theme')) {
+                this.state.theme = e.matches ? 'dark' : 'light';
+                this.applyTheme();
+            }
         };
+        darkModeMedia.addEventListener('change', setTheme);
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            this.state.theme = savedTheme;
+        } else {
+            this.state.theme = darkModeMedia.matches ? 'dark' : 'light';
+        }
+        this.applyTheme();
+    }
+
+    handleThemeChange() {
+        this.state.theme = this.state.theme === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('theme', this.state.theme);
+        this.applyTheme();
+    }
+
+    applyTheme() {
+        document.documentElement.setAttribute('data-theme', this.state.theme);
+        if (this.mapVisualizer) {
+            this.mapVisualizer.setTheme(this.state.theme);
+        }
+        // Update mobile theme icon if needed
+        if (this.state.mobile && this.mobileController) {
+            this.mobileController.updateThemeIcon();
+        }
     }
 }
 
-// Load user preferences from localStorage (dark theme only)
-function loadUserPreferences() {
-    // Force dark theme
-    const savedTheme = 'dark';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-}
-
-// Initialize application when DOM is loaded
+// Instantiate on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
-    loadUserPreferences();
-    
-    // Global app instance
     window.ttcApp = new TTCVisualizationApp();
+    window.ttcApp.init();
 });
-
-// Export for module usage (if needed)
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = TTCVisualizationApp;
-}

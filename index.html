@@ -1,1173 +1,204 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- ==================== SEO OPTIMIZATION ==================== -->
+    <!-- ==================== SEO & META ==================== -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    
-    <!-- Primary Meta Tags -->
-    <title>TTC Delay Visualization | Toronto Transit Commission Analytics Dashboard</title>
-    <meta name="title" content="TTC Delay Visualization | Toronto Transit Commission Analytics Dashboard">
-    <meta name="description" content="Interactive visualization of 12 years of Toronto TTC delay data (2014-2025). Analyze transit delays, frequency patterns, and route performance across Toronto.">
-    
-    <!-- Open Graph / Facebook -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>TTC Bus Delay Analytics | Toronto Transit Commission</title>
+    <meta name="description" content="Explore 12 years of TTC bus delays across Toronto. Interactive map with routes, wards, neighbourhoods, and hotspots.">
+    <meta property="og:title" content="TTC Bus Delay Analytics">
+    <meta property="og:description" content="Explore 12 years of TTC bus delays across Toronto.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://ttcdelay.kbains.com/">
-    <meta property="og:title" content="TTC Delay Visualization | Toronto Transit Commission Analytics Dashboard">
-    <meta property="og:description" content="Interactive visualization of 12 years of Toronto TTC delay data (2014-2025). Analyze transit delays, frequency patterns, and route performance across Toronto.">
-    <meta property="og:image" content="https://ttcdelay.kbains.com/assets/images/social-preview.jpg">
-    
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://ttcdelay.kbains.com/">
-    <meta property="twitter:title" content="TTC Delay Visualization | Toronto Transit Commission Analytics Dashboard">
-    <meta property="twitter:description" content="Interactive visualization of 12 years of Toronto TTC delay data (2014-2025). Analyze transit delays, frequency patterns, and route performance across Toronto.">
-    <meta property="twitter:image" content="https://ttcdelay.kbains.com/assets/images/social-preview.jpg">
-    
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Dataset",
-      "name": "Toronto TTC Delay Data 2014-2025",
-      "description": "Comprehensive dataset of Toronto Transit Commission delays from 2014 to 2025, including route performance, delay frequency, and geographical patterns.",
-      "url": "https://ttcdelay.kbains.com/",
-      "sameAs": [
-        "https://github.com/bainskarman/ttcdelay.kbains.com",
-        "https://medium.com/@bsinghkarman/tracking-time-lost-a-data-dive-into-torontos-public-transit-delays-20d7b475d736"
-      ],
-      "keywords": "TTC, Toronto Transit, Public Transportation, Delay Analysis, Transit Data, Transportation Analytics",
-      "license": "https://creativecommons.org/licenses/by/4.0/",
-      "creator": {
-        "@type": "Person",
-        "name": "Karman Bains",
-        "url": "https://bainskarman.github.io/portfolio.io/"
-      },
-      "temporalCoverage": "2014-01-01/2025-12-31",
-      "spatialCoverage": {
-        "@type": "Place",
-        "name": "Toronto, Ontario, Canada",
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": "43.6532",
-          "longitude": "-79.3832"
-        }
-      },
-      "distribution": {
-        "@type": "DataDownload",
-        "encodingFormat": "CSV",
-        "contentUrl": "https://ttcdelay.kbains.com/assets/data/"
-      }
-    }
-    </script>
-    
-    <!-- ==================== CSS IMPORTS ==================== -->
-    <!-- Leaflet CSS -->
+    <meta property="og:image" content="assets/images/social-preview.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="canonical" href="https://ttcdelay.kbains.com/">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+    <!-- ==================== CSS & FONTS ==================== -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Plotly.js -->
-    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js" charset="utf-8"></script>
-    
-    <!-- Local CSS -->
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/components.css">
-    <link rel="stylesheet" href="styles/dashboard.css">
-    <link rel="stylesheet" href="styles/mobile.css">
-    
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Preload critical resources -->
-    <link rel="preload" href="js/app.js" as="script">
-    <link rel="preload" href="assets/data/route_performance.csv" as="fetch" crossorigin>
-    <link rel="preload" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" as="script">
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://ttcdelay.kbains.com/">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
-    
-    <!-- Additional SEO Tags -->
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta name="author" content="Karman Bains">
-    <meta name="keywords" content="TTC, Toronto Transit, Public Transportation, Delay Analysis, Transit Data, Transportation Analytics, Toronto, Ontario, Canada, Bus Delays, Streetcar Delays, Subway Delays">
-    <meta name="theme-color" content="#8B0000">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+    <!-- Local styles -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/mobile.css">
+
+    <!-- ==================== SCRIPTS (load order matters) ==================== -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js" charset="utf-8"></script>
+
+    <!-- Application modules -->
+    <script src="js/dataLoader.js"></script>
+    <script src="js/mapVisualizer.js"></script>
+    <script src="js/uiController.js"></script>
+    <script src="js/mobile.js"></script>
+    <script src="js/app.js"></script>
+
+    <!-- Inline style for critical path (optional) -->
     <style>
-        /* About Page Styles - Added inline to ensure proper isolation */
-        .about-container {
-            display: none;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
-            z-index: 1000;
-            overflow-y: auto;
-            padding: 0;
-            margin: 0;
-        }
-
-        .about-container.active {
-            display: block;
-        }
-
-        .about-header {
-            background: linear-gradient(135deg, var(--card-bg) 0%, rgba(139, 0, 0, 0.1) 100%);
-            padding: 4rem 2rem;
-            text-align: center;
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 3rem;
-        }
-
-        .about-title {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #8B0000, #FF6B6B);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .about-subtitle {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-
-        .about-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .about-section {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 3rem;
-            margin-bottom: 3rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            border: 1px solid var(--border-color);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .about-section:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-        }
-
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--accent-color);
-        }
-
-        .section-icon {
-            font-size: 2rem;
-            background: linear-gradient(135deg, #8B0000, #FF6B6B);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .section-title {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .about-text {
-            color: var(--text-secondary);
-            line-height: 1.8;
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .about-text:last-child {
-            margin-bottom: 0;
-        }
-
-        .highlight {
-            color: var(--accent-color);
-            font-weight: 600;
-        }
-
-        .project-story {
-            display: grid;
-            gap: 2.5rem;
-        }
-
-        .story-paragraph {
-            background: linear-gradient(135deg, rgba(139, 0, 0, 0.05) 0%, rgba(255, 107, 107, 0.05) 100%);
-            padding: 2.5rem;
-            border-radius: 12px;
-            border-left: 4px solid var(--accent-color);
-            transition: transform 0.3s ease;
-        }
-
-        .story-paragraph:hover {
-            transform: translateX(5px);
-        }
-
-        .story-year {
-            display: inline-block;
-            background: var(--accent-color);
-            color: white;
-            padding: 0.5rem 1.2rem;
-            border-radius: 20px;
-            font-weight: 600;
-            margin-bottom: 1.2rem;
-            font-size: 0.9rem;
-        }
-
-        .story-content {
-            color: var(--text-secondary);
-            line-height: 1.8;
-            font-size: 1.1rem;
-        }
-
-        .story-link {
-            color: var(--accent-color);
-            text-decoration: none;
-            font-weight: 500;
-            border-bottom: 1px solid transparent;
-            transition: border-color 0.3s ease;
-            padding: 0.2rem 0;
-        }
-
-        .story-link:hover {
-            border-color: var(--accent-color);
-        }
-
-        .support-section {
-            text-align: center;
-            padding: 3rem;
-            background: linear-gradient(135deg, rgba(139, 0, 0, 0.1) 0%, rgba(255, 107, 107, 0.1) 100%);
-            border-radius: 16px;
-        }
-
-        .coffee-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.8rem;
-            background: linear-gradient(135deg, #FF6B6B, #8B0000);
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-top: 1.5rem;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 20px rgba(139, 0, 0, 0.3);
-        }
-
-        .coffee-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(139, 0, 0, 0.4);
-        }
-
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1.5rem;
-            background: linear-gradient(135deg, rgba(139, 0, 0, 0.05) 0%, rgba(255, 107, 107, 0.05) 100%);
-            border-radius: 12px;
-            transition: transform 0.3s ease;
-        }
-
-        .contact-item:hover {
-            transform: translateY(-3px);
-        }
-
-        .contact-icon {
-            font-size: 1.5rem;
-            color: var(--accent-color);
-        }
-
-        .contact-info a {
-            color: var(--text-primary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .contact-info a:hover {
-            color: var(--accent-color);
-        }
-
-        .contact-label {
-            display: block;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-bottom: 0.3rem;
-        }
-
-        .references {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .reference-item {
-            padding: 1rem;
-            background: linear-gradient(135deg, rgba(139, 0, 0, 0.05) 0%, rgba(255, 107, 107, 0.05) 100%);
-            border-radius: 8px;
-            border-left: 3px solid var(--accent-color);
-        }
-
-        .reference-item a {
-            color: var(--accent-color);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .reference-item a:hover {
-            text-decoration: underline;
-        }
-
-        .profile-image {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            margin: 0 auto 2rem;
-            border: 4px solid var(--accent-color);
-            background: linear-gradient(135deg, #8B0000, #FF6B6B);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .profile-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* Visual tab styles */
-        .visualization-link {
-            color: var(--accent-color);
-            text-decoration: none;
-            font-weight: 600;
-            background: linear-gradient(135deg, rgba(139, 0, 0, 0.1) 0%, rgba(255, 107, 107, 0.1) 100%);
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            margin: 0 0.3rem;
-            transition: all 0.3s ease;
-        }
-
-        .visualization-link:hover {
-            background: linear-gradient(135deg, rgba(139, 0, 0, 0.2) 0%, rgba(255, 107, 107, 0.2) 100%);
-            transform: translateY(-2px);
-        }
-
-        /* Feature highlights */
-        .feature-highlights {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .feature-highlight {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            padding: 1rem;
-            background: rgba(139, 0, 0, 0.08);
-            border-radius: 8px;
-            transition: transform 0.3s ease;
-        }
-
-        .feature-highlight:hover {
-            transform: translateY(-3px);
-            background: rgba(139, 0, 0, 0.12);
-        }
-
-        .feature-highlight-icon {
-            font-size: 1.3rem;
-            color: var(--accent-color);
-        }
-
-        .feature-highlight-text {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .about-content {
-                padding: 1rem;
-            }
-            
-            .about-section {
-                padding: 2rem 1.5rem;
-            }
-            
-            .about-title {
-                font-size: 2.2rem;
-            }
-            
-            .section-title {
-                font-size: 1.5rem;
-            }
-            
-            .story-paragraph {
-                padding: 1.8rem;
-            }
-            
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .feature-highlights {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Ensure about page doesn't inherit sidebar styles */
-        body.about-active .left-sidebar,
-        body.about-active .right-sidebar,
-        body.about-active .map-container,
-        body.about-active .map-legend,
-        body.about-active .map-controls {
-            display: none !important;
-        }
-
-        body.about-active .app-footer {
-            position: relative;
-            margin-top: 3rem;
-        }
+        /* Ensure the map container fills the viewport immediately */
+        html, body { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; font-family: 'Inter', sans-serif; }
+        #app { height: 100%; width: 100%; position: relative; }
+        .map-container { height: 100%; width: 100%; background: #0f1117; }
+        #map { height: 100%; width: 100%; }
     </style>
 </head>
-<body data-theme="dark">
-    <!-- ==================== MOBILE CONTAINER (Hidden on Desktop) ==================== -->
-    <div class="mobile-container" aria-hidden="true" style="display: none;">
-        <!-- Mobile KPI Section -->
-        <div class="mobile-kpi-section">
-            <div class="mobile-kpi-grid">
-                <div class="mobile-kpi-card">
-                    <div class="mobile-kpi-icon">📊</div>
-                    <div class="mobile-kpi-content">
-                        <div class="mobile-kpi-value" id="mobileTotalIncidents">0</div>
-                        <div class="mobile-kpi-label">Incidents</div>
-                    </div>
-                </div>
-                <div class="mobile-kpi-card">
-                    <div class="mobile-kpi-icon">⏱️</div>
-                    <div class="mobile-kpi-content">
-                        <div class="mobile-kpi-value" id="mobileAvgDelay">0 min</div>
-                        <div class="mobile-kpi-label">Avg Delay</div>
-                    </div>
-                </div>
-            </div>
+<body>
+    <div id="app">
+        <!-- ==================== MAP CONTAINER ==================== -->
+        <div class="map-container">
+            <div id="map"></div>
         </div>
 
-        <!-- Mobile Segmented Control -->
-        <div class="mobile-segmented-control">
-            <div class="mobile-segment active" data-visual="delay" aria-selected="true">
-                <div class="segment-icon"></div>
-                <div class="segment-label">⏱️Delay</div>
-            </div>
-            <div class="mobile-segment" data-visual="frequency" aria-selected="false">
-                <div class="segment-icon"></div>
-                <div class="segment-label">📈Frequency</div>
-            </div>
-            <div class="mobile-segment" data-visual="about" aria-selected="false">
-                <div class="segment-icon"></div>
-                <div class="segment-label">ℹ️About</div>
-            </div>
-        </div>
+        <!-- ==================== DESKTOP UI OVERLAYS ==================== -->
 
-        <!-- Mobile Search Section -->
-        <div class="mobile-search-section">
-            <div class="mobile-search-container">
-                <input 
-                    type="text" 
-                    id="mobileRouteSearch" 
-                    class="mobile-search-input" 
-                    placeholder="Search route number or name..."
-                    aria-label="Search TTC routes"
-                >
-                <button id="mobileSearchBtn" class="mobile-search-btn" aria-label="Search">
-                    <i class="fas fa-search"></i>
+        <!-- Top‑left Collapsible Control Panel (branding + filters) -->
+        <div class="control-panel" id="controlPanel">
+            <div class="panel-header">
+                <button class="panel-toggle" id="panelToggle" aria-label="Toggle panel">
+                    <i class="fas fa-chevron-left"></i>
                 </button>
+                <span class="brand">TTC Delay Analytics</span>
             </div>
-            <div id="mobileSearchResults" class="mobile-search-results" style="display: none;"></div>
-        </div>
-
-        <!-- Mobile Map Section -->
-        <div id="mobile-map-section" class="mobile-map-section">
-            <div id="mobile-map" class="mobile-map"></div>
-            
-            <!-- Floating Legend Toggle -->
-            <button id="mobileLegendToggle" class="mobile-legend-toggle" aria-label="Show legend">
-                <i class="fas fa-info"></i>
-            </button>
-            
-            <!-- Legend Panel -->
-            <div id="mobileLegendPanel" class="mobile-legend-panel" aria-hidden="true" style="display: none;">
-                <div class="mobile-legend-header">
-                    <h3>Map Legend</h3>
-                    <button id="mobileLegendClose" class="mobile-legend-close" aria-label="Close legend">
-                        <i class="fas fa-times"></i>
-                    </button>
+            <div class="panel-content" id="panelContent">
+                <!-- View selector (pill style inside panel) -->
+                <div class="view-selector">
+                    <button class="view-btn active" data-view="routes">Routes</button>
+                    <button class="view-btn" data-view="wards">Wards</button>
+                    <button class="view-btn" data-view="neighbourhoods">Neighbourhoods</button>
+                    <button class="view-btn" data-view="hotspots">Hotspots</button>
                 </div>
-                <div id="mobileLegendContent" class="mobile-legend-content"></div>
-            </div>
-        </div>
 
-        <!-- Mobile About Content -->
-        <div id="mobile-about-content" class="mobile-about-content" aria-hidden="true" style="display: none;"></div>
-    </div>
-
-    <div class="app-container">
-
-        <header class="app-header">
-            <div class="header-content">
-                <div class="logo-section">
-                    <h1 class="app-title">
-                        <span class="title-icon">🚍</span>
-                        TTC Delay Visualization
-                    </h1>
-                    <p class="app-subtitle">Toronto Transit Commission Analytics</p>
+                <!-- Metric toggle (Time / Frequency) -->
+                <div class="metric-selector">
+                    <button class="metric-btn active" data-metric="time">⏱️ Time (avg delay)</button>
+                    <button class="metric-btn" data-metric="frequency">📈 Frequency (count)</button>
                 </div>
-                
-                <!-- Visualization Toggles - UPDATED WITH ABOUT TAB -->
-                <div class="header-toggles">
-                    <div class="toggle-group">
-                        <button class="toggle-btn active" data-visual="delay">
-                            <span class="toggle-icon">⏱️</span>
-                            Delay
+
+                <!-- Filters section (expandable) -->
+                <div class="filters-section">
+                    <h4>
+                        Filters
+                        <button id="resetFiltersBtn" class="reset-filters-btn" title="Reset all filters">
+                            <i class="fas fa-undo-alt"></i>
                         </button>
-                        <button class="toggle-btn" data-visual="frequency">
-                            <span class="toggle-icon">📈</span>
-                            Frequency
-                        </button>
-                        <button class="toggle-btn" data-visual="dashboard">
-                            <span class="toggle-icon">📊</span>
-                            Dashboard
-                        </button>
-                        <button class="toggle-btn" data-visual="about">
-                            <span class="toggle-icon">ℹ️</span>
-                            About
-                        </button>
+                        <span class="filter-badge" id="activeFilterCount">0</span>
+                    </h4>
+                    <div class="filter-group">
+                        <label>Year</label>
+                        <div id="yearFilter"></div>  <!-- custom dropdown container -->
                     </div>
-                </div>
-
-                <div class="header-controls">
-                    <div class="theme-toggle">
-                        <button id="themeToggle" class="theme-btn" aria-label="Toggle theme">
-                            <span class="theme-icon">🌙</span>
-                        </button>
+                    <div class="filter-group">
+                        <label>Transit Type</label>
+                        <div id="transitFilter"></div>  <!-- custom dropdown container -->
                     </div>
-                    <div class="last-updated">
-                        <span class="update-label">Data Refreshed:</span>
-                        <span id="lastUpdated" class="update-time">Loading...</span>
+                    <div class="filter-group">
+                        <label>Incident Category</label>
+                        <div id="incidentFilter"></div>  <!-- custom dropdown container -->
                     </div>
-                </div>
-            </div>
-        </header>
-
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Left Sidebar -->
-            <aside class="sidebar left-sidebar">
-                <div class="sidebar-section">
-                    <h2 class="section-title">Key Metrics</h2>
-                    <div class="metrics-grid">
-                        <div class="metric-card">
-                            <div class="metric-icon">⏱️</div>
-                            <div class="metric-content">
-                                <span class="metric-value" id="totalDelays">--</span>
-                                <span class="metric-label">Total Incidents</span>
-                            </div>
-                        </div>
-                        <div class="metric-card">
-                            <div class="metric-icon">📊</div>
-                            <div class="metric-content">
-                                <span class="metric-value" id="avgDelay">-- min</span>
-                                <span class="metric-label">Average Delay</span>
-                            </div>
-                        </div>
-                        <div class="metric-card">
-                            <div class="metric-icon">🛣️</div>
-                            <div class="metric-content">
-                                <span class="metric-value" id="routesTracked">--</span>
-                                <span class="metric-label">Routes Tracked</span>
-                            </div>
-                        </div>
-                        <div class="metric-card">
-                            <div class="metric-icon">📈</div>
-                            <div class="metric-content">
-                                <span class="metric-value" id="coverage">--%</span>
-                                <span class="metric-label">Route Coverage</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="sidebar-section" style="margin-bottom: 0; padding-bottom: 0;">
-                    <div class="filter-control" style="padding: 0 var(--space-lg) var(--space-md) var(--space-lg);">
-                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none;">
-                            <input type="checkbox" id="hideInactiveRoutes" checked style="width: 16px; height: 16px; accent-color: var(--accent-primary);">
-                            <span style="color: var(--text-secondary); font-size: 0.9rem;">Hide inactive routes</span>
+                    <div class="filter-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="activeOnlyFilter" checked> Hide inactive routes
                         </label>
                     </div>
-                </div>
-
-                <div class="sidebar-section">
-                    <h2 class="section-title" id="searchTitle">Route Search</h2>
-                    
-                    <!-- Historical Search -->
-                    <div class="search-container" id="historicalSearch">
-                        <div class="search-input-group">
-                            <input type="text" 
-                                id="routeSearch" 
-                                class="search-input" 
-                                placeholder="Search historical routes or streets..."
-                                aria-label="Search historical routes or streets">
-                            <button class="search-btn" aria-label="Search">
-                                <span class="search-icon">🔍</span>
-                            </button>
-                        </div>
-                        <div id="searchResults" class="search-results" aria-live="polite"></div>
-                    </div>
-                </div>
-                <div class="sidebar-section" style="margin-top: auto; margin-bottom: 0;">
-                    <div class="sidebar-links" style="
-                        padding: var(--space-md) var(--space-lg);
-                        border-top: 1px solid var(--border-color);
-                        background: rgba(0, 0, 0, 0.2);
-                        flex-shrink: 0;
-                        border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-                        border-left: none;
-                        border-right: none;
-                        border-bottom: none;
-                    ">
-                        <div class="links-header" style="
-                            font-size: 0.75rem;
-                            color: var(--text-muted);
-                            text-transform: uppercase;
-                            letter-spacing: 1px;
-                            margin-bottom: var(--space-sm);
-                            font-weight: var(--font-weight-medium);
-                        ">
-                            Additional Resources
-                        </div>
-                        
-                        <div class="link-item" style="margin-bottom: var(--space-sm);">
-                            <a href="https://app.powerbi.com/view?r=eyJrIjoiOTRkYTMyZjctMjU3Yi00MTQzLTg0NTItZTQ2YjQwMzRkYWRjIiwidCI6ImI2NDE3Y2QwLTFmNzMtNDQ3MS05YTM5LTIwOTUzODIyYTM0YSIsImMiOjN9&source=post_page-----20d7b475d736---------------------------------------" 
-                            target="_blank" 
-                            style="
-                                    display: flex;
-                                    align-items: center;
-                                    gap: var(--space-sm);
-                                    color: var(--text-secondary);
-                                    text-decoration: none;
-                                    padding: 6px 8px;
-                                    border-radius: var(--radius-sm);
-                                    font-size: 0.85rem;
-                                    transition: all var(--transition-fast);
-                            "
-                            onmouseover="this.style.color='var(--text-primary)'; this.style.background='var(--tertiary-bg)';"
-                            onmouseout="this.style.color='var(--text-secondary)'; this.style.background='transparent';">
-                                <i class="fas fa-chart-bar" style="width: 16px; text-align: center; color: var(--accent-primary);"></i>
-                                <span>Power BI Dashboard</span>
-                            </a>
-                        </div>
-                        
-                        <div class="link-item">
-                            <a href="https://ttcdelay.streamlit.app/" 
-                            target="_blank" 
-                            style="
-                                    display: flex;
-                                    align-items: center;
-                                    gap: var(--space-sm);
-                                    color: var(--text-secondary);
-                                    text-decoration: none;
-                                    padding: 6px 8px;
-                                    border-radius: var(--radius-sm);
-                                    font-size: 0.85rem;
-                                    transition: all var(--transition-fast);
-                            "
-                            onmouseover="this.style.color='var(--text-primary)'; this.style.background='var(--tertiary-bg)';"
-                            onmouseout="this.style.color='var(--text-secondary)'; this.style.background='transparent';">
-                                <i class="fas fa-code" style="width: 16px; text-align: center; color: var(--accent-primary);"></i>
-                                <span>Streamlit App</span>
-                            </a>
-                        </div>
+                    <div class="filter-group">
+                        <label>Route Search</label>
+                        <input type="text" id="routeSearchInput" placeholder="e.g. 36, 36A" class="filter-input">
+                        <div id="searchResults" class="search-results-dropdown"></div>
                     </div>
                 </div>
 
-
-            </aside>
-
-            <!-- Map Container -->
-            <section class="map-container">
-                <div id="map" class="map"></div>
-                <div class="map-controls">
-                    <button id="fullscreenBtn" class="map-control-btn" aria-label="Toggle fullscreen">
-                        <span class="control-icon">⛶</span>
-                    </button>
-                    <button id="locateBtn" class="map-control-btn" aria-label="Locate me">
-                        <span class="control-icon">📍</span>
-                    </button>
-                    <button id="resetViewBtn" class="map-control-btn" aria-label="Reset view">
-                        <span class="control-icon">🔄</span>
+                <!-- Theme toggle at bottom -->
+                <div class="panel-footer">
+                    <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle theme">
+                        <i class="fas fa-moon"></i>
                     </button>
                 </div>
-                <div class="legend-toggle-container">
-                    <button id="legendToggleBtn" class="legend-toggle-btn" aria-label="Toggle legend">
-                        <i class="fas fa-info-circle"></i>
-                    </button>
-                </div>
-            </section>
-
-            <!-- Right Sidebar -->
-            <aside class="sidebar right-sidebar">
-                <div class="sidebar-section">
-                    <h2 class="section-title">Top Delayed Routes</h2>
-                    <div id="topRoutesList" class="routes-list">
-                        <div class="loading-state">
-                            <div class="loading-spinner"></div>
-                            <span>Loading route data...</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="sidebar-section">
-                    <h2 class="section-title" id="viewportTitle">Viewport Insights</h2>
-                    <div class="viewport-info">
-                        <div id="historicalViewport">
-                            <p class="hint-text" id="viewportHint">Zoom in to see street-level insights</p>
-                            <div id="viewportRoutes" class="viewport-routes">
-                                <!-- Dynamic content will be inserted here -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="sidebar-section">
-                    <h2 class="section-title">Data Summary</h2>
-                    <div class="data-summary">
-                        <div class="summary-item">
-                            <span class="summary-label">Data Period:</span>
-                            <span class="summary-value" id="timePeriod">--</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="summary-label">Total Delay Incidents:</span>
-                            <span class="summary-value" id="dataPoints">--</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="summary-label">Most Recent Data:</span>
-                            <span class="summary-value" id="dataUpdate">--</span>
-                        </div>
-                    </div>
-                </div>
-                
-            </aside>
-
-            <!-- Dashboard Container (hidden by default) -->
-            <div id="dashboard-container">
-                <iframe id="dashboard-frame" src="Dash/dashboard.html" title="TTC Analytics Dashboard"></iframe>
             </div>
+        </div>
 
-            <!-- About Container (hidden by default) - NEW -->
-            <div id="about-container" class="about-container">
-                <div class="about-header">
-                    <h1 class="about-title">About This Project</h1>
-                    
-                    <!-- Support Button at Top -->
-                    <div style="margin-top: 2rem;">
-                        <a href="https://buymeacoffee.com/bainskarman" target="_blank" class="coffee-btn">
-                            <i class="fas fa-coffee"></i>
-                            Buy Me a Coffee
-                        </a>
-                    </div>
-                </div>
-
-                <div class="about-content">
-                    <!-- Introduction Section -->
-                    <section class="about-section">
-                        <div class="section-header">
-                            <span class="section-icon">👋</span>
-                            <h2 class="section-title">Introduction</h2>
-                        </div>
-                        <div class="about-text">
-                            Let's start with a confession: I've been in Canada for years and still only have my G1 license. 
-                            As someone who <span class="highlight">relies entirely on public transit</span>, I've spent countless hours waiting for buses that either never show up or arrive so late they might as well be a different route entirely.
-                        </div>
-                        <div class="about-text">
-                            That frustration standing in the cold, watching estimated arrival times tick up like a cruel joke is what inspired this project. 
-                            What started as a personal quest to understand <span class="highlight">why the 16-McCowan Bus is perpetually late</span> evolved into a comprehensive analysis of Toronto's entire transit system.
-                        </div>
-                        <div class="about-text">
-                            This web app is my attempt to bring transparency to TTC performance, helping fellow transit users make informed decisions and maybe, just maybe, arrive at their destinations on time.
-                        </div>
-                    </section>
-
-                    <!-- Merged Project Story & App Functionality Section -->
-                    <section class="about-section">
-                        <div class="section-header">
-                            <span class="section-icon">📊</span>
-                            <h2 class="section-title">Project Story</h2>
-                        </div>
-                        
-                        <div class="project-story">
-                            <!-- First Paragraph: Project Evolution -->
-                            <div class="story-paragraph">
-                                <div class="story-content">
-                                    This project began in 2023 as simple curiosity about TTC delays, starting with a basic 
-                                    <a href="https://public.tableau.com/app/profile/karman.bains/viz/TTCDelayDash/Dashboard1" target="_blank" class="story-link">Tableau dashboard</a>. 
-                                    In 2024, I expanded it into a comprehensive 
-                                    <a href="https://app.powerbi.com/view?r=eyJrIjoiOTRkYTMyZjctMjU3Yi00MTQzLTg0NTItZTQ2YjQwMzRkYWRjIiwidCI6ImI2NDE3Y2QwLTFmNzMtNDQ3MS05YTM5LTIwOTUzODIyYTM0YSIsImMiOjN9&source=post_page-----20d7b475d736------------------------------------" target="_blank" class="story-link">Power BI semantic data model</a>, 
-                                    merging multiple datasets for deeper analysis. The project evolved further with a 
-                                    <a href="https://ttcdelay.streamlit.app/" target="_blank" class="story-link">Streamlit app</a> for forecasting and trend analysis, 
-                                    and GIS work to map routes geographically. In May 2025, I shared insights in a 
-                                    <a href="https://medium.com/@bsinghkarman/tracking-time-lost-a-data-dive-into-torontos-public-transit-delays-20d7b475d736" target="_blank" class="story-link">Medium article</a>, 
-                                    and the current web app was inspired by projects like the 
-                                    <a href="https://toronto-parking-production.up.railway.app/" target="_blank" class="story-link">Toronto Parking Analysis</a>.
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <!-- Contact Section -->
-                    <section class="about-section">
-                        <div class="section-header">
-                            <span class="section-icon">📬</span>
-                            <h2 class="section-title">Contact</h2>
-                        </div>
-                        
-                        <div class="contact-grid">
-                            <div class="contact-item">
-                                <div class="contact-icon">
-                                    <i class="fas fa-envelope"></i>
-                                </div>
-                                <div class="contact-info">
-                                    <span class="contact-label">Email</span>
-                                    <a href="mailto:bsinghkarman@gmail.com">bsinghkarman@gmail.com</a>
-                                </div>
-                            </div>
-                            
-                            <div class="contact-item">
-                                <div class="contact-icon">
-                                    <i class="fas fa-briefcase"></i>
-                                </div>
-                                <div class="contact-info">
-                                    <span class="contact-label">Portfolio</span>
-                                    <a href="https://bainskarman.github.io/portfolio.io/" target="_blank">bainskarman.github.io</a>
-                                </div>
-                            </div>
-                            
-                            <div class="contact-item">
-                                <div class="contact-icon">
-                                    <i class="fab fa-github"></i>
-                                </div>
-                                <div class="contact-info">
-                                    <span class="contact-label">GitHub</span>
-                                    <a href="https://github.com/bainskarman" target="_blank">github.com/bainskarman</a>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <!-- References Section -->
-                    <section class="about-section">
-                        <div class="section-header">
-                            <span class="section-icon">📚</span>
-                            <h2 class="section-title">References & Data Sources</h2>
-                        </div>
-                        
-                        <div class="about-text">
-                            This project would not be possible without the open data provided by these organizations:
-                        </div>
-                        
-                        <div class="references">
-                            <div class="reference-item">
-                                <a href="https://www.ttc.ca/About-the-TTC/Projects-and-Initiatives/Open-Data" target="_blank">
-                                    TTC Open Data Portal
-                                </a>
-                                <div style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-secondary);">
-                                    Historical delay data, route information, and schedule data
-                                </div>
-                            </div>
-                            
-                            <div class="reference-item">
-                                <a href="https://open.toronto.ca/" target="_blank">
-                                    City of Toronto Open Data
-                                </a>
-                                <div style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-secondary);">
-                                    Geographic data, neighborhood boundaries, and infrastructure information
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </div>
+        <!-- Top‑right KPI overlay -->
+        <div class="kpi-overlay">
+            <div class="kpi-card" id="kpiPrimary">
+                <span class="kpi-label" id="kpiPrimaryLabel">Avg Delay</span>
+                <span class="kpi-value" id="kpiPrimaryValue">--</span>
+                <span class="kpi-trend" id="kpiPrimaryTrend"></span>
             </div>
-
-            <!-- Dashboard Overlay Controls (unchanged) -->
-            <div id="dashboard-overlay-controls" style="
-                position: absolute;
-                top: 20px;
-                right: 20px;
-                z-index: 9999;
-                display: none;
-            ">
-                <button id="globalBackToMapBtn" style="
-                    background: linear-gradient(135deg, #8B0000, #660000);
-                    color: white;
-                    border: none;
-                    padding: 12px 24px;
-                    border-radius: 8px;
-                    cursor: pointer;
-                    font-size: 1rem;
-                    font-weight: 600;
-                    display: flex;
-                    align-items: center;
-                    gap: 10px;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-                    transition: all 0.3s ease;
-                ">
-                    <i class="fas fa-arrow-left"></i>
-                    Back to Map
-                </button>
+            <div class="kpi-card">
+                <span class="kpi-label">Total Incidents</span>
+                <span class="kpi-value" id="kpiTotalIncidents">--</span>
+                <span class="kpi-trend" id="kpiTotalTrend"></span>
             </div>
-
-        </main>
-
-        <!-- Footer - ALWAYS VISIBLE FOR ALL TABS -->
-        <footer class="app-footer">
-            <div class="footer-content">
-                <div class="footer-info">
-                    <span class="footer-text">TTC Delay Visualization | Toronto Transit Commission | Historical Data Analysis: 2014-2025</span>
-                </div>
+            <div class="kpi-card">
+                <span class="kpi-label">Routes Reporting</span>
+                <span class="kpi-value" id="kpiRoutesReporting">--</span>
+                <span class="kpi-trend" id="kpiRoutesTrend"></span>
             </div>
-        </footer>
+        </div>
+
+        <!-- Bottom‑left Legend -->
+        <div class="legend-overlay" id="legendOverlay">
+            <div class="legend-gradient"></div>
+            <div class="legend-labels">
+                <span id="legendMin">0</span>
+                <span id="legendMax">60+</span>
+            </div>
+            <span class="legend-metric" id="legendMetric">Avg Delay (min)</span>
+        </div>
+
+        <!-- Floating island for primary navigation (Time, Frequency, About) -->
+        <div class="floating-island" id="primaryNav">
+            <button class="nav-item active" data-nav="time">Time</button>
+            <button class="nav-item" data-nav="frequency">Frequency</button>
+            <button class="nav-item" data-nav="about">About</button>
+        </div>
+
+        <!-- Floating island for layer switching (Routes, Wards, Neighbourhoods, Hotspots) -->
+        <div class="floating-island layer-island" id="layerNav">
+            <button class="layer-item active" data-layer="routes">Routes</button>
+            <button class="layer-item" data-layer="wards">Wards</button>
+            <button class="layer-item" data-layer="neighbourhoods">Districts</button>
+            <button class="layer-item" data-layer="hotspots">Hotspots</button>
+        </div>
+
+        <!-- Bottom sheet container (for mobile & desktop detail views) -->
+        <div class="bottom-sheet" id="bottomSheet">
+            <div class="sheet-header">
+                <div class="sheet-drag-handle"></div>
+                <h3 id="sheetTitle">Route Details</h3>
+                <button class="sheet-close" id="sheetClose"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="sheet-content" id="sheetContent">
+                <!-- populated dynamically -->
+            </div>
+        </div>
+
+        <!-- Tooltip container (desktop hover) -->
+        <div class="tooltip-custom" id="customTooltip" style="display: none;"></div>
+
+        <!-- ==================== ABOUT CONTAINER ==================== -->
+        <div class="about-container" id="about-container">
+            <div class="about-content">
+                <button class="about-close" id="aboutCloseBtn"><i class="fas fa-times"></i></button>
+                <div id="aboutContent"></div>
+            </div>
+        </div>
+
+        <!-- NOTE: The old static mobile container has been removed. The new mobile UI is built dynamically by MobileController. -->
     </div>
 
-    <!-- Scripts -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="js/dataLoader.js"></script>
-<script src="js/mapVisualizer.js"></script>
-<script src="js/uiController.js"></script>
-<script src="js/app.js"></script>
-
-<script>
-    // Fix for Leaflet auto-zooming issues
-    document.addEventListener('DOMContentLoaded', function() {
-        // Prevent unwanted zoom behavior on mobile
-        if (window.ttcApp && window.ttcApp.map) {
-            // Disable double-click zoom
-            window.ttcApp.map.doubleClickZoom.disable();
-            
-            // Disable scroll wheel zoom unless Ctrl/Cmd key is pressed
-            window.ttcApp.map.scrollWheelZoom.disable();
-            
-            // Add strict bounds to prevent auto-zooming
-            const torontoBounds = L.latLngBounds(
-                [43.58, -79.63], // Southwest
-                [43.86, -79.12]  // Northeast
-            );
-            
-            window.ttcApp.map.setMaxBounds(torontoBounds);
-            window.ttcApp.map.setMinZoom(10);
-            window.ttcApp.map.setMaxZoom(18);
-            
-            // Prevent dragging outside bounds
-            window.ttcApp.map.on('drag', function() {
-                window.ttcApp.map.panInsideBounds(torontoBounds, { animate: false });
-            });
-            
-            // Add scroll wheel zoom only with modifier key
-            window.addEventListener('keydown', function(e) {
-                if (e.ctrlKey || e.metaKey) {
-                    window.ttcApp.map.scrollWheelZoom.enable();
-                }
-            });
-            
-            window.addEventListener('keyup', function(e) {
-                if (!e.ctrlKey && !e.metaKey) {
-                    window.ttcApp.map.scrollWheelZoom.disable();
-                }
-            });
-        }
-
-        // Initialize with delay visualization as default
-        const toggleBtns = document.querySelectorAll('.toggle-btn');
-        toggleBtns.forEach(btn => {
-            if (btn.dataset.visual === 'delay') {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
-            }
+    <!-- ==================== INITIALIZATION SCRIPT ==================== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            window.ttcApp = new TTCVisualizationApp();
         });
-    });
-</script>
-
-<!-- About Page JavaScript -->
-<script>
-    // Extend the existing UI controller to handle About tab
-    document.addEventListener('DOMContentLoaded', function() {
-        // Get all toggle buttons
-        const toggleButtons = document.querySelectorAll('.toggle-btn');
-        const dashboardContainer = document.getElementById('dashboard-container');
-        const aboutContainer = document.getElementById('about-container');
-        const mapContainer = document.getElementById('map');
-        const leftSidebar = document.querySelector('.left-sidebar');
-        const rightSidebar = document.querySelector('.right-sidebar');
-        const overlayControls = document.getElementById('dashboard-overlay-controls');
-        const body = document.body;
-        
-        // Add click handlers to visualization links in About page
-        document.querySelectorAll('.visualization-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const visual = this.getAttribute('data-visual');
-                
-                // Find and click the corresponding toggle button
-                const targetBtn = document.querySelector(`.toggle-btn[data-visual="${visual}"]`);
-                if (targetBtn) {
-                    targetBtn.click();
-                }
-            });
-        });
-        
-        // Handle toggle button clicks
-        toggleButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const visual = this.getAttribute('data-visual');
-                
-                // Remove active class from all buttons
-                toggleButtons.forEach(btn => btn.classList.remove('active'));
-                
-                // Add active class to clicked button
-                this.classList.add('active');
-                
-                // Hide all containers
-                dashboardContainer.style.display = 'none';
-                aboutContainer.style.display = 'none';
-                overlayControls.style.display = 'none';
-                
-                // Remove about-active class from body
-                body.classList.remove('about-active');
-                
-                // Show the selected visualization
-                if (visual === 'delay' || visual === 'frequency') {
-                    // Show map and sidebars
-                    mapContainer.style.display = 'block';
-                    leftSidebar.style.display = 'block';
-                    rightSidebar.style.display = 'block';
-                    
-                    // Trigger visualization switch if app exists
-                    if (window.ttcApp && window.ttcApp.switchVisualization) {
-                        window.ttcApp.switchVisualization(visual);
-                    }
-                } else if (visual === 'dashboard') {
-                    // Show dashboard
-                    dashboardContainer.style.display = 'block';
-                    overlayControls.style.display = 'block';
-                    
-                    // Hide map and sidebars
-                    mapContainer.style.display = 'none';
-                    leftSidebar.style.display = 'none';
-                    rightSidebar.style.display = 'none';
-                } else if (visual === 'about') {
-                    // Show about page
-                    aboutContainer.style.display = 'block';
-                    body.classList.add('about-active');
-                    
-                    // Hide map, sidebars, and legend
-                    mapContainer.style.display = 'none';
-                    leftSidebar.style.display = 'none';
-                    rightSidebar.style.display = 'none';
-                    
-                }
-            });
-        });
-        
-        // Handle global back button
-        const globalBackBtn = document.getElementById('globalBackToMapBtn');
-        if (globalBackBtn) {
-            globalBackBtn.addEventListener('click', function() {
-                const delayToggle = document.querySelector('.toggle-btn[data-visual="delay"]');
-                if (delayToggle) delayToggle.click();
-            });
-        }
-        
-        // Mutation observer for dashboard visibility
-        if (dashboardContainer) {
-            const observer = new MutationObserver(function(mutations) {
-                mutations.forEach(function(mutation) {
-                    if (mutation.attributeName === 'style' || mutation.attributeName === 'class') {
-                        const isVisible = dashboardContainer.style.display !== 'none';
-                        overlayControls.style.display = isVisible ? 'block' : 'none';
-                    }
-                });
-            });
-            
-            observer.observe(dashboardContainer, { attributes: true });
-            
-            // Set initial state
-            overlayControls.style.display = dashboardContainer.style.display !== 'none' ? 'block' : 'none';
-        }
-    });
-</script>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="js/dataLoader.js"></script>
-<script src="js/mapVisualizer.js"></script>
-<script src="js/uiController.js"></script>
-<script src="js/app.js"></script>
-<script src="js/mobile.js"></script>
-
-<!-- JSON-LD for Dataset -->
-<script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "TTC Delay Visualization",
-    "url": "https://ttcdelay.kbains.com/",
-    "applicationCategory": "DataVisualization",
-    "operatingSystem": "Any",
-    "description": "Interactive web application for visualizing Toronto TTC delay patterns from 2014 to 2025",
-    "featureList": [
-    "Interactive map visualization",
-    "Route performance analytics",
-    "Delay frequency analysis",
-    "Historical data exploration"
-    ],
-    "screenshot": "https://ttcdelay.kbains.com/assets/images/screenshot.jpg",
-    "creator": {
-    "@type": "Person",
-    "name": "Karman Bains",
-    "url": "https://bainskarman.github.io/portfolio.io/"
-    }
-}
-</script>
+    </script>
 </body>
 </html>

@@ -1,17 +1,4 @@
 User-agent: *
 Allow: /
-Allow: /about.html
-Allow: /assets/css/
-Allow: /assets/js/
-Disallow: /assets/data/raw/
-Disallow: /node_modules/
-Disallow: /temp/
 
-# Crawl delay
-Crawl-delay: 2
-
-# Sitemap
 Sitemap: https://ttcdelay.kbains.com/sitemap.xml
-
-# Host
-Host: https://ttcdelay.kbains.com

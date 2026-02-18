@@ -1,823 +1,443 @@
-// Map Visualization Engine for TTC Delay Visualization
+// js/mapVisualizer.js
+// Map Visualization Engine for TTC Bus Delay Analytics
+
 class MapVisualizer {
-    constructor() {
+    constructor(app) {
+        this.app = app;
         this.map = null;
-        this.routeGeometries = {};
-        this.routes = [];
-        this.currentVisualization = null;
-        this.activeLayers = new Map();
-        this.legend = null;
-        this.colorScales = new Map();
+        this.baseLayers = {
+            dark: L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; CartoDB'
+            }),
+            light: L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; CartoDB'
+            })
+        };
+        this.currentTileLayer = null;
+        this.currentView = null;
+        this.layers = {
+            routes: L.layerGroup(),
+            wards: L.layerGroup(),
+            neighbourhoods: L.layerGroup(),
+            hotspots: L.layerGroup()
+        };
+        this.currentHeatLayer = null;
+        this.routeLayers = new Map();
         this.highlightedRoute = null;
-        
-        // Visualization configurations (only delay and frequency)
-        this.config = {
-            routeDelay: {
-                colors: ['#10b981', '#f59e0b', '#ef4444', '#7c3aed'],
-                weight: 2,
-                opacity: 0.8
-            },
-            frequency: {
-                colors: ['#93c5fd', '#3b82f6', '#1d4ed8', '#7e22ce'],
-                minWeight: 2,
-                maxWeight: 3,
-                opacity: 0.8
-            }
+    }
+
+    getPopupOptions() {
+        if (this.app.state.mobile) {
+            return { offset: L.point(0, 35) };
+        }
+        return {};
+    }
+
+    init(mapElementId, state) {
+        const isMobile = state.mobile;
+        const mapOptions = {
+            center: [43.6532, -79.3832],
+            zoom: isMobile ? 10 : 11,           // zoom out more on mobile
+            zoomControl: false,
+            attributionControl: true,
+            maxBoundsViscosity: 1.0
         };
-    }
+        // Apply maxBounds only on desktop
+        if (!isMobile) {
+            mapOptions.maxBounds = L.latLngBounds([43.58, -79.63], [43.86, -79.12]);
+        }
+        this.map = L.map(mapElementId, mapOptions);
 
-    init(map, routeGeometries, routes) {
-        console.log('🗺️ Initializing map visualizer...');
-        
-        this.map = map;
-        this.routeGeometries = routeGeometries;
-        this.routes = routes;
-        
-        // Initialize color scales
-        this.initializeColorScales();
-        
-        console.log('✅ Map visualizer initialized');
-    }
+        const theme = state.theme || 'dark';
+        this.currentTileLayer = this.baseLayers[theme].addTo(this.map);
 
-    initializeColorScales() {
-        // --- Delay-based color scale (hardcoded thresholds) ---
-        this.colorScales.set('delay', (avgDelay) => {
-            if (avgDelay < 20) return '#10b981';   // green
-            if (avgDelay < 45) return '#f59e0b';   // orange
-            return '#ef4444';                        // purple
+        L.control.zoom({ position: 'bottomright' }).addTo(this.map);
+
+        this.layers.routes.addTo(this.map);
+        this.layers.wards.addTo(this.map);
+        this.layers.neighbourhoods.addTo(this.map);
+        this.layers.hotspots.addTo(this.map);
+
+        this.map.on('click', (e) => {
+            this.app.onFeatureClick(null);
         });
 
-        // --- Frequency-based color scale (unchanged) ---
-        const maxFrequency = Math.max(...this.routes.map(r => r.Delay_Count));
-        this.colorScales.set('frequency', this.createColorScale(
-            [0, maxFrequency * 0.3, maxFrequency * 0.6, maxFrequency],
-            this.config.frequency.colors
-        ));
-
-        console.log('🎨 Color scales initialized (delay: fixed thresholds, frequency: dynamic)');
+        return this.map;
     }
 
-    createColorScale(breaks, colors) {
-        return (value) => {
-            if (value <= breaks[0]) return colors[0];
-            if (value >= breaks[breaks.length - 1]) return colors[colors.length - 1];
-            
-            for (let i = 0; i < breaks.length - 1; i++) {
-                if (value >= breaks[i] && value <= breaks[i + 1]) {
-                    const ratio = (value - breaks[i]) / (breaks[i + 1] - breaks[i]);
-                    return this.interpolateColor(colors[i], colors[i + 1], ratio);
-                }
-            }
-            
-            return colors[0];
-        };
-    }
-
-    interpolateColor(color1, color2, ratio) {
-        const hex = (color) => color.replace('#', '');
-        const r1 = parseInt(hex(color1).substring(0, 2), 16);
-        const g1 = parseInt(hex(color1).substring(2, 4), 16);
-        const b1 = parseInt(hex(color1).substring(4, 6), 16);
-        
-        const r2 = parseInt(hex(color2).substring(0, 2), 16);
-        const g2 = parseInt(hex(color2).substring(2, 4), 16);
-        const b2 = parseInt(hex(color2).substring(4, 6), 16);
-        
-        const r = Math.round(r1 + (r2 - r1) * ratio);
-        const g = Math.round(g1 + (g2 - g1) * ratio);
-        const b = Math.round(b1 + (b2 - b1) * ratio);
-        
-        return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
-    }
-
-    // Add to MapVisualizer class in mapVisualizer.js
-    showMobileRouteDelays(routes) {
-        console.log('📱 Showing mobile route delays...');
-        
-        if (!routes || routes.length === 0) {
-            console.error('❌ No routes data available for mobile');
-            return false;
+    setTheme(theme) {
+        if (this.currentTileLayer) {
+            this.map.removeLayer(this.currentTileLayer);
         }
-
-        if (!this.map) {
-            console.error('❌ Map not initialized');
-            return false;
-        }
-
-        // Clear any existing layers
-        this.clearVisualization();
-
-        // Use simplified visualization for mobile
-        const colorScale = this.colorScales.get('delay');
-        let routesAdded = 0;
-
-        routes.forEach(route => {
-            const routeId = route.Route.toString();
-            const geometry = this.routeGeometries[routeId];
-            
-            if (!geometry || geometry.length === 0) {
-                return;
-            }
-
-            const avgDelay = route.Avg_Delay_Min;
-            const delayCount = route.Delay_Count;
-            const routeName = route.route_long_name || `Route ${routeId}`;
-            const color = colorScale(avgDelay);
-
-            try {
-                const popupContent = this.createRoutePopup(route, routeName, avgDelay, delayCount);
-                
-                const polyline = L.polyline(geometry, {
-                    color: color,
-                    weight: 3, // Thinner lines for mobile
-                    opacity: 0.7,
-                    className: 'mobile-route-line'
-                })
-                .bindPopup(popupContent)
-                .addTo(this.map);
-
-                this.activeLayers.set(routeId, polyline);
-                routesAdded++;
-
-            } catch (error) {
-                console.warn(`⚠️ Error adding route ${routeId} to mobile map:`, error);
-            }
-        });
-
-        console.log(`✅ Mobile route delays: ${routesAdded} routes displayed`);
-        return routesAdded > 0;
+        this.currentTileLayer = this.baseLayers[theme].addTo(this.map);
     }
 
+    clearView() {
+        this.layers.routes.clearLayers();
+        this.layers.wards.clearLayers();
+        this.layers.neighbourhoods.clearLayers();
+        this.layers.hotspots.clearLayers();
+        this.routeLayers.clear();
+        this.highlightedRoute = null;
 
-    showMobileDelayFrequency(routes) {
-        console.log('📱 Showing mobile delay frequency...');
-        
-        if (!routes || routes.length === 0) {
-            console.error('❌ No routes data available');
-            return false;
-        }
-
-        if (!this.map) {
-            console.error('❌ Map not initialized');
-            return false;
-        }
-
-        // Clear any existing layers
-        this.clearVisualization();
-
-        // Use simplified visualization for mobile
-        const colorScale = this.colorScales.get('frequency');
-        let routesAdded = 0;
-
-        routes.forEach(route => {
-            const routeId = route.Route.toString();
-            const geometry = this.routeGeometries[routeId];
-            
-            if (!geometry || geometry.length === 0) {
-                return;
-            }
-
-            const delayCount = route.Delay_Count;
-            const color = colorScale(delayCount);
-
-            try {
-                const polyline = L.polyline(geometry, {
-                    color: color,
-                    weight: 3, // Thinner lines for mobile
-                    opacity: 0.7,
-                    className: 'mobile-route-line'
-                }).addTo(this.map);
-
-                this.activeLayers.set(routeId, polyline);
-                routesAdded++;
-
-            } catch (error) {
-                console.warn(`⚠️ Error adding frequency route ${routeId} to mobile map:`, error);
-            }
-        });
-
-        console.log(`✅ Mobile delay frequency: ${routesAdded} routes displayed`);
-        return routesAdded > 0;
-    }
-
-    async showRouteDelays(filteredRoutes) {
-        console.log('🔄 Showing route delays visualization...');
-        
-        this.clearVisualization();
-        this.currentVisualization = 'delay';
-        
-        // Ensure we have data to show
-        const routesToShow = filteredRoutes && filteredRoutes.length > 0 ? filteredRoutes : this.routes;
-        
-        if (!routesToShow || routesToShow.length === 0) {
-            console.error('❌ No routes data available for visualization');
-            this.showError('No route data available. Please check data files.');
-            return 0;
-        }
-
-        if (Object.keys(this.routeGeometries).length === 0) {
-            console.error('❌ No route geometries available');
-            this.showError('No route geometry data available.');
-            return 0;
-        }
-
-        console.log(`🗺️ Rendering ${routesToShow.length} routes with ${Object.keys(this.routeGeometries).length} geometries`);
-        
-        const colorScale = this.colorScales.get('delay');
-        let routesAdded = 0;
-        
-        try {
-            routesToShow.forEach(route => {
-                const routeId = route.Route.toString();
-                const geometry = this.routeGeometries[routeId];
-                
-                if (!geometry || geometry.length === 0) {
-                    console.warn(`⚠️ No geometry for route ${routeId}`);
-                    return;
-                }
-                
-                const avgDelay = route.Avg_Delay_Min;
-                const delayCount = route.Delay_Count;
-                const routeName = route.route_long_name || `Route ${routeId}`;
-                
-                const color = colorScale(avgDelay);
-                
-                const popupContent = this.createRoutePopup(route, routeName, avgDelay, delayCount);
-                
-                try {
-                    const polyline = L.polyline(geometry, {
-                        color: color,
-                        weight: this.config.routeDelay.weight,
-                        opacity: this.config.routeDelay.opacity,
-                        className: 'route-line'
-                    })
-                    .bindPopup(popupContent)
-                    .on('click', (e) => this.onRouteClick(routeId, e))
-                    .addTo(this.map);
-                    
-                    this.activeLayers.set(routeId, polyline);
-                    routesAdded++;
-                    
-                } catch (error) {
-                    console.warn(`⚠️ Error adding route ${routeId} to map:`, error);
-                }
-            });
-
-            // Create legend
-            this.createDelayLegend(colorScale);
-            
-            console.log(`✅ Route delays visualization: ${routesAdded} routes displayed`);
-            
-        } catch (error) {
-            console.error('❌ Error in route delays visualization:', error);
-            this.showError('Failed to render route visualization.');
-        }
-        
-        return routesAdded;
-    }
-
-    async showDelayFrequency(filteredRoutes) {
-        console.log('📈 Showing delay frequency visualization...');
-        
-        this.clearVisualization();
-        this.currentVisualization = 'frequency';
-        
-        const colorScale = this.colorScales.get('frequency');
-        const routesToShow = filteredRoutes || this.routes;
-        
-        const maxFrequency = Math.max(...routesToShow.map(r => r.Delay_Count));
-        const minFrequency = Math.min(...routesToShow.map(r => r.Delay_Count));
-        
-        let routesAdded = 0;
-        
-        routesToShow.forEach(route => {
-            const routeId = route.Route.toString();
-            const geometry = this.routeGeometries[routeId];
-            
-            if (!geometry || geometry.length === 0) return;
-            
-            const delayCount = route.Delay_Count;
-            const avgDelay = route.Avg_Delay_Min;
-            const routeName = route.route_long_name || `Route ${routeId}`;
-            
-            const color = colorScale(delayCount);
-            
-            // Calculate line weight based on frequency
-            const weightRange = this.config.frequency.maxWeight - this.config.frequency.minWeight;
-            const frequencyRatio = (delayCount - minFrequency) / (maxFrequency - minFrequency);
-            const weight = this.config.frequency.minWeight + (frequencyRatio * weightRange);
-            
-            const popupContent = this.createFrequencyPopup(route, routeName, delayCount, avgDelay);
-            
-            try {
-                const polyline = L.polyline(geometry, {
-                    color: color,
-                    weight: weight,
-                    opacity: 0.7,
-                    className: 'route-line'
-                })
-                .bindPopup(popupContent)
-                .on('click', (e) => this.onRouteClick(routeId, e))
-                .addTo(this.map);
-                
-                this.activeLayers.set(routeId, polyline);
-                routesAdded++;
-                
-            } catch (error) {
-                console.warn(`⚠️ Error adding frequency route ${routeId}:`, error);
-            }
-        });
-        
-        // Create frequency legend
-        this.createFrequencyLegend(colorScale, maxFrequency);
-        
-        console.log(`✅ Delay frequency visualization: ${routesAdded} routes displayed`);
-        return routesAdded;
-    }
-
-    // Route Popup Creation Methods
-    createRoutePopup(route, routeName, avgDelay, delayCount) {
-        const delayLevel = this.getDelayLevel(avgDelay);
-        const delayClass = this.getDelayClass(avgDelay);
-        
-        return `
-            <div class="route-popup">
-                <div class="popup-header">
-                    <h3>Route ${route.Route}: ${routeName}</h3>
-                    <span class="delay-indicator ${delayClass}">${delayLevel}</span>
-                </div>
-                <div class="popup-content">
-                    <div class="popup-metric">
-                        <span class="metric-label">Average Delay:</span>
-                        <span class="metric-value">${avgDelay.toFixed(1)} minutes</span>
-                    </div>
-                    <div class="popup-metric">
-                        <span class="metric-label">Total Delays:</span>
-                        <span class="metric-value">${delayCount.toLocaleString()}</span>
-                    </div>
-                    ${route.Delay_Frequency ? `
-                    <div class="popup-metric">
-                        <span class="metric-label">Delay Frequency:</span>
-                        <span class="metric-value">${route.Delay_Frequency.toFixed(1)} per day</span>
-                    </div>
-                    ` : ''}
-                </div>
-                <div class="popup-actions">
-                    <button class="popup-btn" onclick="window.ttcApp.selectRoute('${route.Route}')">
-                        <i class="fas fa-search-location"></i> Focus on Route
-                    </button>
-                </div>
-            </div>
-        `;
-    }
-
-    createFrequencyPopup(route, routeName, delayCount, avgDelay) {
-        return `
-            <div class="route-popup">
-                <div class="popup-header">
-                    <h3>Route ${route.Route}: ${routeName}</h3>
-                    <span class="delay-indicator medium">Frequent Delays</span>
-                </div>
-                <div class="popup-content">
-                    <div class="popup-metric">
-                        <span class="metric-label">Total Delays:</span>
-                        <span class="metric-value">${delayCount.toLocaleString()}</span>
-                    </div>
-                    <div class="popup-metric">
-                        <span class="metric-label">Average Delay:</span>
-                        <span class="metric-value">${avgDelay.toFixed(1)} minutes</span>
-                    </div>
-                    <div class="popup-metric">
-                        <span class="metric-label">Delay Frequency Rank:</span>
-                        <span class="metric-value">#${this.getFrequencyRank(route.Route.toString())}</span>
-                    </div>
-                </div>
-            </div>
-        `;
-    }
-
-    getDelayLevel(delay) {
-        if (delay < 5) return 'Low';
-        if (delay < 10) return 'Moderate';
-        if (delay < 15) return 'High';
-        return 'Critical';
-    }
-
-    getDelayClass(delay) {
-        if (delay < 5) return 'low';
-        if (delay < 10) return 'medium';
-        if (delay < 15) return 'high';
-        return 'critical';
-    }
-
-    getFrequencyRank(routeId) {
-        const sortedRoutes = [...this.routes].sort((a, b) => b.Delay_Count - a.Delay_Count);
-        return sortedRoutes.findIndex(route => route.Route.toString() === routeId) + 1;
-    }
-
-    onRouteClick(routeId, event) {
-        console.log(`📍 Route ${routeId} clicked`);
-        
-        // Highlight the clicked route
-        this.highlightRoute(routeId);
-        
-        // Notify the main app
-        if (window.ttcApp) {
-            window.ttcApp.selectRoute(routeId);
-        }
-        
-        // Open popup
-        event.target.openPopup();
-    }
-
-    highlightRoute(routeId) {
-        // Clear previous highlight
-        this.clearHighlight();
-        
-        const layer = this.findRouteLayer(routeId);
-        if (layer) {
-            // Store original style
-            const originalStyle = {
-                color: layer.options.color,
-                weight: layer.options.weight,
-                opacity: layer.options.opacity
-            };
-            
-            // Apply highlight style
-            layer.setStyle({
-                color: '#fbbf24',
-                weight: originalStyle.weight + 2,
-                opacity: 1
-            });
-            
-            // Bring to front
-            layer.bringToFront();
-            
-            this.highlightedRoute = {
-                layer: layer,
-                originalStyle: originalStyle,
-                routeId: routeId
-            };
-            
-            // Zoom to route bounds with smooth animation
-            const bounds = layer.getBounds();
-            if (bounds.isValid()) {
-                this.map.flyToBounds(bounds, { 
-                    padding: [20, 20],
-                    animate: true,
-                    duration: 1
-                });
-            }
+        if (this.currentHeatLayer) {
+            this.map.removeLayer(this.currentHeatLayer);
+            this.currentHeatLayer = null;
         }
     }
 
-    findRouteLayer(routeId) {
-        for (const [key, layer] of this.activeLayers) {
-            if (key === routeId) {
-                return layer;
-            }
-        }
-        return null;
-    }
-
-    clearHighlight() {
-        if (this.highlightedRoute) {
-            const { layer, originalStyle } = this.highlightedRoute;
-            layer.setStyle(originalStyle);
-            this.highlightedRoute = null;
-        }
-    }
-
-    clearVisualization() {
-        console.log('🗑️ Clearing current visualization...');
-        
-        // Remove all active layers (routes)
-        this.activeLayers.forEach((layer, key) => {
-            this.map.removeLayer(layer);
-        });
-        this.activeLayers.clear();
-        
-        // Remove legend
-        if (this.legend) {
-            this.map.removeControl(this.legend);
-            this.legend = null;
-        }
-        
-        // Clear highlight
-        this.clearHighlight();
-        
-        this.currentVisualization = null;
-    }
-
-    // Legend creation methods - UPDATED with toggle button
-    createDelayLegend(colorScale) {
-        const maxDelay = Math.max(...this.routes.map(r => r.Avg_Delay_Min));
-        const breaks = [0, maxDelay * 0.3, maxDelay * 0.6, maxDelay];
-        
-        // Remove existing legend if it exists
-        if (this.legend) {
-            this.map.removeControl(this.legend);
-        }
-        
-        const legend = L.control({ position: 'bottomleft' });
-        
-        legend.onAdd = () => {
-            const div = L.DomUtil.create('div', 'legend-toggle-container');
-            div.innerHTML = `
-                <button class="legend-toggle-btn" title="Show/Hide Legend">
-                    <i class="fas fa-info"></i>
-                </button>
-                <div class="legend-container" style="display: none;">
-                    <div class="legend-title">
-                        <span><i class="fas fa-clock"></i> Average Delay (minutes)</span>
-                    </div>
-                    <div class="legend-scale">
-                        <div class="legend-item">
-                            <div class="legend-color" style="background: ${colorScale(breaks[0])}"></div>
-                            <span class="legend-label">0 - ${breaks[1].toFixed(1)}</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color" style="background: ${colorScale(breaks[1])}"></div>
-                            <span class="legend-label">${breaks[1].toFixed(1)} - ${breaks[2].toFixed(1)}</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color" style="background: ${colorScale(breaks[2])}"></div>
-                            <span class="legend-label">${breaks[2].toFixed(1)} - ${breaks[3].toFixed(1)}</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color" style="background: ${colorScale(breaks[3])}"></div>
-                            <span class="legend-label">${breaks[3].toFixed(1)}+</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            // Add click event to toggle button
-            const toggleBtn = div.querySelector('.legend-toggle-btn');
-            const legendContainer = div.querySelector('.legend-container');
-            
-            toggleBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const isVisible = legendContainer.style.display === 'block';
-                legendContainer.style.display = isVisible ? 'none' : 'block';
-                toggleBtn.classList.toggle('active', !isVisible);
-                toggleBtn.innerHTML = isVisible ? '<i class="fas fa-info"></i>' : '<i class="fas fa-times"></i>';
-            });
-            
-            // Close legend when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!div.contains(e.target)) {
-                    legendContainer.style.display = 'none';
-                    toggleBtn.classList.remove('active');
-                    toggleBtn.innerHTML = '<i class="fas fa-info"></i>';
-                }
-            });
-            
-            return div;
-        };
-        
-        this.legend = legend;
-        legend.addTo(this.map);
-    }
-
-    createFrequencyLegend(colorScale, maxFrequency) {
-        const breaks = [0, maxFrequency * 0.3, maxFrequency * 0.6, maxFrequency];
-        
-        // Remove existing legend if it exists
-        if (this.legend) {
-            this.map.removeControl(this.legend);
-        }
-        
-        const legend = L.control({ position: 'bottomleft' });
-        
-        legend.onAdd = () => {
-            const div = L.DomUtil.create('div', 'legend-toggle-container');
-            div.innerHTML = `
-                <button class="legend-toggle-btn" title="Show/Hide Legend">
-                    <i class="fas fa-info"></i>
-                </button>
-                <div class="legend-container" style="display: none;">
-                    <div class="legend-title">
-                        <span><i class="fas fa-chart-line"></i> Delay Frequency</span>
-                    </div>
-                    <div class="legend-scale">
-                        <div class="legend-item">
-                            <div class="legend-color" style="background: ${colorScale(breaks[0])}"></div>
-                            <span class="legend-label">0 - ${Math.round(breaks[1])}</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color" style="background: ${colorScale(breaks[1])}"></div>
-                            <span class="legend-label">${Math.round(breaks[1])} - ${Math.round(breaks[2])}</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color" style="background: ${colorScale(breaks[2])}"></div>
-                            <span class="legend-label">${Math.round(breaks[2])} - ${Math.round(breaks[3])}</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color" style="background: ${colorScale(breaks[3])}"></div>
-                            <span class="legend-label">${Math.round(breaks[3])}+</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            // Add click event to toggle button
-            const toggleBtn = div.querySelector('.legend-toggle-btn');
-            const legendContainer = div.querySelector('.legend-container');
-            
-            toggleBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const isVisible = legendContainer.style.display === 'block';
-                legendContainer.style.display = isVisible ? 'none' : 'block';
-                toggleBtn.classList.toggle('active', !isVisible);
-                toggleBtn.innerHTML = isVisible ? '<i class="fas fa-info"></i>' : '<i class="fas fa-times"></i>';
-            });
-            
-            // Close legend when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!div.contains(e.target)) {
-                    legendContainer.style.display = 'none';
-                    toggleBtn.classList.remove('active');
-                    toggleBtn.innerHTML = '<i class="fas fa-info"></i>';
-                }
-            });
-            
-            return div;
-        };
-        
-        this.legend = legend;
-        legend.addTo(this.map);
-    }
-
-    
-
-    getCurrentLegend() {
-        return this.legend ? this.legend.getContainer().innerHTML : null;
-    }
-
-    // REMOVED: onThemeChange method - only dark theme
-    
-    // Utility methods
-    isValidCoordinate(lat, lng) {
-        return lat !== null && 
-               lng !== null && 
-               !isNaN(lat) && 
-               !isNaN(lng) &&
-               lat >= -90 && lat <= 90 &&
-               lng >= -180 && lng <= 180;
-    }
-
-    showError(message) {
-        // Create a temporary error message on the map
-        const errorDiv = L.DomUtil.create('div', 'map-error');
-        errorDiv.innerHTML = `
-            <div class="error-message">
-                <span class="error-icon">⚠️</span>
-                <span class="error-text">${message}</span>
-            </div>
-        `;
-        
-        // Add to map
-        const errorControl = L.control({ position: 'topleft' });
-        errorControl.onAdd = () => errorDiv;
-        errorControl.addTo(this.map);
-        
-        // Remove after 5 seconds
-        setTimeout(() => {
-            if (errorControl && this.map) {
-                this.map.removeControl(errorControl);
-            }
-        }, 5000);
-    }
-
-    // Public method to get visualization stats
-    getVisualizationStats() {
+    computeMinMax(data, metric) {
+        const values = data
+            .map(d => metric === 'time' ? (d.avgDelay || 0) : (d.totalCount || d.totalDelayCount || 0))
+            .filter(v => v > 0);
+        if (values.length === 0) return { min: 0, max: 1 };
         return {
-            currentVisualization: this.currentVisualization,
-            activeLayers: this.activeLayers.size,
-            highlightedRoute: this.highlightedRoute ? this.highlightedRoute.routeId : null,
-            totalRoutes: this.routes.length,
-            routesWithGeometry: Object.keys(this.routeGeometries).length
+            min: Math.min(...values),
+            max: Math.max(...values)
         };
     }
 
-    // Export current visualization data
-    exportVisualizationData() {
-        const baseData = {
-            type: this.currentVisualization,
-            routes: this.routes.map(route => ({
-                id: route.Route,
-                name: route.route_long_name,
-                avgDelay: route.Avg_Delay_Min,
-                delayCount: route.Delay_Count,
-                hasGeometry: !!this.routeGeometries[route.Route.toString()]
-            })),
-            bounds: this.map.getBounds().toBBoxString(),
-            zoom: this.map.getZoom()
-        };
-        
-        return baseData;
+    async renderView(view, metric, data) {
+        this.clearView();
+        this.currentView = view;
+
+        // Extract values for coloring (skip zero values)
+        const values = data
+            .map(d => metric === 'time' ? (d.avgDelay || 0) : (d.totalCount || d.totalDelayCount || 0))
+            .filter(v => v > 0);
+
+        // Compute quantile breaks – use 5 bins to match the 5‑color palettes
+        const numBins = 5; // adjust if you want more/less shades
+        this.currentBreaks = values.length > 0 ? this.computeQuantileBreaks(values, numBins) : [0, 1];
+
+        switch (view) {
+            case 'routes': this.renderRoutes(data, metric); break;
+            case 'wards': this.renderWards(data, metric); break;
+            case 'neighbourhoods': this.renderNeighbourhoods(data, metric); break;
+            case 'hotspots': this.renderHotspots(data, metric); break;
+        }
     }
 
-    // New method: Fit bounds to all routes
-    fitToRoutes() {
-        if (this.activeLayers.size === 0) return false;
-        
-        try {
-            let bounds = null;
-            
-            // Collect bounds from all active layers
-            this.activeLayers.forEach((layer, key) => {
-                if (layer.getBounds) {
-                    const layerBounds = layer.getBounds();
-                    if (layerBounds.isValid()) {
-                        bounds = bounds ? bounds.extend(layerBounds) : layerBounds;
-                    }
-                }
+    createFeaturePopup(feature) {
+        const type = feature.type;
+        const totalHours = (feature.totalDelayMinutes || 0) / 60;
+        const hoursFormatted = totalHours.toFixed(1);
+
+        let title = '';
+        if (type === 'route') {
+            title = `<strong>Route ${feature.route}</strong><br>${feature.name}`;
+        } else if (type === 'ward' || type === 'neighbourhood') {
+            title = `<strong>${feature.name}</strong>`;
+        } else if (type === 'stop') {
+            title = `<strong>${feature.name}</strong>`;
+        }
+
+        return `
+            <div class="feature-popup">
+                <div class="popup-header">${title}</div>
+                <div class="popup-content">
+                    <div class="popup-row">
+                        <span class="popup-label">Avg Delay:</span>
+                        <span class="popup-value">${feature.avgDelay.toFixed(1)} min</span>
+                    </div>
+                    <div class="popup-row">
+                        <span class="popup-label">Total Incidents:</span>
+                        <span class="popup-value">${feature.totalCount.toLocaleString()}</span>
+                    </div>
+                    <div class="popup-row">
+                        <span class="popup-label">Total Hours Lost:</span>
+                        <span class="popup-value">${hoursFormatted} h</span>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    highlightRoute(routeData) {
+        if (!routeData) return;
+
+        const routeId = routeData.route;
+        if (this.highlightedRoute === routeId) return;
+
+        if (this.highlightedRoute) {
+            const prevLayer = this.routeLayers.get(this.highlightedRoute);
+            if (prevLayer) {
+                const metric = this.app.state.currentMetric;
+                const value = metric === 'time' ? routeData.avgDelay : routeData.totalDelayCount;
+                const color = this.getColor(value, metric);
+                prevLayer.setStyle({ color: color, weight: 2 });
+            }
+        }
+
+        const layer = this.routeLayers.get(routeId);
+        if (layer) {
+            layer.setStyle({ color: '#ffff00', weight: 4 });
+            layer.bringToFront();
+
+            const popupContent = this.createFeaturePopup({
+                type: 'route',
+                route: routeData.route,
+                name: routeData.longName,
+                avgDelay: routeData.avgDelay,
+                totalCount: routeData.totalDelayCount,
+                totalDelayMinutes: routeData.totalDelayMinutes
             });
-            
-            if (bounds && bounds.isValid()) {
-                this.map.fitBounds(bounds, { 
-                    padding: [50, 50],
-                    maxZoom: 14,
-                    animate: true,
-                    duration: 1
+
+            layer.bindPopup(popupContent, this.getPopupOptions()).openPopup();
+
+            this.highlightedRoute = routeId;
+        }
+    }
+
+    renderRoutes(routesData, metric) {
+        const geometries = this.app.state.routeGeometries;
+
+        routesData.forEach(route => {
+            const routeId = route.route;
+            const coords = geometries[routeId];
+            if (!coords || coords.length === 0) return;
+
+            let value = metric === 'time' ? route.avgDelay : route.totalDelayCount;
+            const color = this.getColor(value, metric);
+
+            const polyline = L.polyline(coords, {
+                color: color,
+                weight: 1.6,
+                opacity: 0.8,
+                smoothFactor: 1
+            });
+
+            this.routeLayers.set(routeId, polyline);
+
+            const popupContent = this.createFeaturePopup({
+                type: 'route',
+                route: route.route,
+                name: route.longName,
+                avgDelay: route.avgDelay,
+                totalCount: route.totalDelayCount,
+                totalDelayMinutes: route.totalDelayMinutes
+            });
+
+            polyline.bindPopup(popupContent, this.getPopupOptions());
+
+            polyline.on('click', (e) => {
+                this.highlightRoute(route);
+                this.app.onFeatureClick({
+                    type: 'route',
+                    route: route.route,
+                    name: route.longName,
+                    avgDelay: route.avgDelay,
+                    totalCount: route.totalDelayCount,
+                    totalDelayMinutes: route.totalDelayMinutes,
+                    details: route
                 });
-                return true;
+            });
+
+            polyline.addTo(this.layers.routes);
+        });
+    }
+
+    renderWards(wardsData, metric) {
+        const wardGeometries = this.app.state.wardGeometries;
+        if (!wardGeometries || !wardGeometries.features) return;
+
+        const dataMap = new Map();
+        wardsData.forEach(w => dataMap.set(w.name, w));
+
+        L.geoJSON(wardGeometries, {
+            style: (feature) => {
+                const wardName = feature.properties.AREA_NAME;
+                const wardData = dataMap.get(wardName);
+                let value = metric === 'time' ? (wardData ? wardData.avgDelay : 0) : (wardData ? wardData.totalCount : 0);
+                return {
+                    fillColor: this.getColor(value, metric),
+                    fillOpacity: 0.6,
+                    color: '#ffffff',
+                    weight: 1,
+                    opacity: 0.8
+                };
+            },
+            onEachFeature: (feature, layer) => {
+                const wardName = feature.properties.AREA_NAME;
+                const wardData = dataMap.get(wardName) || { avgDelay: 0, totalCount: 0, totalDelayMinutes: 0 };
+
+                const popupContent = this.createFeaturePopup({
+                    type: 'ward',
+                    name: wardName,
+                    avgDelay: wardData.avgDelay,
+                    totalCount: wardData.totalCount,
+                    totalDelayMinutes: wardData.totalDelayMinutes || 0
+                });
+
+                layer.bindPopup(popupContent, this.getPopupOptions());
+
+                layer.on('mouseover', (e) => {
+                    this.app.onFeatureHover({
+                        type: 'ward',
+                        name: wardName,
+                        avgDelay: wardData.avgDelay,
+                        totalCount: wardData.totalCount
+                    });
+                });
+                layer.on('mouseout', () => {
+                    this.app.onFeatureHover(null);
+                });
+                layer.on('click', (e) => {
+                    L.DomEvent.stopPropagation(e);
+                    this.app.onFeatureClick({
+                        type: 'ward',
+                        name: wardName,
+                        avgDelay: wardData.avgDelay,
+                        totalCount: wardData.totalCount,
+                        totalDelayMinutes: wardData.totalDelayMinutes || 0,
+                        details: wardData
+                    });
+                });
             }
-        } catch (error) {
-            console.error('Error fitting to routes:', error);
+        }).addTo(this.layers.wards);
+    }
+
+    renderNeighbourhoods(neighbourhoodsData, metric) {
+        const neighbourhoodGeometries = this.app.state.neighbourhoodGeometries;
+        if (!neighbourhoodGeometries || !neighbourhoodGeometries.features) return;
+
+        const dataMap = new Map();
+        neighbourhoodsData.forEach(n => dataMap.set(n.name, n));
+
+        L.geoJSON(neighbourhoodGeometries, {
+            style: (feature) => {
+                const areaName = feature.properties.AREA_NAME;
+                const nData = dataMap.get(areaName);
+                let value = metric === 'time' ? (nData ? nData.avgDelay : 0) : (nData ? nData.totalCount : 0);
+                return {
+                    fillColor: this.getColor(value, metric),
+                    fillOpacity: 0.6,
+                    color: '#ffffff',
+                    weight: 1,
+                    opacity: 0.8
+                };
+            },
+            onEachFeature: (feature, layer) => {
+                const areaName = feature.properties.AREA_NAME;
+                const nData = dataMap.get(areaName) || { avgDelay: 0, totalCount: 0, totalDelayMinutes: 0 };
+
+                const popupContent = this.createFeaturePopup({
+                    type: 'neighbourhood',
+                    name: areaName,
+                    avgDelay: nData.avgDelay,
+                    totalCount: nData.totalCount,
+                    totalDelayMinutes: nData.totalDelayMinutes || 0
+                });
+
+                layer.bindPopup(popupContent, this.getPopupOptions());
+
+                layer.on('mouseover', (e) => {
+                    this.app.onFeatureHover({
+                        type: 'neighbourhood',
+                        name: areaName,
+                        avgDelay: nData.avgDelay,
+                        totalCount: nData.totalCount
+                    });
+                });
+                layer.on('mouseout', () => {
+                    this.app.onFeatureHover(null);
+                });
+                layer.on('click', (e) => {
+                    L.DomEvent.stopPropagation(e);
+                    this.app.onFeatureClick({
+                        type: 'neighbourhood',
+                        name: areaName,
+                        avgDelay: nData.avgDelay,
+                        totalCount: nData.totalCount,
+                        totalDelayMinutes: nData.totalDelayMinutes || 0,
+                        details: nData
+                    });
+                });
+            }
+        }).addTo(this.layers.neighbourhoods);
+    }
+
+    renderHotspots(hotspotsData, metric) {
+        if (typeof L.heatLayer === 'undefined') {
+            console.warn('Leaflet.heat plugin not loaded. Cannot render heatmap.');
+            return;
         }
-        
-        return false;
-    }
+        if (!hotspotsData || hotspotsData.length === 0) return;
 
-    // New method: Get route geometry by ID
-    getRouteGeometry(routeId) {
-        return this.routeGeometries[routeId] || null;
-    }
+        const heatData = hotspotsData.map(stop => {
+            const intensity = metric === 'time' ? stop.avgDelay : stop.totalCount;
+            return [stop.lat, stop.lon, intensity];
+        });
 
-    // New method: Show specific route
-    showSingleRoute(routeId) {
-        const route = this.routes.find(r => r.Route.toString() === routeId);
-        if (!route) return false;
-        
-        const geometry = this.getRouteGeometry(routeId);
-        if (!geometry) return false;
-        
-        // Clear current visualization
-        this.clearVisualization();
-        
-        // Show only this route
-        if (this.currentVisualization === 'delay') {
-            const colorScale = this.colorScales.get('delay');
-            const color = colorScale(route.Avg_Delay_Min);
-            
-            const polyline = L.polyline(geometry, {
-                color: color,
-                weight: 6,
-                opacity: 0.9
-            })
-            .bindPopup(this.createRoutePopup(route, route.route_long_name, route.Avg_Delay_Min, route.Delay_Count))
-            .addTo(this.map);
-            
-            this.activeLayers.set(routeId, polyline);
-            
-            // Fit to this route
-            const bounds = polyline.getBounds();
-            if (bounds.isValid()) {
-                this.map.fitBounds(bounds, { padding: [50, 50], animate: true });
-            }
-            
-            return true;
-        } else if (this.currentVisualization === 'frequency') {
-            const colorScale = this.colorScales.get('frequency');
-            const color = colorScale(route.Delay_Count);
-            
-            const polyline = L.polyline(geometry, {
-                color: color,
-                weight: 6,
-                opacity: 0.9
-            })
-            .bindPopup(this.createFrequencyPopup(route, route.route_long_name, route.Delay_Count, route.Avg_Delay_Min))
-            .addTo(this.map);
-            
-            this.activeLayers.set(routeId, polyline);
-            
-            // Fit to this route
-            const bounds = polyline.getBounds();
-            if (bounds.isValid()) {
-                this.map.fitBounds(bounds, { padding: [50, 50], animate: true });
-            }
-            
-            return true;
+        if (this.currentHeatLayer) {
+            this.map.removeLayer(this.currentHeatLayer);
         }
-        
-        return false;
-    }
-}
 
-// Export for module usage
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = MapVisualizer;
+        this.currentHeatLayer = L.heatLayer(heatData, {
+            radius: 2,
+            blur: 2.5,
+            maxZoom: 15,
+            minOpacity: 0.3,
+            gradient: { 0.35: 'blue', 0.55: 'lime', 0.65: 'yellow', 0.78: 'red' }
+        }).addTo(this.layers.hotspots);
+    }
+
+    // Add this method:
+    computeQuantileBreaks(values, numBreaks = 5) {
+        if (values.length === 0) return [];
+        const sorted = [...values].sort((a, b) => a - b);
+        const breaks = [];
+        for (let i = 0; i <= numBreaks; i++) {
+            const p = i / numBreaks;
+            const index = Math.floor(p * (sorted.length - 1));
+            breaks.push(sorted[index]);
+        }
+        return breaks;
+    }
+
+    getColor(value, metric) {
+        if (!this.currentBreaks || this.currentBreaks.length < 2) {
+            return '#888888'; // fallback gray
+        }
+
+        // Find which quantile bin this value falls into (0‑based index)
+        let bin = 0;
+        for (let i = 1; i < this.currentBreaks.length; i++) {
+            if (value <= this.currentBreaks[i]) {
+                bin = i - 1;
+                break;
+            }
+        }
+        // If value > max, put in last bin
+        if (value > this.currentBreaks[this.currentBreaks.length - 1]) {
+            bin = this.currentBreaks.length - 2;
+        }
+
+        if (metric === 'time') {
+            // Digital Rose palette: cyan → pink → red
+            const colors = [
+                [224, 179, 255], // #E0B3FF (light lavender)
+                [193, 128, 255], // #C180FF (soft purple)
+                [163, 77, 255],  // #A34DFF (medium purple)
+                [122, 31, 255],  // #7A1FFF (vibrant violet)
+                [90, 0, 179]     // #5A00B3 (deep violet)
+                ];
+            bin = Math.min(bin, colors.length - 1);
+            const [r, g, b] = colors[bin];
+            return `rgb(${r}, ${g}, ${b})`;
+        } else {
+            // Isoluminant approximation: light blue → blue‑gray → purple → deep purple
+            // This sequence maintains near‑constant luminance while shifting hue.
+            const colors = [
+                [152, 212, 226], // #98D4E2 (light blue)
+                [106, 147, 193], // #6A93C1 (blue‑gray)
+                [83, 99, 159],   // #53639F (slate blue)
+                [108, 56, 127],  // #6C387F (purple)
+                [66, 20, 79]     // #42144F (deep purple)
+            ];
+            bin = Math.min(bin, colors.length - 1);
+            const [r, g, b] = colors[bin];
+            return `rgb(${r}, ${g}, ${b})`;
+        }
+    }
 }

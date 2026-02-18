@@ -1,16 +1,14 @@
 /* TEAM */
-Creator: Karman Bains
-Email: bsinghkarman@gmail.com
-Website: https://bainskarman.github.io/portfolio.io/
+Author: Karman Bains
+Site: TTC Delay Analytics
+Twitter: @bainskarman (if any)
 GitHub: https://github.com/bainskarman
-Location: Toronto, Ontario, Canada
 
 /* THANKS */
-TTC Open Data Team
-City of Toronto Open Data
-
+Data: TTC Open Data, City of Toronto Open Data
+Tools: Leaflet, Font Awesome, Inter font
 
 /* SITE */
-Last update: 2025-01-01
-Standards: HTML5, CSS3, JavaScript ES6+
-Components: Leaflet, Chart.js, Plotly.js
+Last update: February 2026
+Language: English
+Doctype: HTML5
