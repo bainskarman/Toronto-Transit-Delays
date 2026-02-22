@@ -34,11 +34,18 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.plot.ly/plotly-2.24.1.min.js" charset="utf-8"></script>
 
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix@2.0.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+
     <!-- Application modules -->
+
     <script src="js/dataLoader.js"></script>
     <script src="js/mapVisualizer.js"></script>
     <script src="js/uiController.js"></script>
     <script src="js/mobile.js"></script>
+    <script src="js/dashboard.js"></script>   <!-- New dashboard controller -->
     <script src="js/app.js"></script>
 
     <!-- Inline style for critical path (optional) -->
@@ -57,6 +64,13 @@
             <div id="map"></div>
         </div>
 
+        <!-- Dashboard Content (hidden by default) -->
+        <div class="dashboard-content" id="dashboardContent">
+            <div class="dashboard-content-inner" id="dashboardContentInner">
+                <!-- Charts will be injected here by DashboardController -->
+            </div>
+        </div>
+
         <!-- ==================== DESKTOP UI OVERLAYS ==================== -->
 
         <!-- Top‑left Collapsible Control Panel (branding + filters) -->
@@ -72,7 +86,7 @@
                 <div class="view-selector">
                     <button class="view-btn active" data-view="routes">Routes</button>
                     <button class="view-btn" data-view="wards">Wards</button>
-                    <button class="view-btn" data-view="neighbourhoods">Neighbourhoods</button>
+                    <button class="view-btn" data-view="neighbourhoods">Districts</button>
                     <button class="view-btn" data-view="hotspots">Hotspots</button>
                 </div>
 
@@ -124,6 +138,12 @@
             </div>
         </div>
 
+        <div class="floating-island dashboard-tab-island" id="dashboardTabIsland" style="display: none;">
+            <button class="dashboard-tab-item active" data-tab="overview">Overview</button>
+            <button class="dashboard-tab-item" data-tab="time-patterns">Time Patterns</button>
+            <button class="dashboard-tab-item" data-tab="route-analysis">Route Analysis</button>
+        </div>
+
         <!-- Top‑right KPI overlay -->
         <div class="kpi-overlay">
             <div class="kpi-card" id="kpiPrimary">
@@ -143,6 +163,8 @@
             </div>
         </div>
 
+        
+
         <!-- Bottom‑left Legend -->
         <div class="legend-overlay" id="legendOverlay">
             <div class="legend-gradient"></div>
@@ -157,7 +179,9 @@
         <div class="floating-island" id="primaryNav">
             <button class="nav-item active" data-nav="time">Time</button>
             <button class="nav-item" data-nav="frequency">Frequency</button>
+            <button class="nav-item" data-nav="dashboard">Dashboard</button>
             <button class="nav-item" data-nav="about">About</button>
+            
         </div>
 
         <!-- Floating island for layer switching (Routes, Wards, Neighbourhoods, Hotspots) -->

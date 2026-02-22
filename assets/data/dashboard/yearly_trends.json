@@ -1,0 +1,62 @@
+[
+  {
+    "year": 2014,
+    "incident_count": 82763,
+    "avg_delay": 18.45319768495584
+  },
+  {
+    "year": 2015,
+    "incident_count": 66031,
+    "avg_delay": 17.867698505247535
+  },
+  {
+    "year": 2016,
+    "incident_count": 67062,
+    "avg_delay": 18.69830902746712
+  },
+  {
+    "year": 2017,
+    "incident_count": 61387,
+    "avg_delay": 20.702999006304267
+  },
+  {
+    "year": 2018,
+    "incident_count": 67125,
+    "avg_delay": 29.181512104283055
+  },
+  {
+    "year": 2019,
+    "incident_count": 57962,
+    "avg_delay": 23.122683827335152
+  },
+  {
+    "year": 2020,
+    "incident_count": 33795,
+    "avg_delay": 21.53617399023524
+  },
+  {
+    "year": 2021,
+    "incident_count": 37495,
+    "avg_delay": 20.135324709961328
+  },
+  {
+    "year": 2022,
+    "incident_count": 54721,
+    "avg_delay": 20.82381535425157
+  },
+  {
+    "year": 2023,
+    "incident_count": 51205,
+    "avg_delay": 22.088253100283175
+  },
+  {
+    "year": 2024,
+    "incident_count": 52708,
+    "avg_delay": 23.91306822493739
+  },
+  {
+    "year": 2025,
+    "incident_count": 55003,
+    "avg_delay": 23.388469719833463
+  }
+]

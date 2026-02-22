@@ -86,6 +86,7 @@ class UIController {
         // Metric buttons
         this.elements.metricButtons = document.querySelectorAll('.metric-btn');
         this.elements.navItems = document.querySelectorAll('.nav-item');
+        this.elements.dashboardNavItem = document.querySelector('.nav-item[data-nav="dashboard"]');
 
         // Custom dropdown containers (these divs will hold the dropdowns)
         this.elements.yearDropdown = document.getElementById('yearFilter');
@@ -178,9 +179,28 @@ class UIController {
         document.querySelectorAll('.nav-item').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const nav = e.currentTarget.dataset.nav;
+                
                 if (nav === 'about') {
                     this.showAbout();
-                } else {
+                } 
+                else if (nav === 'dashboard') {
+                    // Switch to dashboard mode
+                    this.app.switchMode('dashboard');
+                    
+                    // Update active states on nav items
+                    this.elements.navItems.forEach(item => item.classList.remove('active'));
+                    e.currentTarget.classList.add('active');
+                    
+                    // Deactivate metric and view buttons (they belong to map mode)
+                    this.elements.metricButtons.forEach(btn => btn.classList.remove('active'));
+                    this.elements.viewButtons.forEach(btn => btn.classList.remove('active'));
+                    this.elements.layerItems.forEach(btn => btn.classList.remove('active'));
+                } 
+                else {
+                    // Time or Frequency: switch back to map mode if needed
+                    if (this.app.mode !== 'map') {
+                        this.app.switchMode('map');
+                    }
                     this.setActiveMetric(nav);
                 }
             });
@@ -640,32 +660,44 @@ class UIController {
         if (matches.length === 0) {
             resultsContainer.innerHTML = '<div class="search-result-item">No routes found</div>';
             resultsContainer.style.display = 'block';
-            return;
+        } else {
+            let html = '';
+            matches.forEach(r => {
+                html += `<div class="search-result-item" data-route="${r.route}">
+                    <span class="search-result-route">${r.route}</span>
+                    <span class="search-result-name">${r.longName || ''}</span>
+                </div>`;
+            });
+            resultsContainer.innerHTML = html;
+            resultsContainer.style.display = 'block';
         }
 
-        let html = '';
-        matches.forEach(r => {
-            html += `<div class="search-result-item" data-route="${r.route}">
-                <span class="search-result-route">${r.route}</span>
-                <span class="search-result-name">${r.longName || ''}</span>
-            </div>`;
-        });
-        resultsContainer.innerHTML = html;
-        resultsContainer.style.display = 'block';
+        // --- NEW: decide whether to open upward or downward ---
+        const input = this.elements.searchInput;
+        if (input) {
+            const inputRect = input.getBoundingClientRect();
+            const spaceBelow = window.innerHeight - inputRect.bottom;
+            // if less than 200px below, open upward
+            if (spaceBelow < 200) {
+                resultsContainer.classList.add('upward');
+            } else {
+                resultsContainer.classList.remove('upward');
+            }
+        }
+        // -------------------------------------------------------
 
+        // Attach click handlers to results (unchanged)
         resultsContainer.querySelectorAll('.search-result-item').forEach(item => {
             item.addEventListener('click', () => {
                 const routeNum = item.dataset.route;
-                // Find the full route data
-                const routeData = this.app.state.routesData.find(r => r.route === routeNum);
-                if (routeData) {
-                    // Set search input to the route number (for user feedback)
+                if (routeNum) {
+                    // Set search input value
                     if (this.elements.searchInput) {
                         this.elements.searchInput.value = routeNum;
                     }
-                    // Highlight the route on the map
+                    // Highlight route using mapVisualizer with route number
                     if (this.app.mapVisualizer) {
-                        this.app.mapVisualizer.highlightRoute(routeData);
+                        this.app.mapVisualizer.highlightRoute(routeNum);
                     }
                     // Close the suggestions dropdown
                     resultsContainer.style.display = 'none';
@@ -828,6 +860,13 @@ class UIController {
         }
     }
 
+    setActiveNav(nav) {
+        if (!this.elements.navItems) return;
+        this.elements.navItems.forEach(item => {
+            item.classList.toggle('active', item.dataset.nav === nav);
+        });
+    }
+
     populateAbout() {
         const content = `
             <h1>About This Project</h1>
@@ -836,59 +875,60 @@ class UIController {
             </p>
 
             <section>
-                <h2> Introduction</h2>
-                <p>Public transit is the backbone of Toronto, connecting millions of people every day. This project started with a simple goal: to better understand how the TTC performs by analyzing over a decade of delay data. By examining patterns across routes, neighbourhoods, and incident types, we can uncover insights that help riders plan their journeys and inform conversations about transit reliability.</p>
-                <p>What began as a personal data exploration has grown into a comprehensive, interactive dashboard that visualizes where and when delays occur most frequently. Whether you're a daily commuter, a transit planner, or just curious about the system, this tool offers a transparent look at TTC operations.</p>
+                <h2>A Personal Journey</h2>
+                <p>For years, I’ve relied on the <strong>16 McCowan</strong> bus. Like many riders, I often wondered: <em>Why is my bus always delayed?</em> What started as a simple college project analysing a single route slowly grew into something much bigger. Today, it’s a full‑fledged exploration of Toronto’s entire bus network, powered by over a decade of public data.</p>
+                <p>Behind the scenes, this project represents <strong>hundreds of hours</strong> of data processing, validation, and refinement about <strong>90% of my time</strong> goes into cleaning and matching data to ensure it tells a coherent story. The result is a dataset covering <strong>more than 900,000 delay incidents</strong> across <strong>over 9,500 unique stop locations</strong>, grouped into <strong>500+ route variants</strong> (under base route numbers). With <strong>12+ years of historical records (2014–2025)</strong>, we can finally see patterns.</p>
+                <p class="disclaimer">
+                    <strong>Please read:</strong> This is a personal, non‑professional project. I do not guarantee the accuracy or completeness of the data, and it should <strong>not</strong> be used as evidence in any legal, operational, or official capacity. The visualisations are meant for curiosity and general awareness, not for decision‑making that could affect safety, schedules, or rights.
+                </p>
             </section>
 
             <section>
-                <h2> Project Evolution</h2>
-                <p>This project has evolved through several stages:</p>
-                <ul>
-                    <li><strong>2023:</strong> Initial Tableau dashboard exploring basic delay patterns.</li>
-                    <li><strong>2024:</strong> Expanded to a Power BI semantic data model, integrating multiple datasets for deeper analysis.</li>
-                    <li><strong>2025:</strong> Development of a Streamlit app for forecasting and trend analysis, combined with GIS work to map routes geographically.</li>
-                    <li><strong>Present:</strong> This web app, built with Leaflet and custom aggregations, makes the data accessible and interactive for everyone.</li>
-                </ul>
-            </section>
-
-            <section>
-                <h2> Limitations & Methodology</h2>
-                <p>While we strive for accuracy, there are important considerations when interpreting the data:</p>
-                <ul>
-                    <li><strong>Geocoding precision:</strong> Approximately 93% of incidents are successfully mapped to specific stops using location names. The remaining 7% could not be precisely located due to inconsistent naming, so the overall spatial accuracy is estimated at 90%.</li>
-                    <li><strong>Route variants:</strong> The dataset does not distinguish between route variants (e.g., 129A vs 129B). All variants are grouped under the base route number (e.g., 129).</li>
-                </ul>
-            </section>
-
-            <section>
-                <h2> Previous Work</h2>
-                <p>Explore earlier iterations of this analysis:</p>
+                <h2>Project Evolution</h2>
+                <p>This journey has evolved through several iterations, each adding new depth:</p>
                 <ul class="links-list">
-                    <li><a href="https://public.tableau.com/app/profile/karman.bains/viz/TTCDelayDash/Dashboard1" target="_blank">Tableau Dashboard (2023)</a></li>
-                    <li><a href="https://app.powerbi.com/view?r=eyJrIjoiOTRkYTMyZjctMjU3Yi00MTQzLTg0NTItZTQ2YjQwMzRkYWRjIiwidCI6ImI2NDE3Y2QwLTFmNzMtNDQ3MS05YTM5LTIwOTUzODIyYTM0YSIsImMiOjN9&source=post_page-----20d7b475d736------------------------------------" target="_blank">Power BI Semantic Model (2024)</a></li>
-                    <li><a href="https://ttcdelay.streamlit.app/" target="_blank">Streamlit App (2025)</a></li>
-                    <li><a href="https://medium.com/@bsinghkarman/tracking-time-lost-a-data-dive-into-torontos-public-transit-delays-20d7b475d736" target="_blank">Medium Article (May 2025)</a></li>
+                    <li><strong>2023:</strong> <a href="https://public.tableau.com/app/profile/karman.bains/viz/TTCDelayDash/Dashboard1" target="_blank">Tableau Dashboard</a> – my first public look at delay patterns.</li>
+                    <li><strong>2024:</strong> <a href="https://app.powerbi.com/view?r=eyJrIjoiOTRkYTMyZjctMjU3Yi00MTQzLTg0NTItZTQ2YjQwMzRkYWRjIiwidCI6ImI2NDE3Y2QwLTFmNzMtNDQ3MS05YTM5LTIwOTUzODIyYTM0YSIsImMiOjN9&source=post_page-----20d7b475d736------------------------------------" target="_blank">Power BI Semantic Model</a> – integrated multiple datasets for deeper analysis.</li>
+                    <li><strong>2025:</strong> <a href="https://ttcdelay.streamlit.app/" target="_blank">Streamlit App</a> – experimental trend predictions and geospatial mapping.</li>
+                    <li><strong>Present:</strong> <a href="https://ttcdelay.kbains.com">Web App</a>- This interactive web app, making the data accessible to everyone, anywhere.</li>
+                    <p>You can a previous version of the story behind the data in my <a href="https://medium.com/@bsinghkarman/tracking-time-lost-a-data-dive-into-torontos-public-transit-delays-20d7b475d736" target="_blank">Medium Article</a>.</p>
+                </ul>
+                
+            </section>
+
+            <section>
+                <h2>Methodology & Limitations</h2>
+                <p>All data is sourced from <strong>Toronto Open Data</strong> and refreshed automatically once a month using custom scripts. I combine delay records with TTC route, trip, and stop data, then map them to geographic boundaries using <strong>GeoJSON</strong> files provided by the city.</p>
+                <h3>Location Matching</h3>
+                <p>One of the biggest challenges is matching free‑text location names (like "<em>Kennedy Station</em>") to official stop IDs. Because the data lacks a direct key, I use <strong>natural language processing (NLP)</strong> techniques to match over <strong>20,000 location strings</strong> to the ~9,500 official stops. This achieves a <strong>93% match rate</strong> with an estimated accuracy of <strong>91%</strong> – a reasonable compromise given the inconsistency in naming conventions.</p>
+                <h3>Route Variants</h3>
+                <p>The source data does not distinguish between route variants (e.g., <em>129A</em> vs. <em>129B</em>). All variants are therefore grouped under the base route number (<em>129</em>). While this loses some granularity, it still provides a valuable overview of corridor‑level performance.</p>
+                <h3>Data Quality Caveats</h3>
+                <ul>
+                    <li>Some Routes e.g.<strong>Line 4 (Sheppard)</strong> records have known quality issues (less than 1% of the data); they may be slightly underrepresented.</li>
+                    <li>About <strong>7–8%</strong> of location strings remain unmatched after NLP matching, often due to ambiguous or outdated stop names.</li>
+                    <li>Historical routes that no longer exist (e.g., the old <em>5‑Bay</em>) are excluded because they cannot be reliably geocoded.</li>
+                </ul>
+                <p>Despite these imperfections, the processed dataset retains <strong>98.7% of valid, geolocated incidents</strong>, enough to reveal meaningful patterns.</p>
+            </section>
+
+            <section>
+                <h2>References</h2>
+                <p>The following resources were essential for building this project:</p>
+                <ul>
+                    <li><a href="https://open.toronto.ca/" target="_blank">City of Toronto Open Data Portal</a> – Primary source for Toronto Transit data.</li>
+                    <li><a href="https://www.ttc.ca/routes-and-schedules" target="_blank">TTC Official Website</a> – Current route and schedule information.</li>
+                    <li><a href="https://www.nycsubway.org/wiki/TTC_Streetcar_Lines" target="_blank">NYC Subway</a> – Historical context for Toronto’s surface routes.</li>
+                    <li><a href="https://transittoronto.ca/bus/routes/" target="_blank">Transit Toronto</a> – Detailed route history for Historical Routes Validation.</li>
                 </ul>
             </section>
 
             <section>
-                <h2> Contact & Links</h2>
+                <h2>Contacts</h2>
                 <ul class="contact-list">
                     <li><i class="fas fa-envelope"></i> <a href="mailto:bsinghkarman@gmail.com">bsinghkarman@gmail.com</a></li>
-                    <li><i class="fas fa-globe"></i> <a href="https://bainskarman.github.io/portfolio.io/" target="_blank">Portfolio</a></li>
+                    <li><i class="fas fa-globe"></i> <a href="https://kbains.com" target="_blank">Portfolio</a></li>
                     <li><i class="fab fa-github"></i> <a href="https://github.com/bainskarman" target="_blank">GitHub</a></li>
-                </ul>
-            </section>
-
-            <section>
-                <h2> Data Sources</h2>
-                <p>This project relies on open data from:</p>
-                <ul>
-                    <li><a href="https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/" target="_blank">Toronto Neighbourhoods</a> – Geographic boundaries, neighbourhoods, and infrastructure.</li>
-                    <li><a href="https://open.toronto.ca/" target="_blank">City of Toronto Open Data</a> – TTC Routes, Schedules, Trips, Shapes, and Delays.</li>
-                    <li><a href="https://transittoronto.ca/bus/routes/196-york-univer.shtml" target="_blank">Toronto Transit</a> – TTC Historical Routes.</li>
-                    <li><a href="https://www.ttc.ca/routes-and-schedules" target="_blank">TTC</a> – TTC Present Routes and Schedules.</li>
                 </ul>
             </section>
         `;

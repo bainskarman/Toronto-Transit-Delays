@@ -1,0 +1,37 @@
+[
+  {
+    "weekday": "Monday",
+    "incident_count": 100360,
+    "avg_delay": 20.4
+  },
+  {
+    "weekday": "Tuesday",
+    "incident_count": 110864,
+    "avg_delay": 20.1
+  },
+  {
+    "weekday": "Wednesday",
+    "incident_count": 112090,
+    "avg_delay": 20.6
+  },
+  {
+    "weekday": "Thursday",
+    "incident_count": 112711,
+    "avg_delay": 20.0
+  },
+  {
+    "weekday": "Friday",
+    "incident_count": 112049,
+    "avg_delay": 20.4
+  },
+  {
+    "weekday": "Saturday",
+    "incident_count": 76939,
+    "avg_delay": 27.9
+  },
+  {
+    "weekday": "Sunday",
+    "incident_count": 62244,
+    "avg_delay": 25.2
+  }
+]

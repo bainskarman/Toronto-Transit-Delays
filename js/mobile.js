@@ -396,19 +396,17 @@ class MobileController {
         resultsContainer.querySelectorAll('.mobile-search-result-item').forEach(item => {
             item.addEventListener('click', (e) => {
                 const routeNum = item.dataset.route;
-                const routeData = this.app.state.routesData.find(r => r.route === routeNum);
-                if (routeData) {
+                if (routeNum) {
                     // Set input value
                     if (this.elements.searchInput) {
                         this.elements.searchInput.value = routeNum;
                     }
-                    // Highlight route on map (and show popup)
+                    // Highlight route on map (and show popup) – pass route number
                     if (this.app.mapVisualizer) {
-                        this.app.mapVisualizer.highlightRoute(routeData);
+                        this.app.mapVisualizer.highlightRoute(routeNum);
                     }
                     // Hide results
                     resultsContainer.style.display = 'none';
-                    // Do NOT apply filter – just highlight
                 }
             });
         });

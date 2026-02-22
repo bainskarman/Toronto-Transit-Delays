@@ -24,7 +24,7 @@
 
 .mobile-row {
     display: flex;
-    gap: 6px;
+    gap: 6px;                     /* consistent gap across all rows */
     padding: 2px 8px;
     margin: 0;
     align-items: center;
@@ -33,7 +33,7 @@
     box-sizing: border-box;
 }
 
-/* KPI row – compact */
+/* KPI row – height unchanged */
 .kpi-row {
     height: 6vh;
     min-height: 44px;
@@ -42,9 +42,8 @@
 
 /* Search row */
 .search-row {
-    height: 7vh;
-    min-height: 48px;
-    gap: 4px;                     /* reduced gap */
+    height: 5vh;
+    min-height: 44px;
     position: relative;
     z-index: 1100;
 }
@@ -53,14 +52,12 @@
 .tab-row {
     height: 5vh;
     min-height: 40px;
-    gap: 4px;                     /* reduced gap */
 }
 
 /* View row */
 .view-row {
     height: 5vh;
     min-height: 40px;
-    gap: 4px;                     /* reduced gap */
 }
 /* ==================== FLOATING TILES ==================== */
 
@@ -79,7 +76,7 @@
     font-weight: var(--font-weight-medium);
     text-align: center;
     box-sizing: border-box;
-    padding: 2px 6px;  /* reduced padding */
+    padding: 2px 6px;
 }
 
 :root {
@@ -193,27 +190,25 @@
     background: var(--bg-tertiary);
 }
 
-/* Tab tiles */
 .tab-tile {
-    flex: 1;                      /* still flexible, but limited by max-width */
-    max-width: 85px;              /* prevents excessive width */
+    flex: 1;
+    max-width: 85px;
     height: 100%;
-    padding: 0 12px;              /* increased horizontal padding for better touch */
+    padding: 0 12px;
     background: rgba(var(--bg-secondary-rgb), 0.85);
-    font-size: 0.85rem;
-    text-transform: uppercase;
+    font-size: 0.85rem;           /* same as view tiles */
     letter-spacing: 0.5px;
     white-space: nowrap;
 }
 
-/* View tiles */
+/* View tiles – use same font size as tabs */
 .view-tile {
     flex: 1;
-    max-width: 75px;              /* prevents excessive width */
+    max-width: 75px;
     height: 100%;
-    padding: 0 8px;               /* increased horizontal padding */
+    padding: 0 8px;
     background: rgba(var(--bg-secondary-rgb), 0.85);
-    font-size: 0.75rem;
+    font-size: 0.85rem;           /* previously 0.75rem, now 0.85rem */
     white-space: nowrap;
 }
 
@@ -268,16 +263,17 @@
 
 
 .mobile-legend-toggle {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    width: 44px;           /* slightly larger for easier tapping */
-    height: 44px;
+    position: absolute !important;   /* force bottom‑right */
+    bottom: 22px !important;
+    right: 15px !important;
+    left: auto !important;
+    width: 30px;           /* slightly larger for easier tapping */
+    height: 30px;
     border-radius: 50%;
     background: var(--accent-primary);
     border: none;
     color: white;
-    font-size: 1.2rem;
+    font-size: 0.9rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -297,9 +293,10 @@
 }
 
 .mobile-legend-panel {
-    position: absolute;
-    bottom: 80px;
-    left: 20px;
+    position: absolute !important;   /* force bottom‑right */
+    bottom: 60px !important;
+    right: 15px !important;
+    left: auto !important;
     width: min(260px, 40%);
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
@@ -606,15 +603,22 @@
     padding-bottom: 8px;
 }
 
+#chart-monthly-comparison .chart-wrapper {
+    min-height: unset !important;
+    height: 1px !important;
+}
+
 /* Adjust existing checkbox group styles if any conflicts */
 .checkbox-group {
     /* keep as fallback but dropdowns replace it */
 }
 
 
+
 /* ==================== ABOUT PANEL ==================== */
 
 .about-panel {
+    padding-top: max(16px, env(safe-area-inset-top));
     position: absolute;
     top: 0;
     left: 0;
@@ -633,6 +637,10 @@
 }
 
 .about-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--bg-primary);   /* solid background to avoid content bleeding through */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -659,6 +667,9 @@
     justify-content: center;
     font-size: 1.1rem;
     cursor: pointer;
+    transform: translate(2px, 2px);
+    margin-top: 10px;
+    margin-right: 4px;  /* shift 2px down and 2px right */
 }
 
 .about-close:active {
@@ -813,4 +824,9 @@ button,
 }
 .legend-range {
     white-space: nowrap;
+}
+/* ==================== HIDE DASHBOARD ON MOBILE ==================== */
+.mobile-active .dashboard-sidebar,
+.mobile-active .dashboard-content {
+    display: none !important;
 }

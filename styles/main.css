@@ -406,7 +406,8 @@ html, body {
 .legend-overlay {
     position: absolute;
     bottom: var(--space-lg);
-    left: var(--space-lg);
+    right: var(--space-lg);
+    left: auto;                     /* override any left value */
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
@@ -599,7 +600,7 @@ html, body {
     backdrop-filter: blur(4px);
 }
 
-/* ==================== ABOUT CONTAINER ==================== */
+
 /* ==================== ABOUT CONTAINER ==================== */
 .about-container {
     display: none;
@@ -838,3 +839,365 @@ html, body {
     white-space: nowrap;
 }
 
+/* ==================== DASHBOARD SIDEBAR ==================== */
+.dashboard-sidebar {
+    position: absolute;
+    top: var(--space-lg);
+    left: var(--space-lg);
+    width: 250px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    z-index: var(--z-fixed);
+    overflow: hidden;
+    transition: width var(--transition-normal), transform var(--transition-normal);
+    display: none; /* hidden by default, shown only in dashboard mode */
+}
+
+/* Collapsed state: only the toggle button remains */
+.dashboard-sidebar.collapsed {
+    width: 44px;
+    transform: translateX(calc(-100% + 44px + var(--space-lg)));
+}
+
+.dashboard-sidebar.collapsed .sidebar-content,
+.dashboard-sidebar.collapsed .sidebar-brand {
+    display: none;
+}
+
+.dashboard-sidebar.collapsed .sidebar-header {
+    justify-content: center;
+    padding: var(--space-sm);
+}
+
+/* Expanded state (when not collapsed) – show everything */
+.dashboard-sidebar:not(.collapsed) {
+    width: 250px;
+    transform: translateX(0);
+}
+
+/* ==================== DASHBOARD MODE (overrides) ==================== */
+body.dashboard-mode .kpi-overlay {
+    right: var(--space-lg);
+    left: auto;
+    transition: none;
+}
+
+/* ==================== DASHBOARD TAB ISLAND ==================== */
+.dashboard-tab-island {
+    position: absolute;
+    top: calc(var(--space-lg) + 60px); /* below primary nav */
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 40px;
+    padding: var(--space-xs);
+    display: flex;
+    gap: var(--space-xs);
+    z-index: var(--z-fixed);
+    box-shadow: var(--shadow-xl);
+}
+
+.dashboard-tab-item {
+    background: transparent;
+    border: none;
+    border-radius: 30px;
+    padding: var(--space-sm) var(--space-lg);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+}
+
+.dashboard-tab-item.active {
+    background: var(--accent-primary);
+    color: white;
+}
+
+.dashboard-tab-item:hover:not(.active) {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+}
+
+/* ==================== DASHBOARD CONTENT ==================== */
+.dashboard-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg-primary);
+    z-index: 900; /* below floating islands but above map */
+    overflow-y: auto;
+    padding: calc(var(--space-xl) * 2) var(--space-xl) var(--space-xl) var(--space-xl);
+    display: none;
+}
+
+.dashboard-content.active {
+    display: block;
+}
+
+.dashboard-content-inner {
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+/* ==================== DASHBOARD MODE (hide map UI) ==================== */
+body.dashboard-mode .map-container,
+body.dashboard-mode .legend-overlay,
+body.dashboard-mode .layer-island,
+body.dashboard-mode .control-panel {
+    display: none !important;
+}
+
+body.dashboard-mode .dashboard-content {
+    display: block;
+}
+
+/* ==================== DISCLAIMER ==================== */
+.dashboard-disclaimer {
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-lg);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    border-left: 4px solid var(--accent-primary);
+}
+
+/* ==================== DASHBOARD CHART CONTAINERS ==================== */
+.dashboard-content .chart-container {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    margin-bottom: var(--space-lg);
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 400px;
+}
+
+.dashboard-content .chart-container[style*="height"] {
+    min-height: unset; /* allow inline height to override */
+}
+
+.dashboard-content .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-md);
+    flex-shrink: 0;
+}
+
+.dashboard-content .chart-title {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: var(--font-weight-semibold);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin: 0;
+}
+
+.dashboard-content .chart-title i {
+    color: var(--accent-primary);
+}
+
+.dashboard-content .chart-wrapper {
+    flex: 1;
+    min-height: 300px;
+    width: 100%;
+    position: relative;
+}
+
+#chart-monthly-comparison .chart-wrapper {
+    min-height: unset;
+    height: 180px;  /* you can adjust this value */
+}
+
+.dashboard-content .chart-wrapper canvas,
+.dashboard-content .chart-wrapper .plotly-chart,
+.dashboard-content .chart-wrapper .js-plotly-plot {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.dashboard-content .chart-description {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: var(--space-md);
+    padding-top: var(--space-sm);
+    border-top: 1px solid var(--border-light);
+    flex-shrink: 0;
+}
+
+/* Full‑width chart (e.g., heatmap) */
+.chart-container.full-width {
+    grid-column: 1 / -1;
+    width: 100%;
+}
+
+/* Charts grid */
+.dashboard-content .charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: var(--space-lg);
+    margin-bottom: var(--space-xl);
+}
+
+@media (max-width: 1200px) {
+    .dashboard-content .charts-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==================== EMPTY STATE ==================== */
+.dashboard-content .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    text-align: center;
+}
+
+.dashboard-content .empty-state i {
+    font-size: 2rem;
+    margin-bottom: var(--space-md);
+    opacity: 0.5;
+}
+
+/* ==================== DATA TABLES ==================== */
+.dashboard-content .data-table-container {
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    margin-top: var(--space-xl);
+    border: 1px solid var(--border-color);
+    overflow-x: auto;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.dashboard-content .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: var(--space-md);
+}
+
+.dashboard-content .data-table th {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-weight: var(--font-weight-semibold);
+    padding: var(--space-md);
+    text-align: left;
+    border-bottom: 2px solid var(--accent-primary);
+    white-space: nowrap;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.dashboard-content .data-table td {
+    padding: var(--space-md);
+    border-bottom: 1px solid var(--border-light);
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+.dashboard-content .data-table tr:hover {
+    background: rgba(139, 0, 0, 0.1);
+}
+
+/* ==================== LOADING STATE ==================== */
+.dashboard-content .loading-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-xl);
+    color: var(--text-muted);
+    height: 300px;
+}
+
+.dashboard-content .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--border-color);
+    border-top: 3px solid var(--accent-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: var(--space-md);
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ==================== STAT BADGES ==================== */
+.dashboard-content .stat-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: var(--font-weight-medium);
+}
+
+.dashboard-content .badge-good { background: rgba(72, 187, 120, 0.2); color: var(--accent-success); }
+.dashboard-content .badge-info { background: rgba(66, 153, 225, 0.2); color: var(--accent-info); }
+.dashboard-content .badge-warning { background: rgba(237, 137, 54, 0.2); color: var(--accent-warning); }
+.dashboard-content .badge-critical { background: rgba(245, 101, 101, 0.2); color: var(--accent-error); }
+
+/* ==================== SECTION HEADER ==================== */
+.dashboard-content .section-header {
+    color: var(--text-primary);
+    padding: var(--space-xl) 0 var(--space-md) 0;
+    margin-bottom: var(--space-lg);
+    border-bottom: 3px solid var(--accent-primary);
+    font-weight: var(--font-weight-bold);
+    font-size: 1.8rem;
+}
+
+/* ==================== ROUTE COUNT DISPLAY ==================== */
+.dashboard-content .route-count-display {
+    margin-top: 10px;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    padding: 5px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+/* ==================== HIDE DASHBOARD ON MOBILE (ensured) ==================== */
+.mobile-active .dashboard-content {
+    display: none !important;
+}
+.disclaimer {
+    background: rgba(245, 101, 101, 0.1);
+    border-left: 4px solid var(--accent-error);
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
+    margin: var(--space-lg) 0;
+    font-size: 0.9rem;
+}
+.disclaimer i {
+    margin-right: var(--space-sm);
+    color: var(--accent-error);
+}

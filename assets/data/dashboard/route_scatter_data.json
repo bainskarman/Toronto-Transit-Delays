@@ -1,0 +1,1530 @@
+[
+  {
+    "route_number": "10",
+    "route_name": "Van Horne",
+    "incident_count": 572,
+    "avg_delay": 19.314685314685313,
+    "delay_std": 52.747213912751285,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "100",
+    "route_name": "Flemingdon Park",
+    "incident_count": 7699,
+    "avg_delay": 15.131445642291206,
+    "delay_std": 59.857702328610316,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "101",
+    "route_name": "Downsview Park",
+    "incident_count": 452,
+    "avg_delay": 30.761061946902654,
+    "delay_std": 66.48902006098609,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "102",
+    "route_name": "Markham Rd",
+    "incident_count": 13434,
+    "avg_delay": 20.536549054637486,
+    "delay_std": 55.2505015598007,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "103",
+    "route_name": "Mount Pleasant North",
+    "incident_count": 306,
+    "avg_delay": 57.30718954248366,
+    "delay_std": 147.03760112591033,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "104",
+    "route_name": "Faywood",
+    "incident_count": 1972,
+    "avg_delay": 23.90212981744422,
+    "delay_std": 44.16828267946068,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "105",
+    "route_name": "Dufferin North",
+    "incident_count": 1953,
+    "avg_delay": 22.282130056323606,
+    "delay_std": 34.20969228566967,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "106",
+    "route_name": "Sentinel",
+    "incident_count": 3935,
+    "avg_delay": 20.29428208386277,
+    "delay_std": 60.40748602117796,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "107",
+    "route_name": "Alness-Chesswood",
+    "incident_count": 2527,
+    "avg_delay": 41.289671547289274,
+    "delay_std": 90.19111835835803,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "108",
+    "route_name": "Driftwood",
+    "incident_count": 4150,
+    "avg_delay": 29.49879518072289,
+    "delay_std": 82.46926652651304,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "109",
+    "route_name": "Ranee",
+    "incident_count": 2727,
+    "avg_delay": 40.927026035936926,
+    "delay_std": 120.08712977422074,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "11",
+    "route_name": "Bayview",
+    "incident_count": 5734,
+    "avg_delay": 20.06975933031043,
+    "delay_std": 38.2246111283393,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "110",
+    "route_name": "Islington South",
+    "incident_count": 3200,
+    "avg_delay": 30.3371875,
+    "delay_std": 87.45326474788293,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "111",
+    "route_name": "East Mall",
+    "incident_count": 2274,
+    "avg_delay": 21.372911169744942,
+    "delay_std": 61.44244915721815,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "112",
+    "route_name": "West Mall",
+    "incident_count": 2902,
+    "avg_delay": 23.58890420399724,
+    "delay_std": 45.59747207623816,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "113",
+    "route_name": "Danforth",
+    "incident_count": 2222,
+    "avg_delay": 61.167866786678665,
+    "delay_std": 192.88103191973246,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "114",
+    "route_name": "Queens Quay East",
+    "incident_count": 353,
+    "avg_delay": 20.359773371104815,
+    "delay_std": 38.0044595462564,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "115",
+    "route_name": "Silver Hills",
+    "incident_count": 923,
+    "avg_delay": 27.16251354279523,
+    "delay_std": 39.29489188387579,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "116",
+    "route_name": "Morningside",
+    "incident_count": 10727,
+    "avg_delay": 12.813461359187098,
+    "delay_std": 33.32227512913566,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "117",
+    "route_name": "Birchmount South",
+    "incident_count": 904,
+    "avg_delay": 21.201327433628318,
+    "delay_std": 48.087030716742234,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "118",
+    "route_name": "Thistle Down",
+    "incident_count": 1480,
+    "avg_delay": 34.22027027027027,
+    "delay_std": 53.22690652311297,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "119",
+    "route_name": "Torbarrie",
+    "incident_count": 611,
+    "avg_delay": 26.690671031096564,
+    "delay_std": 28.37895020022784,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "12",
+    "route_name": "Kingston Rd",
+    "incident_count": 5661,
+    "avg_delay": 22.761172937643526,
+    "delay_std": 52.48934791113663,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "120",
+    "route_name": "Calvington",
+    "incident_count": 1139,
+    "avg_delay": 35.954345917471464,
+    "delay_std": 56.176595345962944,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "121",
+    "route_name": "Esplanade-River",
+    "incident_count": 3283,
+    "avg_delay": 79.26804751751447,
+    "delay_std": 207.88140143411914,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "122",
+    "route_name": "Graydon Hall",
+    "incident_count": 2685,
+    "avg_delay": 22.509869646182494,
+    "delay_std": 44.37197540522103,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "123",
+    "route_name": "Sherway",
+    "incident_count": 3117,
+    "avg_delay": 25.038498556304138,
+    "delay_std": 49.177494735928946,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "124",
+    "route_name": "Sunnybrook",
+    "incident_count": 2432,
+    "avg_delay": 14.75452302631579,
+    "delay_std": 44.370223830296354,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "125",
+    "route_name": "Drewry",
+    "incident_count": 1407,
+    "avg_delay": 17.447050461975834,
+    "delay_std": 36.77620416695942,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "126",
+    "route_name": "Christie",
+    "incident_count": 1353,
+    "avg_delay": 33.32224685883222,
+    "delay_std": 81.17653483590966,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "127",
+    "route_name": "Davenport",
+    "incident_count": 1497,
+    "avg_delay": 37.287909151636605,
+    "delay_std": 83.71100700996703,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "129",
+    "route_name": "Mccowan North",
+    "incident_count": 5530,
+    "avg_delay": 18.48119349005425,
+    "delay_std": 44.83913600802228,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "13",
+    "route_name": "Avenue Rd",
+    "incident_count": 621,
+    "avg_delay": 63.210950080515296,
+    "delay_std": 128.86296400752846,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "130",
+    "route_name": "Middlefield",
+    "incident_count": 1495,
+    "avg_delay": 34.533110367892974,
+    "delay_std": 76.62664448220953,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "131",
+    "route_name": "Nugget",
+    "incident_count": 4126,
+    "avg_delay": 19.314590402326708,
+    "delay_std": 57.19481150796976,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "132",
+    "route_name": "Milner",
+    "incident_count": 1310,
+    "avg_delay": 33.038167938931295,
+    "delay_std": 83.07173854290124,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "133",
+    "route_name": "Neilson",
+    "incident_count": 6177,
+    "avg_delay": 15.89800874210782,
+    "delay_std": 37.75367511514684,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "134",
+    "route_name": "Progress",
+    "incident_count": 3397,
+    "avg_delay": 28.305563732705327,
+    "delay_std": 95.72100216078974,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "135",
+    "route_name": "Gerrard",
+    "incident_count": 954,
+    "avg_delay": 112.61740041928721,
+    "delay_std": 279.3899728456776,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "14",
+    "route_name": "Glencairn",
+    "incident_count": 1882,
+    "avg_delay": 50.83049946865037,
+    "delay_std": 122.04132288669855,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "149",
+    "route_name": "Etobicoke-Bloor",
+    "incident_count": 147,
+    "avg_delay": 25.210884353741495,
+    "delay_std": 6.444952673680883,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "15",
+    "route_name": "Evans",
+    "incident_count": 1250,
+    "avg_delay": 28.444,
+    "delay_std": 59.44852366184089,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "154",
+    "route_name": "Curran Hall",
+    "incident_count": 247,
+    "avg_delay": 40.530364372469634,
+    "delay_std": 73.53776537293989,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "16",
+    "route_name": "Mccowan",
+    "incident_count": 4325,
+    "avg_delay": 16.966473988439308,
+    "delay_std": 49.864553217751826,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "160",
+    "route_name": "Bathurst North",
+    "incident_count": 2168,
+    "avg_delay": 33.69787822878229,
+    "delay_std": 74.9021916002802,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "161",
+    "route_name": "Rogers Rd",
+    "incident_count": 3938,
+    "avg_delay": 33.08354494667344,
+    "delay_std": 102.41464911819833,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "162",
+    "route_name": "Lawrence-Donway",
+    "incident_count": 970,
+    "avg_delay": 77.13505154639175,
+    "delay_std": 171.38933074053878,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "164",
+    "route_name": "Castlefield",
+    "incident_count": 25,
+    "avg_delay": 30.12,
+    "delay_std": 26.003717682926286,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "165",
+    "route_name": "Weston Rd North",
+    "incident_count": 10095,
+    "avg_delay": 14.914512134720159,
+    "delay_std": 32.06321961234207,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "167",
+    "route_name": "Pharmacy North",
+    "incident_count": 817,
+    "avg_delay": 41.88616891064871,
+    "delay_std": 85.23375020297193,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "168",
+    "route_name": "Symington",
+    "incident_count": 4615,
+    "avg_delay": 16.092957746478874,
+    "delay_std": 44.08080396379159,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "169",
+    "route_name": "Huntingwood",
+    "incident_count": 1515,
+    "avg_delay": 39.78943894389439,
+    "delay_std": 71.76753087661731,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "17",
+    "route_name": "Birchmount",
+    "incident_count": 5074,
+    "avg_delay": 24.653330705557746,
+    "delay_std": 80.87679289852413,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "171",
+    "route_name": "Mount Dennis",
+    "incident_count": 285,
+    "avg_delay": 60.098245614035086,
+    "delay_std": 140.0062278434051,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "184",
+    "route_name": "Ancaster Park",
+    "incident_count": 35,
+    "avg_delay": 38.68571428571428,
+    "delay_std": 55.26182142820688,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "185",
+    "route_name": "Sheppard Central",
+    "incident_count": 1908,
+    "avg_delay": 13.594863731656185,
+    "delay_std": 35.199616763184785,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "189",
+    "route_name": "Stockyards",
+    "incident_count": 275,
+    "avg_delay": 33.68727272727273,
+    "delay_std": 50.98214606102211,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "19",
+    "route_name": "Bay",
+    "incident_count": 981,
+    "avg_delay": 39.547400611620795,
+    "delay_std": 77.45606421412342,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "191",
+    "route_name": "Underhill",
+    "incident_count": 3976,
+    "avg_delay": 11.971579476861168,
+    "delay_std": 43.66600447473572,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "20",
+    "route_name": "Cliffside",
+    "incident_count": 2769,
+    "avg_delay": 48.95449620801733,
+    "delay_std": 156.53003491468004,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "21",
+    "route_name": "Brimley",
+    "incident_count": 3801,
+    "avg_delay": 19.5611681136543,
+    "delay_std": 34.4687044494658,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "22",
+    "route_name": "Coxwell",
+    "incident_count": 2807,
+    "avg_delay": 34.39223370146063,
+    "delay_std": 142.23694649748694,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "23",
+    "route_name": "Dawes",
+    "incident_count": 3056,
+    "avg_delay": 37.60732984293194,
+    "delay_std": 152.5317479719609,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "24",
+    "route_name": "Victoria Park",
+    "incident_count": 11179,
+    "avg_delay": 13.209410501833796,
+    "delay_std": 28.510165825157777,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "25",
+    "route_name": "Don Mills",
+    "incident_count": 10809,
+    "avg_delay": 10.285872883708022,
+    "delay_std": 25.37346264625201,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "26",
+    "route_name": "Dupont",
+    "incident_count": 2528,
+    "avg_delay": 37.52056962025316,
+    "delay_std": 90.82796161508566,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "28",
+    "route_name": "Bayview South",
+    "incident_count": 505,
+    "avg_delay": 42.07524752475248,
+    "delay_std": 83.64725562858926,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "29",
+    "route_name": "Dufferin",
+    "incident_count": 19374,
+    "avg_delay": 14.919531330649324,
+    "delay_std": 60.70852907090955,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "30",
+    "route_name": "High Park North",
+    "incident_count": 1173,
+    "avg_delay": 33.549872122762146,
+    "delay_std": 72.70901571525057,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "300",
+    "route_name": "Bloor-Danforth",
+    "incident_count": 3863,
+    "avg_delay": 24.533264302355683,
+    "delay_std": 37.656112048487834,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "307",
+    "route_name": "Bathurst",
+    "incident_count": 575,
+    "avg_delay": 42.38086956521739,
+    "delay_std": 55.520275819894,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "31",
+    "route_name": "Greenwood",
+    "incident_count": 1168,
+    "avg_delay": 29.919520547945204,
+    "delay_std": 98.6882970697076,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "315",
+    "route_name": "Evans-Brown'S Line",
+    "incident_count": 79,
+    "avg_delay": 47.40506329113924,
+    "delay_std": 62.72375720270706,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "32",
+    "route_name": "Eglinton West",
+    "incident_count": 19901,
+    "avg_delay": 16.052258680468316,
+    "delay_std": 64.75529649898904,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "320",
+    "route_name": "Yonge",
+    "incident_count": 4648,
+    "avg_delay": 15.191480206540447,
+    "delay_std": 44.8466376998276,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "322",
+    "route_name": "Coxwell",
+    "incident_count": 244,
+    "avg_delay": 56.83196721311475,
+    "delay_std": 63.66922335554682,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "324",
+    "route_name": "Victoria Park",
+    "incident_count": 224,
+    "avg_delay": 48.61607142857143,
+    "delay_std": 56.720421348488166,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "325",
+    "route_name": "Don Mills",
+    "incident_count": 212,
+    "avg_delay": 44.25,
+    "delay_std": 49.64861123089343,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "329",
+    "route_name": "Dufferin",
+    "incident_count": 466,
+    "avg_delay": 45.21030042918455,
+    "delay_std": 57.618422057009326,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "33",
+    "route_name": "Forest Hill",
+    "incident_count": 1082,
+    "avg_delay": 40.88262476894639,
+    "delay_std": 100.94612595523732,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "334",
+    "route_name": "Eglinton",
+    "incident_count": 435,
+    "avg_delay": 43.673563218390804,
+    "delay_std": 56.88576243392514,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "335",
+    "route_name": "Jane",
+    "incident_count": 225,
+    "avg_delay": 34.715555555555554,
+    "delay_std": 38.70237831582949,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "336",
+    "route_name": "Finch West",
+    "incident_count": 344,
+    "avg_delay": 43.872093023255815,
+    "delay_std": 52.280817549586274,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "337",
+    "route_name": "Islington",
+    "incident_count": 181,
+    "avg_delay": 48.98342541436464,
+    "delay_std": 86.26712230290038,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "339",
+    "route_name": "Finch East",
+    "incident_count": 191,
+    "avg_delay": 29.81675392670157,
+    "delay_std": 27.54313233605129,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "34",
+    "route_name": "Eglinton",
+    "incident_count": 12425,
+    "avg_delay": 15.346478873239437,
+    "delay_std": 58.71281166609878,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "341",
+    "route_name": "Keele",
+    "incident_count": 178,
+    "avg_delay": 38.174157303370784,
+    "delay_std": 35.034575425921055,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "343",
+    "route_name": "Kennedy",
+    "incident_count": 165,
+    "avg_delay": 37.58181818181818,
+    "delay_std": 33.504290356367996,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "35",
+    "route_name": "Jane",
+    "incident_count": 14195,
+    "avg_delay": 16.23487143360338,
+    "delay_std": 47.31144277985828,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "352",
+    "route_name": "Lawrence West",
+    "incident_count": 236,
+    "avg_delay": 42.313559322033896,
+    "delay_std": 50.26909700039145,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "353",
+    "route_name": "Steeles",
+    "incident_count": 318,
+    "avg_delay": 32.11635220125786,
+    "delay_std": 27.221529274679234,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "354",
+    "route_name": "Lawrence East",
+    "incident_count": 339,
+    "avg_delay": 46.32743362831859,
+    "delay_std": 54.94975259505865,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "36",
+    "route_name": "Finch West",
+    "incident_count": 17930,
+    "avg_delay": 12.386447295036252,
+    "delay_std": 38.104594704328726,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "363",
+    "route_name": "Ossington",
+    "incident_count": 243,
+    "avg_delay": 52.02469135802469,
+    "delay_std": 57.315779340172,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "365",
+    "route_name": "Parliament",
+    "incident_count": 66,
+    "avg_delay": 48.60606060606061,
+    "delay_std": 47.03840616997619,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "37",
+    "route_name": "Islington",
+    "incident_count": 6809,
+    "avg_delay": 27.838449111470112,
+    "delay_std": 81.46796741151158,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "38",
+    "route_name": "Highland Creek",
+    "incident_count": 4529,
+    "avg_delay": 18.56127180393023,
+    "delay_std": 53.48750565580421,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "384",
+    "route_name": "Sheppard West",
+    "incident_count": 114,
+    "avg_delay": 40.90350877192982,
+    "delay_std": 40.81817426602306,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "385",
+    "route_name": "Sheppard East",
+    "incident_count": 180,
+    "avg_delay": 41.07222222222222,
+    "delay_std": 45.3361166168263,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "39",
+    "route_name": "Finch East",
+    "incident_count": 11837,
+    "avg_delay": 14.540677536537974,
+    "delay_std": 29.826293405043224,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "395",
+    "route_name": "York Mills",
+    "incident_count": 290,
+    "avg_delay": 35.641379310344824,
+    "delay_std": 44.597263692818295,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "396",
+    "route_name": "Wilson",
+    "incident_count": 231,
+    "avg_delay": 37.073593073593074,
+    "delay_std": 44.40768386888589,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "40",
+    "route_name": "Junction-Dundas West",
+    "incident_count": 3102,
+    "avg_delay": 22.38168923275306,
+    "delay_std": 50.84487755584892,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "41",
+    "route_name": "Keele",
+    "incident_count": 10971,
+    "avg_delay": 43.315923799106734,
+    "delay_std": 2351.5277623381858,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "42",
+    "route_name": "Cummer",
+    "incident_count": 5369,
+    "avg_delay": 21.60327807785435,
+    "delay_std": 55.96069414155893,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "43",
+    "route_name": "Kennedy",
+    "incident_count": 6926,
+    "avg_delay": 16.972855905284437,
+    "delay_std": 44.28742827036706,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "44",
+    "route_name": "Kipling South",
+    "incident_count": 3790,
+    "avg_delay": 10.937730870712402,
+    "delay_std": 29.16906473338312,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "45",
+    "route_name": "Kipling",
+    "incident_count": 6901,
+    "avg_delay": 15.259962324300826,
+    "delay_std": 35.648403073345946,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "46",
+    "route_name": "Martin Grove",
+    "incident_count": 3180,
+    "avg_delay": 21.90062893081761,
+    "delay_std": 48.90693410388766,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "47",
+    "route_name": "Lansdowne",
+    "incident_count": 8615,
+    "avg_delay": 24.60348229831689,
+    "delay_std": 67.14198150881468,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "48",
+    "route_name": "Rathburn",
+    "incident_count": 863,
+    "avg_delay": 24.62688296639629,
+    "delay_std": 42.592302610506295,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "49",
+    "route_name": "Bloor West",
+    "incident_count": 844,
+    "avg_delay": 19.343601895734597,
+    "delay_std": 42.50225526707903,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "50",
+    "route_name": "Burnhamthorpe",
+    "incident_count": 1209,
+    "avg_delay": 33.68817204301075,
+    "delay_std": 106.68875882205327,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "51",
+    "route_name": "Leslie",
+    "incident_count": 3795,
+    "avg_delay": 30.3931488801054,
+    "delay_std": 66.48579505494585,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "52",
+    "route_name": "Lawrence West",
+    "incident_count": 19505,
+    "avg_delay": 18.949807741604715,
+    "delay_std": 41.04171871936964,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "53",
+    "route_name": "Steeles East",
+    "incident_count": 14032,
+    "avg_delay": 14.097776510832382,
+    "delay_std": 36.28862578139816,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "54",
+    "route_name": "Lawrence East",
+    "incident_count": 15397,
+    "avg_delay": 16.393972851854258,
+    "delay_std": 46.01274587095544,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "55",
+    "route_name": "Warren Park",
+    "incident_count": 701,
+    "avg_delay": 58.396576319543506,
+    "delay_std": 128.73321112053617,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "56",
+    "route_name": "Leaside",
+    "incident_count": 2668,
+    "avg_delay": 29.52623688155922,
+    "delay_std": 69.22015968970621,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "57",
+    "route_name": "Midland",
+    "incident_count": 3929,
+    "avg_delay": 19.857979129549502,
+    "delay_std": 54.09474591614002,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "59",
+    "route_name": "Maple Leaf",
+    "incident_count": 2962,
+    "avg_delay": 35.201890614449695,
+    "delay_std": 72.10335668838194,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "60",
+    "route_name": "Steeles West",
+    "incident_count": 12514,
+    "avg_delay": 14.74372702573118,
+    "delay_std": 41.532095769748224,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "61",
+    "route_name": "Avenue Rd North",
+    "incident_count": 2423,
+    "avg_delay": 19.922822946760213,
+    "delay_std": 42.932909887405756,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "62",
+    "route_name": "Mortimer",
+    "incident_count": 1723,
+    "avg_delay": 63.11085316308764,
+    "delay_std": 194.830847488306,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "63",
+    "route_name": "Ossington",
+    "incident_count": 12338,
+    "avg_delay": 15.324444804668504,
+    "delay_std": 50.61250215788189,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "64",
+    "route_name": "Main",
+    "incident_count": 2749,
+    "avg_delay": 55.32666424154238,
+    "delay_std": 186.6071782049382,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "65",
+    "route_name": "Parliament",
+    "incident_count": 2821,
+    "avg_delay": 27.285359801488834,
+    "delay_std": 91.46483121625683,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "66",
+    "route_name": "Prince Edward",
+    "incident_count": 1844,
+    "avg_delay": 24.773318872017352,
+    "delay_std": 68.40520032114415,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "67",
+    "route_name": "Pharmacy",
+    "incident_count": 2235,
+    "avg_delay": 24.078747203579418,
+    "delay_std": 73.38348684595618,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "68",
+    "route_name": "Warden",
+    "incident_count": 6173,
+    "avg_delay": 19.734326907500407,
+    "delay_std": 43.80208740096573,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "69",
+    "route_name": "Warden South",
+    "incident_count": 1714,
+    "avg_delay": 24.435822637106185,
+    "delay_std": 73.46429467591764,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "7",
+    "route_name": "Bathurst",
+    "incident_count": 12869,
+    "avg_delay": 13.883751651254954,
+    "delay_std": 37.59071929225893,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "70",
+    "route_name": "O'Connor",
+    "incident_count": 3392,
+    "avg_delay": 21.637676886792452,
+    "delay_std": 46.32106774124954,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "71",
+    "route_name": "Runnymede",
+    "incident_count": 2347,
+    "avg_delay": 50.90200255645505,
+    "delay_std": 156.14317792393558,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "72",
+    "route_name": "Pape",
+    "incident_count": 5701,
+    "avg_delay": 26.669707068935274,
+    "delay_std": 87.31973617709211,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "73",
+    "route_name": "Royal York",
+    "incident_count": 3967,
+    "avg_delay": 27.98512730022687,
+    "delay_std": 98.66307286507315,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "74",
+    "route_name": "Mount Pleasant",
+    "incident_count": 1199,
+    "avg_delay": 32.168473728106754,
+    "delay_std": 80.84530441321381,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "75",
+    "route_name": "Sherbourne",
+    "incident_count": 5610,
+    "avg_delay": 30.953654188948306,
+    "delay_std": 124.98883383900241,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "76",
+    "route_name": "Royal York South",
+    "incident_count": 3291,
+    "avg_delay": 15.088422971741112,
+    "delay_std": 49.109087889596275,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "77",
+    "route_name": "Swansea",
+    "incident_count": 840,
+    "avg_delay": 53.92142857142857,
+    "delay_std": 134.3914142422537,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "78",
+    "route_name": "St Andrews",
+    "incident_count": 1169,
+    "avg_delay": 26.917023096663815,
+    "delay_std": 54.44281082047995,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "79",
+    "route_name": "Scarlett Rd",
+    "incident_count": 4802,
+    "avg_delay": 23.136817992503122,
+    "delay_std": 62.37625134657768,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "8",
+    "route_name": "Broadview",
+    "incident_count": 825,
+    "avg_delay": 34.806060606060605,
+    "delay_std": 78.13141600603423,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "80",
+    "route_name": "Queensway",
+    "incident_count": 1839,
+    "avg_delay": 37.63077759651985,
+    "delay_std": 77.72845613644874,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "806",
+    "route_name": "Line 6 Shuttle",
+    "incident_count": 35,
+    "avg_delay": 1.9714285714285715,
+    "delay_std": 3.1105675128665573,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "82",
+    "route_name": "Rosedale",
+    "incident_count": 550,
+    "avg_delay": 59.805454545454545,
+    "delay_std": 162.0396417779746,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "83",
+    "route_name": "Jones",
+    "incident_count": 1451,
+    "avg_delay": 31.99104066161268,
+    "delay_std": 101.74161622167713,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "84",
+    "route_name": "Sheppard West",
+    "incident_count": 8310,
+    "avg_delay": 17.216125150421178,
+    "delay_std": 42.24117928053678,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "85",
+    "route_name": "Sheppard East",
+    "incident_count": 12010,
+    "avg_delay": 16.38126561199001,
+    "delay_std": 30.96498521445719,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "86",
+    "route_name": "Scarborough",
+    "incident_count": 9165,
+    "avg_delay": 14.576650300054556,
+    "delay_std": 32.69613850387576,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "87",
+    "route_name": "Cosburn",
+    "incident_count": 6402,
+    "avg_delay": 28.660262417994378,
+    "delay_std": 125.81848270683966,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "88",
+    "route_name": "South Leaside",
+    "incident_count": 3111,
+    "avg_delay": 28.610093217614914,
+    "delay_std": 83.9936761573668,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "89",
+    "route_name": "Weston",
+    "incident_count": 8723,
+    "avg_delay": 14.658947609767282,
+    "delay_std": 42.39302785781883,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "9",
+    "route_name": "Bellamy",
+    "incident_count": 2589,
+    "avg_delay": 25.636539204325995,
+    "delay_std": 58.248869759023975,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "90",
+    "route_name": "Vaughan",
+    "incident_count": 4238,
+    "avg_delay": 12.654082114204813,
+    "delay_std": 40.318547748070436,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "900",
+    "route_name": "Airport Express",
+    "incident_count": 1801,
+    "avg_delay": 12.086063298167685,
+    "delay_std": 20.848869676113043,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "902",
+    "route_name": "Markham Rd Express",
+    "incident_count": 1439,
+    "avg_delay": 16.3273106323836,
+    "delay_std": 36.38657034094774,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "903",
+    "route_name": "Kennedy Stn-Scarborough Express",
+    "incident_count": 1130,
+    "avg_delay": 14.373451327433628,
+    "delay_std": 30.86601238554199,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "904",
+    "route_name": "Sheppard-Kennedy Express",
+    "incident_count": 614,
+    "avg_delay": 17.58957654723127,
+    "delay_std": 22.980471647575648,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "905",
+    "route_name": "Eglinton East Express",
+    "incident_count": 1922,
+    "avg_delay": 16.196670135275756,
+    "delay_std": 45.15379271683232,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "91",
+    "route_name": "Woodbine",
+    "incident_count": 2879,
+    "avg_delay": 45.40673845085099,
+    "delay_std": 147.45468757743677,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "92",
+    "route_name": "Woodbine South",
+    "incident_count": 2057,
+    "avg_delay": 16.266893534273212,
+    "delay_std": 47.96854957948565,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "924",
+    "route_name": "Victoria Park Express",
+    "incident_count": 962,
+    "avg_delay": 12.940748440748441,
+    "delay_std": 38.4110202310961,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "925",
+    "route_name": "Don Mills Express",
+    "incident_count": 2505,
+    "avg_delay": 14.173253493013972,
+    "delay_std": 29.148339953389314,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "927",
+    "route_name": "Highway 27 Express",
+    "incident_count": 3224,
+    "avg_delay": 15.596464019851117,
+    "delay_std": 40.29040562599534,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "929",
+    "route_name": "Dufferin Express",
+    "incident_count": 3625,
+    "avg_delay": 13.87944827586207,
+    "delay_std": 36.80873660156301,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "93",
+    "route_name": "Parkview Hills",
+    "incident_count": 382,
+    "avg_delay": 46.903141361256544,
+    "delay_std": 125.75441024529793,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "935",
+    "route_name": "Jane Express",
+    "incident_count": 3021,
+    "avg_delay": 18.86759351208209,
+    "delay_std": 55.35453174376184,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "937",
+    "route_name": "Islington Express",
+    "incident_count": 818,
+    "avg_delay": 18.797066014669927,
+    "delay_std": 31.24695946938379,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "938",
+    "route_name": "Highland Creek Express",
+    "incident_count": 18,
+    "avg_delay": 60.77777777777778,
+    "delay_std": 153.99257260757952,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "939",
+    "route_name": "Finch Express",
+    "incident_count": 5772,
+    "avg_delay": 16.05232155232155,
+    "delay_std": 41.91740481829657,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "94",
+    "route_name": "Wellesley",
+    "incident_count": 5452,
+    "avg_delay": 29.922046955245783,
+    "delay_std": 89.15747208430577,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "941",
+    "route_name": "Keele Express",
+    "incident_count": 984,
+    "avg_delay": 19.210365853658537,
+    "delay_std": 45.683410692290245,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "944",
+    "route_name": "Kipling South Express",
+    "incident_count": 538,
+    "avg_delay": 14.202602230483272,
+    "delay_std": 51.14795634510693,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "945",
+    "route_name": "Kipling Express",
+    "incident_count": 1004,
+    "avg_delay": 12.532868525896415,
+    "delay_std": 35.961427149249964,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "95",
+    "route_name": "York Mills",
+    "incident_count": 14071,
+    "avg_delay": 14.16004548361879,
+    "delay_std": 30.48437163250662,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "952",
+    "route_name": "Lawrence West Express",
+    "incident_count": 1330,
+    "avg_delay": 15.82857142857143,
+    "delay_std": 24.798585396888424,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "953",
+    "route_name": "Steeles East Express",
+    "incident_count": 985,
+    "avg_delay": 17.737055837563453,
+    "delay_std": 50.191208554086906,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "954",
+    "route_name": "Lawrence East Express",
+    "incident_count": 590,
+    "avg_delay": 13.49322033898305,
+    "delay_std": 27.069848433189463,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "96",
+    "route_name": "Wilson",
+    "incident_count": 10632,
+    "avg_delay": 23.47385252069225,
+    "delay_std": 55.62236676217077,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "960",
+    "route_name": "Steeles West Express",
+    "incident_count": 3232,
+    "avg_delay": 15.340965346534654,
+    "delay_std": 41.08372627439397,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "968",
+    "route_name": "Warden Express",
+    "incident_count": 238,
+    "avg_delay": 20.281512605042018,
+    "delay_std": 30.82550170732471,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "97",
+    "route_name": "Yonge",
+    "incident_count": 5555,
+    "avg_delay": 39.25868586858686,
+    "delay_std": 68.60244537227759,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "98",
+    "route_name": "Willowdale-Senlac",
+    "incident_count": 1940,
+    "avg_delay": 32.743298969072164,
+    "delay_std": 59.53696249809902,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "984",
+    "route_name": "Sheppard West Express",
+    "incident_count": 1229,
+    "avg_delay": 11.960943856794142,
+    "delay_std": 17.03498329279877,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "985",
+    "route_name": "Sheppard East Express",
+    "incident_count": 5730,
+    "avg_delay": 11.089005235602095,
+    "delay_std": 19.453847739935913,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "986",
+    "route_name": "Scarborough Express",
+    "incident_count": 827,
+    "avg_delay": 10.505441354292625,
+    "delay_std": 16.797423038044084,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "989",
+    "route_name": "Weston Express",
+    "incident_count": 1099,
+    "avg_delay": 18.736123748862603,
+    "delay_std": 36.94163510551241,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "99",
+    "route_name": "Arrow Rd",
+    "incident_count": 324,
+    "avg_delay": 29.90740740740741,
+    "delay_std": 57.382784611137865,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "995",
+    "route_name": "York Mills Express",
+    "incident_count": 1547,
+    "avg_delay": 15.423400129282482,
+    "delay_std": 22.712638640639238,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "996",
+    "route_name": "Wilson Express",
+    "incident_count": 1956,
+    "avg_delay": 14.870654396728016,
+    "delay_std": 31.531677536521876,
+    "active_in_2025": true
+  }
+]

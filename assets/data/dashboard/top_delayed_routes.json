@@ -1,0 +1,107 @@
+[
+  {
+    "route_number": "135",
+    "route_name": "Gerrard",
+    "incident_count": 954,
+    "avg_delay": 112.6,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "121",
+    "route_name": "Esplanade-River",
+    "incident_count": 3283,
+    "avg_delay": 79.3,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "162",
+    "route_name": "Lawrence-Donway",
+    "incident_count": 970,
+    "avg_delay": 77.1,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "13",
+    "route_name": "Avenue Rd",
+    "incident_count": 621,
+    "avg_delay": 63.2,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "62",
+    "route_name": "Mortimer",
+    "incident_count": 1723,
+    "avg_delay": 63.1,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "113",
+    "route_name": "Danforth",
+    "incident_count": 2222,
+    "avg_delay": 61.2,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "938",
+    "route_name": "Highland Creek Express",
+    "incident_count": 18,
+    "avg_delay": 60.8,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "171",
+    "route_name": "Mount Dennis",
+    "incident_count": 285,
+    "avg_delay": 60.1,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "82",
+    "route_name": "Rosedale",
+    "incident_count": 550,
+    "avg_delay": 59.8,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "55",
+    "route_name": "Warren Park",
+    "incident_count": 701,
+    "avg_delay": 58.4,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "103",
+    "route_name": "Mount Pleasant North",
+    "incident_count": 306,
+    "avg_delay": 57.3,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "322",
+    "route_name": "Coxwell",
+    "incident_count": 244,
+    "avg_delay": 56.8,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "64",
+    "route_name": "Main",
+    "incident_count": 2749,
+    "avg_delay": 55.3,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "77",
+    "route_name": "Swansea",
+    "incident_count": 840,
+    "avg_delay": 53.9,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "363",
+    "route_name": "Ossington",
+    "incident_count": 243,
+    "avg_delay": 52.0,
+    "active_in_2025": true
+  }
+]

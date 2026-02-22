@@ -1,0 +1,52 @@
+[
+  {
+    "incident_type": "Mechanical",
+    "count": 232198,
+    "percentage": 33.8
+  },
+  {
+    "incident_type": "Operations",
+    "count": 160853,
+    "percentage": 23.4
+  },
+  {
+    "incident_type": "General",
+    "count": 123362,
+    "percentage": 17.9
+  },
+  {
+    "incident_type": "Passenger",
+    "count": 79210,
+    "percentage": 11.5
+  },
+  {
+    "incident_type": "Scheduling",
+    "count": 57938,
+    "percentage": 8.4
+  },
+  {
+    "incident_type": "Cleaning",
+    "count": 17184,
+    "percentage": 2.5
+  },
+  {
+    "incident_type": "Collision",
+    "count": 15142,
+    "percentage": 2.2
+  },
+  {
+    "incident_type": "Infrastructure",
+    "count": 730,
+    "percentage": 0.1
+  },
+  {
+    "incident_type": "Management",
+    "count": 543,
+    "percentage": 0.1
+  },
+  {
+    "incident_type": "External",
+    "count": 97,
+    "percentage": 0.0
+  }
+]

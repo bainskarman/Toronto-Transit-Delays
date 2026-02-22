@@ -26,6 +26,13 @@ class MapVisualizer {
         this.highlightedRoute = null;
     }
 
+    getFilteredRouteData(routeId) {
+        if (!this.app || this.app.state.currentView !== 'routes') return null;
+        const filteredData = this.app.getFilteredData(); // returns filtered routes data
+        return filteredData.find(r => r.route === routeId) || null;
+    }
+
+
     getPopupOptions() {
         if (this.app.state.mobile) {
             return { offset: L.point(0, 35) };
@@ -43,15 +50,15 @@ class MapVisualizer {
             maxBoundsViscosity: 1.0
         };
         // Apply maxBounds only on desktop
-        if (!isMobile) {
-            mapOptions.maxBounds = L.latLngBounds([43.58, -79.63], [43.86, -79.12]);
-        }
+        // if (!isMobile) {
+        //     mapOptions.maxBounds = L.latLngBounds([43.58, -79.63], [43.86, -79.12]);
+        // }
         this.map = L.map(mapElementId, mapOptions);
 
         const theme = state.theme || 'dark';
         this.currentTileLayer = this.baseLayers[theme].addTo(this.map);
 
-        L.control.zoom({ position: 'bottomright' }).addTo(this.map);
+        L.control.zoom({ position: 'bottomleft' }).addTo(this.map);
 
         this.layers.routes.addTo(this.map);
         this.layers.wards.addTo(this.map);
@@ -153,12 +160,23 @@ class MapVisualizer {
         `;
     }
 
-    highlightRoute(routeData) {
+    highlightRoute(routeIdentifier) {
+        let routeData = routeIdentifier;
+        // If routeIdentifier is a string/number, fetch filtered data
+        if (typeof routeIdentifier === 'string' || typeof routeIdentifier === 'number') {
+            routeData = this.getFilteredRouteData(String(routeIdentifier));
+            if (!routeData) {
+                console.warn('Route not found in filtered data:', routeIdentifier);
+                return;
+            }
+        }
+
         if (!routeData) return;
 
         const routeId = routeData.route;
         if (this.highlightedRoute === routeId) return;
 
+        // Reset previously highlighted route
         if (this.highlightedRoute) {
             const prevLayer = this.routeLayers.get(this.highlightedRoute);
             if (prevLayer) {
@@ -375,10 +393,10 @@ class MapVisualizer {
 
         this.currentHeatLayer = L.heatLayer(heatData, {
             radius: 2,
-            blur: 2.5,
+            blur: 2,
             maxZoom: 15,
             minOpacity: 0.3,
-            gradient: { 0.35: 'blue', 0.55: 'lime', 0.65: 'yellow', 0.78: 'red' }
+            gradient: { 0.35: 'blue', 0.55: 'lime', 0.75: 'yellow', 0.88: 'red' }
         }).addTo(this.layers.hotspots);
     }
 

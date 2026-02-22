@@ -1,0 +1,27 @@
+[
+  {
+    "range": "0-5 min",
+    "count": 45473,
+    "percentage": 6.6
+  },
+  {
+    "range": "5-10 min",
+    "count": 186180,
+    "percentage": 27.1
+  },
+  {
+    "range": "10-15 min",
+    "count": 204403,
+    "percentage": 29.7
+  },
+  {
+    "range": "15-30 min",
+    "count": 184646,
+    "percentage": 26.9
+  },
+  {
+    "range": "30+ min",
+    "count": 66555,
+    "percentage": 9.7
+  }
+]
