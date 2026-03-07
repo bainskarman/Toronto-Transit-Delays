@@ -1,0 +1,1757 @@
+[
+  {
+    "route": "1",
+    "route_name": "Yonge-University Line",
+    "avg_delay_2025": 8.0,
+    "most_common_incident_cause": "Passenger",
+    "total_incidents_2025": 5054,
+    "reliability_score": 49.5,
+    "avg_delay_change_2024_2025_pct": 6.7
+  },
+  {
+    "route": "100",
+    "route_name": "Flemingdon Park",
+    "avg_delay_2025": 10.7,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 535,
+    "reliability_score": 58.7,
+    "avg_delay_change_2024_2025_pct": -45.8
+  },
+  {
+    "route": "101",
+    "route_name": "Downsview Park",
+    "avg_delay_2025": 49.4,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 76,
+    "reliability_score": 46.7,
+    "avg_delay_change_2024_2025_pct": 51.3
+  },
+  {
+    "route": "102",
+    "route_name": "Markham Rd",
+    "avg_delay_2025": 21.2,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 1139,
+    "reliability_score": 35.1,
+    "avg_delay_change_2024_2025_pct": -10.8
+  },
+  {
+    "route": "104",
+    "route_name": "Faywood",
+    "avg_delay_2025": 51.2,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 132,
+    "reliability_score": 39.2,
+    "avg_delay_change_2024_2025_pct": 95.7
+  },
+  {
+    "route": "105",
+    "route_name": "Dufferin North",
+    "avg_delay_2025": 19.7,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 126,
+    "reliability_score": 69.4,
+    "avg_delay_change_2024_2025_pct": -8.9
+  },
+  {
+    "route": "106",
+    "route_name": "Sentinel",
+    "avg_delay_2025": 27.3,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 149,
+    "reliability_score": 53.3,
+    "avg_delay_change_2024_2025_pct": -54.0
+  },
+  {
+    "route": "107",
+    "route_name": "Alness-Chesswood",
+    "avg_delay_2025": 66.6,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 120,
+    "reliability_score": 37.9,
+    "avg_delay_change_2024_2025_pct": 48.8
+  },
+  {
+    "route": "108",
+    "route_name": "Driftwood",
+    "avg_delay_2025": 28.3,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 314,
+    "reliability_score": 36.9,
+    "avg_delay_change_2024_2025_pct": -35.2
+  },
+  {
+    "route": "109",
+    "route_name": "Ranee",
+    "avg_delay_2025": 48.0,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 142,
+    "reliability_score": 39.5,
+    "avg_delay_change_2024_2025_pct": 5.0
+  },
+  {
+    "route": "11",
+    "route_name": "Bayview",
+    "avg_delay_2025": 26.7,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 276,
+    "reliability_score": 43.1,
+    "avg_delay_change_2024_2025_pct": -11.9
+  },
+  {
+    "route": "110",
+    "route_name": "Islington South",
+    "avg_delay_2025": 29.3,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 351,
+    "reliability_score": 34.2,
+    "avg_delay_change_2024_2025_pct": -11.7
+  },
+  {
+    "route": "111",
+    "route_name": "East Mall",
+    "avg_delay_2025": 14.4,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 209,
+    "reliability_score": 69.1,
+    "avg_delay_change_2024_2025_pct": -39.4
+  },
+  {
+    "route": "112",
+    "route_name": "West Mall",
+    "avg_delay_2025": 27.0,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 327,
+    "reliability_score": 39.0,
+    "avg_delay_change_2024_2025_pct": 19.0
+  },
+  {
+    "route": "113",
+    "route_name": "Danforth",
+    "avg_delay_2025": 26.6,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 174,
+    "reliability_score": 52.9,
+    "avg_delay_change_2024_2025_pct": -11.0
+  },
+  {
+    "route": "114",
+    "route_name": "Queens Quay East",
+    "avg_delay_2025": 16.7,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 230,
+    "reliability_score": 62.7,
+    "avg_delay_change_2024_2025_pct": -39.7
+  },
+  {
+    "route": "116",
+    "route_name": "Morningside",
+    "avg_delay_2025": 13.2,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 854,
+    "reliability_score": 52.1,
+    "avg_delay_change_2024_2025_pct": -8.7
+  },
+  {
+    "route": "117",
+    "route_name": "Birchmount South",
+    "avg_delay_2025": 83.0,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 32,
+    "reliability_score": 47.6,
+    "avg_delay_change_2024_2025_pct": 285.9
+  },
+  {
+    "route": "118",
+    "route_name": "Thistle Down",
+    "avg_delay_2025": 40.5,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 144,
+    "reliability_score": 42.3,
+    "avg_delay_change_2024_2025_pct": 18.0
+  },
+  {
+    "route": "119",
+    "route_name": "Torbarrie",
+    "avg_delay_2025": 36.0,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 83,
+    "reliability_score": 51.2,
+    "avg_delay_change_2024_2025_pct": 17.5
+  },
+  {
+    "route": "12",
+    "route_name": "Kingston Rd",
+    "avg_delay_2025": 29.8,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 421,
+    "reliability_score": 31.3,
+    "avg_delay_change_2024_2025_pct": 24.5
+  },
+  {
+    "route": "120",
+    "route_name": "Calvington",
+    "avg_delay_2025": 32.8,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 90,
+    "reliability_score": 52.1,
+    "avg_delay_change_2024_2025_pct": -14.9
+  },
+  {
+    "route": "121",
+    "route_name": "Esplanade-River",
+    "avg_delay_2025": 44.2,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 225,
+    "reliability_score": 31.0,
+    "avg_delay_change_2024_2025_pct": -46.3
+  },
+  {
+    "route": "122",
+    "route_name": "Graydon Hall",
+    "avg_delay_2025": 22.1,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 234,
+    "reliability_score": 53.3,
+    "avg_delay_change_2024_2025_pct": -15.7
+  },
+  {
+    "route": "123",
+    "route_name": "Sherway",
+    "avg_delay_2025": 23.4,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 393,
+    "reliability_score": 43.8,
+    "avg_delay_change_2024_2025_pct": 3.4
+  },
+  {
+    "route": "124",
+    "route_name": "Sunnybrook",
+    "avg_delay_2025": 16.6,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 147,
+    "reliability_score": 72.2,
+    "avg_delay_change_2024_2025_pct": 8.7
+  },
+  {
+    "route": "125",
+    "route_name": "Drewry",
+    "avg_delay_2025": 14.4,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 82,
+    "reliability_score": 84.6,
+    "avg_delay_change_2024_2025_pct": -17.1
+  },
+  {
+    "route": "126",
+    "route_name": "Christie",
+    "avg_delay_2025": 46.4,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 100,
+    "reliability_score": 43.6,
+    "avg_delay_change_2024_2025_pct": 79.2
+  },
+  {
+    "route": "127",
+    "route_name": "Davenport",
+    "avg_delay_2025": 61.6,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 121,
+    "reliability_score": 38.5,
+    "avg_delay_change_2024_2025_pct": 95.5
+  },
+  {
+    "route": "129",
+    "route_name": "Mccowan North",
+    "avg_delay_2025": 30.4,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 516,
+    "reliability_score": 27.2,
+    "avg_delay_change_2024_2025_pct": 39.7
+  },
+  {
+    "route": "13",
+    "route_name": "Avenue Rd",
+    "avg_delay_2025": 74.0,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 129,
+    "reliability_score": 35.9,
+    "avg_delay_change_2024_2025_pct": 30.4
+  },
+  {
+    "route": "130",
+    "route_name": "Middlefield",
+    "avg_delay_2025": 29.9,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 208,
+    "reliability_score": 42.3,
+    "avg_delay_change_2024_2025_pct": -18.9
+  },
+  {
+    "route": "131",
+    "route_name": "Nugget",
+    "avg_delay_2025": 22.0,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 424,
+    "reliability_score": 44.9,
+    "avg_delay_change_2024_2025_pct": -2.1
+  },
+  {
+    "route": "132",
+    "route_name": "Milner",
+    "avg_delay_2025": 27.8,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 49,
+    "reliability_score": 65.1,
+    "avg_delay_change_2024_2025_pct": -21.0
+  },
+  {
+    "route": "133",
+    "route_name": "Neilson",
+    "avg_delay_2025": 21.4,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 555,
+    "reliability_score": 42.8,
+    "avg_delay_change_2024_2025_pct": 17.4
+  },
+  {
+    "route": "134",
+    "route_name": "Progress",
+    "avg_delay_2025": 37.9,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 257,
+    "reliability_score": 31.7,
+    "avg_delay_change_2024_2025_pct": -6.6
+  },
+  {
+    "route": "135",
+    "route_name": "Gerrard",
+    "avg_delay_2025": 41.1,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 86,
+    "reliability_score": 48.5,
+    "avg_delay_change_2024_2025_pct": 84.3
+  },
+  {
+    "route": "14",
+    "route_name": "Glencairn",
+    "avg_delay_2025": 43.5,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 171,
+    "reliability_score": 38.3,
+    "avg_delay_change_2024_2025_pct": -15.0
+  },
+  {
+    "route": "149",
+    "route_name": "Etobicoke-Bloor",
+    "avg_delay_2025": 25.2,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 147,
+    "reliability_score": 58.1,
+    "avg_delay_change_2024_2025_pct": null
+  },
+  {
+    "route": "15",
+    "route_name": "Evans",
+    "avg_delay_2025": 28.1,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 103,
+    "reliability_score": 56.9,
+    "avg_delay_change_2024_2025_pct": -19.8
+  },
+  {
+    "route": "154",
+    "route_name": "Curran Hall",
+    "avg_delay_2025": 43.7,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 185,
+    "reliability_score": 36.4,
+    "avg_delay_change_2024_2025_pct": 41.2
+  },
+  {
+    "route": "16",
+    "route_name": "Mccowan",
+    "avg_delay_2025": 16.6,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 311,
+    "reliability_score": 57.6,
+    "avg_delay_change_2024_2025_pct": 19.2
+  },
+  {
+    "route": "160",
+    "route_name": "Bathurst North",
+    "avg_delay_2025": 60.4,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 167,
+    "reliability_score": 34.4,
+    "avg_delay_change_2024_2025_pct": 64.8
+  },
+  {
+    "route": "161",
+    "route_name": "Rogers Rd",
+    "avg_delay_2025": 39.2,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 283,
+    "reliability_score": 28.8,
+    "avg_delay_change_2024_2025_pct": 46.9
+  },
+  {
+    "route": "162",
+    "route_name": "Lawrence-Donway",
+    "avg_delay_2025": 127.8,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 96,
+    "reliability_score": 38.3,
+    "avg_delay_change_2024_2025_pct": 100.0
+  },
+  {
+    "route": "164",
+    "route_name": "Castlefield",
+    "avg_delay_2025": 31.7,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 23,
+    "reliability_score": 64.1,
+    "avg_delay_change_2024_2025_pct": null
+  },
+  {
+    "route": "165",
+    "route_name": "Weston Rd North",
+    "avg_delay_2025": 14.6,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 899,
+    "reliability_score": 47.4,
+    "avg_delay_change_2024_2025_pct": -2.0
+  },
+  {
+    "route": "167",
+    "route_name": "Pharmacy North",
+    "avg_delay_2025": 44.0,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 74,
+    "reliability_score": 48.7,
+    "avg_delay_change_2024_2025_pct": 37.3
+  },
+  {
+    "route": "168",
+    "route_name": "Symington",
+    "avg_delay_2025": 26.8,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 266,
+    "reliability_score": 43.1,
+    "avg_delay_change_2024_2025_pct": 40.3
+  },
+  {
+    "route": "169",
+    "route_name": "Huntingwood",
+    "avg_delay_2025": 32.5,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 174,
+    "reliability_score": 43.2,
+    "avg_delay_change_2024_2025_pct": -27.0
+  },
+  {
+    "route": "17",
+    "route_name": "Birchmount",
+    "avg_delay_2025": 26.9,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 263,
+    "reliability_score": 43.1,
+    "avg_delay_change_2024_2025_pct": -14.9
+  },
+  {
+    "route": "171",
+    "route_name": "Mount Dennis",
+    "avg_delay_2025": 26.8,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 28,
+    "reliability_score": 70.4,
+    "avg_delay_change_2024_2025_pct": -48.5
+  },
+  {
+    "route": "185",
+    "route_name": "Sheppard Central",
+    "avg_delay_2025": 24.3,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 130,
+    "reliability_score": 61.0,
+    "avg_delay_change_2024_2025_pct": -18.2
+  },
+  {
+    "route": "189",
+    "route_name": "Stockyards",
+    "avg_delay_2025": 38.1,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 35,
+    "reliability_score": 56.4,
+    "avg_delay_change_2024_2025_pct": 3.2
+  },
+  {
+    "route": "19",
+    "route_name": "Bay",
+    "avg_delay_2025": 52.4,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 209,
+    "reliability_score": 29.4,
+    "avg_delay_change_2024_2025_pct": 9.8
+  },
+  {
+    "route": "2",
+    "route_name": "Bloor-Danforth Line",
+    "avg_delay_2025": 7.4,
+    "most_common_incident_cause": "Passenger",
+    "total_incidents_2025": 3684,
+    "reliability_score": 50.0,
+    "avg_delay_change_2024_2025_pct": -12.8
+  },
+  {
+    "route": "20",
+    "route_name": "Cliffside",
+    "avg_delay_2025": 29.5,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 218,
+    "reliability_score": 42.3,
+    "avg_delay_change_2024_2025_pct": -20.4
+  },
+  {
+    "route": "21",
+    "route_name": "Brimley",
+    "avg_delay_2025": 27.5,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 311,
+    "reliability_score": 38.8,
+    "avg_delay_change_2024_2025_pct": 13.9
+  },
+  {
+    "route": "22",
+    "route_name": "Coxwell",
+    "avg_delay_2025": 21.1,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 188,
+    "reliability_score": 61.9,
+    "avg_delay_change_2024_2025_pct": 62.9
+  },
+  {
+    "route": "23",
+    "route_name": "Dawes",
+    "avg_delay_2025": 15.6,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 188,
+    "reliability_score": 69.4,
+    "avg_delay_change_2024_2025_pct": -36.8
+  },
+  {
+    "route": "24",
+    "route_name": "Victoria Park",
+    "avg_delay_2025": 17.9,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 704,
+    "reliability_score": 44.9,
+    "avg_delay_change_2024_2025_pct": 23.3
+  },
+  {
+    "route": "25",
+    "route_name": "Don Mills",
+    "avg_delay_2025": 10.7,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 748,
+    "reliability_score": 55.4,
+    "avg_delay_change_2024_2025_pct": -39.2
+  },
+  {
+    "route": "26",
+    "route_name": "Dupont",
+    "avg_delay_2025": 43.2,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 201,
+    "reliability_score": 35.0,
+    "avg_delay_change_2024_2025_pct": -1.9
+  },
+  {
+    "route": "28",
+    "route_name": "Bayview South",
+    "avg_delay_2025": 150.0,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 20,
+    "reliability_score": 49.7,
+    "avg_delay_change_2024_2025_pct": 45.5
+  },
+  {
+    "route": "29",
+    "route_name": "Dufferin",
+    "avg_delay_2025": 32.5,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 1077,
+    "reliability_score": 16.4,
+    "avg_delay_change_2024_2025_pct": 115.9
+  },
+  {
+    "route": "30",
+    "route_name": "High Park North",
+    "avg_delay_2025": 32.4,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 88,
+    "reliability_score": 53.1,
+    "avg_delay_change_2024_2025_pct": 5.8
+  },
+  {
+    "route": "300",
+    "route_name": "Bloor-Danforth",
+    "avg_delay_2025": 23.9,
+    "most_common_incident_cause": "Passenger",
+    "total_incidents_2025": 257,
+    "reliability_score": 48.8,
+    "avg_delay_change_2024_2025_pct": -14.9
+  },
+  {
+    "route": "301",
+    "route_name": "Queen",
+    "avg_delay_2025": 33.7,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 85,
+    "reliability_score": 52.1,
+    "avg_delay_change_2024_2025_pct": -0.1
+  },
+  {
+    "route": "304",
+    "route_name": "King",
+    "avg_delay_2025": 36.8,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 52,
+    "reliability_score": 54.5,
+    "avg_delay_change_2024_2025_pct": 37.8
+  },
+  {
+    "route": "305",
+    "route_name": "Dundas",
+    "avg_delay_2025": 28.0,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 62,
+    "reliability_score": 62.8,
+    "avg_delay_change_2024_2025_pct": 17.3
+  },
+  {
+    "route": "306",
+    "route_name": "Carlton",
+    "avg_delay_2025": 26.4,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 64,
+    "reliability_score": 65.9,
+    "avg_delay_change_2024_2025_pct": -8.1
+  },
+  {
+    "route": "307",
+    "route_name": "Bathurst",
+    "avg_delay_2025": 36.0,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 51,
+    "reliability_score": 55.4,
+    "avg_delay_change_2024_2025_pct": -49.4
+  },
+  {
+    "route": "31",
+    "route_name": "Greenwood",
+    "avg_delay_2025": 28.7,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 205,
+    "reliability_score": 44.9,
+    "avg_delay_change_2024_2025_pct": -25.6
+  },
+  {
+    "route": "310",
+    "route_name": "Spadina",
+    "avg_delay_2025": 24.9,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 26,
+    "reliability_score": 74.7,
+    "avg_delay_change_2024_2025_pct": -35.9
+  },
+  {
+    "route": "32",
+    "route_name": "Eglinton West",
+    "avg_delay_2025": 15.0,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 1486,
+    "reliability_score": 43.3,
+    "avg_delay_change_2024_2025_pct": -22.6
+  },
+  {
+    "route": "320",
+    "route_name": "Yonge",
+    "avg_delay_2025": 15.8,
+    "most_common_incident_cause": "Passenger",
+    "total_incidents_2025": 233,
+    "reliability_score": 63.6,
+    "avg_delay_change_2024_2025_pct": -36.3
+  },
+  {
+    "route": "322",
+    "route_name": "Coxwell",
+    "avg_delay_2025": 52.0,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 27,
+    "reliability_score": 52.9,
+    "avg_delay_change_2024_2025_pct": 18.8
+  },
+  {
+    "route": "325",
+    "route_name": "Don Mills",
+    "avg_delay_2025": 55.4,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 36,
+    "reliability_score": 49.5,
+    "avg_delay_change_2024_2025_pct": 35.4
+  },
+  {
+    "route": "329",
+    "route_name": "Dufferin",
+    "avg_delay_2025": 44.4,
+    "most_common_incident_cause": "Passenger",
+    "total_incidents_2025": 31,
+    "reliability_score": 53.6,
+    "avg_delay_change_2024_2025_pct": -11.5
+  },
+  {
+    "route": "33",
+    "route_name": "Forest Hill",
+    "avg_delay_2025": 73.6,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 84,
+    "reliability_score": 41.3,
+    "avg_delay_change_2024_2025_pct": 7.7
+  },
+  {
+    "route": "334",
+    "route_name": "Eglinton",
+    "avg_delay_2025": 61.0,
+    "most_common_incident_cause": "Passenger",
+    "total_incidents_2025": 43,
+    "reliability_score": 48.2,
+    "avg_delay_change_2024_2025_pct": 37.5
+  },
+  {
+    "route": "335",
+    "route_name": "Jane",
+    "avg_delay_2025": 27.3,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 28,
+    "reliability_score": 69.1,
+    "avg_delay_change_2024_2025_pct": -15.3
+  },
+  {
+    "route": "336",
+    "route_name": "Finch West",
+    "avg_delay_2025": 44.2,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 42,
+    "reliability_score": 52.6,
+    "avg_delay_change_2024_2025_pct": 49.6
+  },
+  {
+    "route": "339",
+    "route_name": "Finch East",
+    "avg_delay_2025": 29.2,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 21,
+    "reliability_score": 67.9,
+    "avg_delay_change_2024_2025_pct": 42.5
+  },
+  {
+    "route": "34",
+    "route_name": "Eglinton",
+    "avg_delay_2025": 16.5,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 772,
+    "reliability_score": 46.9,
+    "avg_delay_change_2024_2025_pct": 1.0
+  },
+  {
+    "route": "343",
+    "route_name": "Kennedy",
+    "avg_delay_2025": 65.5,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 26,
+    "reliability_score": 50.9,
+    "avg_delay_change_2024_2025_pct": 23.5
+  },
+  {
+    "route": "35",
+    "route_name": "Jane",
+    "avg_delay_2025": 18.7,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 781,
+    "reliability_score": 42.6,
+    "avg_delay_change_2024_2025_pct": -21.0
+  },
+  {
+    "route": "352",
+    "route_name": "Lawrence West",
+    "avg_delay_2025": 41.7,
+    "most_common_incident_cause": "Passenger",
+    "total_incidents_2025": 32,
+    "reliability_score": 55.5,
+    "avg_delay_change_2024_2025_pct": -17.5
+  },
+  {
+    "route": "353",
+    "route_name": "Steeles",
+    "avg_delay_2025": 38.7,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 27,
+    "reliability_score": 58.1,
+    "avg_delay_change_2024_2025_pct": 47.3
+  },
+  {
+    "route": "354",
+    "route_name": "Lawrence East",
+    "avg_delay_2025": 68.7,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 29,
+    "reliability_score": 49.0,
+    "avg_delay_change_2024_2025_pct": -8.4
+  },
+  {
+    "route": "36",
+    "route_name": "Finch West",
+    "avg_delay_2025": 10.0,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 1108,
+    "reliability_score": 51.3,
+    "avg_delay_change_2024_2025_pct": -24.1
+  },
+  {
+    "route": "363",
+    "route_name": "Ossington",
+    "avg_delay_2025": 42.1,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 24,
+    "reliability_score": 57.7,
+    "avg_delay_change_2024_2025_pct": -26.0
+  },
+  {
+    "route": "37",
+    "route_name": "Islington",
+    "avg_delay_2025": 25.1,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 597,
+    "reliability_score": 34.9,
+    "avg_delay_change_2024_2025_pct": 2.8
+  },
+  {
+    "route": "38",
+    "route_name": "Highland Creek",
+    "avg_delay_2025": 19.6,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 624,
+    "reliability_score": 43.1,
+    "avg_delay_change_2024_2025_pct": -20.5
+  },
+  {
+    "route": "39",
+    "route_name": "Finch East",
+    "avg_delay_2025": 22.7,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 592,
+    "reliability_score": 39.6,
+    "avg_delay_change_2024_2025_pct": 16.5
+  },
+  {
+    "route": "4",
+    "route_name": "Sheppard Line",
+    "avg_delay_2025": 8.8,
+    "most_common_incident_cause": "Infrastructure",
+    "total_incidents_2025": 352,
+    "reliability_score": 65.1,
+    "avg_delay_change_2024_2025_pct": -4.2
+  },
+  {
+    "route": "40",
+    "route_name": "Junction-Dundas West",
+    "avg_delay_2025": 29.3,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 278,
+    "reliability_score": 37.8,
+    "avg_delay_change_2024_2025_pct": 5.9
+  },
+  {
+    "route": "41",
+    "route_name": "Keele",
+    "avg_delay_2025": 15.6,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 601,
+    "reliability_score": 50.3,
+    "avg_delay_change_2024_2025_pct": -54.5
+  },
+  {
+    "route": "42",
+    "route_name": "Cummer",
+    "avg_delay_2025": 30.1,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 298,
+    "reliability_score": 34.9,
+    "avg_delay_change_2024_2025_pct": 12.9
+  },
+  {
+    "route": "43",
+    "route_name": "Kennedy",
+    "avg_delay_2025": 19.7,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 690,
+    "reliability_score": 42.3,
+    "avg_delay_change_2024_2025_pct": 13.1
+  },
+  {
+    "route": "44",
+    "route_name": "Kipling South",
+    "avg_delay_2025": 13.2,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 437,
+    "reliability_score": 60.0,
+    "avg_delay_change_2024_2025_pct": 35.3
+  },
+  {
+    "route": "45",
+    "route_name": "Kipling",
+    "avg_delay_2025": 21.2,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 402,
+    "reliability_score": 47.7,
+    "avg_delay_change_2024_2025_pct": 33.1
+  },
+  {
+    "route": "46",
+    "route_name": "Martin Grove",
+    "avg_delay_2025": 23.1,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 222,
+    "reliability_score": 54.1,
+    "avg_delay_change_2024_2025_pct": -16.4
+  },
+  {
+    "route": "47",
+    "route_name": "Lansdowne",
+    "avg_delay_2025": 24.0,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 719,
+    "reliability_score": 34.4,
+    "avg_delay_change_2024_2025_pct": 1.6
+  },
+  {
+    "route": "48",
+    "route_name": "Rathburn",
+    "avg_delay_2025": 33.4,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 63,
+    "reliability_score": 55.1,
+    "avg_delay_change_2024_2025_pct": 38.3
+  },
+  {
+    "route": "49",
+    "route_name": "Bloor West",
+    "avg_delay_2025": 23.7,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 52,
+    "reliability_score": 72.2,
+    "avg_delay_change_2024_2025_pct": -15.6
+  },
+  {
+    "route": "50",
+    "route_name": "Burnhamthorpe",
+    "avg_delay_2025": 21.0,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 105,
+    "reliability_score": 70.5,
+    "avg_delay_change_2024_2025_pct": -42.1
+  },
+  {
+    "route": "501",
+    "route_name": "Queen",
+    "avg_delay_2025": 23.7,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 1851,
+    "reliability_score": 29.0,
+    "avg_delay_change_2024_2025_pct": 23.2
+  },
+  {
+    "route": "503",
+    "route_name": "Kingston Rd",
+    "avg_delay_2025": 22.4,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 1042,
+    "reliability_score": 33.3,
+    "avg_delay_change_2024_2025_pct": -6.4
+  },
+  {
+    "route": "504",
+    "route_name": "King",
+    "avg_delay_2025": 23.2,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 2084,
+    "reliability_score": 29.7,
+    "avg_delay_change_2024_2025_pct": 21.0
+  },
+  {
+    "route": "505",
+    "route_name": "Dundas",
+    "avg_delay_2025": 24.4,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 1434,
+    "reliability_score": 27.9,
+    "avg_delay_change_2024_2025_pct": 26.5
+  },
+  {
+    "route": "506",
+    "route_name": "Carlton",
+    "avg_delay_2025": 23.8,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 1398,
+    "reliability_score": 29.7,
+    "avg_delay_change_2024_2025_pct": 5.2
+  },
+  {
+    "route": "507",
+    "route_name": "Long Branch",
+    "avg_delay_2025": 21.1,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 382,
+    "reliability_score": 48.7,
+    "avg_delay_change_2024_2025_pct": -8.4
+  },
+  {
+    "route": "508",
+    "route_name": "Lake Shore",
+    "avg_delay_2025": 42.9,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 54,
+    "reliability_score": 51.8,
+    "avg_delay_change_2024_2025_pct": -5.7
+  },
+  {
+    "route": "509",
+    "route_name": "Harbourfront",
+    "avg_delay_2025": 22.0,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 305,
+    "reliability_score": 49.2,
+    "avg_delay_change_2024_2025_pct": 32.8
+  },
+  {
+    "route": "51",
+    "route_name": "Leslie",
+    "avg_delay_2025": 33.7,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 202,
+    "reliability_score": 38.7,
+    "avg_delay_change_2024_2025_pct": -0.2
+  },
+  {
+    "route": "510",
+    "route_name": "Spadina",
+    "avg_delay_2025": 13.5,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 873,
+    "reliability_score": 50.8,
+    "avg_delay_change_2024_2025_pct": 6.1
+  },
+  {
+    "route": "511",
+    "route_name": "Bathurst",
+    "avg_delay_2025": 19.8,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 468,
+    "reliability_score": 46.4,
+    "avg_delay_change_2024_2025_pct": -13.8
+  },
+  {
+    "route": "512",
+    "route_name": "St Clair",
+    "avg_delay_2025": 17.2,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 926,
+    "reliability_score": 42.6,
+    "avg_delay_change_2024_2025_pct": 38.2
+  },
+  {
+    "route": "52",
+    "route_name": "Lawrence West",
+    "avg_delay_2025": 21.4,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 1435,
+    "reliability_score": 33.3,
+    "avg_delay_change_2024_2025_pct": 14.5
+  },
+  {
+    "route": "53",
+    "route_name": "Steeles East",
+    "avg_delay_2025": 18.0,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 794,
+    "reliability_score": 43.3,
+    "avg_delay_change_2024_2025_pct": 5.6
+  },
+  {
+    "route": "54",
+    "route_name": "Lawrence East",
+    "avg_delay_2025": 19.2,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 1008,
+    "reliability_score": 39.0,
+    "avg_delay_change_2024_2025_pct": -6.6
+  },
+  {
+    "route": "55",
+    "route_name": "Warren Park",
+    "avg_delay_2025": 65.1,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 66,
+    "reliability_score": 44.4,
+    "avg_delay_change_2024_2025_pct": -1.6
+  },
+  {
+    "route": "56",
+    "route_name": "Leaside",
+    "avg_delay_2025": 28.4,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 194,
+    "reliability_score": 46.8,
+    "avg_delay_change_2024_2025_pct": -15.8
+  },
+  {
+    "route": "57",
+    "route_name": "Midland",
+    "avg_delay_2025": 26.0,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 267,
+    "reliability_score": 44.4,
+    "avg_delay_change_2024_2025_pct": 0.9
+  },
+  {
+    "route": "59",
+    "route_name": "Maple Leaf",
+    "avg_delay_2025": 52.2,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 176,
+    "reliability_score": 33.6,
+    "avg_delay_change_2024_2025_pct": 24.5
+  },
+  {
+    "route": "6",
+    "route_name": "Finch West Line",
+    "avg_delay_2025": 15.4,
+    "most_common_incident_cause": "Mechanical",
+    "total_incidents_2025": 232,
+    "reliability_score": 64.9,
+    "avg_delay_change_2024_2025_pct": null
+  },
+  {
+    "route": "60",
+    "route_name": "Steeles West",
+    "avg_delay_2025": 12.2,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 411,
+    "reliability_score": 62.3,
+    "avg_delay_change_2024_2025_pct": -45.6
+  },
+  {
+    "route": "61",
+    "route_name": "Avenue Rd North",
+    "avg_delay_2025": 31.4,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 91,
+    "reliability_score": 53.8,
+    "avg_delay_change_2024_2025_pct": 0.3
+  },
+  {
+    "route": "62",
+    "route_name": "Mortimer",
+    "avg_delay_2025": 32.2,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 172,
+    "reliability_score": 44.6,
+    "avg_delay_change_2024_2025_pct": 46.5
+  },
+  {
+    "route": "63",
+    "route_name": "Ossington",
+    "avg_delay_2025": 21.6,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 913,
+    "reliability_score": 35.9,
+    "avg_delay_change_2024_2025_pct": 36.6
+  },
+  {
+    "route": "64",
+    "route_name": "Main",
+    "avg_delay_2025": 35.5,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 460,
+    "reliability_score": 24.2,
+    "avg_delay_change_2024_2025_pct": 38.0
+  },
+  {
+    "route": "65",
+    "route_name": "Parliament",
+    "avg_delay_2025": 19.6,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 252,
+    "reliability_score": 56.9,
+    "avg_delay_change_2024_2025_pct": -17.6
+  },
+  {
+    "route": "66",
+    "route_name": "Prince Edward",
+    "avg_delay_2025": 31.7,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 126,
+    "reliability_score": 50.1,
+    "avg_delay_change_2024_2025_pct": 21.8
+  },
+  {
+    "route": "67",
+    "route_name": "Pharmacy",
+    "avg_delay_2025": 23.9,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 220,
+    "reliability_score": 52.1,
+    "avg_delay_change_2024_2025_pct": -9.3
+  },
+  {
+    "route": "68",
+    "route_name": "Warden",
+    "avg_delay_2025": 27.7,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 487,
+    "reliability_score": 32.8,
+    "avg_delay_change_2024_2025_pct": -1.6
+  },
+  {
+    "route": "69",
+    "route_name": "Warden South",
+    "avg_delay_2025": 25.5,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 278,
+    "reliability_score": 44.2,
+    "avg_delay_change_2024_2025_pct": -3.3
+  },
+  {
+    "route": "7",
+    "route_name": "Bathurst",
+    "avg_delay_2025": 14.0,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 994,
+    "reliability_score": 48.2,
+    "avg_delay_change_2024_2025_pct": -21.1
+  },
+  {
+    "route": "70",
+    "route_name": "O'Connor",
+    "avg_delay_2025": 18.8,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 204,
+    "reliability_score": 62.1,
+    "avg_delay_change_2024_2025_pct": -17.3
+  },
+  {
+    "route": "71",
+    "route_name": "Runnymede",
+    "avg_delay_2025": 32.2,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 197,
+    "reliability_score": 41.5,
+    "avg_delay_change_2024_2025_pct": -11.5
+  },
+  {
+    "route": "72",
+    "route_name": "Pape",
+    "avg_delay_2025": 18.7,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 518,
+    "reliability_score": 47.2,
+    "avg_delay_change_2024_2025_pct": -2.8
+  },
+  {
+    "route": "73",
+    "route_name": "Royal York",
+    "avg_delay_2025": 30.9,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 330,
+    "reliability_score": 32.6,
+    "avg_delay_change_2024_2025_pct": -3.8
+  },
+  {
+    "route": "74",
+    "route_name": "Mount Pleasant",
+    "avg_delay_2025": 49.3,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 83,
+    "reliability_score": 46.0,
+    "avg_delay_change_2024_2025_pct": 30.2
+  },
+  {
+    "route": "75",
+    "route_name": "Sherbourne",
+    "avg_delay_2025": 28.4,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 460,
+    "reliability_score": 32.2,
+    "avg_delay_change_2024_2025_pct": 12.5
+  },
+  {
+    "route": "76",
+    "route_name": "Royal York South",
+    "avg_delay_2025": 23.3,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 242,
+    "reliability_score": 51.3,
+    "avg_delay_change_2024_2025_pct": 27.8
+  },
+  {
+    "route": "77",
+    "route_name": "Swansea",
+    "avg_delay_2025": 83.4,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 79,
+    "reliability_score": 41.5,
+    "avg_delay_change_2024_2025_pct": -42.7
+  },
+  {
+    "route": "78",
+    "route_name": "St Andrews",
+    "avg_delay_2025": 25.5,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 124,
+    "reliability_score": 60.3,
+    "avg_delay_change_2024_2025_pct": -24.3
+  },
+  {
+    "route": "79",
+    "route_name": "Scarlett Rd",
+    "avg_delay_2025": 25.3,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 247,
+    "reliability_score": 47.2,
+    "avg_delay_change_2024_2025_pct": -21.5
+  },
+  {
+    "route": "8",
+    "route_name": "Broadview",
+    "avg_delay_2025": 31.2,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 189,
+    "reliability_score": 43.6,
+    "avg_delay_change_2024_2025_pct": -1.3
+  },
+  {
+    "route": "80",
+    "route_name": "Queensway",
+    "avg_delay_2025": 33.8,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 250,
+    "reliability_score": 33.8,
+    "avg_delay_change_2024_2025_pct": 8.2
+  },
+  {
+    "route": "82",
+    "route_name": "Rosedale",
+    "avg_delay_2025": 105.8,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 48,
+    "reliability_score": 45.1,
+    "avg_delay_change_2024_2025_pct": 84.3
+  },
+  {
+    "route": "83",
+    "route_name": "Jones",
+    "avg_delay_2025": 22.9,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 109,
+    "reliability_score": 66.2,
+    "avg_delay_change_2024_2025_pct": -8.8
+  },
+  {
+    "route": "84",
+    "route_name": "Sheppard West",
+    "avg_delay_2025": 17.3,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 619,
+    "reliability_score": 46.7,
+    "avg_delay_change_2024_2025_pct": -45.7
+  },
+  {
+    "route": "85",
+    "route_name": "Sheppard East",
+    "avg_delay_2025": 17.5,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 879,
+    "reliability_score": 42.6,
+    "avg_delay_change_2024_2025_pct": -9.6
+  },
+  {
+    "route": "86",
+    "route_name": "Scarborough",
+    "avg_delay_2025": 21.4,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 819,
+    "reliability_score": 38.2,
+    "avg_delay_change_2024_2025_pct": 31.1
+  },
+  {
+    "route": "87",
+    "route_name": "Cosburn",
+    "avg_delay_2025": 52.1,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 98,
+    "reliability_score": 42.3,
+    "avg_delay_change_2024_2025_pct": -12.2
+  },
+  {
+    "route": "88",
+    "route_name": "South Leaside",
+    "avg_delay_2025": 52.4,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 201,
+    "reliability_score": 30.6,
+    "avg_delay_change_2024_2025_pct": 16.9
+  },
+  {
+    "route": "89",
+    "route_name": "Weston",
+    "avg_delay_2025": 13.6,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 592,
+    "reliability_score": 54.7,
+    "avg_delay_change_2024_2025_pct": -9.8
+  },
+  {
+    "route": "9",
+    "route_name": "Bellamy",
+    "avg_delay_2025": 27.8,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 227,
+    "reliability_score": 44.4,
+    "avg_delay_change_2024_2025_pct": -1.5
+  },
+  {
+    "route": "90",
+    "route_name": "Vaughan",
+    "avg_delay_2025": 18.1,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 194,
+    "reliability_score": 64.5,
+    "avg_delay_change_2024_2025_pct": -5.1
+  },
+  {
+    "route": "900",
+    "route_name": "Airport Express",
+    "avg_delay_2025": 12.9,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 283,
+    "reliability_score": 66.3,
+    "avg_delay_change_2024_2025_pct": 23.2
+  },
+  {
+    "route": "902",
+    "route_name": "Markham Rd Express",
+    "avg_delay_2025": 19.6,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 304,
+    "reliability_score": 53.3,
+    "avg_delay_change_2024_2025_pct": 22.0
+  },
+  {
+    "route": "903",
+    "route_name": "Kennedy Stn-Scarborough Express",
+    "avg_delay_2025": 18.5,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 446,
+    "reliability_score": 49.7,
+    "avg_delay_change_2024_2025_pct": 21.3
+  },
+  {
+    "route": "904",
+    "route_name": "Sheppard-Kennedy Express",
+    "avg_delay_2025": 17.2,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 483,
+    "reliability_score": 51.0,
+    "avg_delay_change_2024_2025_pct": -10.8
+  },
+  {
+    "route": "905",
+    "route_name": "Eglinton East Express",
+    "avg_delay_2025": 23.2,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 292,
+    "reliability_score": 48.2,
+    "avg_delay_change_2024_2025_pct": 34.8
+  },
+  {
+    "route": "91",
+    "route_name": "Woodbine",
+    "avg_delay_2025": 33.3,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 148,
+    "reliability_score": 45.0,
+    "avg_delay_change_2024_2025_pct": -15.0
+  },
+  {
+    "route": "92",
+    "route_name": "Woodbine South",
+    "avg_delay_2025": 25.2,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 137,
+    "reliability_score": 59.2,
+    "avg_delay_change_2024_2025_pct": 53.8
+  },
+  {
+    "route": "924",
+    "route_name": "Victoria Park Express",
+    "avg_delay_2025": 13.8,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 230,
+    "reliability_score": 68.3,
+    "avg_delay_change_2024_2025_pct": 17.3
+  },
+  {
+    "route": "925",
+    "route_name": "Don Mills Express",
+    "avg_delay_2025": 14.2,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 418,
+    "reliability_score": 58.7,
+    "avg_delay_change_2024_2025_pct": -32.6
+  },
+  {
+    "route": "927",
+    "route_name": "Highway 27 Express",
+    "avg_delay_2025": 17.5,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 500,
+    "reliability_score": 49.2,
+    "avg_delay_change_2024_2025_pct": 3.1
+  },
+  {
+    "route": "929",
+    "route_name": "Dufferin Express",
+    "avg_delay_2025": 14.8,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 631,
+    "reliability_score": 50.5,
+    "avg_delay_change_2024_2025_pct": 7.4
+  },
+  {
+    "route": "93",
+    "route_name": "Parkview Hills",
+    "avg_delay_2025": 29.4,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 40,
+    "reliability_score": 63.3,
+    "avg_delay_change_2024_2025_pct": -59.0
+  },
+  {
+    "route": "935",
+    "route_name": "Jane Express",
+    "avg_delay_2025": 13.3,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 351,
+    "reliability_score": 62.4,
+    "avg_delay_change_2024_2025_pct": -67.9
+  },
+  {
+    "route": "937",
+    "route_name": "Islington Express",
+    "avg_delay_2025": 14.5,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 96,
+    "reliability_score": 81.7,
+    "avg_delay_change_2024_2025_pct": -8.0
+  },
+  {
+    "route": "939",
+    "route_name": "Finch Express",
+    "avg_delay_2025": 16.7,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 1024,
+    "reliability_score": 42.6,
+    "avg_delay_change_2024_2025_pct": -0.9
+  },
+  {
+    "route": "94",
+    "route_name": "Wellesley",
+    "avg_delay_2025": 34.6,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 442,
+    "reliability_score": 25.1,
+    "avg_delay_change_2024_2025_pct": 18.4
+  },
+  {
+    "route": "941",
+    "route_name": "Keele Express",
+    "avg_delay_2025": 16.3,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 107,
+    "reliability_score": 76.9,
+    "avg_delay_change_2024_2025_pct": -22.5
+  },
+  {
+    "route": "944",
+    "route_name": "Kipling South Express",
+    "avg_delay_2025": 10.7,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 57,
+    "reliability_score": 90.9,
+    "avg_delay_change_2024_2025_pct": -11.0
+  },
+  {
+    "route": "945",
+    "route_name": "Kipling Express",
+    "avg_delay_2025": 13.7,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 170,
+    "reliability_score": 75.9,
+    "avg_delay_change_2024_2025_pct": 2.5
+  },
+  {
+    "route": "95",
+    "route_name": "York Mills",
+    "avg_delay_2025": 14.6,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 886,
+    "reliability_score": 47.9,
+    "avg_delay_change_2024_2025_pct": -15.7
+  },
+  {
+    "route": "952",
+    "route_name": "Lawrence West Express",
+    "avg_delay_2025": 13.0,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 182,
+    "reliability_score": 75.9,
+    "avg_delay_change_2024_2025_pct": -24.9
+  },
+  {
+    "route": "953",
+    "route_name": "Steeles East Express",
+    "avg_delay_2025": 29.9,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 57,
+    "reliability_score": 59.9,
+    "avg_delay_change_2024_2025_pct": 73.2
+  },
+  {
+    "route": "954",
+    "route_name": "Lawrence East Express",
+    "avg_delay_2025": 15.6,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 99,
+    "reliability_score": 78.7,
+    "avg_delay_change_2024_2025_pct": 18.3
+  },
+  {
+    "route": "96",
+    "route_name": "Wilson",
+    "avg_delay_2025": 21.8,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 834,
+    "reliability_score": 37.2,
+    "avg_delay_change_2024_2025_pct": -24.8
+  },
+  {
+    "route": "960",
+    "route_name": "Steeles West Express",
+    "avg_delay_2025": 12.3,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 557,
+    "reliability_score": 57.2,
+    "avg_delay_change_2024_2025_pct": -46.4
+  },
+  {
+    "route": "968",
+    "route_name": "Warden Express",
+    "avg_delay_2025": 24.3,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 71,
+    "reliability_score": 68.5,
+    "avg_delay_change_2024_2025_pct": 14.1
+  },
+  {
+    "route": "97",
+    "route_name": "Yonge",
+    "avg_delay_2025": 50.8,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 556,
+    "reliability_score": 15.4,
+    "avg_delay_change_2024_2025_pct": 15.5
+  },
+  {
+    "route": "98",
+    "route_name": "Willowdale-Senlac",
+    "avg_delay_2025": 28.8,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 138,
+    "reliability_score": 52.3,
+    "avg_delay_change_2024_2025_pct": -25.7
+  },
+  {
+    "route": "984",
+    "route_name": "Sheppard West Express",
+    "avg_delay_2025": 17.3,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 148,
+    "reliability_score": 70.4,
+    "avg_delay_change_2024_2025_pct": 38.4
+  },
+  {
+    "route": "985",
+    "route_name": "Sheppard East Express",
+    "avg_delay_2025": 14.7,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 156,
+    "reliability_score": 74.1,
+    "avg_delay_change_2024_2025_pct": -9.7
+  },
+  {
+    "route": "986",
+    "route_name": "Scarborough Express",
+    "avg_delay_2025": 10.7,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 143,
+    "reliability_score": 81.8,
+    "avg_delay_change_2024_2025_pct": 0.6
+  },
+  {
+    "route": "989",
+    "route_name": "Weston Express",
+    "avg_delay_2025": 26.5,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 171,
+    "reliability_score": 54.0,
+    "avg_delay_change_2024_2025_pct": 62.7
+  },
+  {
+    "route": "99",
+    "route_name": "Arrow Rd",
+    "avg_delay_2025": 25.8,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 46,
+    "reliability_score": 69.2,
+    "avg_delay_change_2024_2025_pct": -16.8
+  },
+  {
+    "route": "995",
+    "route_name": "York Mills Express",
+    "avg_delay_2025": 13.4,
+    "most_common_incident_cause": "General",
+    "total_incidents_2025": 363,
+    "reliability_score": 61.5,
+    "avg_delay_change_2024_2025_pct": -14.0
+  },
+  {
+    "route": "996",
+    "route_name": "Wilson Express",
+    "avg_delay_2025": 15.3,
+    "most_common_incident_cause": "Operations",
+    "total_incidents_2025": 498,
+    "reliability_score": 53.6,
+    "avg_delay_change_2024_2025_pct": -26.8
+  }
+]

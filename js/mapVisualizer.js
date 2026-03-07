@@ -394,7 +394,7 @@ class MapVisualizer {
         this.currentHeatLayer = L.heatLayer(heatData, {
             radius: 2,
             blur: 2,
-            maxZoom: 15,
+            maxZoom: 10,
             minOpacity: 0.3,
             gradient: { 0.35: 'blue', 0.55: 'lime', 0.75: 'yellow', 0.88: 'red' }
         }).addTo(this.layers.hotspots);

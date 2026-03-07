@@ -4,17 +4,55 @@
     <!-- ==================== SEO & META ==================== -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>TTC Bus Delay Analytics | Toronto Transit Commission</title>
-    <meta name="description" content="Explore 12 years of TTC bus delays across Toronto. Interactive map with routes, wards, neighbourhoods, and hotspots.">
-    <meta property="og:title" content="TTC Bus Delay Analytics">
-    <meta property="og:description" content="Explore 12 years of TTC bus delays across Toronto.">
+
+    <!-- Primary Meta Tags -->
+    <title>TTC Delay Analysis | Toronto Transit Historical Data & Route Performance</title>
+    <meta name="title" content="TTC Delay Analysis – Toronto Transit Historical Data & Route Performance">
+    <meta name="description" content="Explore 12+ years of TTC bus, subway, and LRT delay data. Interactive maps, route performance, reliability scores, and historical trends for Toronto transit analysis.">
+    <meta name="keywords" content="TTC delays, Toronto Transit Analysis, Toronto Bus Analysis, Toronto Subway Analysis, Toronto LRT Analysis, Toronto transit historical analysis, TTC route performance, TTC reliability, TTC delay trends, Toronto Open Data">
+
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://ttcdelay.kbains.com/">
+    <meta property="og:title" content="TTC Delay Analysis – Toronto Transit Historical Data">
+    <meta property="og:description" content="12+ years of TTC delay data visualized. Explore route performance, reliability scores, and historical trends for Toronto's transit network.">
     <meta property="og:image" content="assets/images/social-preview.jpg">
-    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://ttcdelay.kbains.com/">
+    <meta property="twitter:title" content="TTC Delay Analysis – Toronto Transit Historical Data">
+    <meta property="twitter:description" content="12+ years of TTC delay data visualized. Explore route performance, reliability scores, and historical trends.">
+    <meta property="twitter:image" content="assets/images/social-preview.jpg">
+
+    <!-- Canonical URL -->
     <link rel="canonical" href="https://ttcdelay.kbains.com/">
+
+    <!-- Favicon and Icons (already there) -->
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+    <!-- Optional: JSON-LD structured data for rich snippets -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Dataset",
+        "name": "TTC Bus Delay Analytics",
+        "description": "Historical delay data for Toronto Transit Commission buses, subways, and LRT lines from 2014 to 2025.",
+        "url": "https://ttcdelay.kbains.com/",
+        "keywords": "TTC delays, Toronto transit, bus delays, subway delays, LRT delays, transit reliability",
+        "creator": {
+            "@type": "Person",
+            "name": "Karman Bains",
+            "url": "https://kbains.com"
+        },
+        "temporalCoverage": "2014/2025",
+        "spatialCoverage": {
+            "@type": "Place",
+            "name": "Toronto, Ontario, Canada"
+        }
+    }
+    </script>
 
     <!-- ==================== CSS & FONTS ==================== -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -34,18 +72,17 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.plot.ly/plotly-2.24.1.min.js" charset="utf-8"></script>
 
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix@2.0.0"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 
     <!-- Application modules -->
-
     <script src="js/dataLoader.js"></script>
     <script src="js/mapVisualizer.js"></script>
     <script src="js/uiController.js"></script>
     <script src="js/mobile.js"></script>
-    <script src="js/dashboard.js"></script>   <!-- New dashboard controller -->
+    <script src="js/dashboard.js"></script>
+    <script src="js/rightSidebar.js"></script>
     <script src="js/app.js"></script>
 
     <!-- Inline style for critical path (optional) -->
@@ -62,13 +99,6 @@
         <!-- ==================== MAP CONTAINER ==================== -->
         <div class="map-container">
             <div id="map"></div>
-        </div>
-
-        <!-- Dashboard Content (hidden by default) -->
-        <div class="dashboard-content" id="dashboardContent">
-            <div class="dashboard-content-inner" id="dashboardContentInner">
-                <!-- Charts will be injected here by DashboardController -->
-            </div>
         </div>
 
         <!-- ==================== DESKTOP UI OVERLAYS ==================== -->
@@ -138,12 +168,6 @@
             </div>
         </div>
 
-        <div class="floating-island dashboard-tab-island" id="dashboardTabIsland" style="display: none;">
-            <button class="dashboard-tab-item active" data-tab="overview">Overview</button>
-            <button class="dashboard-tab-item" data-tab="time-patterns">Time Patterns</button>
-            <button class="dashboard-tab-item" data-tab="route-analysis">Route Analysis</button>
-        </div>
-
         <!-- Top‑right KPI overlay -->
         <div class="kpi-overlay">
             <div class="kpi-card" id="kpiPrimary">
@@ -163,8 +187,6 @@
             </div>
         </div>
 
-        
-
         <!-- Bottom‑left Legend -->
         <div class="legend-overlay" id="legendOverlay">
             <div class="legend-gradient"></div>
@@ -175,13 +197,12 @@
             <span class="legend-metric" id="legendMetric">Avg Delay (min)</span>
         </div>
 
-        <!-- Floating island for primary navigation (Time, Frequency, About) -->
+        <!-- Floating island for primary navigation (Time, Frequency, Dashboard, About) -->
         <div class="floating-island" id="primaryNav">
             <button class="nav-item active" data-nav="time">Time</button>
             <button class="nav-item" data-nav="frequency">Frequency</button>
             <button class="nav-item" data-nav="dashboard">Dashboard</button>
             <button class="nav-item" data-nav="about">About</button>
-            
         </div>
 
         <!-- Floating island for layer switching (Routes, Wards, Neighbourhoods, Hotspots) -->
@@ -215,7 +236,7 @@
             </div>
         </div>
 
-        <!-- NOTE: The old static mobile container has been removed. The new mobile UI is built dynamically by MobileController. -->
+        <!-- NOTE: The dashboard modal is created dynamically by DashboardController and appended to body. -->
     </div>
 
     <!-- ==================== INITIALIZATION SCRIPT ==================== -->

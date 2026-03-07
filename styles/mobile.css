@@ -830,3 +830,210 @@ button,
 .mobile-active .dashboard-content {
     display: none !important;
 }
+
+/* ==================== MOBILE RANKINGS DRAWER ==================== */
+/* ==================== MOBILE RANKINGS DRAWER ==================== */
+.rankings-drawer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: 380px;
+    margin: 0 auto;
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    z-index: 2700; /* above filter drawer (2600) */
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-xl);
+    padding: 16px;
+    padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    pointer-events: auto;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.rankings-drawer.open {
+    transform: translateY(0);
+}
+
+.rankings-drawer .drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.rankings-drawer .drawer-header h3 {
+    font-size: 1rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.rankings-drawer .drawer-close {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md);
+    transition: background var(--transition-fast);
+}
+
+.rankings-drawer .drawer-close:active {
+    background: var(--bg-tertiary);
+}
+
+.rankings-drawer .drawer-content {
+    max-height: calc(80vh - 100px);
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+/* Rankings container layout */
+.mobile-rankings-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.mobile-rankings-section {
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-lg);
+    padding: 12px;
+}
+
+.mobile-rankings-section h3 {
+    font-size: 0.9rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--accent-primary);
+    margin: 0 0 10px 0;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.mobile-rankings-title {
+    font-size: 0.8rem;
+    font-weight: var(--font-weight-medium);
+    color: var(--text-secondary);
+    margin: 8px 0 4px;
+}
+
+/* Rankings list items */
+.mobile-rankings-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-light);
+    font-size: 0.8rem;
+    min-height: 40px; /* accommodate two lines */
+}
+
+.mobile-rankings-item:last-child {
+    border-bottom: none;
+}
+
+.mobile-rankings-rank {
+    width: 28px;
+    font-weight: bold;
+    color: var(--accent-primary);
+    text-align: center;
+}
+
+.mobile-rankings-name {
+    flex: 1;
+    white-space: normal;
+    word-break: break-word;
+    color: var(--text-primary);
+    padding-right: 8px;
+    line-height: 1.3;
+}
+
+.mobile-rankings-value {
+    font-weight: 500;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* Empty state */
+.rankings-empty {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 16px;
+    font-size: 0.85rem;
+}
+
+/* Safe area adjustments */
+@supports (padding: max(0px)) {
+    .rankings-drawer {
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
+        padding-bottom: max(16px, env(safe-area-inset-bottom));
+    }
+}
+
+body.mobile-active .right-sidebar-toggle-btn {
+    display: none !important;
+}
+/* Mobile rankings mode switch */
+.mobile-rankings-mode-switch {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-lg);
+    padding: 4px;
+}
+
+.mobile-rankings-mode-switch .mode-option {
+    flex: 1;
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 8px 0;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-align: center;
+}
+
+.mobile-rankings-mode-switch .mode-option.active {
+    background: var(--accent-primary);
+    color: white;
+}
+
+/* Rankings sections */
+.mobile-rankings-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.mobile-rankings-section {
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-lg);
+    padding: 12px;
+}
+
+.mobile-rankings-section h3 {
+    font-size: 0.9rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--accent-primary);
+    margin: 0 0 10px 0;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--border-light);
+}

@@ -184,23 +184,13 @@ class UIController {
                     this.showAbout();
                 } 
                 else if (nav === 'dashboard') {
-                    // Switch to dashboard mode
-                    this.app.switchMode('dashboard');
-                    
-                    // Update active states on nav items
-                    this.elements.navItems.forEach(item => item.classList.remove('active'));
-                    e.currentTarget.classList.add('active');
-                    
-                    // Deactivate metric and view buttons (they belong to map mode)
-                    this.elements.metricButtons.forEach(btn => btn.classList.remove('active'));
-                    this.elements.viewButtons.forEach(btn => btn.classList.remove('active'));
-                    this.elements.layerItems.forEach(btn => btn.classList.remove('active'));
+                    // Open dashboard modal instead of switching mode
+                    if (this.app.dashboardController) {
+                        this.app.dashboardController.openModal();
+                    }
                 } 
                 else {
-                    // Time or Frequency: switch back to map mode if needed
-                    if (this.app.mode !== 'map') {
-                        this.app.switchMode('map');
-                    }
+                    // Time or Frequency: stay in map mode
                     this.setActiveMetric(nav);
                 }
             });
@@ -672,7 +662,7 @@ class UIController {
             resultsContainer.style.display = 'block';
         }
 
-        // --- NEW: decide whether to open upward or downward ---
+        // --- decide whether to open upward or downward ---
         const input = this.elements.searchInput;
         if (input) {
             const inputRect = input.getBoundingClientRect();
@@ -877,7 +867,7 @@ class UIController {
             <section>
                 <h2>A Personal Journey</h2>
                 <p>For years, I’ve relied on the <strong>16 McCowan</strong> bus. Like many riders, I often wondered: <em>Why is my bus always delayed?</em> What started as a simple college project analysing a single route slowly grew into something much bigger. Today, it’s a full‑fledged exploration of Toronto’s entire bus network, powered by over a decade of public data.</p>
-                <p>Behind the scenes, this project represents <strong>hundreds of hours</strong> of data processing, validation, and refinement about <strong>90% of my time</strong> goes into cleaning and matching data to ensure it tells a coherent story. The result is a dataset covering <strong>more than 900,000 delay incidents</strong> across <strong>over 9,500 unique stop locations</strong>, grouped into <strong>500+ route variants</strong> (under base route numbers). With <strong>12+ years of historical records (2014–2025)</strong>, we can finally see patterns.</p>
+                <p>Behind the scenes, this project represents <strong>hundreds of hours</strong> of data processing, validation, and refinement about <strong>90% of my time</strong> goes into cleaning and matching data to ensure it tells a coherent story. The result is a dataset covering <strong>more than 900,000 delay incidents</strong> across <strong>over 9,500 unique stop locations</strong>, grouped into <strong>500+ route variants</strong> (under base route numbers). With <strong>12+ years of historical records (2014–2026)</strong>, we can finally see patterns.</p>
                 <p class="disclaimer">
                     <strong>Please read:</strong> This is a personal, non‑professional project. I do not guarantee the accuracy or completeness of the data, and it should <strong>not</strong> be used as evidence in any legal, operational, or official capacity. The visualisations are meant for curiosity and general awareness, not for decision‑making that could affect safety, schedules, or rights.
                 </p>

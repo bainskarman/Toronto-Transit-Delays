@@ -8,6 +8,7 @@ class TTCVisualizationApp {
         this.mapVisualizer = null;
         this.uiController = null;
         this.mobileController = null;
+        this.dashboardController = null;  // will hold modal controller
         this.map = null;
 
         // Application state
@@ -38,9 +39,6 @@ class TTCVisualizationApp {
             hoveredFeature: null
         };
 
-        this.mode = 'map';                      // 'map' or 'dashboard'
-        this.dashboardController = null;  
-
         // New properties for aggregated data
         this.wardsAgg = [];
         this.neighbourhoodsAgg = [];
@@ -65,18 +63,8 @@ class TTCVisualizationApp {
             this.dataLoader = new DataLoader();
             this.uiController = new UIController(this);
             this.mapVisualizer = new MapVisualizer(this);
-            this.mobileController = new MobileController(this);   // <-- uses new MobileController
-
-            this.dashboardController = new DashboardController(this);
-
-            // After creating dashboardController
-            this.dashboardTabButtons = document.querySelectorAll('.dashboard-tab-item');
-            this.dashboardTabButtons.forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const tab = e.currentTarget.dataset.tab;
-                    this.dashboardController.showTab(tab);
-                });
-            });
+            this.mobileController = new MobileController(this);
+            this.dashboardController = new DashboardController(this); // modal controller
 
             // Load all data
             await this.loadData();
@@ -84,8 +72,17 @@ class TTCVisualizationApp {
             // Initialize map (will be created by MapVisualizer)
             this.map = this.mapVisualizer.init('map', this.state);
 
+            this.map.on('moveend', () => {
+                if (this.rightSidebar && !this.rightSidebar.isCollapsed) {
+                    this.rightSidebar.update();
+                }
+            });
+
             // Set up UI event listeners (buttons, panels, etc.)
             this.uiController.init();
+
+            // --- Instantiate right sidebar ---
+            this.rightSidebar = new RightSidebar(this);
 
             // If mobile, activate mobile layout
             if (this.state.mobile) {
@@ -107,101 +104,6 @@ class TTCVisualizationApp {
             this.uiController.showError('Failed to initialize application. Please refresh.');
         }
     }
-
-    switchMode(mode) {
-        if (this.mode === mode) return;
-        this.mode = mode;
-
-        const layerIsland = document.getElementById('layerNav');
-        const dashboardTabIsland = document.getElementById('dashboardTabIsland');
-        const dashboardSidebar = document.getElementById('dashboardSidebar'); // if still present
-
-        if (mode === 'dashboard') {
-            // Switch to dashboard mode
-            document.body.classList.add('dashboard-mode');
-
-            // Hide map layer island, show dashboard tab island
-            if (layerIsland) layerIsland.style.display = 'none';
-            if (dashboardTabIsland) dashboardTabIsland.style.display = 'flex';
-            if (dashboardSidebar) dashboardSidebar.style.display = 'none'; // hide old sidebar
-
-            // Update primary navigation: activate Dashboard, deactivate metric buttons
-            if (this.uiController) {
-                this.uiController.setActiveNav('dashboard');
-                this.uiController.elements.metricButtons.forEach(btn => btn.classList.remove('active'));
-            }
-
-            // --- Force filter to Bus only ---
-            const newFilters = {
-                ...this.state.filters,
-                transitTypes: ['Bus']
-            };
-            this.applyFilters(newFilters);
-
-            // Update the transit dropdown in the UI controller to reflect 'Bus' selected
-            if (this.uiController) {
-                setTimeout(() => {
-                    this.uiController.setDropdownValues('transitFilter', ['Bus']);
-                }, 100);
-            }
-
-            // Load dashboard data and show default tab
-            this.dashboardController.loadData().then(() => {
-                this.dashboardController.showTab('overview');
-            });
-
-            // Update KPI cards with dashboard summary data
-            this.dashboardController.updateGlobalKPIs();
-
-        } else {
-            // Switch back to map mode
-            document.body.classList.remove('dashboard-mode');
-
-            // Show map layer island, hide dashboard tab island
-            if (layerIsland) layerIsland.style.display = 'flex';
-            if (dashboardTabIsland) dashboardTabIsland.style.display = 'none';
-            if (dashboardSidebar) dashboardSidebar.style.display = 'none'; // keep hidden
-
-            // Update primary navigation: activate current metric (time/frequency)
-            if (this.uiController) {
-                this.uiController.setActiveNav(this.state.currentMetric);
-                // Ensure metric buttons reflect the current metric
-                this.uiController.elements.metricButtons.forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.metric === this.state.currentMetric);
-                });
-            }
-
-            // --- Reset transit filter to "all" (no filter) ---
-            const resetFilters = { ...this.state.filters, transitTypes: null };
-            this.applyFilters(resetFilters);
-
-            // Update the dropdown to show "All Types" (select all options)
-            if (this.uiController) {
-                const allTransit = this.uiController.filterOptions.transitTypes || [];
-                this.uiController.setDropdownValues('transitFilter', allTransit);
-            }
-
-            // --- FIX: Restore active state for layer buttons ---
-            if (this.uiController) {
-                const currentView = this.state.currentView;
-                // Update island layer buttons
-                this.uiController.elements.layerItems.forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.layer === currentView);
-                });
-                // Update panel view buttons (if they exist)
-                this.uiController.elements.viewButtons.forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.view === currentView);
-                });
-            }
-
-            // Re-render current map view
-            this.updateView();
-
-            // Restore map-based KPIs
-            this.updateKPI();
-        }
-    }
-
 
     async loadData() {
         console.log('📊 Loading all data from assets...');
@@ -374,6 +276,8 @@ class TTCVisualizationApp {
         });
     }
 
+    
+
     // Helper: get distinct years for a given view
     getDistinctYearsForView(view) {
         let data = [];
@@ -481,7 +385,11 @@ class TTCVisualizationApp {
 
             if (!grouped.has(key)) {
                 const base = (groupByKey === 'hotspot')
-                    ? { lat: entry.lat, lon: entry.lon }
+                    ? { 
+                        lat: entry.lat, 
+                        lon: entry.lon, 
+                        stop_name: entry.stop_name  // preserve stop name
+                    }
                     : { name: key };
                 grouped.set(key, {
                     ...base,
@@ -500,7 +408,6 @@ class TTCVisualizationApp {
             totalCount: g.totalDelayCount
         }));
     }
-
     async updateView() {
         await this.mapVisualizer.renderView(
             this.state.currentView,
@@ -510,6 +417,11 @@ class TTCVisualizationApp {
         const breaks = this.mapVisualizer.currentBreaks; // or a getter
         this.updateKPI();
         this.updateLegend(breaks);
+
+        // --- Update right sidebar rankings ---
+        if (this.rightSidebar) {
+            this.rightSidebar.update();
+        }
     }
 
     getFilteredData() {
@@ -608,6 +520,11 @@ class TTCVisualizationApp {
     applyFilters(newFilters) {
         this.state.filters = { ...this.state.filters, ...newFilters };
         this.updateView();
+
+        // Update right sidebar rankings
+        if (this.rightSidebar) {
+            this.rightSidebar.update();
+        }
     }
 
     onFeatureClick(feature) {
@@ -615,9 +532,6 @@ class TTCVisualizationApp {
         // On desktop, show popup (handled by mapVisualizer), on mobile we rely only on popup
         if (this.state.mobile && this.mobileController) {
             // Do nothing – the map popup is already shown by mapVisualizer
-            // Optionally, you could still show a small bottom sheet, but user requested removal.
-            // So we comment out the call:
-            // this.mobileController.showBottomSheet(feature);
         } else {
             // Desktop uses map popup (already handled)
         }
@@ -643,11 +557,6 @@ class TTCVisualizationApp {
         }
         if (this.map) {
             this.map.invalidateSize();
-        }
-
-        // NEW: If in dashboard mode, tell dashboard controller to resize charts
-        if (this.mode === 'dashboard' && this.dashboardController) {
-            this.dashboardController.resizeCharts();
         }
     }
 

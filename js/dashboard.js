@@ -1,31 +1,32 @@
 // js/dashboard.js
-// Dashboard Controller – redesigned with three tabs and light palette
+// Dashboard Modal – redesigned as a popup overlay with two tabs: Trends and Performance
 
 class DashboardController {
     constructor(app) {
         this.app = app;
         this.data = {
-            delay_distribution: null,
-            top_incident_causes: null,
             weekly_patterns: null,
-            daily_patterns: null,
-            hourly_frequency_delay: null,
-            monthly_trends: null,
-            weekday_hour_heatmap: null,
-            time_of_day_comparison: null,
             yearly_trends: null,
-            route_scatter_data: null,
-            top_delayed_routes: null,          // avg delay (top 10)
-            top_delayed_routes_count: null,    // incident count (top 10)
-            improving_routes: null,
-            declining_routes: null,
-            monthly_comparison: null            // new dataset
+            hourly_frequency_delay: null,
+            top_incident_causes: null,
+            route_performance: null
         };
         this.charts = {};
-        this.currentTab = 'overview';
+        this.modal = null;
+        this.isVisible = false;
         this.loaded = false;
+        this.currentTab = 'trends'; // 'trends' or 'performance'
 
-        // Light palette (light blue → deep purple)
+        // Year filter for Trends tab
+        this.yearFilter = 'all'; // 'all', 'last1', 'last2', 'last5', 'custom'
+        this.customYear = null;     // will be set to latest year when data loads
+        this.availableYears = [];   // populated from data
+
+        // Sort state for performance tab
+        this.sortColumn = 'avg_delay_2025';
+        this.sortDirection = 'desc';
+
+        // Light palette (light blue → deep purple) – same as before
         this.palette = [
             [152, 212, 226], // #98D4E2
             [106, 147, 193], // #6A93C1
@@ -34,31 +35,202 @@ class DashboardController {
             [66, 20, 79]     // #42144F
         ];
 
-        // DOM elements
-        this.content = document.getElementById('dashboardContent');
-        this.contentInner = document.getElementById('dashboardContentInner');
+        // Create modal structure immediately
+        this.initModal();
     }
 
+    // -----------------------------------------------------------------
+    // Modal Creation
+    // -----------------------------------------------------------------
+    initModal() {
+        // Create overlay
+        const overlay = document.createElement('div');
+        overlay.id = 'dashboardModalOverlay';
+        overlay.className = 'dashboard-modal-overlay';
+        overlay.style.display = 'none'; // hidden initially
+
+        // Create modal container
+        const modal = document.createElement('div');
+        modal.className = 'dashboard-modal';
+
+        // Close button
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'dashboard-modal-close';
+        closeBtn.innerHTML = '&times;';
+        closeBtn.setAttribute('aria-label', 'Close dashboard');
+        closeBtn.addEventListener('click', () => this.closeModal());
+
+        // Title
+        const title = document.createElement('h2');
+        title.className = 'dashboard-modal-title';
+        title.textContent = 'TTC Delay Analysis';
+
+        // Tab bar (floating island style)
+        const tabBar = document.createElement('div');
+        tabBar.className = 'dashboard-modal-tabbar';
+        tabBar.innerHTML = `
+            <button class="dashboard-tab-item active" data-tab="trends">Trends</button>
+            <button class="dashboard-tab-item" data-tab="performance">Performance</button>
+        `;
+
+        // Content containers
+        const trendsContent = document.createElement('div');
+        trendsContent.id = 'modal-trends-content';
+        trendsContent.className = 'dashboard-modal-tabcontent active';
+
+        const performanceContent = document.createElement('div');
+        performanceContent.id = 'modal-performance-content';
+        performanceContent.className = 'dashboard-modal-tabcontent';
+
+        // Add filter bar to trends content
+        const filterBar = document.createElement('div');
+        filterBar.className = 'trends-filter-bar';
+        filterBar.innerHTML = `
+            <label>Time Range:</label>
+            <div class="filter-options">
+                <label><input type="radio" name="yearFilter" value="all" checked> All Years</label>
+                <label><input type="radio" name="yearFilter" value="last1"> Last 1 Year</label>
+                <label><input type="radio" name="yearFilter" value="last2"> Last 2 Years</label>
+                <label><input type="radio" name="yearFilter" value="last5"> Last 5 Years</label>
+                <label><input type="radio" name="yearFilter" value="custom"> Custom Year</label>
+                <select id="custom-year-select" disabled>
+                    <option>Select year</option>
+                </select>
+            </div>
+        `;
+        trendsContent.appendChild(filterBar);
+
+        // Grid for trends (four charts)
+        const grid = document.createElement('div');
+        grid.className = 'dashboard-modal-grid';
+
+        const containers = [
+            { id: 'modal-weekly', title: 'Weekly Delay Patterns' },
+            { id: 'modal-yearly', title: 'Yearly Avg Delay Trends' },
+            { id: 'modal-hourly', title: 'Hourly Delay Patterns' },
+            { id: 'modal-causes', title: 'Top Incident Causes' }
+        ];
+
+        containers.forEach(c => {
+            const card = document.createElement('div');
+            card.className = 'dashboard-modal-card';
+
+            const header = document.createElement('div');
+            header.className = 'dashboard-modal-card-header';
+            header.innerHTML = `<h3>${c.title}</h3>`;
+
+            const wrapper = document.createElement('div');
+            wrapper.className = 'dashboard-modal-card-wrapper';
+            wrapper.id = c.id;
+
+            card.appendChild(header);
+            card.appendChild(wrapper);
+            grid.appendChild(card);
+        });
+
+        trendsContent.appendChild(grid);
+
+        // Performance content will be populated dynamically
+        performanceContent.innerHTML = `
+            <div class="performance-sheet-title">2025 Performance Sheet</div>
+            <div class="performance-controls">
+                <label>Sort by:</label>
+                <select id="performance-sort-select">
+                    <option value="avg_delay_2025" selected>Avg Delay</option>
+                    <option value="total_incidents_2025">Total Incidents</option>
+                    <option value="reliability_score">Reliability Score</option>
+                    <option value="avg_delay_change_2024_2025_pct">Improvement (%)</option>
+                </select>
+                <button id="performance-sort-direction" class="sort-direction-btn">
+                    <i class="fas fa-arrow-down"></i> Desc
+                </button>
+            </div>
+            <div class="performance-table-container">
+                <table class="performance-table" id="performance-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Route</th>
+                            <th>Route Name</th>
+                            <th>Common Incident</th>
+                            <th>Total Incidents</th>
+                            <th>Avg Delay</th>
+                            <th>Reliability Score</th>
+                            <th>Improvement (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="performance-table-body">
+                        <tr><td colspan="8">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        `;
+
+        // Assemble modal
+        modal.appendChild(closeBtn);
+        modal.appendChild(title);
+        modal.appendChild(tabBar);
+        modal.appendChild(trendsContent);
+        modal.appendChild(performanceContent);
+        overlay.appendChild(modal);
+
+        // Append to body
+        document.body.appendChild(overlay);
+
+        // Store references
+        this.modal = overlay;
+        this.tabBar = tabBar;
+        this.trendsContent = trendsContent;
+        this.performanceContent = performanceContent;
+        this.filterBar = filterBar;
+        this.grid = grid;
+
+        // Attach tab switching
+        tabBar.querySelectorAll('.dashboard-tab-item').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const tab = e.target.dataset.tab;
+                this.switchTab(tab);
+            });
+        });
+    }
+
+    // -----------------------------------------------------------------
+    // Tab Switching
+    // -----------------------------------------------------------------
+    switchTab(tab) {
+        if (this.currentTab === tab) return;
+        this.currentTab = tab;
+
+        // Update tab buttons
+        this.tabBar.querySelectorAll('.dashboard-tab-item').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.tab === tab);
+        });
+
+        // Update content visibility
+        this.trendsContent.classList.toggle('active', tab === 'trends');
+        this.performanceContent.classList.toggle('active', tab === 'performance');
+
+        // If switching to performance and data loaded, render
+        if (tab === 'performance' && this.loaded) {
+            this.renderPerformanceTab();
+            this.attachPerformanceListeners();
+        }
+    }
+
+    // -----------------------------------------------------------------
+    // Data Loading
+    // -----------------------------------------------------------------
     async loadData() {
         if (this.loaded) return;
-        console.log('📊 Loading dashboard data...');
+        console.log('📊 Loading dashboard modal data...');
         try {
+            // Load both trends and performance datasets
             const datasets = [
-                'delay_distribution',
-                'top_incident_causes',
                 'weekly_patterns',
-                'daily_patterns',
-                'hourly_frequency_delay',
-                'monthly_trends',
-                'weekday_hour_heatmap',
-                'time_of_day_comparison',
                 'yearly_trends',
-                'route_scatter_data',
-                'top_delayed_routes',
-                'top_delayed_routes_count',
-                'improving_routes',
-                'declining_routes',
-                'monthly_comparison'                // added
+                'hourly_frequency_delay',
+                'top_incident_causes',
+                'route_performance'
             ];
 
             const loadPromises = datasets.map(name => this.loadDataset(name));
@@ -69,14 +241,14 @@ class DashboardController {
                 else console.warn(`⚠️ ${name} not loaded`);
             });
 
-            // Combine improving and declining routes into one object for chart use
-            this.data.improving_declining = {
-                improving: this.data.improving_routes || [],
-                declining: this.data.declining_routes || []
-            };
+            // Extract available years from yearly_trends
+            if (this.data.yearly_trends && this.data.yearly_trends.length) {
+                this.availableYears = this.data.yearly_trends.map(d => d.year).sort((a,b) => b - a);
+                this.customYear = this.availableYears[0]; // latest year
+            }
 
             this.loaded = true;
-            console.log('✅ Dashboard data loaded', this.data);
+            console.log('✅ Dashboard modal data loaded', this.data);
         } catch (error) {
             console.error('❌ Failed to load dashboard data:', error);
             this.showError('Could not load dashboard data.');
@@ -98,257 +270,224 @@ class DashboardController {
         return null;
     }
 
-    updateGlobalKPIs() {
-        const kpis = this.data.kpi_metrics;
-        if (!kpis) return;
-
-        const formatNumber = (num) => {
-            if (num >= 1e6) return (num / 1e6).toFixed(1) + 'M';
-            if (num >= 1e3) return (num / 1e3).toFixed(1) + 'K';
-            return num.toLocaleString();
-        };
-
-        const kpiPrimary = document.getElementById('kpiPrimaryValue');
-        const kpiTotal = document.getElementById('kpiTotalIncidents');
-        const kpiRoutes = document.getElementById('kpiRoutesReporting');
-
-        if (kpiPrimary) kpiPrimary.textContent = (kpis.avg_delay_minutes?.toFixed(1) || '--') + ' min';
-        if (kpiTotal) kpiTotal.textContent = formatNumber(kpis.total_incidents) || '--';
-        if (kpiRoutes) kpiRoutes.textContent = formatNumber(kpis.routes_tracked) || '--';
-    }
-
-    showTab(tabName) {
+    // -----------------------------------------------------------------
+    // Modal Control
+    // -----------------------------------------------------------------
+    async openModal() {
         if (!this.loaded) {
-            this.loadData().then(() => this.renderTab(tabName));
-        } else {
-            this.renderTab(tabName);
+            await this.loadData();
+        }
+        this.modal.style.display = 'flex';
+        this.isVisible = true;
+
+        // Populate custom year dropdown
+        this.populateYearDropdown();
+
+        // Attach filter listeners
+        this.attachFilterListeners();
+
+        // Render trends charts with current filter (all years by default)
+        this.renderTrendsCharts();
+
+        // If performance tab is active, render it
+        if (this.currentTab === 'performance') {
+            this.renderPerformanceTab();
+            this.attachPerformanceListeners();
         }
 
-        // Update active state on floating tab buttons
-        const tabButtons = document.querySelectorAll('.dashboard-tab-item');
-        tabButtons.forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.tab === tabName);
-        });
-
-        this.currentTab = tabName;
-    }
-
-    renderTab(tabName) {
-        this.contentInner.innerHTML = '';
-        switch (tabName) {
-            case 'overview':
-                this.renderOverview();
-                break;
-            case 'time-patterns':
-                this.renderTimePatterns();
-                break;
-            case 'route-analysis':
-                this.renderRouteAnalysis();
-                break;
-            default:
-                this.contentInner.innerHTML = '<p>Select a tab</p>';
-        }
+        // Slight delay to ensure containers are visible before chart init
         setTimeout(() => this.resizeCharts(), 100);
     }
 
-    // ---------- Helper methods ----------
-    showEmpty(container, icon, message) {
-        if (!container) return;
-        container.innerHTML = `<div class="empty-state"><i class="fas ${icon}"></i><p>${message}</p></div>`;
+    closeModal() {
+        this.modal.style.display = 'none';
+        this.isVisible = false;
     }
 
-    formatNumber(num) {
-        if (num >= 1e6) return (num / 1e6).toFixed(1) + 'M';
-        if (num >= 1e3) return (num / 1e3).toFixed(1) + 'K';
-        return num.toString();
-    }
-
-    // Get color from palette based on ratio 0..1
-    getColor(ratio) {
-        const palette = this.palette;
-        if (!palette.length) return '#cccccc';
-        if (ratio <= 0) return `rgb(${palette[0].join(',')})`;
-        if (ratio >= 1) return `rgb(${palette[palette.length-1].join(',')})`;
-
-        const segment = ratio * (palette.length - 1);
-        const idx = Math.floor(segment);
-        const t = segment - idx;
-        const nextIdx = Math.min(idx + 1, palette.length - 1);
-        const c1 = palette[idx];
-        const c2 = palette[nextIdx];
-        const r = Math.round(c1[0] + t * (c2[0] - c1[0]));
-        const g = Math.round(c1[1] + t * (c2[1] - c1[1]));
-        const b = Math.round(c1[2] + t * (c2[2] - c1[2]));
-        return `rgb(${r},${g},${b})`;
-    }
-
-    // Get a fixed color from palette by index (0..4)
-    getFixedColor(index) {
-        const i = Math.min(index, this.palette.length - 1);
-        return `rgb(${this.palette[i].join(',')})`;
-    }
-
-    // Chart.js options with consistent styling – legend optional
-    getChartOptions(title, xTitle, yTitle, isHorizontal = false, showLegend = false) {
-        const options = {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { display: showLegend, labels: { color: '#a0aec0' } },
-                tooltip: {
-                    backgroundColor: '#1a1d29',
-                    titleColor: '#ffffff',
-                    bodyColor: '#ffffff',
-                    borderColor: '#4a5568',
-                    borderWidth: 1,
-                    padding: 8,
-                    bodyFont: { family: 'Inter, sans-serif', size: 12 },
-                    titleFont: { family: 'Inter, sans-serif', size: 12, weight: 'bold' }
-                }
-            },
-            scales: {
-                x: {
-                    title: { display: !!xTitle, text: xTitle, color: '#a0aec0' },
-                    grid: isHorizontal ? { display: false } : { color: 'rgba(255,255,255,0.1)' },
-                    ticks: { color: '#a0aec0', maxRotation: 0, minRotation: 0 }
-                },
-                y: {
-                    title: { display: !!yTitle, text: yTitle, color: '#a0aec0' },
-                    grid: isHorizontal ? { color: 'rgba(255,255,255,0.1)' } : { display: false },
-                    ticks: { color: '#a0aec0' }
-                }
-            }
-        };
-        return options;
-    }
-
-    // ---------- Overview Tab ----------
-    renderOverview() {
-        const html = `
-            <h2 class="section-header">Overview</h2>
-            <div class="dashboard-disclaimer">
-                <i class="fas fa-info-circle"></i> This dashboard shows data for <strong>bus routes only</strong>.
-            </div>
-            <div class="charts-grid">
-                <div class="chart-container" id="chart-delay-distribution">
-                    <div class="chart-header"><h3 class="chart-title">Delay Distribution</h3></div>
-                    <div class="chart-wrapper" style="height: 280px;"></div>
-                    <div class="chart-description">Distribution of delays by duration categories (minutes)</div>
-                </div>
-                <div class="chart-container" id="chart-top-causes">
-                    <div class="chart-header"><h3 class="chart-title">Top Incident Causes</h3></div>
-                    <div class="chart-wrapper" style="height: 280px;"></div>
-                    <div class="chart-description">Most common reasons for delays (top 5)</div>
-                </div>
-            </div>
-            <div class="charts-grid">
-                <div class="chart-container" id="chart-weekly-patterns">
-                    <div class="chart-header"><h3 class="chart-title">Weekly Delay Patterns</h3></div>
-                    <div class="chart-wrapper" style="height: 280px;"></div>
-                    <div class="chart-description">Delay incidents by day of week</div>
-                </div>
-                <div class="chart-container" id="chart-yearly-trends">
-                    <div class="chart-header"><h3 class="chart-title">Yearly Delay Trends</h3></div>
-                    <div class="chart-wrapper" style="height: 280px;"></div>
-                    <div class="chart-description">Average delay per year from 2014 to 2025</div>
-                </div>
-            </div>
-        `;
-        this.contentInner.innerHTML = html;
-        this.createDelayDistribution();
-        this.createTopCauses();
-        this.createWeeklyPatterns();
-        this.createYearlyTrends();
-    }
-
-    createDelayDistribution() {
-        const container = document.getElementById('chart-delay-distribution');
-        if (!container) return;
-        const wrapper = container.querySelector('.chart-wrapper');
-        const data = this.data.delay_distribution;
-        if (!data || !data.length) {
-            this.showEmpty(container, 'fa-chart-bar', 'No data');
-            return;
-        }
-        wrapper.innerHTML = '<canvas></canvas>';
-        const ctx = wrapper.querySelector('canvas').getContext('2d');
-
-        const labels = data.map(d => String(d.range));
-        const counts = data.map(d => d.count);
-        const maxCount = Math.max(...counts);
-        const colors = counts.map(v => this.getColor(v / maxCount));
-
-        this.charts.delayDistribution = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels,
-                datasets: [{
-                    data: counts,
-                    backgroundColor: colors,
-                    borderColor: '#2d3748',
-                    borderWidth: 1,
-                    borderRadius: 4
-                }]
-            },
-            options: this.getChartOptions('', 'Delay Range', 'Number of Delays')
+    // -----------------------------------------------------------------
+    // Year Filter Helpers
+    // -----------------------------------------------------------------
+    populateYearDropdown() {
+        const select = document.getElementById('custom-year-select');
+        if (!select) return;
+        select.innerHTML = '';
+        this.availableYears.forEach(year => {
+            const option = document.createElement('option');
+            option.value = year;
+            option.textContent = year;
+            if (year === this.customYear) option.selected = true;
+            select.appendChild(option);
         });
     }
 
-    createTopCauses() {
-        const container = document.getElementById('chart-top-causes');
-        if (!container) return;
-        const wrapper = container.querySelector('.chart-wrapper');
-        const data = this.data.top_incident_causes;
-        if (!data || !data.length) {
-            this.showEmpty(container, 'fa-exclamation-circle', 'No data');
-            return;
-        }
-        wrapper.innerHTML = '<canvas></canvas>';
-        const ctx = wrapper.querySelector('canvas').getContext('2d');
+    attachFilterListeners() {
+        const radios = this.filterBar.querySelectorAll('input[name="yearFilter"]');
+        const customSelect = document.getElementById('custom-year-select');
 
-        const top5 = data.slice(0, 5);
-        const labels = top5.map(d => String(d.incident_type));
-        const counts = top5.map(d => d.count);
-        const maxCount = Math.max(...counts);
-        const colors = counts.map(v => this.getColor(v / maxCount));
-
-        this.charts.topCauses = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels,
-                datasets: [{
-                    data: counts,
-                    backgroundColor: colors,
-                    borderColor: '#2d3748',
-                    borderWidth: 1,
-                    borderRadius: 4
-                }]
-            },
-            options: this.getChartOptions('', 'Cause', 'Incident Count')
+        radios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                this.yearFilter = e.target.value;
+                if (this.yearFilter === 'custom') {
+                    customSelect.disabled = false;
+                } else {
+                    customSelect.disabled = true;
+                }
+                this.renderTrendsCharts();
+            });
         });
+
+        if (customSelect) {
+            customSelect.addEventListener('change', (e) => {
+                this.customYear = parseInt(e.target.value, 10);
+                if (this.yearFilter === 'custom') {
+                    this.renderTrendsCharts();
+                }
+            });
+        }
     }
 
-    createWeeklyPatterns() {
-        const container = document.getElementById('chart-weekly-patterns');
-        if (!container) return;
-        const wrapper = container.querySelector('.chart-wrapper');
-        const data = this.data.weekly_patterns;
-        if (!data || !data.length) {
-            this.showEmpty(container, 'fa-calendar-week', 'No data');
-            return;
+    // Get list of years to include based on current filter
+    getSelectedYears() {
+        if (!this.availableYears.length) return [];
+
+        const maxYear = Math.max(...this.availableYears);
+
+        switch (this.yearFilter) {
+            case 'all':
+                return this.availableYears;
+            case 'last1':
+                return [maxYear];
+            case 'last2':
+                return this.availableYears.filter(y => y >= maxYear - 1);
+            case 'last5':
+                return this.availableYears.filter(y => y >= maxYear - 4);
+            case 'custom':
+                return this.customYear ? [this.customYear] : [maxYear];
+            default:
+                return this.availableYears;
         }
-        wrapper.innerHTML = '<canvas></canvas>';
-        const ctx = wrapper.querySelector('canvas').getContext('2d');
+    }
+
+    // -----------------------------------------------------------------
+    // Filtered Data Aggregation
+    // -----------------------------------------------------------------
+    getFilteredWeeklyData(years) {
+        const allData = this.data.weekly_patterns || [];
+        const selected = allData.filter(item => years.includes(item.year));
+        if (!selected.length) return [];
 
         const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-        const counts = weekdays.map((day, idx) => {
-            const item = data.find(d => d.weekday === day || d.weekday === idx);
-            return item ? item.incident_count : 0;
+        const result = weekdays.map(weekday => {
+            let totalIncidents = 0;
+            let totalDelayMin = 0;
+            selected.forEach(yearItem => {
+                const dayData = yearItem.weekly.find(w => w.weekday === weekday);
+                if (dayData) {
+                    totalIncidents += dayData.incident_count;
+                    totalDelayMin += dayData.incident_count * dayData.avg_delay; // sum of minutes
+                }
+            });
+            const avgDelay = totalIncidents > 0 ? totalDelayMin / totalIncidents : 0;
+            return {
+                weekday,
+                incident_count: totalIncidents,
+                avg_delay: Math.round(avgDelay * 10) / 10
+            };
+        });
+        return result;
+    }
+
+    getFilteredHourlyData(years) {
+        const allData = this.data.hourly_frequency_delay || [];
+        const selected = allData.filter(item => years.includes(item.year));
+        if (!selected.length) return [];
+
+        const result = [];
+        for (let h = 0; h < 24; h++) {
+            let totalIncidents = 0;
+            let totalDelayMin = 0;
+            selected.forEach(yearItem => {
+                const hourData = yearItem.hourly_data.find(d => d.hour === h);
+                if (hourData) {
+                    totalIncidents += hourData.incident_count;
+                    totalDelayMin += hourData.incident_count * hourData.avg_delay;
+                }
+            });
+            const avgDelay = totalIncidents > 0 ? totalDelayMin / totalIncidents : 0;
+            result.push({
+                hour: h,
+                incident_count: totalIncidents,
+                avg_delay: Math.round(avgDelay * 10) / 10
+            });
+        }
+        return result;
+    }
+
+    getFilteredTopCauses(years, topN = 5) {
+        const allData = this.data.top_incident_causes || [];
+        const selected = allData.filter(item => years.includes(item.year));
+        if (!selected.length) return [];
+
+        // Aggregate counts across years
+        const causeMap = new Map();
+        selected.forEach(yearItem => {
+            yearItem.causes.forEach(cause => {
+                const key = cause.incident_type;
+                causeMap.set(key, (causeMap.get(key) || 0) + cause.count);
+            });
         });
 
+        // Convert to array, sort, take topN
+        const aggregated = Array.from(causeMap.entries()).map(([incident_type, count]) => ({
+            incident_type,
+            count
+        }));
+        aggregated.sort((a, b) => b.count - a.count);
+        return aggregated.slice(0, topN);
+    }
+
+    getFilteredYearlyData(years) {
+        const allData = this.data.yearly_trends || [];
+        return allData.filter(item => years.includes(item.year)).sort((a,b) => a.year - b.year);
+    }
+
+    // -----------------------------------------------------------------
+    // Trends Charts Rendering (with filtering)
+    // -----------------------------------------------------------------
+    renderTrendsCharts() {
+        const years = this.getSelectedYears();
+        if (!years.length) {
+            this.showEmpty(document.getElementById('modal-weekly'), 'No data for selected period');
+            this.showEmpty(document.getElementById('modal-yearly'), 'No data for selected period');
+            this.showEmpty(document.getElementById('modal-hourly'), 'No data for selected period');
+            this.showEmpty(document.getElementById('modal-causes'), 'No data for selected period');
+            return;
+        }
+
+        this.createWeeklyPatterns(years);
+        this.createYearlyTrends(years);
+        this.createHourly(years);
+        this.createTopCauses(years);
+    }
+
+    createWeeklyPatterns(years) {
+        const container = document.getElementById('modal-weekly');
+        if (!container) return;
+        const data = this.getFilteredWeeklyData(years);
+        if (!data.length) {
+            this.showEmpty(container, 'No weekly data');
+            return;
+        }
+
+        container.innerHTML = '<canvas></canvas>';
+        const canvas = container.querySelector('canvas');
+        const ctx = canvas.getContext('2d');
+
+        const weekdays = data.map(d => d.weekday);
+        const counts = data.map(d => d.incident_count);
         const color = this.getFixedColor(2);
 
-        this.charts.weeklyPatterns = new Chart(ctx, {
+        this.charts.weekly = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: weekdays,
@@ -368,23 +507,24 @@ class DashboardController {
         });
     }
 
-    createYearlyTrends() {
-        const container = document.getElementById('chart-yearly-trends');
+    createYearlyTrends(years) {
+        const container = document.getElementById('modal-yearly');
         if (!container) return;
-        const wrapper = container.querySelector('.chart-wrapper');
-        const data = this.data.yearly_trends;
-        if (!data || !data.length) {
-            this.showEmpty(container, 'fa-chart-line', 'No data');
+        const data = this.getFilteredYearlyData(years);
+        if (!data.length) {
+            this.showEmpty(container, 'No yearly data');
             return;
         }
-        wrapper.innerHTML = '<canvas></canvas>';
-        const ctx = wrapper.querySelector('canvas').getContext('2d');
+
+        container.innerHTML = '<canvas></canvas>';
+        const canvas = container.querySelector('canvas');
+        const ctx = canvas.getContext('2d');
 
         const labels = data.map(d => String(d.year));
         const avgDelays = data.map(d => d.avg_delay);
         const color = this.getFixedColor(3);
 
-        this.charts.yearlyTrends = new Chart(ctx, {
+        this.charts.yearly = new Chart(ctx, {
             type: 'line',
             data: {
                 labels,
@@ -404,64 +544,18 @@ class DashboardController {
         });
     }
 
-    // ---------- Time Patterns Tab ----------
-    renderTimePatterns() {
-        const html = `
-            <h2 class="section-header">Time Patterns</h2>
-            <div class="dashboard-disclaimer">
-                <i class="fas fa-info-circle"></i> This dashboard shows data for <strong>bus routes only</strong>.
-            </div>
-            <div class="charts-grid">
-                <div class="chart-container" id="chart-hourly">
-                    <div class="chart-header"><h3 class="chart-title">Hourly Delay Patterns</h3></div>
-                    <div class="chart-wrapper" style="height: 280px;"></div>
-                    <div class="chart-description">Incident frequency and average delay by hour of day</div>
-                </div>
-                <div class="chart-container" id="chart-daily">
-                    <div class="chart-header"><h3 class="chart-title">Daily Delay Patterns</h3></div>
-                    <div class="chart-wrapper" style="height: 280px;"></div>
-                    <div class="chart-description">Hourly patterns on weekdays vs weekends</div>
-                </div>
-            </div>
-            <div class="charts-grid">
-                <div class="chart-container" id="chart-monthly">
-                    <div class="chart-header"><h3 class="chart-title">Monthly Trends</h3></div>
-                    <div class="chart-wrapper" style="height: 280px;"></div>
-                    <div class="chart-description">Average delay across months</div>
-                </div>
-                <div class="chart-container" id="chart-timeofday">
-                    <div class="chart-header"><h3 class="chart-title">Time of Day Comparison</h3></div>
-                    <div class="chart-wrapper" style="height: 280px;"></div>
-                    <div class="chart-description">Average delay by time period (morning, afternoon, etc.)</div>
-                </div>
-            </div>            
-            <div class="chart-container full-width" id="chart-heatmap">
-                <div class="chart-header"><h3 class="chart-title">Weekday vs Hour Heatmap</h3></div>
-                <div class="chart-wrapper" style="height: 280px;"></div>
-                <div class="chart-description">Heatmap of delay concentration by day and hour</div>
-            </div>
-            
-        `;
-        this.contentInner.innerHTML = html;
-        this.createHourly();
-        this.createDaily();
-        this.createMonthly();
-        this.createTimeOfDay();
-        this.createMonthlyComparison();
-        this.createHeatmap();
-    }
-
-    createHourly() {
-        const container = document.getElementById('chart-hourly');
+    createHourly(years) {
+        const container = document.getElementById('modal-hourly');
         if (!container) return;
-        const wrapper = container.querySelector('.chart-wrapper');
-        const data = this.data.hourly_frequency_delay;
-        if (!data || !data.length) {
-            this.showEmpty(container, 'fa-hourglass-half', 'No data');
+        const data = this.getFilteredHourlyData(years);
+        if (!data.length) {
+            this.showEmpty(container, 'No hourly data');
             return;
         }
-        wrapper.innerHTML = '<canvas></canvas>';
-        const ctx = wrapper.querySelector('canvas').getContext('2d');
+
+        container.innerHTML = '<canvas></canvas>';
+        const canvas = container.querySelector('canvas');
+        const ctx = canvas.getContext('2d');
 
         const hours = data.map(d => {
             const h = d.hour;
@@ -535,171 +629,35 @@ class DashboardController {
                     },
                     x: {
                         grid: { display: false },
-                        ticks: { color: '#a0aec0', maxRotation: 0 }
+                        ticks: { color: '#a0aec0', maxRotation: 45 }
                     }
                 }
             }
         });
     }
 
-    createDaily() {
-        const container = document.getElementById('chart-daily');
+    createTopCauses(years) {
+        const container = document.getElementById('modal-causes');
         if (!container) return;
-        const wrapper = container.querySelector('.chart-wrapper');
-        const data = this.data.daily_patterns;
-        if (!data || !data.weekday_aggregate || !data.weekend_aggregate) {
-            this.showEmpty(container, 'fa-sun', 'No data');
-            return;
-        }
-        wrapper.innerHTML = '<canvas></canvas>';
-        const ctx = wrapper.querySelector('canvas').getContext('2d');
-
-        const hours = data.weekday_aggregate.map(d => {
-            const h = d.hour;
-            if (h === 0) return '12 AM';
-            if (h < 12) return `${h} AM`;
-            if (h === 12) return '12 PM';
-            return `${h-12} PM`;
-        });
-
-        const color1 = this.getFixedColor(0);
-        const color2 = this.getFixedColor(3);
-
-        this.charts.daily = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: hours,
-                datasets: [
-                    {
-                        label: 'Weekdays',
-                        data: data.weekday_aggregate.map(d => d.incident_count),
-                        borderColor: color1,
-                        backgroundColor: this.hexToRgba(color1, 0.1),
-                        borderWidth: 3,
-                        fill: true,
-                        tension: 0.2,
-                        pointBackgroundColor: color1,
-                        pointRadius: 3,
-                        pointHoverRadius: 5
-                    },
-                    {
-                        label: 'Weekends',
-                        data: data.weekend_aggregate.map(d => d.incident_count),
-                        borderColor: color2,
-                        backgroundColor: this.hexToRgba(color2, 0.1),
-                        borderWidth: 3,
-                        fill: true,
-                        tension: 0.2,
-                        pointBackgroundColor: color2,
-                        pointRadius: 3,
-                        pointHoverRadius: 5
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { labels: { color: '#a0aec0' } },
-                    tooltip: {
-                        backgroundColor: '#1a1d29',
-                        titleColor: '#ffffff',
-                        bodyColor: '#ffffff',
-                        borderColor: '#4a5568',
-                        borderWidth: 1,
-                        padding: 8
-                    }
-                },
-                scales: {
-                    x: {
-                        title: { display: true, text: 'Hour of Day', color: '#a0aec0' },
-                        grid: { color: 'rgba(255,255,255,0.1)' },
-                        ticks: { color: '#a0aec0', maxRotation: 0 }
-                    },
-                    y: {
-                        title: { display: true, text: 'Incident Count', color: '#a0aec0' },
-                        grid: { display: false },
-                        ticks: { color: '#a0aec0', beginAtZero: true }
-                    }
-                }
-            }
-        });
-    }
-
-    createMonthly() {
-        const container = document.getElementById('chart-monthly');
-        if (!container) return;
-        const wrapper = container.querySelector('.chart-wrapper');
-        const data = this.data.monthly_trends;
-        if (!data || !data.length) {
-            this.showEmpty(container, 'fa-calendar-alt', 'No data');
-            return;
-        }
-        wrapper.innerHTML = '<canvas></canvas>';
-        const ctx = wrapper.querySelector('canvas').getContext('2d');
-
-        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        const labels = data.map(d => monthNames[d.month - 1] || d.month);
-        const avgDelays = data.map(d => d.avg_delay);
-        const color = this.getFixedColor(2);
-
-        this.charts.monthly = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels,
-                datasets: [{
-                    data: avgDelays,
-                    borderColor: color,
-                    backgroundColor: this.hexToRgba(color, 0.1),
-                    borderWidth: 3,
-                    fill: true,
-                    tension: 0.3,
-                    pointBackgroundColor: color,
-                    pointRadius: 4,
-                    pointHoverRadius: 6
-                }]
-            },
-            options: this.getChartOptions('', 'Month', 'Average Delay (min)')
-        });
-    }
-
-    createTimeOfDay() {
-        const container = document.getElementById('chart-timeofday');
-        if (!container) return;
-        const wrapper = container.querySelector('.chart-wrapper');
-        const data = this.data.time_of_day_comparison;
-        if (!data || !data.length) {
-            this.showEmpty(container, 'fa-clock', 'No data');
+        const data = this.getFilteredTopCauses(years, 5);
+        if (!data.length) {
+            this.showEmpty(container, 'No cause data');
             return;
         }
 
-        // Sort periods in chronological order if a sort order is available
-        // Assume data has a 'sort_order' field, or we define an order array
-        const periodOrder = [
-            'Early Morning', 'Morning Peak', 'Midday', 'Afternoon Peak', 
-            'Evening', 'Late Night'
-        ];
-        const sorted = [...data].sort((a, b) => {
-            const indexA = periodOrder.indexOf(a.period);
-            const indexB = periodOrder.indexOf(b.period);
-            if (indexA === -1 && indexB === -1) return 0;
-            if (indexA === -1) return 1;
-            if (indexB === -1) return -1;
-            return indexA - indexB;
-        });
+        container.innerHTML = '<canvas></canvas>';
+        const canvas = container.querySelector('canvas');
+        const ctx = canvas.getContext('2d');
 
-        wrapper.innerHTML = '<canvas></canvas>';
-        const ctx = wrapper.querySelector('canvas').getContext('2d');
-
-        const periods = sorted.map(d => d.period);
-        const counts = sorted.map(d => d.incident_count);
+        const labels = data.map(d => String(d.incident_type));
+        const counts = data.map(d => d.count);
         const maxCount = Math.max(...counts);
         const colors = counts.map(v => this.getColor(v / maxCount));
 
-        this.charts.timeOfDay = new Chart(ctx, {
+        this.charts.causes = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: periods,
+                labels,
                 datasets: [{
                     data: counts,
                     backgroundColor: colors,
@@ -708,451 +666,184 @@ class DashboardController {
                     borderRadius: 4
                 }]
             },
-            options: this.getChartOptions('', 'Time Period', 'Incident Count')
+            options: this.getChartOptions('', 'Cause', 'Incident Count')
         });
     }
 
-    createMonthlyComparison() {
-        const container = document.getElementById('chart-monthly-comparison');
-        if (!container) return;
-        const wrapper = container.querySelector('.chart-wrapper');
-        const data = this.data.monthly_comparison;
+    // -----------------------------------------------------------------
+    // Performance Tab Rendering (with colored arrows based on sign)
+    // -----------------------------------------------------------------
+    renderPerformanceTab() {
+        const data = this.data.route_performance;
         if (!data || !data.length) {
-            this.showEmpty(container, 'fa-calendar-check', 'No monthly comparison data');
+            document.getElementById('performance-table-body').innerHTML = '<tr><td colspan="8">No data available</td></tr>';
             return;
         }
-        wrapper.innerHTML = '<canvas></canvas>';
-        const ctx = wrapper.querySelector('canvas').getContext('2d');
 
-        const months = data.map(d => d.month);
-        const color1 = this.getFixedColor(0); // current year incidents
-        const color2 = this.getFixedColor(1); // previous year incidents
-        const color3 = this.getFixedColor(3); // current year avg delay
-        const color4 = this.getFixedColor(4); // previous year avg delay
+        // Sync sort column with dropdown
+        const select = document.getElementById('performance-sort-select');
+        if (select) {
+            this.sortColumn = select.value;
+        }
 
-        this.charts.monthlyComparison = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: months,
-                datasets: [
-                    {
-                        label: 'Current Year Incidents',
-                        data: data.map(d => d.current_incident_count),
-                        backgroundColor: color1,
-                        yAxisID: 'y',
-                        order: 1
-                    },
-                    {
-                        label: 'Previous Year Incidents',
-                        data: data.map(d => d.previous_incident_count),
-                        backgroundColor: color2,
-                        yAxisID: 'y',
-                        order: 1
-                    },
-                    {
-                        label: 'Current Year Avg Delay',
-                        data: data.map(d => d.current_avg_delay),
-                        type: 'line',
-                        borderColor: color3,
-                        backgroundColor: 'transparent',
-                        borderWidth: 3,
-                        pointBackgroundColor: color3,
-                        pointBorderColor: color3,
-                        pointRadius: 4,
-                        pointHoverRadius: 6,
-                        yAxisID: 'y1',
-                        order: 0,
-                        tension: 0.3,
-                        fill: false
-                    },
-                    {
-                        label: 'Previous Year Avg Delay',
-                        data: data.map(d => d.previous_avg_delay),
-                        type: 'line',
-                        borderColor: color4,
-                        backgroundColor: 'transparent',
-                        borderWidth: 3,
-                        borderDash: [5, 5],
-                        pointBackgroundColor: color4,
-                        pointBorderColor: color4,
-                        pointRadius: 4,
-                        pointHoverRadius: 6,
-                        yAxisID: 'y1',
-                        order: 0,
-                        tension: 0.3,
-                        fill: false
-                    }
-                ]
+        // Filter: avg_delay_2025 not null and > 1, route_name not null
+        let filtered = data.filter(item => 
+            item.avg_delay_2025 != null && 
+            item.avg_delay_2025 > 1 && 
+            item.route_name != null && 
+            item.route_name.trim() !== ''
+        );
+
+        // Sort
+        filtered.sort((a, b) => {
+            let valA = a[this.sortColumn];
+            let valB = b[this.sortColumn];
+            if (valA == null) valA = this.sortDirection === 'desc' ? -Infinity : Infinity;
+            if (valB == null) valB = this.sortDirection === 'desc' ? -Infinity : Infinity;
+            if (this.sortDirection === 'desc') {
+                return valB - valA;
+            } else {
+                return valA - valB;
+            }
+        });
+
+        // Build table rows
+        let html = '';
+        filtered.forEach((item, index) => {
+            const rank = index + 1;
+            let rankDisplay;
+            if (rank === 1) rankDisplay = '🥇';
+            else if (rank === 2) rankDisplay = '🥈';
+            else if (rank === 3) rankDisplay = '🥉';
+            else rankDisplay = `<span class="rank-number">${rank}</span>`;
+
+            // Format improvement with arrow and sign-based color
+            let improvementHtml = '—';
+            if (item.avg_delay_change_2024_2025_pct != null) {
+                const change = item.avg_delay_change_2024_2025_pct;
+                const isNegative = change < 0;
+                // Red for negative, green for positive (as requested)
+                const color = isNegative ? '#f56565' : '#48bb78';
+                const arrow = isNegative ? '↓' : '↑';
+                // Show signed percentage (e.g., "-6.7" or "6.7")
+                const signedValue = change.toFixed(1);
+                improvementHtml = `<span style="color: ${color};">${arrow} ${signedValue}%</span>`;
+            }
+
+            const reliability = item.reliability_score != null ? item.reliability_score.toFixed(1) : '—';
+            const totalInc = item.total_incidents_2025 != null ? item.total_incidents_2025.toLocaleString() : '—';
+            const avgDelay = item.avg_delay_2025 != null ? item.avg_delay_2025.toFixed(1) + ' min' : '—';
+
+            html += `<tr>
+                <td>${rankDisplay}</td>
+                <td>${item.route || '—'}</td>
+                <td>${item.route_name || '—'}</td>
+                <td>${item.most_common_incident_cause || '—'}</td>
+                <td>${totalInc}</td>
+                <td>${avgDelay}</td>
+                <td>${reliability}</td>
+                <td>${improvementHtml}</td>
+            </tr>`;
+        });
+
+        document.getElementById('performance-table-body').innerHTML = html;
+    }
+
+    attachPerformanceListeners() {
+        const select = document.getElementById('performance-sort-select');
+        const dirBtn = document.getElementById('performance-sort-direction');
+        if (!select || !dirBtn) return;
+
+        const newSelect = select.cloneNode(true);
+        select.parentNode.replaceChild(newSelect, select);
+        const newDirBtn = dirBtn.cloneNode(true);
+        dirBtn.parentNode.replaceChild(newDirBtn, dirBtn);
+
+        newSelect.addEventListener('change', (e) => {
+            this.sortColumn = e.target.value;
+            this.renderPerformanceTab();
+        });
+
+        newDirBtn.addEventListener('click', () => {
+            this.sortDirection = this.sortDirection === 'desc' ? 'asc' : 'desc';
+            newDirBtn.innerHTML = this.sortDirection === 'desc' 
+                ? '<i class="fas fa-arrow-down"></i> Desc' 
+                : '<i class="fas fa-arrow-up"></i> Asc';
+            this.renderPerformanceTab();
+        });
+    }
+
+    // -----------------------------------------------------------------
+    // Helper Methods
+    // -----------------------------------------------------------------
+    showEmpty(container, message) {
+        if (!container) return;
+        container.innerHTML = `<div class="dashboard-modal-empty"><i class="fas fa-chart-bar"></i><p>${message}</p></div>`;
+    }
+
+    showError(message) {
+        console.error(message);
+        if (this.modal) {
+            const grid = this.modal.querySelector('.dashboard-modal-grid');
+            if (grid) grid.innerHTML = `<div class="dashboard-modal-error">${message}</div>`;
+        }
+    }
+
+    getChartOptions(title, xTitle, yTitle) {
+        return {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: '#1a1d29',
+                    titleColor: '#ffffff',
+                    bodyColor: '#ffffff',
+                    borderColor: '#4a5568',
+                    borderWidth: 1,
+                    padding: 8,
+                    bodyFont: { family: 'Inter, sans-serif', size: 12 },
+                    titleFont: { family: 'Inter, sans-serif', size: 12, weight: 'bold' }
+                }
             },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                interaction: { mode: 'index', intersect: false },
-                plugins: {
-                    legend: { labels: { color: '#a0aec0' } },
-                    tooltip: {
-                        backgroundColor: '#1a1d29',
-                        titleColor: '#ffffff',
-                        bodyColor: '#ffffff',
-                        borderColor: '#4a5568',
-                        borderWidth: 1,
-                        padding: 8
-                    }
+            scales: {
+                x: {
+                    title: { display: !!xTitle, text: xTitle, color: '#a0aec0' },
+                    grid: { color: 'rgba(255,255,255,0.1)' },
+                    ticks: { color: '#a0aec0', maxRotation: 0 }
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: { color: 'rgba(255,255,255,0.1)' },
-                        ticks: { color: '#a0aec0', callback: (v) => v.toLocaleString() },
-                        title: { display: true, text: 'Incident Count', color: '#a0aec0' }
-                    },
-                    y1: {
-                        beginAtZero: true,
-                        position: 'right',
-                        grid: { drawOnChartArea: false },
-                        ticks: { color: '#a0aec0' },
-                        title: { display: true, text: 'Average Delay (minutes)', color: '#a0aec0' }
-                    },
-                    x: {
-                        grid: { display: false },
-                        ticks: { color: '#a0aec0', maxRotation: 0 }
-                    }
+                y: {
+                    title: { display: !!yTitle, text: yTitle, color: '#a0aec0' },
+                    grid: { display: false },
+                    ticks: { color: '#a0aec0', beginAtZero: true }
                 }
             }
-        });
-
-        // --- Force the wrapper height (fix for min-height override) ---
-        if (wrapper) {
-            wrapper.style.height = '280px';
-            wrapper.style.minHeight = 'unset';
-        }
+        };
     }
 
+    getColor(ratio) {
+        const palette = this.palette;
+        if (!palette.length) return '#cccccc';
+        if (ratio <= 0) return `rgb(${palette[0].join(',')})`;
+        if (ratio >= 1) return `rgb(${palette[palette.length-1].join(',')})`;
 
-    
-    createHeatmap() {
-        const container = document.getElementById('chart-heatmap');
-        if (!container) return;
-        const wrapper = container.querySelector('.chart-wrapper');
-        const data = this.data.weekday_hour_heatmap;
-        if (!data || !data.length) {
-            this.showEmpty(container, 'fa-th-large', 'No data');
-            return;
-        }
-
-        const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-        const hours = Array.from({ length: 24 }, (_, i) => i);
-
-        // Build 7x24 matrix
-        const matrix = [];
-        for (let d = 0; d < 7; d++) {
-            matrix[d] = [];
-            for (let h = 0; h < 24; h++) {
-                const entry = data.find(item => item.weekday === weekdays[d] && item.hour === h);
-                matrix[d][h] = entry ? entry.incident_count : 0;
-            }
-        }
-
-        const maxVal = Math.max(...matrix.flat());
-
-        let gridHtml = '<div class="heatmap-grid" style="display: grid; grid-template-columns: 100px repeat(24, 1fr); gap: 2px; padding: 10px; border-radius: 8px;">';
-        // Header row (hours) – smaller font
-        gridHtml += '<div style="color: #a0aec0; font-weight: bold; text-align: right; padding-right: 10px; font-size: 11px;"></div>';
-        for (let h = 0; h < 24; h++) {
-            let hourLabel = h === 0 ? '12 AM' : h < 12 ? `${h} AM` : h === 12 ? '12 PM' : `${h-12} PM`;
-            gridHtml += `<div style="color: #a0aec0; font-weight: bold; text-align: center; font-size: 11px;">${hourLabel}</div>`;
-        }
-
-        // Data rows – day labels also smaller
-        for (let d = 0; d < 7; d++) {
-            gridHtml += `<div style="color: #a0aec0; font-weight: bold; text-align: right; padding-right: 10px; font-size: 11px;">${weekdays[d]}</div>`;
-            for (let h = 0; h < 24; h++) {
-                const val = matrix[d][h];
-                const ratio = maxVal > 0 ? val / maxVal : 0;
-                const bgColor = this.getColor(ratio);
-                const textColor = ratio > 0.6 ? '#ffffff' : '#000000';
-                gridHtml += `<div style="background-color: ${bgColor}; color: ${textColor}; text-align: center; padding: 8px 2px; font-size: 11px; border-radius: 4px;" title="${weekdays[d]} ${h}:00 - ${val.toLocaleString()} incidents">${this.formatNumber(val)}</div>`;
-            }
-        }
-        gridHtml += '</div>';
-
-        wrapper.innerHTML = gridHtml;
-    }
-    // ---------- Route Analysis Tab ----------
-    renderRouteAnalysis() {
-        const html = `
-            <h2 class="section-header">Route Analysis</h2>
-            <div class="dashboard-disclaimer">
-                <i class="fas fa-info-circle"></i> This dashboard shows data for <strong>bus routes only</strong>.
-            </div>
-            <div class="charts-grid">
-                <div class="chart-container" id="chart-top-incidents">
-                    <div class="chart-header"><h3 class="chart-title">Top Delayed Routes by Incidents</h3></div>
-                    <div class="chart-wrapper" style="height: 280px;"></div>
-                    <div class="chart-description">Routes with highest number of delay incidents (top 10)</div>
-                </div>
-                <div class="chart-container" id="chart-top-avg">
-                    <div class="chart-header"><h3 class="chart-title">Top Routes by Average Delay</h3></div>
-                    <div class="chart-wrapper" style="height: 280px;"></div>
-                    <div class="chart-description">Routes with longest average delay (top 10)</div>
-                </div>
-            </div>
-            <div class="charts-grid">
-                <div class="chart-container" id="chart-scatter">
-                    <div class="chart-header"><h3 class="chart-title">Route Frequency vs Severity</h3></div>
-                    <div class="chart-wrapper" style="height: 280px;"></div>
-                    <div class="chart-description">Incident frequency vs average delay per route</div>
-                </div>
-                <div class="chart-container" id="chart-improving">
-                    <div class="chart-header"><h3 class="chart-title">Top Improving vs Declining Routes (2025)</h3></div>
-                    <div class="chart-wrapper" style="height: 280px;"></div>
-                    <div class="chart-description">Routes that improved or declined most in 2025 compared to 2024</div>
-                </div>
-            </div>
-        `;
-        this.contentInner.innerHTML = html;
-        this.createTopIncidents();
-        this.createTopAvgDelay();
-        this.createScatter();
-        this.createImprovingDeclining();
+        const segment = ratio * (palette.length - 1);
+        const idx = Math.floor(segment);
+        const t = segment - idx;
+        const nextIdx = Math.min(idx + 1, palette.length - 1);
+        const c1 = palette[idx];
+        const c2 = palette[nextIdx];
+        const r = Math.round(c1[0] + t * (c2[0] - c1[0]));
+        const g = Math.round(c1[1] + t * (c2[1] - c1[1]));
+        const b = Math.round(c1[2] + t * (c2[2] - c1[2]));
+        return `rgb(${r},${g},${b})`;
     }
 
-    createTopIncidents() {
-        const container = document.getElementById('chart-top-incidents');
-        if (!container) return;
-        const wrapper = container.querySelector('.chart-wrapper');
-        const data = this.data.top_delayed_routes_count;
-        if (!data || !data.length) {
-            this.showEmpty(container, 'fa-list-ol', 'No data');
-            return;
-        }
-        wrapper.innerHTML = '<canvas></canvas>';
-        const ctx = wrapper.querySelector('canvas').getContext('2d');
-
-        const top10 = data.slice(0, 10);
-        const labels = top10.map(r => {
-            const name = r.route_name || `Route ${r.route_number}`;
-            return name.length > 20 ? name.substring(0, 20) + '…' : name;
-        });
-        const incidents = top10.map(r => r.incident_count);
-        const maxInc = Math.max(...incidents);
-        const colors = incidents.map(v => this.getColor(v / maxInc));
-
-        this.charts.topIncidents = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels,
-                datasets: [{
-                    data: incidents,
-                    backgroundColor: colors,
-                    borderColor: '#2d3748',
-                    borderWidth: 1,
-                    borderRadius: 4
-                }]
-            },
-            options: {
-                indexAxis: 'y',
-                ...this.getChartOptions('', 'Incident Count', 'Route', true)
-            }
-        });
+    getFixedColor(index) {
+        const i = Math.min(index, this.palette.length - 1);
+        return `rgb(${this.palette[i].join(',')})`;
     }
 
-    createTopAvgDelay() {
-        const container = document.getElementById('chart-top-avg');
-        if (!container) return;
-        const wrapper = container.querySelector('.chart-wrapper');
-        const data = this.data.top_delayed_routes; // using avg delay data
-        if (!data || !data.length) {
-            this.showEmpty(container, 'fa-clock', 'No data');
-            return;
-        }
-        wrapper.innerHTML = '<canvas></canvas>';
-        const ctx = wrapper.querySelector('canvas').getContext('2d');
-
-        const top10 = data.slice(0, 10);
-        const labels = top10.map(r => {
-            const name = r.route_name || `Route ${r.route_number}`;
-            return name.length > 20 ? name.substring(0, 20) + '…' : name;
-        });
-        const delays = top10.map(r => r.avg_delay);
-        const maxDelay = Math.max(...delays);
-        const colors = delays.map(v => this.getColor(v / maxDelay));
-
-        this.charts.topAvg = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels,
-                datasets: [{
-                    data: delays,
-                    backgroundColor: colors,
-                    borderColor: '#2d3748',
-                    borderWidth: 1,
-                    borderRadius: 4
-                }]
-            },
-            options: {
-                indexAxis: 'y',
-                ...this.getChartOptions('', 'Average Delay (min)', 'Route', true)
-            }
-        });
-    }
-
-    createScatter() {
-        const container = document.getElementById('chart-scatter');
-        if (!container) return;
-        const wrapper = container.querySelector('.chart-wrapper');
-        const data = this.data.route_scatter_data;
-        if (!data || !data.length) {
-            this.showEmpty(container, 'fa-crosshairs', 'No data');
-            return;
-        }
-        wrapper.innerHTML = '<canvas></canvas>';
-        const ctx = wrapper.querySelector('canvas').getContext('2d');
-
-        const maxDelay = Math.max(...data.map(r => r.avg_delay));
-        const points = data.map(r => ({
-            x: r.incident_count,
-            y: r.avg_delay,
-            route: r.route_number
-        }));
-        const colors = data.map(r => this.getColor(r.avg_delay / maxDelay));
-
-        this.charts.scatter = new Chart(ctx, {
-            type: 'scatter',
-            data: {
-                datasets: [{
-                    data: points,
-                    backgroundColor: colors,
-                    pointRadius: 5,
-                    pointHoverRadius: 8
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        backgroundColor: '#1a1d29',
-                        titleColor: '#ffffff',
-                        bodyColor: '#ffffff',
-                        borderColor: '#4a5568',
-                        borderWidth: 1,
-                        padding: 8,
-                        callbacks: {
-                            label: (ctx) => {
-                                const p = ctx.raw;
-                                return `Route ${p.route}: Incidents: ${p.x.toLocaleString()}, Avg Delay: ${p.y.toFixed(1)} min`;
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        type: 'logarithmic',
-                        title: { display: true, text: 'Incident Count (log)', color: '#a0aec0' },
-                        grid: { color: 'rgba(255,255,255,0.1)' },
-                        ticks: { color: '#a0aec0', callback: (v) => v.toLocaleString() }
-                    },
-                    y: {
-                        title: { display: true, text: 'Average Delay (min)', color: '#a0aec0' },
-                        grid: { color: 'rgba(255,255,255,0.1)' },
-                        ticks: { color: '#a0aec0' }
-                    }
-                }
-            }
-        });
-    }
-
-    createImprovingDeclining() {
-        const container = document.getElementById('chart-improving');
-        if (!container) return;
-        const wrapper = container.querySelector('.chart-wrapper');
-
-        const improving = this.data.improving_routes || [];
-        const declining = this.data.declining_routes || [];
-
-        const topImproving = improving.slice(0, 5);
-        const topDeclining = declining.slice(0, 5);
-        const all = [...topImproving, ...topDeclining];
-
-        if (all.length === 0) {
-            this.showEmpty(container, 'fa-exchange-alt', 'No improving/declining data');
-            return;
-        }
-
-        wrapper.innerHTML = '<canvas></canvas>';
-        const ctx = wrapper.querySelector('canvas').getContext('2d');
-
-        const labels = all.map(r => {
-            const name = r.route_name || `Route ${r.route_number}`;
-            return name.length > 20 ? name.substring(0, 20) + '…' : name;
-        });
-        const changes = all.map(r => r.percent_change);
-        const colors = changes.map(p => p < 0 ? this.getFixedColor(0) : this.getFixedColor(4));
-
-        this.charts.improvingDeclining = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels,
-                datasets: [{
-                    data: changes,
-                    backgroundColor: colors,
-                    borderColor: '#2d3748',
-                    borderWidth: 1,
-                    borderRadius: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        backgroundColor: '#1a1d29',
-                        titleColor: '#ffffff',
-                        bodyColor: '#ffffff',
-                        borderColor: '#4a5568',
-                        borderWidth: 1,
-                        padding: 8,
-                        callbacks: {
-                            label: (ctx) => {
-                                const val = ctx.raw;
-                                const direction = val < 0 ? 'improved' : 'declined';
-                                return `${Math.abs(val).toFixed(1)}% ${direction}`;
-                            }
-                        }
-                    },
-                    annotation: {
-                        annotations: {
-                            line0: {
-                                type: 'line',
-                                yMin: 0,
-                                yMax: 0,
-                                borderColor: '#a0aec0',
-                                borderWidth: 1,
-                                label: { enabled: false }
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        title: { display: true, text: 'Route', color: '#a0aec0' },
-                        grid: { color: 'rgba(255,255,255,0.1)' },
-                        ticks: { color: '#a0aec0', maxRotation: 0 }
-                    },
-                    y: {
-                        title: { display: true, text: 'Change (%)', color: '#a0aec0' },
-                        grid: { display: false },
-                        ticks: { color: '#a0aec0' }
-                    }
-                }
-            }
-        });
-    }
-
-    // ---------- Utility ----------
     hexToRgba(rgbStr, alpha) {
         if (rgbStr.startsWith('rgb')) {
             return rgbStr.replace('rgb', 'rgba').replace(')', `, ${alpha})`);
@@ -1161,14 +852,8 @@ class DashboardController {
     }
 
     resizeCharts() {
-        if (window.Plotly) {
-            document.querySelectorAll('.chart-wrapper .js-plotly-plot').forEach(plot => {
-                Plotly.Plots.resize(plot);
-            });
-        }
-    }
-
-    showError(message) {
-        this.contentInner.innerHTML = `<div class="error-message">${message}</div>`;
+        Object.values(this.charts).forEach(chart => {
+            if (chart && chart.update) chart.update();
+        });
     }
 }

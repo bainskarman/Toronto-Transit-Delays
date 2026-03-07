@@ -127,6 +127,9 @@ class MobileController {
             <div class="mobile-tile icon-tile" id="mobileThemeToggle">
                 <i class="fas fa-moon"></i>
             </div>
+            <div class="mobile-tile icon-tile" id="mobileRankingsBtn">
+                <i class="fas fa-list"></i>
+            </div>
         `;
         container.appendChild(searchRow);
 
@@ -203,6 +206,19 @@ class MobileController {
             <div class="about-content" id="mobileAboutContent"></div>
         `;
         container.appendChild(aboutPanel);
+
+        // Rankings drawer
+        const rankingsDrawer = document.createElement('div');
+        rankingsDrawer.id = 'mobileRankingsDrawer';
+        rankingsDrawer.className = 'rankings-drawer';  // we'll style similar to filter-drawer
+        rankingsDrawer.innerHTML = `
+            <div class="drawer-header">
+                <h3>Rankings</h3>
+                <button id="mobileRankingsDrawerClose" class="drawer-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="drawer-content" id="mobileRankingsDrawerContent"></div>
+        `;
+        container.appendChild(rankingsDrawer);
     }
 
 
@@ -239,6 +255,10 @@ class MobileController {
         this.elements.aboutClose = document.getElementById('mobileAboutClose');
         this.elements.aboutContent = document.getElementById('mobileAboutContent');
         this.elements.searchResults = document.getElementById('mobileSearchResults');
+        this.elements.rankingsBtn = document.getElementById('mobileRankingsBtn');
+        this.elements.rankingsDrawer = document.getElementById('mobileRankingsDrawer');
+        this.elements.rankingsDrawerClose = document.getElementById('mobileRankingsDrawerClose');
+        this.elements.rankingsDrawerContent = document.getElementById('mobileRankingsDrawerContent');
     }
 
     attachEvents() {
@@ -319,6 +339,20 @@ class MobileController {
             });
         }
 
+        if (this.elements.rankingsBtn) {
+            this.elements.rankingsBtn.addEventListener('click', () => this.openRankingsDrawer());
+        }
+        if (this.elements.rankingsDrawerClose) {
+            this.elements.rankingsDrawerClose.addEventListener('click', () => this.closeRankingsDrawer());
+        }
+
+        // Close rankings drawer
+        if (this.rankingsDrawerOpen && this.elements.rankingsDrawer) {
+            if (!this.elements.rankingsDrawer.contains(e.target) && e.target !== this.elements.rankingsBtn) {
+                this.closeRankingsDrawer();
+            }
+        }
+
         // About close
         if (this.elements.aboutClose) {
             this.elements.aboutClose.addEventListener('click', () => this.closeAbout());
@@ -349,6 +383,47 @@ class MobileController {
         });
     }
 
+
+    openRankingsDrawer() {
+        if (!this.elements.rankingsDrawer) return;
+        if (this.app.rightSidebar) {
+            this.elements.rankingsDrawerContent.innerHTML = this.app.rightSidebar.getMobileHTML();
+        } else {
+            this.elements.rankingsDrawerContent.innerHTML = '<p>No data</p>';
+        }
+        this.elements.rankingsDrawer.classList.add('open');
+        this.rankingsDrawerOpen = true;
+        this.attachRankingsModeListeners();
+    }
+
+    attachRankingsModeListeners() {
+        const modeButtons = this.elements.rankingsDrawer.querySelectorAll('.mode-option');
+        if (!modeButtons.length) return;
+        modeButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const mode = e.target.dataset.mode;
+                modeButtons.forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                this.updateRankingsLists(mode);
+            });
+        });
+    }
+
+    updateRankingsLists(mode) {
+        if (!this.app.rightSidebar) return;
+        const lists = this.app.rightSidebar.getMobileListsHTML(mode);
+        const globalContainer = this.elements.rankingsDrawer.querySelector('#mobileRankingsGlobal');
+        const visibleContainer = this.elements.rankingsDrawer.querySelector('#mobileRankingsVisible');
+        if (globalContainer) globalContainer.innerHTML = lists.global;
+        if (visibleContainer) visibleContainer.innerHTML = lists.visible;
+    }
+    
+    closeRankingsDrawer() {
+        if (this.elements.rankingsDrawer) {
+            this.elements.rankingsDrawer.classList.remove('open');
+            this.rankingsDrawerOpen = false;
+        }
+    }
     // ==================== SEARCH ====================
 
     handleSearch(query) {
