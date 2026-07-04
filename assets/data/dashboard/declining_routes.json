@@ -1,0 +1,137 @@
+[
+  {
+    "route_number": "162",
+    "route_name": "Lawrence-Donway",
+    "current_avg_delay": 127.8,
+    "previous_avg_delay": 63.9,
+    "delay_change": 63.9,
+    "percent_change": 100.0,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "324",
+    "route_name": "Victoria Park",
+    "current_avg_delay": 126.9,
+    "previous_avg_delay": 64.7,
+    "delay_change": 62.2,
+    "percent_change": 96.1,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "117",
+    "route_name": "Birchmount South",
+    "current_avg_delay": 83.0,
+    "previous_avg_delay": 21.5,
+    "delay_change": 61.5,
+    "percent_change": 285.9,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "82",
+    "route_name": "Rosedale",
+    "current_avg_delay": 105.8,
+    "previous_avg_delay": 57.4,
+    "delay_change": 48.4,
+    "percent_change": 84.3,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "28",
+    "route_name": "Bayview South",
+    "current_avg_delay": 150.0,
+    "previous_avg_delay": 103.1,
+    "delay_change": 46.9,
+    "percent_change": 45.5,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "103",
+    "route_name": "Mount Pleasant North",
+    "current_avg_delay": 50.6,
+    "previous_avg_delay": 20.0,
+    "delay_change": 30.6,
+    "percent_change": 152.9,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "127",
+    "route_name": "Davenport",
+    "current_avg_delay": 61.6,
+    "previous_avg_delay": 31.5,
+    "delay_change": 30.1,
+    "percent_change": 95.5,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "104",
+    "route_name": "Faywood",
+    "current_avg_delay": 51.2,
+    "previous_avg_delay": 26.2,
+    "delay_change": 25.0,
+    "percent_change": 95.7,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "315",
+    "route_name": "Evans-Brown'S Line",
+    "current_avg_delay": 76.7,
+    "previous_avg_delay": 52.8,
+    "delay_change": 23.9,
+    "percent_change": 45.2,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "160",
+    "route_name": "Bathurst North",
+    "current_avg_delay": 60.4,
+    "previous_avg_delay": 36.6,
+    "delay_change": 23.7,
+    "percent_change": 64.8,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "107",
+    "route_name": "Alness-Chesswood",
+    "current_avg_delay": 66.6,
+    "previous_avg_delay": 44.8,
+    "delay_change": 21.9,
+    "percent_change": 48.8,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "126",
+    "route_name": "Christie",
+    "current_avg_delay": 46.4,
+    "previous_avg_delay": 25.9,
+    "delay_change": 20.5,
+    "percent_change": 79.2,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "385",
+    "route_name": "Sheppard East",
+    "current_avg_delay": 64.9,
+    "previous_avg_delay": 44.8,
+    "delay_change": 20.1,
+    "percent_change": 44.9,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "135",
+    "route_name": "Gerrard",
+    "current_avg_delay": 41.1,
+    "previous_avg_delay": 22.3,
+    "delay_change": 18.8,
+    "percent_change": 84.3,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "312",
+    "route_name": "St Clair",
+    "current_avg_delay": 37.8,
+    "previous_avg_delay": 19.2,
+    "delay_change": 18.6,
+    "percent_change": 96.5,
+    "active_in_2025": true
+  }
+]

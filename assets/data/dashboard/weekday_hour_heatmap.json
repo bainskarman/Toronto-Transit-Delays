@@ -1,0 +1,1010 @@
+[
+  {
+    "weekday": "Monday",
+    "hour": 0,
+    "incident_count": 2145,
+    "hour_label": "00:00"
+  },
+  {
+    "weekday": "Monday",
+    "hour": 1,
+    "incident_count": 1655,
+    "hour_label": "01:00"
+  },
+  {
+    "weekday": "Monday",
+    "hour": 2,
+    "incident_count": 1017,
+    "hour_label": "02:00"
+  },
+  {
+    "weekday": "Monday",
+    "hour": 3,
+    "incident_count": 752,
+    "hour_label": "03:00"
+  },
+  {
+    "weekday": "Monday",
+    "hour": 4,
+    "incident_count": 1592,
+    "hour_label": "04:00"
+  },
+  {
+    "weekday": "Monday",
+    "hour": 5,
+    "incident_count": 8954,
+    "hour_label": "05:00"
+  },
+  {
+    "weekday": "Monday",
+    "hour": 6,
+    "incident_count": 13187,
+    "hour_label": "06:00"
+  },
+  {
+    "weekday": "Monday",
+    "hour": 7,
+    "incident_count": 8415,
+    "hour_label": "07:00"
+  },
+  {
+    "weekday": "Monday",
+    "hour": 8,
+    "incident_count": 7596,
+    "hour_label": "08:00"
+  },
+  {
+    "weekday": "Monday",
+    "hour": 9,
+    "incident_count": 6132,
+    "hour_label": "09:00"
+  },
+  {
+    "weekday": "Monday",
+    "hour": 10,
+    "incident_count": 5977,
+    "hour_label": "10:00"
+  },
+  {
+    "weekday": "Monday",
+    "hour": 11,
+    "incident_count": 5212,
+    "hour_label": "11:00"
+  },
+  {
+    "weekday": "Monday",
+    "hour": 12,
+    "incident_count": 5077,
+    "hour_label": "12:00"
+  },
+  {
+    "weekday": "Monday",
+    "hour": 13,
+    "incident_count": 6087,
+    "hour_label": "13:00"
+  },
+  {
+    "weekday": "Monday",
+    "hour": 14,
+    "incident_count": 8965,
+    "hour_label": "14:00"
+  },
+  {
+    "weekday": "Monday",
+    "hour": 15,
+    "incident_count": 12229,
+    "hour_label": "15:00"
+  },
+  {
+    "weekday": "Monday",
+    "hour": 16,
+    "incident_count": 9113,
+    "hour_label": "16:00"
+  },
+  {
+    "weekday": "Monday",
+    "hour": 17,
+    "incident_count": 7572,
+    "hour_label": "17:00"
+  },
+  {
+    "weekday": "Monday",
+    "hour": 18,
+    "incident_count": 6594,
+    "hour_label": "18:00"
+  },
+  {
+    "weekday": "Monday",
+    "hour": 19,
+    "incident_count": 4907,
+    "hour_label": "19:00"
+  },
+  {
+    "weekday": "Monday",
+    "hour": 20,
+    "incident_count": 3956,
+    "hour_label": "20:00"
+  },
+  {
+    "weekday": "Monday",
+    "hour": 21,
+    "incident_count": 3803,
+    "hour_label": "21:00"
+  },
+  {
+    "weekday": "Monday",
+    "hour": 22,
+    "incident_count": 3195,
+    "hour_label": "22:00"
+  },
+  {
+    "weekday": "Monday",
+    "hour": 23,
+    "incident_count": 2697,
+    "hour_label": "23:00"
+  },
+  {
+    "weekday": "Tuesday",
+    "hour": 0,
+    "incident_count": 2278,
+    "hour_label": "00:00"
+  },
+  {
+    "weekday": "Tuesday",
+    "hour": 1,
+    "incident_count": 1645,
+    "hour_label": "01:00"
+  },
+  {
+    "weekday": "Tuesday",
+    "hour": 2,
+    "incident_count": 1106,
+    "hour_label": "02:00"
+  },
+  {
+    "weekday": "Tuesday",
+    "hour": 3,
+    "incident_count": 779,
+    "hour_label": "03:00"
+  },
+  {
+    "weekday": "Tuesday",
+    "hour": 4,
+    "incident_count": 1559,
+    "hour_label": "04:00"
+  },
+  {
+    "weekday": "Tuesday",
+    "hour": 5,
+    "incident_count": 8909,
+    "hour_label": "05:00"
+  },
+  {
+    "weekday": "Tuesday",
+    "hour": 6,
+    "incident_count": 13844,
+    "hour_label": "06:00"
+  },
+  {
+    "weekday": "Tuesday",
+    "hour": 7,
+    "incident_count": 9607,
+    "hour_label": "07:00"
+  },
+  {
+    "weekday": "Tuesday",
+    "hour": 8,
+    "incident_count": 8652,
+    "hour_label": "08:00"
+  },
+  {
+    "weekday": "Tuesday",
+    "hour": 9,
+    "incident_count": 6605,
+    "hour_label": "09:00"
+  },
+  {
+    "weekday": "Tuesday",
+    "hour": 10,
+    "incident_count": 5928,
+    "hour_label": "10:00"
+  },
+  {
+    "weekday": "Tuesday",
+    "hour": 11,
+    "incident_count": 5559,
+    "hour_label": "11:00"
+  },
+  {
+    "weekday": "Tuesday",
+    "hour": 12,
+    "incident_count": 5831,
+    "hour_label": "12:00"
+  },
+  {
+    "weekday": "Tuesday",
+    "hour": 13,
+    "incident_count": 6877,
+    "hour_label": "13:00"
+  },
+  {
+    "weekday": "Tuesday",
+    "hour": 14,
+    "incident_count": 10219,
+    "hour_label": "14:00"
+  },
+  {
+    "weekday": "Tuesday",
+    "hour": 15,
+    "incident_count": 13522,
+    "hour_label": "15:00"
+  },
+  {
+    "weekday": "Tuesday",
+    "hour": 16,
+    "incident_count": 10248,
+    "hour_label": "16:00"
+  },
+  {
+    "weekday": "Tuesday",
+    "hour": 17,
+    "incident_count": 8750,
+    "hour_label": "17:00"
+  },
+  {
+    "weekday": "Tuesday",
+    "hour": 18,
+    "incident_count": 7368,
+    "hour_label": "18:00"
+  },
+  {
+    "weekday": "Tuesday",
+    "hour": 19,
+    "incident_count": 5171,
+    "hour_label": "19:00"
+  },
+  {
+    "weekday": "Tuesday",
+    "hour": 20,
+    "incident_count": 4250,
+    "hour_label": "20:00"
+  },
+  {
+    "weekday": "Tuesday",
+    "hour": 21,
+    "incident_count": 3996,
+    "hour_label": "21:00"
+  },
+  {
+    "weekday": "Tuesday",
+    "hour": 22,
+    "incident_count": 3210,
+    "hour_label": "22:00"
+  },
+  {
+    "weekday": "Tuesday",
+    "hour": 23,
+    "incident_count": 2796,
+    "hour_label": "23:00"
+  },
+  {
+    "weekday": "Wednesday",
+    "hour": 0,
+    "incident_count": 2427,
+    "hour_label": "00:00"
+  },
+  {
+    "weekday": "Wednesday",
+    "hour": 1,
+    "incident_count": 1664,
+    "hour_label": "01:00"
+  },
+  {
+    "weekday": "Wednesday",
+    "hour": 2,
+    "incident_count": 1156,
+    "hour_label": "02:00"
+  },
+  {
+    "weekday": "Wednesday",
+    "hour": 3,
+    "incident_count": 754,
+    "hour_label": "03:00"
+  },
+  {
+    "weekday": "Wednesday",
+    "hour": 4,
+    "incident_count": 1544,
+    "hour_label": "04:00"
+  },
+  {
+    "weekday": "Wednesday",
+    "hour": 5,
+    "incident_count": 8781,
+    "hour_label": "05:00"
+  },
+  {
+    "weekday": "Wednesday",
+    "hour": 6,
+    "incident_count": 13432,
+    "hour_label": "06:00"
+  },
+  {
+    "weekday": "Wednesday",
+    "hour": 7,
+    "incident_count": 9011,
+    "hour_label": "07:00"
+  },
+  {
+    "weekday": "Wednesday",
+    "hour": 8,
+    "incident_count": 8135,
+    "hour_label": "08:00"
+  },
+  {
+    "weekday": "Wednesday",
+    "hour": 9,
+    "incident_count": 6588,
+    "hour_label": "09:00"
+  },
+  {
+    "weekday": "Wednesday",
+    "hour": 10,
+    "incident_count": 6117,
+    "hour_label": "10:00"
+  },
+  {
+    "weekday": "Wednesday",
+    "hour": 11,
+    "incident_count": 5633,
+    "hour_label": "11:00"
+  },
+  {
+    "weekday": "Wednesday",
+    "hour": 12,
+    "incident_count": 5720,
+    "hour_label": "12:00"
+  },
+  {
+    "weekday": "Wednesday",
+    "hour": 13,
+    "incident_count": 7124,
+    "hour_label": "13:00"
+  },
+  {
+    "weekday": "Wednesday",
+    "hour": 14,
+    "incident_count": 10455,
+    "hour_label": "14:00"
+  },
+  {
+    "weekday": "Wednesday",
+    "hour": 15,
+    "incident_count": 13671,
+    "hour_label": "15:00"
+  },
+  {
+    "weekday": "Wednesday",
+    "hour": 16,
+    "incident_count": 10879,
+    "hour_label": "16:00"
+  },
+  {
+    "weekday": "Wednesday",
+    "hour": 17,
+    "incident_count": 9205,
+    "hour_label": "17:00"
+  },
+  {
+    "weekday": "Wednesday",
+    "hour": 18,
+    "incident_count": 7762,
+    "hour_label": "18:00"
+  },
+  {
+    "weekday": "Wednesday",
+    "hour": 19,
+    "incident_count": 5360,
+    "hour_label": "19:00"
+  },
+  {
+    "weekday": "Wednesday",
+    "hour": 20,
+    "incident_count": 4520,
+    "hour_label": "20:00"
+  },
+  {
+    "weekday": "Wednesday",
+    "hour": 21,
+    "incident_count": 4210,
+    "hour_label": "21:00"
+  },
+  {
+    "weekday": "Wednesday",
+    "hour": 22,
+    "incident_count": 3482,
+    "hour_label": "22:00"
+  },
+  {
+    "weekday": "Wednesday",
+    "hour": 23,
+    "incident_count": 2844,
+    "hour_label": "23:00"
+  },
+  {
+    "weekday": "Thursday",
+    "hour": 0,
+    "incident_count": 2505,
+    "hour_label": "00:00"
+  },
+  {
+    "weekday": "Thursday",
+    "hour": 1,
+    "incident_count": 1909,
+    "hour_label": "01:00"
+  },
+  {
+    "weekday": "Thursday",
+    "hour": 2,
+    "incident_count": 1117,
+    "hour_label": "02:00"
+  },
+  {
+    "weekday": "Thursday",
+    "hour": 3,
+    "incident_count": 861,
+    "hour_label": "03:00"
+  },
+  {
+    "weekday": "Thursday",
+    "hour": 4,
+    "incident_count": 1625,
+    "hour_label": "04:00"
+  },
+  {
+    "weekday": "Thursday",
+    "hour": 5,
+    "incident_count": 8835,
+    "hour_label": "05:00"
+  },
+  {
+    "weekday": "Thursday",
+    "hour": 6,
+    "incident_count": 13134,
+    "hour_label": "06:00"
+  },
+  {
+    "weekday": "Thursday",
+    "hour": 7,
+    "incident_count": 8902,
+    "hour_label": "07:00"
+  },
+  {
+    "weekday": "Thursday",
+    "hour": 8,
+    "incident_count": 8269,
+    "hour_label": "08:00"
+  },
+  {
+    "weekday": "Thursday",
+    "hour": 9,
+    "incident_count": 6744,
+    "hour_label": "09:00"
+  },
+  {
+    "weekday": "Thursday",
+    "hour": 10,
+    "incident_count": 6141,
+    "hour_label": "10:00"
+  },
+  {
+    "weekday": "Thursday",
+    "hour": 11,
+    "incident_count": 5777,
+    "hour_label": "11:00"
+  },
+  {
+    "weekday": "Thursday",
+    "hour": 12,
+    "incident_count": 5710,
+    "hour_label": "12:00"
+  },
+  {
+    "weekday": "Thursday",
+    "hour": 13,
+    "incident_count": 6912,
+    "hour_label": "13:00"
+  },
+  {
+    "weekday": "Thursday",
+    "hour": 14,
+    "incident_count": 10746,
+    "hour_label": "14:00"
+  },
+  {
+    "weekday": "Thursday",
+    "hour": 15,
+    "incident_count": 13738,
+    "hour_label": "15:00"
+  },
+  {
+    "weekday": "Thursday",
+    "hour": 16,
+    "incident_count": 11201,
+    "hour_label": "16:00"
+  },
+  {
+    "weekday": "Thursday",
+    "hour": 17,
+    "incident_count": 9352,
+    "hour_label": "17:00"
+  },
+  {
+    "weekday": "Thursday",
+    "hour": 18,
+    "incident_count": 7455,
+    "hour_label": "18:00"
+  },
+  {
+    "weekday": "Thursday",
+    "hour": 19,
+    "incident_count": 5264,
+    "hour_label": "19:00"
+  },
+  {
+    "weekday": "Thursday",
+    "hour": 20,
+    "incident_count": 4531,
+    "hour_label": "20:00"
+  },
+  {
+    "weekday": "Thursday",
+    "hour": 21,
+    "incident_count": 4413,
+    "hour_label": "21:00"
+  },
+  {
+    "weekday": "Thursday",
+    "hour": 22,
+    "incident_count": 3496,
+    "hour_label": "22:00"
+  },
+  {
+    "weekday": "Thursday",
+    "hour": 23,
+    "incident_count": 3056,
+    "hour_label": "23:00"
+  },
+  {
+    "weekday": "Friday",
+    "hour": 0,
+    "incident_count": 2690,
+    "hour_label": "00:00"
+  },
+  {
+    "weekday": "Friday",
+    "hour": 1,
+    "incident_count": 2106,
+    "hour_label": "01:00"
+  },
+  {
+    "weekday": "Friday",
+    "hour": 2,
+    "incident_count": 1312,
+    "hour_label": "02:00"
+  },
+  {
+    "weekday": "Friday",
+    "hour": 3,
+    "incident_count": 930,
+    "hour_label": "03:00"
+  },
+  {
+    "weekday": "Friday",
+    "hour": 4,
+    "incident_count": 1590,
+    "hour_label": "04:00"
+  },
+  {
+    "weekday": "Friday",
+    "hour": 5,
+    "incident_count": 8658,
+    "hour_label": "05:00"
+  },
+  {
+    "weekday": "Friday",
+    "hour": 6,
+    "incident_count": 12851,
+    "hour_label": "06:00"
+  },
+  {
+    "weekday": "Friday",
+    "hour": 7,
+    "incident_count": 8584,
+    "hour_label": "07:00"
+  },
+  {
+    "weekday": "Friday",
+    "hour": 8,
+    "incident_count": 7021,
+    "hour_label": "08:00"
+  },
+  {
+    "weekday": "Friday",
+    "hour": 9,
+    "incident_count": 5910,
+    "hour_label": "09:00"
+  },
+  {
+    "weekday": "Friday",
+    "hour": 10,
+    "incident_count": 5862,
+    "hour_label": "10:00"
+  },
+  {
+    "weekday": "Friday",
+    "hour": 11,
+    "incident_count": 5661,
+    "hour_label": "11:00"
+  },
+  {
+    "weekday": "Friday",
+    "hour": 12,
+    "incident_count": 5893,
+    "hour_label": "12:00"
+  },
+  {
+    "weekday": "Friday",
+    "hour": 13,
+    "incident_count": 7560,
+    "hour_label": "13:00"
+  },
+  {
+    "weekday": "Friday",
+    "hour": 14,
+    "incident_count": 11301,
+    "hour_label": "14:00"
+  },
+  {
+    "weekday": "Friday",
+    "hour": 15,
+    "incident_count": 14191,
+    "hour_label": "15:00"
+  },
+  {
+    "weekday": "Friday",
+    "hour": 16,
+    "incident_count": 10998,
+    "hour_label": "16:00"
+  },
+  {
+    "weekday": "Friday",
+    "hour": 17,
+    "incident_count": 9028,
+    "hour_label": "17:00"
+  },
+  {
+    "weekday": "Friday",
+    "hour": 18,
+    "incident_count": 7627,
+    "hour_label": "18:00"
+  },
+  {
+    "weekday": "Friday",
+    "hour": 19,
+    "incident_count": 5479,
+    "hour_label": "19:00"
+  },
+  {
+    "weekday": "Friday",
+    "hour": 20,
+    "incident_count": 4941,
+    "hour_label": "20:00"
+  },
+  {
+    "weekday": "Friday",
+    "hour": 21,
+    "incident_count": 4506,
+    "hour_label": "21:00"
+  },
+  {
+    "weekday": "Friday",
+    "hour": 22,
+    "incident_count": 3881,
+    "hour_label": "22:00"
+  },
+  {
+    "weekday": "Friday",
+    "hour": 23,
+    "incident_count": 3396,
+    "hour_label": "23:00"
+  },
+  {
+    "weekday": "Saturday",
+    "hour": 0,
+    "incident_count": 2862,
+    "hour_label": "00:00"
+  },
+  {
+    "weekday": "Saturday",
+    "hour": 1,
+    "incident_count": 2228,
+    "hour_label": "01:00"
+  },
+  {
+    "weekday": "Saturday",
+    "hour": 2,
+    "incident_count": 1642,
+    "hour_label": "02:00"
+  },
+  {
+    "weekday": "Saturday",
+    "hour": 3,
+    "incident_count": 1263,
+    "hour_label": "03:00"
+  },
+  {
+    "weekday": "Saturday",
+    "hour": 4,
+    "incident_count": 1286,
+    "hour_label": "04:00"
+  },
+  {
+    "weekday": "Saturday",
+    "hour": 5,
+    "incident_count": 4402,
+    "hour_label": "05:00"
+  },
+  {
+    "weekday": "Saturday",
+    "hour": 6,
+    "incident_count": 5306,
+    "hour_label": "06:00"
+  },
+  {
+    "weekday": "Saturday",
+    "hour": 7,
+    "incident_count": 3350,
+    "hour_label": "07:00"
+  },
+  {
+    "weekday": "Saturday",
+    "hour": 8,
+    "incident_count": 4146,
+    "hour_label": "08:00"
+  },
+  {
+    "weekday": "Saturday",
+    "hour": 9,
+    "incident_count": 5551,
+    "hour_label": "09:00"
+  },
+  {
+    "weekday": "Saturday",
+    "hour": 10,
+    "incident_count": 5661,
+    "hour_label": "10:00"
+  },
+  {
+    "weekday": "Saturday",
+    "hour": 11,
+    "incident_count": 5908,
+    "hour_label": "11:00"
+  },
+  {
+    "weekday": "Saturday",
+    "hour": 12,
+    "incident_count": 7171,
+    "hour_label": "12:00"
+  },
+  {
+    "weekday": "Saturday",
+    "hour": 13,
+    "incident_count": 6768,
+    "hour_label": "13:00"
+  },
+  {
+    "weekday": "Saturday",
+    "hour": 14,
+    "incident_count": 7048,
+    "hour_label": "14:00"
+  },
+  {
+    "weekday": "Saturday",
+    "hour": 15,
+    "incident_count": 6428,
+    "hour_label": "15:00"
+  },
+  {
+    "weekday": "Saturday",
+    "hour": 16,
+    "incident_count": 6546,
+    "hour_label": "16:00"
+  },
+  {
+    "weekday": "Saturday",
+    "hour": 17,
+    "incident_count": 6247,
+    "hour_label": "17:00"
+  },
+  {
+    "weekday": "Saturday",
+    "hour": 18,
+    "incident_count": 5956,
+    "hour_label": "18:00"
+  },
+  {
+    "weekday": "Saturday",
+    "hour": 19,
+    "incident_count": 4627,
+    "hour_label": "19:00"
+  },
+  {
+    "weekday": "Saturday",
+    "hour": 20,
+    "incident_count": 4411,
+    "hour_label": "20:00"
+  },
+  {
+    "weekday": "Saturday",
+    "hour": 21,
+    "incident_count": 4247,
+    "hour_label": "21:00"
+  },
+  {
+    "weekday": "Saturday",
+    "hour": 22,
+    "incident_count": 3502,
+    "hour_label": "22:00"
+  },
+  {
+    "weekday": "Saturday",
+    "hour": 23,
+    "incident_count": 3281,
+    "hour_label": "23:00"
+  },
+  {
+    "weekday": "Sunday",
+    "hour": 0,
+    "incident_count": 2329,
+    "hour_label": "00:00"
+  },
+  {
+    "weekday": "Sunday",
+    "hour": 1,
+    "incident_count": 1951,
+    "hour_label": "01:00"
+  },
+  {
+    "weekday": "Sunday",
+    "hour": 2,
+    "incident_count": 1580,
+    "hour_label": "02:00"
+  },
+  {
+    "weekday": "Sunday",
+    "hour": 3,
+    "incident_count": 1174,
+    "hour_label": "03:00"
+  },
+  {
+    "weekday": "Sunday",
+    "hour": 4,
+    "incident_count": 1079,
+    "hour_label": "04:00"
+  },
+  {
+    "weekday": "Sunday",
+    "hour": 5,
+    "incident_count": 1812,
+    "hour_label": "05:00"
+  },
+  {
+    "weekday": "Sunday",
+    "hour": 6,
+    "incident_count": 2401,
+    "hour_label": "06:00"
+  },
+  {
+    "weekday": "Sunday",
+    "hour": 7,
+    "incident_count": 4470,
+    "hour_label": "07:00"
+  },
+  {
+    "weekday": "Sunday",
+    "hour": 8,
+    "incident_count": 6462,
+    "hour_label": "08:00"
+  },
+  {
+    "weekday": "Sunday",
+    "hour": 9,
+    "incident_count": 5130,
+    "hour_label": "09:00"
+  },
+  {
+    "weekday": "Sunday",
+    "hour": 10,
+    "incident_count": 4516,
+    "hour_label": "10:00"
+  },
+  {
+    "weekday": "Sunday",
+    "hour": 11,
+    "incident_count": 4762,
+    "hour_label": "11:00"
+  },
+  {
+    "weekday": "Sunday",
+    "hour": 12,
+    "incident_count": 5750,
+    "hour_label": "12:00"
+  },
+  {
+    "weekday": "Sunday",
+    "hour": 13,
+    "incident_count": 5445,
+    "hour_label": "13:00"
+  },
+  {
+    "weekday": "Sunday",
+    "hour": 14,
+    "incident_count": 5488,
+    "hour_label": "14:00"
+  },
+  {
+    "weekday": "Sunday",
+    "hour": 15,
+    "incident_count": 5031,
+    "hour_label": "15:00"
+  },
+  {
+    "weekday": "Sunday",
+    "hour": 16,
+    "incident_count": 4847,
+    "hour_label": "16:00"
+  },
+  {
+    "weekday": "Sunday",
+    "hour": 17,
+    "incident_count": 4775,
+    "hour_label": "17:00"
+  },
+  {
+    "weekday": "Sunday",
+    "hour": 18,
+    "incident_count": 4777,
+    "hour_label": "18:00"
+  },
+  {
+    "weekday": "Sunday",
+    "hour": 19,
+    "incident_count": 3899,
+    "hour_label": "19:00"
+  },
+  {
+    "weekday": "Sunday",
+    "hour": 20,
+    "incident_count": 3667,
+    "hour_label": "20:00"
+  },
+  {
+    "weekday": "Sunday",
+    "hour": 21,
+    "incident_count": 3548,
+    "hour_label": "21:00"
+  },
+  {
+    "weekday": "Sunday",
+    "hour": 22,
+    "incident_count": 2923,
+    "hour_label": "22:00"
+  },
+  {
+    "weekday": "Sunday",
+    "hour": 23,
+    "incident_count": 2628,
+    "hour_label": "23:00"
+  }
+]

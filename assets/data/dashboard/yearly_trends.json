@@ -1,106 +1,67 @@
 [
   {
     "year": 2014,
-    "incident_count": 108411,
-    "avg_delay": 16.648144560976284,
-    "last1year": "False",
-    "last2year": "False",
-    "last5year": "False"
+    "incident_count": 98826,
+    "avg_delay": 17.25624835569587
   },
   {
     "year": 2015,
-    "incident_count": 91176,
-    "avg_delay": 16.08735851539879,
-    "last1year": "False",
-    "last2year": "False",
-    "last5year": "False"
+    "incident_count": 81853,
+    "avg_delay": 16.707781022076162
   },
   {
     "year": 2016,
-    "incident_count": 93440,
-    "avg_delay": 16.560177654109587,
-    "last1year": "False",
-    "last2year": "False",
-    "last5year": "False"
+    "incident_count": 84911,
+    "avg_delay": 17.099233314882643
   },
   {
     "year": 2017,
-    "incident_count": 87249,
-    "avg_delay": 17.651743859528477,
-    "last1year": "False",
-    "last2year": "False",
-    "last5year": "False"
+    "incident_count": 78706,
+    "avg_delay": 18.46232815795492
   },
   {
     "year": 2018,
-    "incident_count": 94495,
-    "avg_delay": 23.75996613577438,
-    "last1year": "False",
-    "last2year": "False",
-    "last5year": "False"
+    "incident_count": 88062,
+    "avg_delay": 24.561740591855738
   },
   {
     "year": 2019,
-    "incident_count": 78278,
-    "avg_delay": 19.915378522701143,
-    "last1year": "False",
-    "last2year": "False",
-    "last5year": "False"
+    "incident_count": 75117,
+    "avg_delay": 20.443281813703955
   },
   {
     "year": 2020,
-    "incident_count": 48275,
-    "avg_delay": 18.465872604867943,
-    "last1year": "False",
-    "last2year": "False",
-    "last5year": "False"
+    "incident_count": 47429,
+    "avg_delay": 18.57821164266588
   },
   {
     "year": 2021,
-    "incident_count": 58450,
-    "avg_delay": 16.914935842600514,
-    "last1year": "False",
-    "last2year": "False",
-    "last5year": "False"
+    "incident_count": 58042,
+    "avg_delay": 16.94174907825368
   },
   {
     "year": 2022,
-    "incident_count": 80282,
-    "avg_delay": 18.264318278069805,
-    "last1year": "False",
-    "last2year": "False",
-    "last5year": "True"
+    "incident_count": 79409,
+    "avg_delay": 18.291213842259694
   },
   {
     "year": 2023,
-    "incident_count": 71658,
-    "avg_delay": 19.790937508721985,
-    "last1year": "False",
-    "last2year": "False",
-    "last5year": "True"
+    "incident_count": 71136,
+    "avg_delay": 19.831309041835357
   },
   {
     "year": 2024,
-    "incident_count": 73504,
-    "avg_delay": 21.171065520243797,
-    "last1year": "False",
-    "last2year": "False",
-    "last5year": "True"
+    "incident_count": 73431,
+    "avg_delay": 21.17222971224687
   },
   {
     "year": 2025,
-    "incident_count": 75028,
-    "avg_delay": 21.350655755184732,
-    "last1year": "False",
-    "last2year": "True",
-    "last5year": "True"
+    "incident_count": 75010,
+    "avg_delay": 21.355299293427542
   },
   {
     "year": 2026,
-    "incident_count": 7589,
-    "avg_delay": 24.752404796415863,
-    "last1year": "True",
-    "last2year": "True",
-    "last5year": "True"
+    "incident_count": 28030,
+    "avg_delay": 21.495611844452373
   }
 ]

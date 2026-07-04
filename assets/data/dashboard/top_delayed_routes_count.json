@@ -1,0 +1,107 @@
+[
+  {
+    "route_number": "1",
+    "route_name": "Yonge-University Line",
+    "incident_count": 47991,
+    "avg_delay": 7.0,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "501",
+    "route_name": "Queen",
+    "incident_count": 37853,
+    "avg_delay": 14.7,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "2",
+    "route_name": "Bloor-Danforth Line",
+    "incident_count": 35239,
+    "avg_delay": 7.4,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "504",
+    "route_name": "King",
+    "incident_count": 28763,
+    "avg_delay": 14.3,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "506",
+    "route_name": "Carlton",
+    "incident_count": 20704,
+    "avg_delay": 16.4,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "32",
+    "route_name": "Eglinton West",
+    "incident_count": 20173,
+    "avg_delay": 16.0,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "52",
+    "route_name": "Lawrence West",
+    "incident_count": 19906,
+    "avg_delay": 19.0,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "29",
+    "route_name": "Dufferin",
+    "incident_count": 19710,
+    "avg_delay": 14.9,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "505",
+    "route_name": "Dundas",
+    "incident_count": 18470,
+    "avg_delay": 15.8,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "36",
+    "route_name": "Finch West",
+    "incident_count": 18073,
+    "avg_delay": 12.4,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "54",
+    "route_name": "Lawrence East",
+    "incident_count": 15645,
+    "avg_delay": 16.5,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "35",
+    "route_name": "Jane",
+    "incident_count": 14471,
+    "avg_delay": 16.2,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "53",
+    "route_name": "Steeles East",
+    "incident_count": 14381,
+    "avg_delay": 14.3,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "95",
+    "route_name": "York Mills",
+    "incident_count": 14330,
+    "avg_delay": 14.2,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "102",
+    "route_name": "Markham Rd",
+    "incident_count": 13830,
+    "avg_delay": 20.6,
+    "active_in_2025": true
+  }
+]

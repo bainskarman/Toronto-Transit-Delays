@@ -1,0 +1,107 @@
+[
+  {
+    "route_number": "135",
+    "route_name": "Gerrard",
+    "incident_count": 995,
+    "avg_delay": 109.4,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "162",
+    "route_name": "Lawrence-Donway",
+    "incident_count": 1042,
+    "avg_delay": 79.1,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "121",
+    "route_name": "Esplanade-River",
+    "incident_count": 3324,
+    "avg_delay": 78.7,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "62",
+    "route_name": "Mortimer",
+    "incident_count": 1780,
+    "avg_delay": 61.9,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "202",
+    "route_name": "Cherry Beach",
+    "incident_count": 161,
+    "avg_delay": 61.4,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "13",
+    "route_name": "Avenue Rd",
+    "incident_count": 684,
+    "avg_delay": 61.3,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "55",
+    "route_name": "Warren Park",
+    "incident_count": 730,
+    "avg_delay": 60.5,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "113",
+    "route_name": "Danforth",
+    "incident_count": 2278,
+    "avg_delay": 60.4,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "82",
+    "route_name": "Rosedale",
+    "incident_count": 568,
+    "avg_delay": 59.4,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "171",
+    "route_name": "Mount Dennis",
+    "incident_count": 311,
+    "avg_delay": 58.2,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "77",
+    "route_name": "Swansea",
+    "incident_count": 885,
+    "avg_delay": 56.5,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "312",
+    "route_name": "St Clair",
+    "incident_count": 27,
+    "avg_delay": 55.8,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "322",
+    "route_name": "Coxwell",
+    "incident_count": 253,
+    "avg_delay": 55.8,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "103",
+    "route_name": "Mount Pleasant North",
+    "incident_count": 321,
+    "avg_delay": 55.8,
+    "active_in_2025": true
+  },
+  {
+    "route_number": "64",
+    "route_name": "Main",
+    "incident_count": 2902,
+    "avg_delay": 54.7,
+    "active_in_2025": true
+  }
+]
