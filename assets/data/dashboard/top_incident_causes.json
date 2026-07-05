@@ -1,52 +1,726 @@
 [
   {
-    "incident_type": "Mechanical",
-    "count": 286359,
-    "percentage": 30.5
+    "year": 2014,
+    "last1year": "False",
+    "last2year": "False",
+    "last5year": "False",
+    "causes": [
+      {
+        "incident_type": "Mechanical",
+        "count": 48608,
+        "percentage": 44.8
+      },
+      {
+        "incident_type": "Operations",
+        "count": 17920,
+        "percentage": 16.5
+      },
+      {
+        "incident_type": "General",
+        "count": 14766,
+        "percentage": 13.6
+      },
+      {
+        "incident_type": "Passenger",
+        "count": 13525,
+        "percentage": 12.5
+      },
+      {
+        "incident_type": "Scheduling",
+        "count": 12381,
+        "percentage": 11.4
+      },
+      {
+        "incident_type": "External",
+        "count": 552,
+        "percentage": 0.5
+      },
+      {
+        "incident_type": "Infrastructure",
+        "count": 521,
+        "percentage": 0.5
+      },
+      {
+        "incident_type": "Cleaning",
+        "count": 105,
+        "percentage": 0.1
+      },
+      {
+        "incident_type": "Management",
+        "count": 34,
+        "percentage": 0.0
+      }
+    ]
   },
   {
-    "incident_type": "Operations",
-    "count": 199410,
-    "percentage": 21.2
+    "year": 2015,
+    "last1year": "False",
+    "last2year": "False",
+    "last5year": "False",
+    "causes": [
+      {
+        "incident_type": "Mechanical",
+        "count": 37496,
+        "percentage": 41.1
+      },
+      {
+        "incident_type": "Operations",
+        "count": 16745,
+        "percentage": 18.4
+      },
+      {
+        "incident_type": "Scheduling",
+        "count": 12629,
+        "percentage": 13.9
+      },
+      {
+        "incident_type": "Passenger",
+        "count": 12438,
+        "percentage": 13.6
+      },
+      {
+        "incident_type": "General",
+        "count": 10972,
+        "percentage": 12.0
+      },
+      {
+        "incident_type": "Infrastructure",
+        "count": 432,
+        "percentage": 0.5
+      },
+      {
+        "incident_type": "External",
+        "count": 388,
+        "percentage": 0.4
+      },
+      {
+        "incident_type": "Cleaning",
+        "count": 68,
+        "percentage": 0.1
+      },
+      {
+        "incident_type": "Management",
+        "count": 10,
+        "percentage": 0.0
+      }
+    ]
   },
   {
-    "incident_type": "General",
-    "count": 178026,
-    "percentage": 18.9
+    "year": 2016,
+    "last1year": "False",
+    "last2year": "False",
+    "last5year": "False",
+    "causes": [
+      {
+        "incident_type": "Mechanical",
+        "count": 36218,
+        "percentage": 38.8
+      },
+      {
+        "incident_type": "Operations",
+        "count": 18394,
+        "percentage": 19.7
+      },
+      {
+        "incident_type": "Scheduling",
+        "count": 13980,
+        "percentage": 15.0
+      },
+      {
+        "incident_type": "Passenger",
+        "count": 13756,
+        "percentage": 14.7
+      },
+      {
+        "incident_type": "General",
+        "count": 10028,
+        "percentage": 10.7
+      },
+      {
+        "incident_type": "Infrastructure",
+        "count": 549,
+        "percentage": 0.6
+      },
+      {
+        "incident_type": "External",
+        "count": 367,
+        "percentage": 0.4
+      },
+      {
+        "incident_type": "Cleaning",
+        "count": 137,
+        "percentage": 0.1
+      },
+      {
+        "incident_type": "Management",
+        "count": 13,
+        "percentage": 0.0
+      }
+    ]
   },
   {
-    "incident_type": "Passenger",
-    "count": 151950,
-    "percentage": 16.2
+    "year": 2017,
+    "last1year": "False",
+    "last2year": "False",
+    "last5year": "False",
+    "causes": [
+      {
+        "incident_type": "Mechanical",
+        "count": 30859,
+        "percentage": 35.4
+      },
+      {
+        "incident_type": "Operations",
+        "count": 17782,
+        "percentage": 20.4
+      },
+      {
+        "incident_type": "Passenger",
+        "count": 14315,
+        "percentage": 16.4
+      },
+      {
+        "incident_type": "Scheduling",
+        "count": 12561,
+        "percentage": 14.4
+      },
+      {
+        "incident_type": "General",
+        "count": 10762,
+        "percentage": 12.3
+      },
+      {
+        "incident_type": "Infrastructure",
+        "count": 485,
+        "percentage": 0.6
+      },
+      {
+        "incident_type": "External",
+        "count": 336,
+        "percentage": 0.4
+      },
+      {
+        "incident_type": "Cleaning",
+        "count": 112,
+        "percentage": 0.1
+      },
+      {
+        "incident_type": "Management",
+        "count": 37,
+        "percentage": 0.0
+      }
+    ]
   },
   {
-    "incident_type": "Scheduling",
-    "count": 65969,
-    "percentage": 7.0
+    "year": 2018,
+    "last1year": "False",
+    "last2year": "False",
+    "last5year": "False",
+    "causes": [
+      {
+        "incident_type": "Mechanical",
+        "count": 30168,
+        "percentage": 31.9
+      },
+      {
+        "incident_type": "Operations",
+        "count": 18869,
+        "percentage": 20.0
+      },
+      {
+        "incident_type": "Passenger",
+        "count": 15849,
+        "percentage": 16.8
+      },
+      {
+        "incident_type": "Scheduling",
+        "count": 14918,
+        "percentage": 15.8
+      },
+      {
+        "incident_type": "General",
+        "count": 13544,
+        "percentage": 14.3
+      },
+      {
+        "incident_type": "Infrastructure",
+        "count": 622,
+        "percentage": 0.7
+      },
+      {
+        "incident_type": "External",
+        "count": 373,
+        "percentage": 0.4
+      },
+      {
+        "incident_type": "Cleaning",
+        "count": 124,
+        "percentage": 0.1
+      },
+      {
+        "incident_type": "Management",
+        "count": 31,
+        "percentage": 0.0
+      }
+    ]
   },
   {
-    "incident_type": "Cleaning",
-    "count": 25065,
-    "percentage": 2.7
+    "year": 2019,
+    "last1year": "False",
+    "last2year": "False",
+    "last5year": "False",
+    "causes": [
+      {
+        "incident_type": "Mechanical",
+        "count": 26642,
+        "percentage": 34.0
+      },
+      {
+        "incident_type": "Passenger",
+        "count": 16283,
+        "percentage": 20.8
+      },
+      {
+        "incident_type": "Operations",
+        "count": 15341,
+        "percentage": 19.6
+      },
+      {
+        "incident_type": "General",
+        "count": 14596,
+        "percentage": 18.6
+      },
+      {
+        "incident_type": "Scheduling",
+        "count": 4279,
+        "percentage": 5.5
+      },
+      {
+        "incident_type": "Infrastructure",
+        "count": 567,
+        "percentage": 0.7
+      },
+      {
+        "incident_type": "External",
+        "count": 325,
+        "percentage": 0.4
+      },
+      {
+        "incident_type": "Management",
+        "count": 145,
+        "percentage": 0.2
+      },
+      {
+        "incident_type": "Cleaning",
+        "count": 101,
+        "percentage": 0.1
+      }
+    ]
   },
   {
-    "incident_type": "Collision",
-    "count": 17394,
-    "percentage": 1.9
+    "year": 2020,
+    "last1year": "False",
+    "last2year": "False",
+    "last5year": "False",
+    "causes": [
+      {
+        "incident_type": "Mechanical",
+        "count": 16001,
+        "percentage": 33.1
+      },
+      {
+        "incident_type": "Operations",
+        "count": 13066,
+        "percentage": 27.1
+      },
+      {
+        "incident_type": "Passenger",
+        "count": 10870,
+        "percentage": 22.5
+      },
+      {
+        "incident_type": "General",
+        "count": 2856,
+        "percentage": 5.9
+      },
+      {
+        "incident_type": "Cleaning",
+        "count": 2645,
+        "percentage": 5.5
+      },
+      {
+        "incident_type": "Collision",
+        "count": 1526,
+        "percentage": 3.2
+      },
+      {
+        "incident_type": "Infrastructure",
+        "count": 452,
+        "percentage": 0.9
+      },
+      {
+        "incident_type": "Management",
+        "count": 409,
+        "percentage": 0.8
+      },
+      {
+        "incident_type": "Scheduling",
+        "count": 271,
+        "percentage": 0.6
+      },
+      {
+        "incident_type": "External",
+        "count": 180,
+        "percentage": 0.4
+      }
+    ]
   },
   {
-    "incident_type": "Infrastructure",
-    "count": 10729,
-    "percentage": 1.1
+    "year": 2021,
+    "last1year": "False",
+    "last2year": "False",
+    "last5year": "False",
+    "causes": [
+      {
+        "incident_type": "Operations",
+        "count": 18224,
+        "percentage": 31.2
+      },
+      {
+        "incident_type": "Mechanical",
+        "count": 12036,
+        "percentage": 20.6
+      },
+      {
+        "incident_type": "Cleaning",
+        "count": 10940,
+        "percentage": 18.7
+      },
+      {
+        "incident_type": "Passenger",
+        "count": 9949,
+        "percentage": 17.0
+      },
+      {
+        "incident_type": "Collision",
+        "count": 3077,
+        "percentage": 5.3
+      },
+      {
+        "incident_type": "General",
+        "count": 2989,
+        "percentage": 5.1
+      },
+      {
+        "incident_type": "Infrastructure",
+        "count": 819,
+        "percentage": 1.4
+      },
+      {
+        "incident_type": "Scheduling",
+        "count": 181,
+        "percentage": 0.3
+      },
+      {
+        "incident_type": "External",
+        "count": 180,
+        "percentage": 0.3
+      },
+      {
+        "incident_type": "Management",
+        "count": 56,
+        "percentage": 0.1
+      }
+    ]
   },
   {
-    "incident_type": "External",
-    "count": 4208,
-    "percentage": 0.4
+    "year": 2022,
+    "last1year": "False",
+    "last2year": "False",
+    "last5year": "True",
+    "causes": [
+      {
+        "incident_type": "Operations",
+        "count": 35408,
+        "percentage": 44.1
+      },
+      {
+        "incident_type": "Mechanical",
+        "count": 18514,
+        "percentage": 23.1
+      },
+      {
+        "incident_type": "Passenger",
+        "count": 12443,
+        "percentage": 15.5
+      },
+      {
+        "incident_type": "General",
+        "count": 5206,
+        "percentage": 6.5
+      },
+      {
+        "incident_type": "Collision",
+        "count": 4162,
+        "percentage": 5.2
+      },
+      {
+        "incident_type": "Cleaning",
+        "count": 2764,
+        "percentage": 3.4
+      },
+      {
+        "incident_type": "Infrastructure",
+        "count": 1314,
+        "percentage": 1.6
+      },
+      {
+        "incident_type": "External",
+        "count": 285,
+        "percentage": 0.4
+      },
+      {
+        "incident_type": "Scheduling",
+        "count": 130,
+        "percentage": 0.2
+      },
+      {
+        "incident_type": "Management",
+        "count": 56,
+        "percentage": 0.1
+      }
+    ]
   },
   {
-    "incident_type": "Management",
-    "count": 852,
-    "percentage": 0.1
+    "year": 2023,
+    "last1year": "False",
+    "last2year": "False",
+    "last5year": "True",
+    "causes": [
+      {
+        "incident_type": "Operations",
+        "count": 21958,
+        "percentage": 30.6
+      },
+      {
+        "incident_type": "Mechanical",
+        "count": 20933,
+        "percentage": 29.2
+      },
+      {
+        "incident_type": "Passenger",
+        "count": 14562,
+        "percentage": 20.3
+      },
+      {
+        "incident_type": "General",
+        "count": 5022,
+        "percentage": 7.0
+      },
+      {
+        "incident_type": "Collision",
+        "count": 4205,
+        "percentage": 5.9
+      },
+      {
+        "incident_type": "Cleaning",
+        "count": 3458,
+        "percentage": 4.8
+      },
+      {
+        "incident_type": "Infrastructure",
+        "count": 1154,
+        "percentage": 1.6
+      },
+      {
+        "incident_type": "External",
+        "count": 282,
+        "percentage": 0.4
+      },
+      {
+        "incident_type": "Scheduling",
+        "count": 70,
+        "percentage": 0.1
+      },
+      {
+        "incident_type": "Management",
+        "count": 14,
+        "percentage": 0.0
+      }
+    ]
+  },
+  {
+    "year": 2024,
+    "last1year": "False",
+    "last2year": "False",
+    "last5year": "True",
+    "causes": [
+      {
+        "incident_type": "Operations",
+        "count": 22812,
+        "percentage": 31.0
+      },
+      {
+        "incident_type": "Mechanical",
+        "count": 21716,
+        "percentage": 29.5
+      },
+      {
+        "incident_type": "Passenger",
+        "count": 15159,
+        "percentage": 20.6
+      },
+      {
+        "incident_type": "Collision",
+        "count": 4485,
+        "percentage": 6.1
+      },
+      {
+        "incident_type": "Cleaning",
+        "count": 4065,
+        "percentage": 5.5
+      },
+      {
+        "incident_type": "General",
+        "count": 3256,
+        "percentage": 4.4
+      },
+      {
+        "incident_type": "Infrastructure",
+        "count": 1623,
+        "percentage": 2.2
+      },
+      {
+        "incident_type": "External",
+        "count": 309,
+        "percentage": 0.4
+      },
+      {
+        "incident_type": "Scheduling",
+        "count": 56,
+        "percentage": 0.1
+      },
+      {
+        "incident_type": "Management",
+        "count": 25,
+        "percentage": 0.0
+      }
+    ]
+  },
+  {
+    "year": 2025,
+    "last1year": "False",
+    "last2year": "True",
+    "last5year": "True",
+    "causes": [
+      {
+        "incident_type": "General",
+        "count": 24789,
+        "percentage": 33.0
+      },
+      {
+        "incident_type": "Operations",
+        "count": 21845,
+        "percentage": 29.1
+      },
+      {
+        "incident_type": "Passenger",
+        "count": 10411,
+        "percentage": 13.9
+      },
+      {
+        "incident_type": "Mechanical",
+        "count": 8075,
+        "percentage": 10.8
+      },
+      {
+        "incident_type": "Collision",
+        "count": 4189,
+        "percentage": 5.6
+      },
+      {
+        "incident_type": "Cleaning",
+        "count": 2145,
+        "percentage": 2.9
+      },
+      {
+        "incident_type": "Infrastructure",
+        "count": 1682,
+        "percentage": 2.2
+      },
+      {
+        "incident_type": "Scheduling",
+        "count": 953,
+        "percentage": 1.3
+      },
+      {
+        "incident_type": "External",
+        "count": 913,
+        "percentage": 1.2
+      },
+      {
+        "incident_type": "Management",
+        "count": 31,
+        "percentage": 0.0
+      }
+    ]
+  },
+  {
+    "year": 2026,
+    "last1year": "True",
+    "last2year": "True",
+    "last5year": "True",
+    "causes": [
+      {
+        "incident_type": "General",
+        "count": 9948,
+        "percentage": 35.2
+      },
+      {
+        "incident_type": "Operations",
+        "count": 7092,
+        "percentage": 25.1
+      },
+      {
+        "incident_type": "Passenger",
+        "count": 3994,
+        "percentage": 14.1
+      },
+      {
+        "incident_type": "Mechanical",
+        "count": 3275,
+        "percentage": 11.6
+      },
+      {
+        "incident_type": "Collision",
+        "count": 1433,
+        "percentage": 5.1
+      },
+      {
+        "incident_type": "Infrastructure",
+        "count": 757,
+        "percentage": 2.7
+      },
+      {
+        "incident_type": "External",
+        "count": 701,
+        "percentage": 2.5
+      },
+      {
+        "incident_type": "Cleaning",
+        "count": 673,
+        "percentage": 2.4
+      },
+      {
+        "incident_type": "Scheduling",
+        "count": 356,
+        "percentage": 1.3
+      },
+      {
+        "incident_type": "Management",
+        "count": 16,
+        "percentage": 0.1
+      }
+    ]
   }
 ]
